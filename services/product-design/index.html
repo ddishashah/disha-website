@@ -79,13 +79,16 @@
       padding: 0 var(--gutter);
     }
 
+    /* Full-width fixed nav: slides away when you scroll down, comes back when you scroll up */
     .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding-top: 18px;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+      box-sizing: border-box; height: 72px; padding: 18px var(--gutter) 0;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      background: var(--bg, #f8f8f7);
+      transition: transform .6s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1);
     }
+    .nav.is-hidden { transform: translateY(-100%); }
+    .nav-space { flex: none; width: 100%; height: 54px; }
     .nav__brand {
       white-space: nowrap;
       font-size: 18px;
@@ -312,7 +315,7 @@
     .sheet__handle { display: none; }
     @media (max-width: 767px) {
       /* Drawer: grab handle on top, pull down to dismiss, no round close button */
-      .sheet__handle { position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 28px; margin: 0 0 -28px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
+      .sheet__handle { position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 44px; margin: 0 0 -44px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
       .sheet__handle span { display: block; width: 36px; height: 5px; margin: 10px auto 0; border-radius: 3px; background: rgba(20, 7, 0, .2); }
       .sheet__bar { display: none; }
       .sheet__content { padding-top: 56px; }
@@ -933,7 +936,7 @@
     /* Touch screens have no cursor label, so the fireflies card carries a visible one */
     @media (hover: none) {
       .cascading-slider__item[data-href]::after {
-        content: "Play with fireflies \2192"; position: absolute; left: 16px; bottom: 16px; z-index: 3;
+        content: "Play with fireflies \2192"; position: absolute; left: 16px; top: 16px; z-index: 3;
         display: flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 96px;
         background: rgba(255, 255, 255, .16); color: #f8f8f7; font-size: 14px; letter-spacing: .15px;
         -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
@@ -951,7 +954,7 @@
       html, body { overflow-x: hidden; }
 
       /* Hero */
-      .nav { padding-top: 16px; }
+      .nav { height: 62px; padding-top: 16px; } .nav-space { height: 52px; }
       .nav__brand, .menu__brand { font-size: 17px; }
       .nav__right { gap: 8px; }
       .nav__cta { padding: 0 14px 1px; font-size: 13px; letter-spacing: 0.13px; }
@@ -1043,9 +1046,8 @@
     }
 
     /* ---------- Product Design service page (Figma 632:149144) ---------- */
-    .about-nav { position: sticky; top: 14px; z-index: 40; box-sizing: border-box; width: calc(100% - 32px); max-width: 1264px; height: 56px; margin: 14px auto 0; padding: 0 12px 0 28px; border: 1px solid rgba(20, 7, 0, .06); border-radius: 120px; background: rgba(248, 248, 247, .72); -webkit-backdrop-filter: blur(12.5px); backdrop-filter: blur(12.5px); transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1); }
-    html[data-theme="dark"] .about-nav { border-color: rgba(255, 255, 255, .04); background: rgba(255, 255, 255, .06); }
-    .about-nav .nav { height: 100%; padding-top: 0; }
+    .about-nav { height: 54px; }
+    @media (max-width: 767px) { .about-nav { height: 52px; } }
     .pd-hero { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 150px 16px 0; text-align: center; }
     .pd-hero .eyebrow { font-weight: 500; }
     .pd-hero__title { margin: 0; width: 760px; max-width: 100%; font-size: 56px; line-height: 60px; letter-spacing: -1.68px; }
@@ -1138,11 +1140,12 @@
     @media (max-width: 900px) { .pd-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pd-why__row { grid-template-columns: 28px 1fr; row-gap: 8px; } .pd-why__row p { grid-column: 2; } }
     @media (max-width: 767px) {
       .pd-hero { padding-top: 96px; gap: 20px; } .pd-hero__title { font-size: 36px; line-height: 40px; letter-spacing: -1px; } .pd-hero__sub { font-size: 16px; line-height: 26px; }
-      .pd-carousel { margin-top: 56px; } .pd-logos { margin-top: 48px; } .pd-story { margin-top: 72px; }
+      .pd-carousel { margin-top: 56px; } .pd-logos { margin-top: 48px; } .pd-story { margin-top: 96px; }
+      .testimonials--about { padding: 96px 16px; } .pd-faqwrap .faq { padding: 96px 16px; }
       .pd-head h2 { font-size: 32px; line-height: 36px; letter-spacing: -0.9px; } .pd-head { margin-bottom: 36px; }
       .pd-lose { padding-top: 96px; } .pd-cards { grid-template-columns: 1fr; } .pd-card { min-height: 0; }
       .pd-approach { padding-top: 96px; } .pd-panel { grid-template-columns: 1fr; } .pd-tab { padding: 16px 16px; font-size: 14px; }
-      .pd-why { padding: 96px 16px 100px; } .pd-why__row { padding: 18px 8px; }
+      .pd-why { padding: 96px 16px 96px; } .pd-why__row { padding: 18px 8px; }
       .pd-plans { padding-top: 96px; } .pd-plans__head { flex-direction: column; align-items: flex-start; } .pd-plans__grid { grid-template-columns: 1fr; } .pd-plan { border-left: 0; border-top: 1px solid var(--t-card-line); } .pd-plan:first-child { border-top: 0; }
       .faq { padding: 96px 24px; } .faq__inner { flex-direction: column; gap: 32px; } .faq__head { flex: none; } .faq__q { font-size: 17px; padding: 20px 20px; } .faq__a-in p { padding: 0 20px 20px; font-size: 16px; line-height: 24px; }
     }
@@ -1408,7 +1411,6 @@
         <li><a href="./#services">Services</a></li>
         <li><a href="work/">Work</a></li>
         <li><a href="./#playground">Playground</a></li>
-        <li><a href="./#blog">Blog</a></li>
         <li><a href="services/product-design/#contact">Contact</a></li>
       </ul>
     </div>
@@ -2140,21 +2142,31 @@
       document.querySelectorAll('dialog.sheet').forEach(function (d) {
         d.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
         d.querySelectorAll('[data-sheet-close]').forEach(function (b) { b.addEventListener('click', close); });
-        // drawer on phones: pull down from the top to dismiss
-        var sy = 0, dy = 0, pulling = false;
-        d.addEventListener('touchstart', function (e) { sy = e.touches[0].clientY; dy = 0; pulling = false; }, { passive: true });
-        d.addEventListener('touchmove', function (e) {
-          var y = e.touches[0].clientY - sy;
-          if (!pulling && (y <= 6 || d.scrollTop > 0)) return;
-          pulling = true; dy = Math.max(0, y);
-          e.preventDefault();
-          d.style.transition = 'none'; d.style.transform = 'translateY(' + dy + 'px)';
-        }, { passive: false });
-        d.addEventListener('touchend', function () {
-          if (!pulling) return;
-          pulling = false; d.style.transition = ''; d.style.transform = '';
-          if (dy > 110) close();               // keeps the pull position and slides the rest of the way down
+        // drawer on phones: pull down to dismiss (from the grab handle at any scroll position, or from the top of the content)
+        var sy = 0, dy = 0, drag = false, pid = null, fromHandle = false;
+        function setTA() { d.style.touchAction = d.scrollTop <= 0 ? 'pan-up' : 'pan-y'; }   // downward swipes at the top reach our handler instead of the browser
+        setTA();
+        d.addEventListener('scroll', setTA, { passive: true });
+        d.addEventListener('pointerdown', function (e) {
+          if (e.pointerType === 'mouse') return;
+          sy = e.clientY; dy = 0; drag = false; pid = e.pointerId; fromHandle = !!e.target.closest('.sheet__handle'); setTA();
         });
+        d.addEventListener('pointermove', function (e) {
+          if (e.pointerId !== pid || e.pointerType === 'mouse') return;
+          var y = e.clientY - sy;
+          if (!drag) {
+            if (y > 8 && (fromHandle || d.scrollTop <= 0)) { drag = true; try { d.setPointerCapture(pid); } catch (err) {} d.style.transition = 'none'; } else return;
+          }
+          dy = Math.max(0, y);
+          d.style.transform = 'translateY(' + dy + 'px)';
+        });
+        function endPull() {
+          if (!drag) { pid = null; return; }
+          drag = false; pid = null; d.style.transition = ''; d.style.transform = '';
+          if (dy > 110) close();               // keeps the pull position and slides the rest of the way down
+        }
+        d.addEventListener('pointerup', endPull);
+        d.addEventListener('pointercancel', endPull);
       });
       var q0 = new URLSearchParams(location.search).get('sheet');
       if (q0) { var t0 = document.getElementById('sheet-' + q0); if (t0) setTimeout(function () { fromUrl = true; open(t0); fromUrl = false; }, 600); }
@@ -2171,6 +2183,23 @@
       new MutationObserver(function () {
         if (document.documentElement.classList.contains('menu-open')) lenis.stop(); else lenis.start();
       }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    })();
+  </script>
+  <script>
+    // Nav hides when you scroll down and returns as soon as you scroll up
+    (function () {
+      var nav = document.querySelector('.nav');
+      if (!nav) return;
+      var last = window.scrollY, ticking = false;
+      function update() {
+        var y = window.scrollY, d = y - last;
+        if (y < 60 || document.documentElement.classList.contains('menu-open') || document.documentElement.classList.contains('view-gallery')) nav.classList.remove('is-hidden');
+        else if (d > 6) nav.classList.add('is-hidden');
+        else if (d < -6) nav.classList.remove('is-hidden');
+        if (Math.abs(d) > 6 || y < 60) last = y;
+        ticking = false;
+      }
+      window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     })();
   </script>
   <script src="arc.js?v=2"></script>

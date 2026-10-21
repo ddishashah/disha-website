@@ -80,13 +80,16 @@
       padding: 0 var(--gutter);
     }
 
+    /* Full-width fixed nav: slides away when you scroll down, comes back when you scroll up */
     .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding-top: 18px;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+      box-sizing: border-box; height: 72px; padding: 18px var(--gutter) 0;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      background: var(--bg, #f8f8f7);
+      transition: transform .6s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1);
     }
+    .nav.is-hidden { transform: translateY(-100%); }
+    .nav-space { flex: none; width: 100%; height: 54px; }
     .nav__brand {
       white-space: nowrap;
       font-size: 18px;
@@ -313,7 +316,7 @@
     .sheet__handle { display: none; }
     @media (max-width: 767px) {
       /* Drawer: grab handle on top, pull down to dismiss, no round close button */
-      .sheet__handle { position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 28px; margin: 0 0 -28px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
+      .sheet__handle { position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 44px; margin: 0 0 -44px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
       .sheet__handle span { display: block; width: 36px; height: 5px; margin: 10px auto 0; border-radius: 3px; background: rgba(20, 7, 0, .2); }
       .sheet__bar { display: none; }
       .sheet__content { padding-top: 56px; }
@@ -934,7 +937,7 @@
     /* Touch screens have no cursor label, so the fireflies card carries a visible one */
     @media (hover: none) {
       .cascading-slider__item[data-href]::after {
-        content: "Play with fireflies \2192"; position: absolute; left: 16px; bottom: 16px; z-index: 3;
+        content: "Play with fireflies \2192"; position: absolute; left: 16px; top: 16px; z-index: 3;
         display: flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 96px;
         background: rgba(255, 255, 255, .16); color: #f8f8f7; font-size: 14px; letter-spacing: .15px;
         -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
@@ -952,7 +955,7 @@
       html, body { overflow-x: hidden; }
 
       /* Hero */
-      .nav { padding-top: 16px; }
+      .nav { height: 62px; padding-top: 16px; } .nav-space { height: 52px; }
       .nav__brand, .menu__brand { font-size: 17px; }
       .nav__right { gap: 8px; }
       .nav__cta { padding: 0 14px 1px; font-size: 13px; letter-spacing: 0.13px; }
@@ -1044,10 +1047,8 @@
     }
 
     /* ================= Work pages ================= */
-    /* Nav as a floating pill (Fluid Intelligence pattern): 120px radius, translucent fill, 1px hairline, 12.5px blur */
-    .about-nav { position: sticky; top: 14px; z-index: 40; box-sizing: border-box; width: calc(100% - 32px); max-width: 1264px; height: 56px; margin: 14px auto 0; padding: 0 12px 0 28px; border: 1px solid rgba(20, 7, 0, .06); border-radius: 120px; background: rgba(248, 248, 247, .72); -webkit-backdrop-filter: blur(12.5px); backdrop-filter: blur(12.5px); transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1); }
-    html[data-theme="dark"] .about-nav { border-color: rgba(255, 255, 255, .04); background: rgba(255, 255, 255, .06); }
-    .about-nav .nav { height: 100%; padding-top: 0; }
+    .about-nav { height: 54px; }
+    @media (max-width: 767px) { .about-nav { height: 52px; } }
     .nav--tabs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
     .nav--tabs .nav__right { justify-self: end; }
     .pill-tabs { display: flex; gap: 6px; }
@@ -1081,7 +1082,6 @@
     /* Gallery — Osmo infinite draggable grid, immersive: hero and footer step aside, page does not scroll */
     html.view-gallery, html.view-gallery body { overflow: hidden; height: 100%; }
     html.view-gallery .wi-hero, html.view-gallery .footer { display: none; }
-    html.view-gallery .about-nav { position: fixed; top: 14px; left: 50%; margin: 0; transform: translateX(-50%); }
     .wi-gallery { position: relative; height: 100svh; margin: 0; padding: 0; }
     .infinite-grid { touch-action: none; width: 100%; height: 100svh; position: relative; overflow: clip; cursor: grab; transition: opacity 0.5s ease; opacity: 1; }
     .infinite-grid[hidden] { display: none; }
@@ -1092,6 +1092,8 @@
     .infinite-grid__item { box-sizing: border-box; will-change: transform; backface-visibility: hidden; justify-content: center; align-items: center; width: 15em; padding: 2.25em; font-size: clamp(1.5em, 2vw, 3em); display: flex; position: absolute; top: 0; left: 0; }
     .infinite-grid__card { -webkit-user-select: none; user-select: none; will-change: transform; backface-visibility: hidden; border-radius: .125em; width: 100%; height: 100%; position: relative; }
     .infinite-grid__card-img { pointer-events: none; object-fit: contain; border-radius: inherit; width: 100%; height: 100%; position: absolute; background: var(--t-card); }
+    .infinite-grid__card-img.is-video { display: grid; place-items: center; background: linear-gradient(135deg, #2c221d, #17100c); }
+    .infinite-grid__card-img.is-video::after { content: ""; width: 56px; height: 56px; border-radius: 50%; background: rgba(255, 255, 255, .12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f8f8f7'%3E%3Cpath d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") 55% 50% / 22px no-repeat; }
     .wi-bar { position: fixed; left: 50%; bottom: 28px; z-index: 5; display: flex; gap: 6px; transform: translateX(-50%); }
     .wi-chip { padding: 5px 14px; border: 1px solid var(--t-card-line); border-radius: 16px; background: rgba(20, 7, 0, .72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--t-body); font: inherit; font-size: 14px; line-height: 24px; letter-spacing: 0.28px; cursor: pointer; white-space: nowrap; transition: color .5s, border-color .5s, background-color .3s; }
     .wi-chip.is-active, .wi-chip:hover { background: var(--t-card); color: var(--t-head); }
@@ -1156,8 +1158,11 @@
       .wcard__img { flex: none; height: auto; aspect-ratio: 4 / 3; }
       .wcard__title { font-size: 26px; line-height: 31px; } .wcard__txt { gap: 20px; }
       .wi-more { padding-bottom: 96px; margin-top: 40px; }
-      .wi-bar { bottom: 20px; } .wi-chip--back { display: inline-block; } .wi-chip { padding: 4px 11px; font-size: 13px; }
+      .wi-bar { bottom: 18px; gap: 4px; max-width: calc(100% - 16px); } .wi-chip--back { display: inline-block; } .wi-chip { padding: 4px 10px; font-size: 12px; line-height: 22px; letter-spacing: 0.1px; }
       .wd-head { padding-top: 64px; } .wd-title { font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
+      /* even rhythm between every block on a case-study page (phone) */
+      .wd-carousel { margin-top: 40px; } .wd-info { margin-top: 40px !important; }
+      .wd-text, .wd-strip, .wd-media { margin-top: 48px !important; }
       /* simple scroll reveal on phones: no sideways opening, no zoom, no entrance scale */
       .motion .wd-carousel.carousel-stage { transform: none; transition: none; }
       .motion .wd-carousel .carousel { clip-path: none; will-change: auto; }
@@ -1315,7 +1320,6 @@
         <li><a href="./#services">Services</a></li>
         <li><a href="work/">Work</a></li>
         <li><a href="./#playground">Playground</a></li>
-        <li><a href="./#blog">Blog</a></li>
         <li><a href="work/shweta-labs/#contact">Contact</a></li>
       </ul>
     </div>
@@ -2030,21 +2034,31 @@
       document.querySelectorAll('dialog.sheet').forEach(function (d) {
         d.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
         d.querySelectorAll('[data-sheet-close]').forEach(function (b) { b.addEventListener('click', close); });
-        // drawer on phones: pull down from the top to dismiss
-        var sy = 0, dy = 0, pulling = false;
-        d.addEventListener('touchstart', function (e) { sy = e.touches[0].clientY; dy = 0; pulling = false; }, { passive: true });
-        d.addEventListener('touchmove', function (e) {
-          var y = e.touches[0].clientY - sy;
-          if (!pulling && (y <= 6 || d.scrollTop > 0)) return;
-          pulling = true; dy = Math.max(0, y);
-          e.preventDefault();
-          d.style.transition = 'none'; d.style.transform = 'translateY(' + dy + 'px)';
-        }, { passive: false });
-        d.addEventListener('touchend', function () {
-          if (!pulling) return;
-          pulling = false; d.style.transition = ''; d.style.transform = '';
-          if (dy > 110) close();               // keeps the pull position and slides the rest of the way down
+        // drawer on phones: pull down to dismiss (from the grab handle at any scroll position, or from the top of the content)
+        var sy = 0, dy = 0, drag = false, pid = null, fromHandle = false;
+        function setTA() { d.style.touchAction = d.scrollTop <= 0 ? 'pan-up' : 'pan-y'; }   // downward swipes at the top reach our handler instead of the browser
+        setTA();
+        d.addEventListener('scroll', setTA, { passive: true });
+        d.addEventListener('pointerdown', function (e) {
+          if (e.pointerType === 'mouse') return;
+          sy = e.clientY; dy = 0; drag = false; pid = e.pointerId; fromHandle = !!e.target.closest('.sheet__handle'); setTA();
         });
+        d.addEventListener('pointermove', function (e) {
+          if (e.pointerId !== pid || e.pointerType === 'mouse') return;
+          var y = e.clientY - sy;
+          if (!drag) {
+            if (y > 8 && (fromHandle || d.scrollTop <= 0)) { drag = true; try { d.setPointerCapture(pid); } catch (err) {} d.style.transition = 'none'; } else return;
+          }
+          dy = Math.max(0, y);
+          d.style.transform = 'translateY(' + dy + 'px)';
+        });
+        function endPull() {
+          if (!drag) { pid = null; return; }
+          drag = false; pid = null; d.style.transition = ''; d.style.transform = '';
+          if (dy > 110) close();               // keeps the pull position and slides the rest of the way down
+        }
+        d.addEventListener('pointerup', endPull);
+        d.addEventListener('pointercancel', endPull);
       });
       var q0 = new URLSearchParams(location.search).get('sheet');
       if (q0) { var t0 = document.getElementById('sheet-' + q0); if (t0) setTimeout(function () { fromUrl = true; open(t0); fromUrl = false; }, 600); }
@@ -2061,6 +2075,23 @@
       new MutationObserver(function () {
         if (document.documentElement.classList.contains('menu-open')) lenis.stop(); else lenis.start();
       }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    })();
+  </script>
+  <script>
+    // Nav hides when you scroll down and returns as soon as you scroll up
+    (function () {
+      var nav = document.querySelector('.nav');
+      if (!nav) return;
+      var last = window.scrollY, ticking = false;
+      function update() {
+        var y = window.scrollY, d = y - last;
+        if (y < 60 || document.documentElement.classList.contains('menu-open') || document.documentElement.classList.contains('view-gallery')) nav.classList.remove('is-hidden');
+        else if (d > 6) nav.classList.add('is-hidden');
+        else if (d < -6) nav.classList.remove('is-hidden');
+        if (Math.abs(d) > 6 || y < 60) last = y;
+        ticking = false;
+      }
+      window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     })();
   </script>
   <script src="arc.js?v=2"></script>
