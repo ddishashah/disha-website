@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
+<style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
+<title>Fireflies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap">
+<link rel="stylesheet" href="firefly.css?v=4">
+<script>try{if(window.self!==window.top)document.documentElement.classList.add('is-embedded')}catch(e){document.documentElement.classList.add('is-embedded')}</script>
+<style>
+  /* Embedded in the home page's slider: never scrollable, and the scene is pinned to the bottom */
+  html.is-embedded, html.is-embedded body { overflow: hidden; }
+  html.is-embedded .stage { min-height: 0; }
+  :root { --bg-bottom: #084469; --bg-top: #156BA4; --ink: #F8F8F7; }
+  html, body { margin: 0; height: 100%; background: var(--bg-bottom); }
+  /* Background + grain (Figma 1405:21207) in CSS: they always reach every edge,
+     unlike an SVG noise filter, which browsers clip on large screens. */
+  .stage {
+    position: relative; width: 100%; height: 100vh; min-height: 480px; overflow: hidden;
+    background: url(assets/grain.png) repeat, linear-gradient(to top, var(--bg-bottom), var(--bg-top));
+  }
+  .layer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  /* The animated scene gets its own compositing layer so the grain below is never redrawn. */
+  /* The whole frame always fits (the word is never cropped); fireflies may fly past it
+     to the window edges, so the SVG doesn't clip them. */
+  #scene { will-change: transform; overflow: visible; }
+  /* Each glow inside the word breathes with its firefly's light. */
+  .glow-spot circle { animation: ff-pulse-halo var(--pulse, 3.2s) ease-in-out var(--pulse-delay, 0s) infinite; }
+  @media (prefers-reduced-motion: reduce) { .glow-spot circle { animation: none; } }
+
+  /* Cursor: the system's own — normal arrow, open hand over a firefly, closed hand while
+     dragging. It sits on one still, transparent shield over the scene and only changes when
+     a hover starts or ends, so the animation underneath never makes the browser re-apply it
+     (custom or hidden cursors flicker on Chrome/macOS for exactly that reason). */
+  .stage { touch-action: none; }
+  .cursor-shield { position: absolute; inset: 0; z-index: 5; cursor: default; }
+  .stage.is-over .cursor-shield { cursor: grab; }
+  .stage.is-holding .cursor-shield { cursor: grabbing; }
+  #scene { pointer-events: none; }
+
+  /* A tiny firefly spark that trails just below the pointer and twinkles,
+     shedding specks of light that drift up and fade as you move. */
+  /* The outer box only carries the position (set from JS); the dot and its twinkle live
+     on ::before, so the twinkle never shifts where the spark sits. */
+  .cursor-light {
+    position: absolute; left: 0; top: 0; width: 6px; height: 6px; margin: 19px 0 0 11px;
+    pointer-events: none; opacity: 0; transition: opacity .4s ease;
+  }
+  .cursor-light::before {
+    content: ""; position: absolute; inset: 0; border-radius: 50%; background: #FFF8C4;
+    box-shadow: 0 0 4px 1px rgba(255, 241, 81, .9), 0 0 12px 4px rgba(255, 241, 81, .35), 0 0 26px 10px rgba(255, 241, 81, .1);
+  }
+  .cursor-light.is-on { opacity: 1; }
+  .cursor-light.is-on::before { animation: spark-twinkle 1.8s ease-in-out infinite; }
+  @keyframes spark-twinkle {
+    0%, 100% { transform: scale(.85); opacity: .85; }
+    14%      { transform: scale(1.15); opacity: 1; }
+    40%      { transform: scale(.95); opacity: .9; }
+  }
+  /* Specks meander up and away from the spark as they fade. */
+  .cursor-speck {
+    position: absolute; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; border-radius: 50%;
+    pointer-events: none; background: #FFF6A8; box-shadow: 0 0 4px 1px rgba(255, 241, 81, .6);
+    animation: speck-fade 1.1s ease-out forwards;
+  }
+  @keyframes speck-fade {
+    0%   { transform: translate(0, 0) scale(var(--s)); opacity: .9; }
+    35%  { transform: translate(calc(var(--dx) * .6), calc(var(--dy) * .35)) scale(var(--s)); opacity: .8; }
+    70%  { transform: translate(calc(var(--dx) * -.3), calc(var(--dy) * .7)) scale(calc(var(--s) * .7)); opacity: .45; }
+    100% { transform: translate(calc(var(--dx) * .4), var(--dy)) scale(calc(var(--s) * .3)); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .cursor-light.is-on::before { animation: none; } .cursor-speck { display: none; } }
+
+  /* Tooltip (Figma 1408:21352): Text xs/Semibold on bg-primary-solid, shadow-lg. */
+  .ff-tooltip { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 10; }
+  .ff-tooltip__pop {
+    display: flex; flex-direction: column; align-items: center;
+    transform: translate(-50%, calc(-100% - 6px)) scale(.6); transform-origin: 50% 100%; opacity: 0;
+    filter: drop-shadow(0 12px 8px rgba(0,0,0,.08)) drop-shadow(0 4px 3px rgba(0,0,0,.03)) drop-shadow(0 2px 1px rgba(0,0,0,.04));
+    transition: transform .14s ease-in, opacity .14s ease-in;
+  }
+  .ff-tooltip.is-shown .ff-tooltip__pop {
+    transform: translate(-50%, calc(-100% - 6px)) scale(1); opacity: 1;
+    transition: transform .32s cubic-bezier(.34, 1.56, .64, 1), opacity .12s ease-out;
+  }
+  .ff-tooltip__body {
+    background: #0A0A0A; color: #fff; border-radius: 8px; padding: 8px 12px;
+    font: 600 12px/18px Inter, system-ui, sans-serif; white-space: nowrap; text-align: center;
+  }
+  .ff-tooltip__arrow { display: block; margin-top: -1px; }
+
+  /* Dizzy: stars circle its head, the light flickers, the wings lose their rhythm. */
+  .firefly .ff-stars { display: none; }
+  .firefly.is-dizzy .ff-stars { display: inline; }
+  .firefly.is-dizzy .ff-wing { animation-duration: .27s; }
+  .firefly.is-dizzy .ff-light { animation: ff-flicker .5s steps(2, jump-none) infinite; }
+  .firefly.is-held .ff-wing { animation-duration: .06s; }
+  @keyframes ff-flicker { 0% { opacity: 1; } 50% { opacity: .35; } 100% { opacity: .85; } }
+</style>
+</head>
+<body>
+<section class="stage" data-figma-node="1402:20885">
+  <!-- Glow inside the word, the word, then the fireflies flying over it. -->
+  <svg id="scene" class="layer" viewBox="0 0 1920 1317" preserveAspectRatio="xMidYMid meet" role="img" aria-label="fireflies">
+    <defs>
+      <g id="word-shape">
+      <path d="M344.286 1123C354.318 1110.23 357.966 1097.01 357.966 1074.66V921.904H310.998L316.47 898.648H357.966V859.432C357.966 815.656 380.766 791.032 418.614 791.032C428.646 791.032 440.046 793.312 449.166 796.96L452.814 825.232C444.15 820.672 433.662 817.024 424.542 817.024C403.566 817.024 393.534 829.336 393.534 854.872C393.534 868.552 393.534 884.056 393.99 898.648H447.798V921.904H393.99V1074.66C393.99 1097.01 397.638 1110.23 408.126 1123H344.286Z"/>
+      <path d="M496.341 858.976C481.749 858.976 471.261 847.576 471.261 833.896C471.261 820.672 481.749 808.816 496.341 808.816C510.933 808.816 521.421 820.672 521.421 833.896C521.421 847.576 510.933 858.976 496.341 858.976ZM466.245 1123C476.733 1110.23 479.925 1097.01 479.925 1074.66V954.736C479.925 932.848 476.277 920.536 462.597 906.856L515.949 896.368V1074.66C515.949 1097.01 519.597 1110.23 529.629 1123H466.245Z"/>
+      <path d="M564.445 1123C574.933 1110.23 578.125 1097.01 578.125 1074.66V954.736C578.125 932.848 574.477 920.536 560.797 906.856L614.149 896.368V947.44C628.285 910.048 651.997 894.088 673.885 894.088C680.725 894.088 686.653 895 690.757 896.368L693.037 930.568C686.653 928.288 677.989 926.464 669.325 926.464C645.157 926.464 627.373 941.968 614.149 967.504V1074.66C614.149 1097.01 617.797 1110.23 628.741 1123H564.445Z"/>
+      <path d="M810.286 1127.56C745.078 1127.56 698.11 1081.05 698.11 1010.82C698.11 943.336 741.886 894.088 798.886 894.088C858.166 894.088 894.646 943.336 894.19 1009.91H734.134C735.046 1066.91 767.422 1102.02 814.39 1102.02C838.102 1102.02 862.726 1093.82 883.702 1077.4L879.142 1107.04C862.726 1119.35 835.366 1127.56 810.286 1127.56ZM798.886 918.712C766.054 918.712 741.886 946.072 735.958 986.656H859.078C853.606 941.512 829.438 918.712 798.886 918.712Z"/>
+      <path d="M932.58 1123C942.612 1110.23 946.26 1097.01 946.26 1074.66V921.904H899.292L904.763 898.648H946.26V859.432C946.26 815.656 969.06 791.032 1006.91 791.032C1016.94 791.032 1028.34 793.312 1037.46 796.96L1041.11 825.232C1032.44 820.672 1021.96 817.024 1012.84 817.024C991.859 817.024 981.828 829.336 981.828 854.872C981.828 868.552 981.828 884.056 982.284 898.648H1036.09V921.904H982.284V1074.66C982.284 1097.01 985.932 1110.23 996.419 1123H932.58Z"/>
+      <path d="M1054.54 1123C1065.03 1110.23 1068.22 1097.01 1068.22 1074.66V851.224C1068.22 829.792 1064.57 817.48 1050.89 803.8L1104.24 793.312V1074.66C1104.24 1097.01 1107.89 1110.23 1117.92 1123H1054.54Z"/>
+      <path d="M1182.83 858.976C1168.24 858.976 1157.75 847.576 1157.75 833.896C1157.75 820.672 1168.24 808.816 1182.83 808.816C1197.43 808.816 1207.91 820.672 1207.91 833.896C1207.91 847.576 1197.43 858.976 1182.83 858.976ZM1152.74 1123C1163.23 1110.23 1166.42 1097.01 1166.42 1074.66V954.736C1166.42 932.848 1162.77 920.536 1149.09 906.856L1202.44 896.368V1074.66C1202.44 1097.01 1206.09 1110.23 1216.12 1123H1152.74Z"/>
+      <path d="M1356.27 1127.56C1291.07 1127.56 1244.1 1081.05 1244.1 1010.82C1244.1 943.336 1287.87 894.088 1344.87 894.088C1404.15 894.088 1440.63 943.336 1440.18 1009.91H1280.12C1281.03 1066.91 1313.41 1102.02 1360.38 1102.02C1384.09 1102.02 1408.71 1093.82 1429.69 1077.4L1425.13 1107.04C1408.71 1119.35 1381.35 1127.56 1356.27 1127.56ZM1344.87 918.712C1312.04 918.712 1287.87 946.072 1281.95 986.656H1405.07C1399.59 941.512 1375.43 918.712 1344.87 918.712Z"/>
+      <path d="M1536.91 1127.56C1499.07 1127.56 1484.93 1109.32 1467.15 1120.72L1457.11 1067.37C1479.91 1090.17 1506.82 1104.3 1534.18 1104.3C1559.71 1104.3 1576.13 1088.8 1576.13 1067.82C1576.13 1015.38 1464.87 1025.87 1464.87 953.824C1464.87 918.256 1492.68 894.088 1530.07 894.088C1561.54 894.088 1575.67 908.68 1592.09 898.192L1601.67 951.088C1580.23 929.2 1556.98 917.344 1533.27 917.344C1511.38 917.344 1498.15 930.568 1498.15 948.808C1498.15 998.512 1609.87 988.024 1609.87 1062.35C1609.87 1100.66 1577.95 1127.56 1536.91 1127.56Z"/>
+      </g>
+      <mask id="word-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1317">
+        <use href="#word-shape" fill="#fff"/>
+      </mask>
+    </defs>
+    <g id="text-glow" mask="url(#word-mask)"></g>
+    <use id="text" href="#word-shape" fill="#F8F8F7" opacity="0.24"/>
+    <g id="swarm"></g>
+  </svg>
+</section>
+
+<script>if(document.documentElement.classList.contains('is-embedded'))document.getElementById('scene').setAttribute('preserveAspectRatio','xMidYMax meet')</script>
+<script src="firefly.js?v=5"></script>
+<script src="swarm.js?v=5"></script>
+<script src="play.js?v=4"></script>
+<script>
+  // Start positions and headings are the Figma frame (light centre, frame px).
+  // From there each firefly meanders around the word and keeps dropping by to visit it;
+  // the two `roam` ones range a little wider.
+  //
+  // Each has a mood: how it reacts when the cursor comes near (curious / shy / playful),
+  // how fast and how lazy it is, how much dragging (`patience`, frame px) or how many
+  // quick clicks (`clicks`) it takes to make it dizzy, and what it says.
+  const Y = 'yellow', L = 'lemon';
+  const FIREFLIES = [
+    { figma: '1402:21109', type: 'large', x: 1618.5,  y: 934.05,  rot: 0,     halo: L, pulse: 3.4, delay: 0.2,
+      mood: { name: 'Sunny', cursor: 'curious',
+        lines: { hi: ['Hiiii..', 'Hello, you!', 'Nice night, huh?'], drag: ['Where are we going?', 'Wheee!'], dizzy: ['I’m dizzy..'], phew: 'Phew..' } } },
+    { figma: '1402:21122', type: 'large', x: 1731.69, y: 1156.99, rot: 33.4,  halo: L, pulse: 2.9, delay: 1.7,
+      mood: { name: 'Zippy', speed: 1.5, lazy: 0.4, patience: 1500, clicks: 4,
+        lines: { hi: ['Can’t stop!', 'Zoom zoom!', 'Race you?'], drag: ['Faster!', 'Wheee!'], dizzy: ['Whoa.. again!'], phew: 'Again! Again!' } } },
+    { figma: '1402:21135', type: 'large', x: 210.51,  y: 1160.27, rot: -33.1, halo: Y, pulse: 3.8, delay: 2.6,
+      mood: { name: 'Pip',
+        lines: { hi: ['Hiiii..'], drag: ['Wheee!'], dizzy: ['I’m dizzy..'], phew: 'Phew..' } } },
+    { figma: '1402:21148', type: 'large', x: 596.51,  y: 614.27,  rot: -33.1, halo: L, pulse: 3.1, delay: 0.9, roam: true,
+      mood: { name: 'Dozy', speed: 0.6, lazy: 2.2,
+        lines: { hi: ['Zzz..', 'Five more minutes..', '*yawn*'], drag: ['Hey.. I was napping'], dizzy: ['Am I dreaming?'], phew: 'Zzz..' } } },
+    { figma: '1402:21161', type: 'large', x: 543,     y: 915.05,  rot: 0, mirror: true, halo: Y, pulse: 3.6, delay: 3.0,
+      mood: { name: 'Bashful', cursor: 'shy', patience: 700,
+        lines: { hi: ['Eep!', 'Oh! Hi..', 'Don’t look at me..'], drag: ['Put me down!', 'Eeeep!'], dizzy: ['Please stop..'], phew: 'Okay.. okay..' } } },
+    { figma: '1402:21174', type: 'small', x: 1250.67, y: 770.04,  rot: 0,     halo: L, pulse: 2.7, delay: 1.2,
+      mood: { name: 'Cheeky', cursor: 'playful', speed: 1.2,
+        lines: { hi: ['Catch me!', 'Too slow!', 'Hehe'], drag: ['Okay, you got me', 'No fair!'], dizzy: ['Not.. fair..'], phew: 'Rematch?' } } },
+    { figma: '1402:21183', type: 'small', x: 72.33,   y: 918.67,  rot: 0, mirror: true, halo: Y, pulse: 3.3, delay: 2.1, roam: true,
+      mood: { name: 'Grumpy', patience: 450, clicks: 2,
+        lines: { hi: ['What now?', 'Hmph.', 'Busy.'], drag: ['Unhand me!', 'Rude.'], dizzy: ['Ugh, my head..'], phew: 'Hmph.' } } },
+    { figma: '1402:21192', type: 'small', x: 667.67,  y: 1133.67, rot: 0,     halo: Y, pulse: 3.0, delay: 0.5,
+      mood: { name: 'Whisper', cursor: 'curious', speed: 0.85,
+        lines: { hi: ['Psst..', 'Wanna hear a secret?', 'Shh..'], drag: ['Shh, not so fast'], dizzy: ['Psst.. help..'], phew: 'Psst.. thanks' } } },
+    { figma: '1405:21222', type: 'small', x: 1122.25, y: 996.96,  rot: 146,   halo: Y, pulse: 3.5, delay: 2.4,
+      mood: { name: 'Glowy',
+        lines: { hi: ['Look, I glow!', 'Shine on..', 'I light up the letters!'], drag: ['Wheee, I’m a comet!'], dizzy: ['Seeing stars..'], phew: 'Still shining' } } },
+  ];
+
+  const svg = document.getElementById('scene');
+  const glow = document.getElementById('text-glow');
+  const word = { x0: 311, y0: 791, x1: 1610, y1: 1128 };   // word outline bounds in the frame
+
+  const swarm = Swarm.start({ svg, glow, word, swarm: document.getElementById('swarm'), fireflies: FIREFLIES });
+  Play.start({ stage: document.querySelector('.stage'), svg, glow, word, swarm });
+</script>
+<script src="../../arc.js"></script>
+</body>
+</html>

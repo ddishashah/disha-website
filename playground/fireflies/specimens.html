@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firefly Specimens</title>
+<link rel="stylesheet" href="firefly.css">
+<style>
+  :root { --bg-bottom: #084469; --bg-top: #156BA4; --ink: #F8F8F7; }
+  html { min-height: 100%; background: var(--bg-bottom); }
+  body { margin: 0; min-height: 100vh; background: linear-gradient(to top, var(--bg-bottom), var(--bg-top)); color: var(--ink); font: 14px/1.4 system-ui, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 48px 16px; }
+  h1 { font-weight: 400; font-size: 20px; margin: 0 0 4px; }
+  p { margin: 0 0 32px; opacity: .7; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  figure { margin: 0; background: rgba(0,0,0,.12); border-radius: 12px; overflow: hidden; }
+  figure svg { display: block; width: 100%; aspect-ratio: 1; }
+  figcaption { padding: 10px 14px; font-size: 12px; opacity: .75; }
+  .still .ff-hover, .still .ff-jitter, .still .ff-wing, .still .ff-light, .still .ff-lantern-hot, .still .ff-halo { animation: none !important; }
+  .still .ff-lantern-hot { opacity: 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Fireflies</h1>
+  <p>Figma vectors, regrouped into wings, body and light. Shown still, then buzzing: hovering, wings flapping, light pulsing.</p>
+  <div class="grid" id="grid"></div>
+</main>
+<script src="firefly.js"></script>
+<script>
+  const { createFirefly, FIREFLY_DEFS } = window.Firefly;
+
+  const SPECIMENS = [
+    { type: 'large', still: true,  label: 'Large · side view (1402:21135) · still' },
+    { type: 'large', still: false, label: 'Large · buzzing' },
+    { type: 'small', still: true,  label: 'Small · top-down (1402:21192) · still' },
+    { type: 'small', still: false, label: 'Small · buzzing' },
+  ];
+
+  const grid = document.getElementById('grid');
+  for (const s of SPECIMENS) {
+    const fig = document.createElement('figure');
+    fig.innerHTML = `<svg viewBox="-70 -64 140 140" ${s.still ? 'class="still"' : ''}><defs>${FIREFLY_DEFS}</defs></svg><figcaption>${s.label}</figcaption>`;
+    const svg = fig.querySelector('svg');
+    // Scaled up; the large one is nudged so its body, not its light, sits in the middle.
+    const scale = s.type === 'large' ? 2.3 : 2.6;
+    const dx = s.type === 'large' ? -5.5 * scale : 0;
+    svg.append(createFirefly({ type: s.type, x: dx, y: 0, scale, flap: s.type === 'small' ? 0.09 : 0.11 }));
+    grid.append(fig);
+  }
+</script>
+</body>
+</html>

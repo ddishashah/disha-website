@@ -1,0 +1,2063 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <base href="../../" />
+  <title>Brand and product narrative for a cybersecurity company — Disha Shah</title>
+  <meta name="description" content="Brand refresh, product narrative, and investor communication for a cybersecurity company building forensic investigation and criminal intelligence tools." />
+  <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
+  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    @font-face { font-family: "Portrait Text Web"; src: url("fonts/portrait-text-400.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+
+    :root {
+      --bg: #f8f8f7;
+      --ink: #000000;
+      --ink-mid: #5e5855;
+      --white: #ffffff;
+      --font-sans: "Geist", "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Portrait Text Web", "Times New Roman", serif;
+
+
+      --gutter: clamp(16px, 8.6vw, 124px);
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      --u: calc(100vw / 1440); /* 1px of the 1440 Figma frame */
+      --tile: #ffffff;
+    }
+
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--ink); }
+    /* Collins-style theme swap: the page itself changes colour while a dark
+       section holds the middle of the screen (values from wearecollins.com) */
+    /* Theme tokens for sections that change with the page. Light values match the
+       light sections (heading #000, body #5e5855, eyebrow #757575, white cards);
+       dark values are Figma's dark sections. */
+    :root {
+      --t-head: #000; --t-body: #5e5855; --t-eyebrow: #757575;
+      --t-btn-bg: #fff; --t-btn-bg-hover: #fff; --t-btn-fg: #140700;
+      --t-btn-shadow: 0 21px 13px 0 rgba(0, 0, 0, .04), 0 9px 9px 0 rgba(0, 0, 0, .04), 0 2px 5px 0 rgba(0, 0, 0, .05);
+      --t-track: rgba(20, 7, 0, .12);
+      --t-card: #fff; --t-card-line: #eaeaea; --t-card-hover: #f1f0ed; --t-card-line-hover: #d6d4cf;
+    }
+    html[data-theme="dark"] {
+      --bg: #140700; --ink: #f8f8f7; --ink-mid: #d0d0c8;
+      --t-head: #f8f8f7; --t-body: #d0d0c8; --t-eyebrow: #9a9a9a;
+      --t-btn-bg: rgba(255, 255, 255, .1); --t-btn-bg-hover: rgba(255, 255, 255, .2); --t-btn-fg: #f8f8f7;
+      --t-btn-shadow: none;
+      --t-track: rgba(255, 255, 255, .16);
+      --t-card: #1e1612; --t-card-line: #3b3434; --t-card-hover: #2c221d; --t-card-line-hover: #574c48;
+    }
+    html, body { transition: background-color .7s cubic-bezier(.33, 1, .68, 1), color .7s cubic-bezier(.33, 1, .68, 1); }
+    body {
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 100svh;
+      padding-bottom: 48px;
+    }
+
+    .hero__stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: calc(100svh - 64px); /* leaves the carousel peeking in */
+      padding: 0 var(--gutter);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-top: 18px;
+    }
+    .nav__brand {
+      white-space: nowrap;
+      font-size: 18px;
+      letter-spacing: -0.16px;
+    }
+    .nav__right { display: flex; align-items: center; gap: 16px; }
+    /* Button, light mode — Figma 677:103971 (default) / 677:103973 (hover): 36px pill, 19px sides,
+       Geist Medium 14.6px, hover adds a soft lifted shadow (no colour change) */
+    .nav__cta {
+      white-space: nowrap;
+      box-sizing: border-box;
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 36px; padding: 0 19px 1px;
+      border: 1px solid transparent; border-radius: 96px;
+      background: var(--t-btn-bg); color: var(--t-btn-fg);
+      font-weight: 500; font-size: 14.6px; line-height: 14.56px; letter-spacing: 0.146px;
+      box-shadow: 0 21px 13px 0 rgba(0, 0, 0, 0), 0 9px 9px 0 rgba(0, 0, 0, 0), 0 2px 5px 0 rgba(0, 0, 0, 0);
+      transition: box-shadow .5s var(--ease-out-expo), transform .5s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1), color .7s cubic-bezier(.33, 1, .68, 1);
+    }
+    .nav__cta:hover, .nav__cta:focus-visible {
+      background: var(--t-btn-bg-hover); box-shadow: var(--t-btn-shadow);
+    }
+    .nav__menu {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+    .nav__menu span,
+    .nav__menu span::before,
+    .nav__menu span::after {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: currentColor;
+      position: relative;
+      content: "";
+    }
+    .nav__menu span::before { position: absolute; top: -6px; }
+    .nav__menu span::after  { position: absolute; top: 6px; }
+
+    /* Figma 632:148169 — 497px wide, top at y=136 */
+    .tagline {
+      margin: 52px 0 0;
+      color: var(--ink-mid);
+      font-size: 16px;
+      line-height: 27px;
+      letter-spacing: 0.32px;
+      text-align: center;
+    }
+
+    .hero__title {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      margin: 0;
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(44px, 5.6vw, 80px);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .hero__sub {
+      margin: 0 0 77px; /* anchored to the gallery: 77px above it */
+      color: var(--ink-mid);
+      font-size: 16px;
+      line-height: 26px;
+      letter-spacing: 0.16px;
+      text-align: center;
+    }
+
+    /* ---------- Carousel peek ---------- */
+    /* Figma frame is 1440 wide: cards 1169×501 and 596×501, 21px gap, 88px inset */
+    .carousel {
+      display: flex;
+      gap: 20px;
+      padding: 0 calc(88 * var(--u));
+      overflow-x: auto;
+      overflow-y: hidden; /* horizontal only */
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 0 calc(88 * var(--u));
+      scrollbar-width: none;
+      cursor: grab;
+    }
+    .carousel::-webkit-scrollbar { display: none; }
+    .carousel.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+    .carousel__card {
+      flex: 0 0 auto;
+      height: calc(501 * var(--u));
+      border-radius: 20px;
+      overflow: hidden;
+      scroll-snap-align: start;
+      position: relative;
+    }
+    .carousel__card--journey { width: calc(1169 * var(--u)); }
+    .carousel__card--hotplate { width: calc(596 * var(--u)); }
+    .carousel__card img {
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .carousel__card > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Work images — same height as the lead card, each at its own aspect ratio (as on Framer) */
+    .carousel__card--work { width: auto; aspect-ratio: var(--ar); }
+    .carousel__card--hotplate { width: calc(596 * var(--u)); }
+    .carousel__card--hotplate svg { display: block; width: 100%; height: 100%; }
+
+    /* ---------- Appear motion (Collins-style) ----------
+       First two images: scroll-linked reveal based on wearecollins.com —
+       clip inset 10% on the sides → 0, image settles from a slight zoom.
+       --p (0→1) is written from JS as the page scrolls. */
+    .carousel { --p: 0; }
+    /* The whole strip opens sideways as one piece, so the 20px gaps between
+       images never change — full height, no vertical drift */
+    .motion .carousel {
+      clip-path: inset(0 calc((1 - var(--p)) * 10%) round 20px);
+      will-change: clip-path;
+    }
+    .motion .carousel__card--reveal > img,
+    .motion .carousel__card--reveal > svg {
+      transform: scale(calc(1.12 - 0.12 * var(--p)));
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+    /* Collins' appear, copied from wearecollins.com:
+       start at opacity 0 / translateY(8rem), then 1s opacity (ease) and
+       2s transform on their expo-out curve. Hero copy staggers 0.1s, 0.14s, 0.18s. */
+    :root { --ease-out-expo: cubic-bezier(.19, 1, .22, 1); }
+    .motion [data-intro],
+    .motion [data-appear] {
+      opacity: 0;
+      transform: translateY(8rem);
+      transition: opacity 1s ease, transform 2s var(--ease-out-expo);
+    }
+    .motion [data-intro] { transition-delay: calc(0.1s + var(--i, 0) * 0.04s); }
+    .motion.is-loaded [data-intro],
+    .motion [data-appear].is-in { opacity: 1; transform: none; }
+
+    /* Gallery entrance on load — Collins' reel: translateY(15vh) scale(.8),
+       pinned at the top edge, settling over 2s after a 0.2s delay */
+    .motion .carousel-stage {
+      transform: translateY(15vh) scale(0.8);
+      transform-origin: center top;
+      transition: transform 2s var(--ease-out-expo) 0.2s;
+    }
+    .motion.is-loaded .carousel-stage { transform: none; }
+
+
+    /* ---------- Shared section bits ---------- */
+    .serif { font-family: var(--font-serif); font-weight: 400; }
+    .h-primary { font-family: var(--font-serif); font-weight: 400; font-size: 36px; letter-spacing: -0.7229px; color: var(--t-head); transition: color .7s cubic-bezier(.33, 1, .68, 1); }
+
+    /* Collins' scroll appear for sections: same values as the hero copy */
+    .motion [data-reveal] {
+      opacity: 0;
+      transform: translateY(8rem);
+      /* colour/background listed too so themed elements still fade with the page */
+      transition: opacity 1s ease, transform 2s var(--ease-out-expo),
+                  color .7s cubic-bezier(.33, 1, .68, 1), background-color .7s cubic-bezier(.33, 1, .68, 1);
+      transition-delay: calc(var(--i, 0) * 0.07s), calc(var(--i, 0) * 0.07s), 0s, 0s;
+    }
+    .motion [data-reveal].is-in { opacity: 1; transform: none; }
+
+    /* ---------- Problem — Figma 632:148265 (600 wide, top at y=1815) ---------- */
+    .problem { display: flex; flex-direction: column; align-items: center; margin-top: 197px; padding: 0 16px; text-align: center; }
+    .problem__title { max-width: 600px; margin: 0; line-height: 39px; }
+    .problem__sub { margin: 8px 0 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .gaps { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 32px 0 0; padding: 0; list-style: none; }
+    .gap {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 45px; padding: 0 24px 0 14px;
+      border-radius: 96px; background: #fff;
+      color: #140700; font-weight: 500; font-size: 14.6px; line-height: 14.56px; letter-spacing: 0.146px; white-space: nowrap;
+    }
+    .gap img { width: 24px; height: 24px; border-radius: 96px; object-fit: cover; }
+
+    /* ---------- Sheet dialog — Collins "Explore the gallery" pattern ----------
+       Page behind: scale .95, translateY 10px, opacity .4, saturate .4 (origin top centre).
+       Sheet: fixed, 20px from the top, 24px top radius, rises from 100vh, 1.2s ease-out-expo. */
+    button.gap { border: 0; cursor: pointer; font: inherit; font-weight: 500; font-size: 14.6px; transition: transform .6s var(--ease-out-expo), box-shadow .6s ease; }
+    button.gap, button.gap:focus, button.gap:focus-visible { outline: none; }
+    button.gap:hover, button.gap:focus-visible { transform: scale(1.02); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); }
+    .gaps > li { display: contents; }
+    /* the page is a card of its own, so it can fade and desaturate as one piece against the dark behind it */
+    [data-page] { background-color: var(--bg, #f8f8f7); }
+    html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1); }
+    html.sheet-open, html.sheet-open body { background-color: #140700; }
+    html.sheet-open [data-page] { transform: translateY(10px) scale(.95); opacity: .4; filter: saturate(.4); }
+    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: var(--top) 0 0 0; width: 100%; max-width: 100%; height: calc(100dvh - var(--top)); max-height: 100%; margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
+    .sheet.is-open { transform: translateY(0); }
+    .sheet::backdrop { opacity: 0; }
+    .sheet__bar { position: sticky; top: 0; z-index: 3; height: 0; display: flex; justify-content: flex-end; padding: 24px 24px 0; }
+    .sheet__close { flex: none; width: 52px; height: 52px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 100%; background: #f8f8f7; color: #000; cursor: pointer; transition: transform .6s var(--ease-out-expo); }
+    .sheet__close:hover { transform: rotate(90deg) scale(1.04); }
+    .sheet__close, .sheet__close:focus, .sheet__close:focus-visible { outline: none; }
+    .sheet__close svg { width: 22px; height: 22px; }
+    .sheet__content { box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(64px, 8vw, 128px); padding: clamp(56px, 28px + 6vw, 96px) max(24px, calc((100% - 1268px) / 2)) clamp(56px, 8vw, 96px); }
+    .sheet__head { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; max-width: 740px; width: 100%; margin: 0 auto; }
+    .sheet__eyebrow { margin: 0; color: #757575; font-size: 16px; line-height: 20.8px; letter-spacing: -0.16px; }
+    .sheet__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; }
+    .sheet__lead { margin: 0; color: #5e5855; font-size: 18px; line-height: 28px; letter-spacing: 0.36px; }
+    .sheet__text { display: grid; grid-template-columns: 1fr; gap: 20px 24px; max-width: 740px; width: 100%; margin: 0 auto; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .sheet__text h3 { margin: 24px 0 0; color: #140700; font-weight: 500; font-size: 16px; line-height: 27px; }
+    .sheet__text h3:first-child { margin-top: 0; }
+    .sheet__text p { margin: 0 0 1.35em; } .sheet__text p:last-child { margin-bottom: 0; }
+    .sheet__gallery { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .sheet__fig { margin: 0; overflow: hidden; border-radius: 16px; background: #f8f8f7; opacity: 0; transform: translateY(5em); transition: opacity .8s ease, transform 1.8s var(--ease-out-expo); }
+    .sheet.is-open .sheet__fig { opacity: 1; transform: none; transition-delay: calc(.14s + var(--i, 0) * .06s); }
+    .sheet__fig img { display: block; width: 100%; height: auto; }
+    .sheet__handle { display: none; }
+    @media (max-width: 767px) {
+      /* Drawer: grab handle on top, pull down to dismiss, no round close button */
+      .sheet__handle { position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 28px; margin: 0 0 -28px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
+      .sheet__handle span { display: block; width: 36px; height: 5px; margin: 10px auto 0; border-radius: 3px; background: rgba(20, 7, 0, .2); }
+      .sheet__bar { display: none; }
+      .sheet__content { padding-top: 56px; }
+    }
+    @media (min-width: 768px) {
+      .sheet__text { grid-template-columns: repeat(6, 1fr); }
+      .sheet__text h3 { grid-column: span 2; margin-top: 0; }
+      .sheet__text div { grid-column: span 4; }
+      .sheet__text h3:nth-of-type(2) { margin-top: 56px; } .sheet__text div:nth-of-type(2) { margin-top: 56px; }
+      .sheet__gallery { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .sheet__fig.is-wide { grid-column: 1 / -1; }
+    }
+    @media (prefers-reduced-motion: reduce) { html.sheet-anim [data-page], .sheet, .sheet__fig { transition: none; } }
+
+    /* ---------- Story card — Figma 632:148294 (1048×640, top at y=2265) ---------- */
+    .story { margin-top: 193px; padding: 0 16px; }
+    .story__card {
+      box-sizing: border-box;
+      width: 1048px; max-width: 100%;
+      margin: 0 auto;
+      padding: 108px 64px;
+      border: 1px solid #eaeaea; border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 16px 31px rgba(0, 0, 0, .06);
+    }
+    .story__inner { display: flex; gap: 76px; align-items: stretch; max-width: 916px; margin: 0 auto; padding: 0 24px 0 32px; box-sizing: border-box; }
+    /* Heading, a fixed 43px gap, then the image fills what is left of the 422px column — it crops, never stretches */
+    .story__left { display: flex; flex-direction: column; gap: 43px; flex: 0 0 389px; height: 422px; }
+    .story__title { margin: 0; line-height: 40px; }
+    .story__img { position: relative; flex: 1 1 0; min-height: 120px; border-radius: 12px; overflow: hidden; }
+    /* cover + right-aligned reproduces Figma's crop (image shifted 18.76% left) at 389px and keeps the ratio at any size */
+    .story__img img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 100% 50%; }
+    /* Text at the top, "About Me" pinned to the bottom so it lines up with the image's bottom edge (Figma) */
+    .story__right { flex: 1 1 0; display: flex; flex-direction: column; justify-content: space-between; gap: 33px; align-items: flex-start; padding: 2px 0; }
+    .story__body { margin: 0; color: #000; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .story__body b { font-weight: 500; }
+    .link-arrow { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #000; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; }
+    /* Figma's pill button (Component 3): on hover a grey pill fills in behind it.
+       The negative margin keeps the text exactly where Figma puts it. */
+    .link-arrow { margin-left: -14px; padding: 0 14px; border-radius: 96px; transition: background-color .3s ease, color .3s ease; }
+    .link-arrow svg { width: 14px; height: 14px; transition: transform .6s var(--ease-out-expo); }
+    .link-arrow:hover { background: var(--bg); } /* page background, #f8f8f7 */
+    .link-arrow:hover svg { transform: translateX(4px); }
+    .link-arrow:active { background: #efeeeb; }
+
+    /* ---------- Work — Figma 632:148289 + 632:148377 (top at y=3100) ---------- */
+    .work { margin-top: 195px; }
+    .work__head { display: flex; flex-direction: column; gap: 18px; padding: 0 calc(88 * var(--u)); white-space: nowrap; }
+    .eyebrow { margin: 0; color: var(--t-eyebrow); font-size: 16px; line-height: 20.8px; letter-spacing: -0.16px; transition: color .7s cubic-bezier(.33, 1, .68, 1); }
+    .work__title { margin: 0; line-height: 37.8px; }
+
+    /* Room above/below so a hovered (tilted, shadowed) card is never clipped */
+    .shelf {
+      display: flex; gap: 16px;
+      margin-top: 24px;
+      padding: 40px calc(85 * var(--u)) 48px;
+      overflow-x: auto; overflow-y: hidden;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 0 calc(85 * var(--u));
+      scrollbar-width: none;
+    }
+    .shelf::-webkit-scrollbar { display: none; }
+    .case { flex: 0 0 566px; display: flex; flex-direction: column; gap: 24px; scroll-snap-align: start; perspective: 1400px; }
+    /* Default (Hotplate in Figma): the cover alone. Hover (Flighty in Figma): white frame,
+       1px #eaeaea border and soft shadow appear around it, text goes to full strength */
+    .case__frame {
+      box-sizing: border-box;
+      padding: 8px;
+      border: 1px solid transparent; border-radius: 24px;
+      background: transparent;
+      transform-origin: center bottom;
+      transition: background-color .5s var(--ease-out-expo), border-color .5s var(--ease-out-expo),
+                  box-shadow .5s var(--ease-out-expo), transform .8s var(--ease-out-expo), opacity .25s cubic-bezier(.37, 0, .63, 1);
+      will-change: transform;
+    }
+    .case__thumb { height: 444px; border-radius: 19.398px; overflow: hidden; }
+    .case__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .case__text { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; opacity: .7; transition: opacity .5s var(--ease-out-expo), transform .6s var(--ease-out-expo); }
+    @media (hover: hover) {
+      /* Space stays reserved so nothing jumps; the words appear on hover */
+      .case__text { opacity: 0; transform: translateY(8px); }
+    }
+    .case__title { margin: 0; color: #140700; font-weight: 500; font-size: 18px; line-height: 27px; }
+    .case__tags { margin: 0; color: #5e5855; font-size: 16px; line-height: 26px; white-space: pre-wrap; }
+    .case:hover .case__frame, .case:focus-visible .case__frame {
+      background: #fff; border-color: #eaeaea;
+      box-shadow: 0 16px 31px rgba(0, 0, 0, .06);
+    }
+    .case:hover .case__text, .case:focus-visible .case__text { opacity: 1; transform: none; }
+    @media (hover: hover) {
+      .case:hover .case__frame { transform: rotateX(10deg); }   /* leans back, away from the viewer */
+      .case:hover:active .case__frame { transform: rotateX(0deg); }
+    }
+    .case:focus-visible { outline: none; }
+    /* Entrance: cards un-tilt and fade up one after another (no clipping) */
+    .motion .shelf:not(.is-in) .case { opacity: 0; transform: translateY(48px); }
+    .motion .shelf .case { transition: opacity .8s ease, transform 1.4s var(--ease-out-expo); transition-delay: calc(var(--i, 0) * 0.07s + 0.15s); }
+    .motion .shelf:not(.is-in) .case__frame { transform: rotateX(30deg); }
+
+    /* Hotplate cover: Figma's composition underneath, with the full-res site
+       screenshot laid over it at its exact Figma position (632:148463) so it stays crisp */
+    .case__thumb--hotplate .hp-site {
+      position: absolute;
+      left: calc(50% + 0.5px); top: 6.757%;
+      width: 68.909%; height: auto;
+      transform: translateX(-50%);
+      border-radius: 12.231px;
+      box-shadow: 0 13.343px 20.443px rgba(123, 19, 19, .3), 0 1.837px 10.795px 4.594px rgba(190, 114, 114, .08);
+    }
+    /* Coming soon */
+    .case__thumb { position: relative; }
+    .case__badge {
+      position: absolute; top: 16px; right: 16px;
+      padding: 6px 12px; border-radius: 96px;
+      background: rgba(255, 255, 255, .92); color: #140700;
+      font-size: 13px; font-weight: 500; line-height: 16px; letter-spacing: 0.13px;
+    }
+    .case--soon { cursor: default; }
+
+    /* View all — Collins' explore-gallery card (values from wearecollins.com) */
+    .case--all { flex-basis: 345px; }
+    .explore {
+      position: relative;
+      box-sizing: border-box;
+      height: 460px;
+      display: grid; grid-template-rows: 1fr auto;
+      padding: 2.5rem;
+      border: 1px solid #eaeaea; border-radius: 24px;
+      background: #fff;
+      container-type: inline-size;
+    }
+    .explore__stack { display: grid; align-content: center; justify-content: center; perspective: 1000px; filter: drop-shadow(0 0 12px rgba(0, 0, 0, .12)); }
+    .explore__img {
+      grid-area: 1 / 1;
+      width: 62cqw; aspect-ratio: 550 / 444; /* the covers' own shape, so nothing is cropped */
+      border-radius: 0.75rem;
+      transform-style: preserve-3d;
+      transition: transform .8s var(--ease-out-expo);
+    }
+    .explore__img img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+    .explore__img:nth-child(1) { transform: translate(20%, 20%) rotate(5deg); }
+    .explore__img:nth-child(2) { transform: translate(-20%) rotate(-5deg); }
+    .explore__img:nth-child(3) { transform: translate(5%, -25%) rotate(4deg); }
+    .case--all:hover .explore__img:nth-child(1), .case--all:focus-visible .explore__img:nth-child(1) { transform: translate(20%, 40%) rotate(10deg) rotateY(-15deg) rotateX(30deg); }
+    .case--all:hover .explore__img:nth-child(2), .case--all:focus-visible .explore__img:nth-child(2) { transform: translate(-40%, -20%) rotate(-10deg) rotateY(25deg) rotateX(5deg); }
+    .case--all:hover .explore__img:nth-child(3), .case--all:focus-visible .explore__img:nth-child(3) { transform: translate(25%, -60%) rotate(7deg) rotateY(-20deg) rotateX(-25deg); }
+    .explore__label { display: flex; justify-content: space-between; align-items: center; color: #000; font-size: 18px; line-height: 27px; letter-spacing: 0.18px; }
+    .explore__label svg { width: 14px; height: 14px; }
+
+    /* ---------- Testimonials — Figma 632:148140 ---------- */
+    .testimonials { display: flex; flex-direction: column; align-items: center; padding: 189px 16px 197px; }
+    .testimonials__inner { display: flex; flex-direction: column; align-items: center; gap: 52px; width: 842px; max-width: 100%; }
+    .hgroup--center { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+    .eyebrow--md { margin: 0; color: var(--t-body); font-weight: 500; font-size: 16px; line-height: 26px; letter-spacing: 0.16px; }
+    .testimonials__title { margin: 0; line-height: 39px; }
+    .quotes { display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; }
+    /* Height follows the active quote (set from JS) so short quotes don't sit in a tall card */
+    .quotes__card {
+      display: grid; width: 100%; box-sizing: border-box; overflow: hidden;
+      transition: height .8s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1);
+      padding: 52px;
+      border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card);
+      box-shadow: 0 16px 31px rgba(0, 0, 0, .06);
+    }
+    /* All slides share one grid cell, so the card keeps the height of the tallest */
+    .quote {
+      grid-area: 1 / 1; align-self: start;
+      display: flex; gap: 40px; align-items: flex-end;
+      margin: 0;
+      opacity: 0; visibility: hidden;
+      transform: translateY(16px);
+      transition: opacity .6s ease, transform 1.2s var(--ease-out-expo), visibility 0s .6s;
+    }
+    .quote.is-active { opacity: 1; visibility: visible; transform: none; transition: opacity .8s ease .1s, transform 1.4s var(--ease-out-expo) .1s, visibility 0s; }
+    .quote__pull { flex: 0 0 305px; display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 2px 0; font-family: var(--font-serif); letter-spacing: -0.2px; }
+    .quote__mark { height: 32px; margin: 0; color: var(--t-eyebrow); opacity: .44; font-size: 72px; line-height: 74px; }
+    .quote__pull p:last-child { margin: 0; color: var(--t-head); font-size: 28px; line-height: 33px; }
+    .quote__body { flex: 1 1 0; display: flex; flex-direction: column; gap: 24px; padding: 2px 0; }
+    .quote__text { margin: 0; color: var(--t-head); font-size: 17px; line-height: 28px; letter-spacing: 0.34px; }
+    .quote__by { display: flex; gap: 12px; align-items: center; margin: 0; color: var(--t-eyebrow); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .quote__by img { width: 36px; height: 36px; flex: none; border-radius: 96px; object-fit: cover; }
+    .dots { display: flex; gap: 6px; align-items: center; }
+    .dots button {
+      width: 12px; height: 12px; padding: 0;
+      border: 1px solid rgba(59, 52, 52, .14); border-radius: 999px;
+      background: var(--t-card); box-shadow: 0 16px 31px rgba(0, 0, 0, .06);
+      cursor: pointer;
+      transition: width .6s var(--ease-out-expo), background-color .3s ease;
+    }
+    .dots button[aria-current="true"] { width: 45px; }
+    /* Progress bar inside the long pill (Hotplate's carousel indicator): a thin track that fills
+       over the autoplay interval, then the next quote appears */
+    .dots button { position: relative; overflow: hidden; }
+    .dots button i { position: absolute; left: 4px; right: 4px; top: 50%; height: 3px; margin-top: -1.5px; border-radius: 999px; background: var(--t-track); opacity: 0; transition: opacity .3s ease; }
+    /* width (not scaleX) is animated so the fill keeps perfectly round ends */
+    .dots button i b { display: block; width: 3px; height: 100%; border-radius: 999px; background: var(--t-head); }
+    .dots button[aria-current="true"] i { opacity: 1; }
+    .dots button[aria-current="true"] i b { animation: dot-fill var(--dur, 7s) linear forwards; }
+    .quotes.is-paused .dots button i b { animation-play-state: paused; }
+    @keyframes dot-fill { from { width: 3px; } to { width: 100%; } }
+    @media (prefers-reduced-motion: reduce) { .dots button[aria-current="true"] i b { animation: none; width: 100%; } }
+    .dots button:hover { background: var(--t-card-hover); }
+
+    /* ---------- Services — Figma 632:148844 ---------- */
+    .services { padding-bottom: 197px; }
+    .services__head { display: flex; flex-direction: column; gap: 18px; padding: 0 calc(129 * var(--u)); }
+    .services__row {
+      display: flex; gap: 20px;
+      margin-top: 52px;
+      padding: 0 calc(120 * var(--u));
+      overflow-x: auto; overflow-y: hidden;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory; scroll-padding: 0 calc(120 * var(--u));
+      scrollbar-width: none;
+    }
+    .services__row::-webkit-scrollbar { display: none; }
+    .service {
+      flex: 0 0 395.5px; height: 385px; box-sizing: border-box;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 40px 36px 59px;
+      border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card);
+      scroll-snap-align: start;
+      transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1);
+    }
+    .service__kicker { margin: 0 0 11px; color: var(--t-eyebrow); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .service__title { margin: 0; color: var(--t-head); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-weight: 500; font-size: 24px; line-height: 33px; letter-spacing: -0.2px; }
+    .service__tags { margin: 0; color: var(--t-eyebrow); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-size: 16px; line-height: 25px; letter-spacing: 0.32px; }
+
+    /* ---------- What pulls me in — Figma 632:148837 (dark) ---------- */
+    .pulls { min-height: 730px; box-sizing: border-box; padding: 137px 16px 120px; display: flex; flex-direction: column; align-items: center; gap: 38px; text-align: center; }
+    .eyebrow--dark { margin: 0; color: var(--t-eyebrow); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-weight: 500; font-size: 16px; line-height: 26px; letter-spacing: 0.16px; }
+    .pulls__copy { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .pulls__title { margin: 0; color: var(--t-head); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-family: var(--font-serif); font-weight: 400; font-size: 56px; line-height: 57px; letter-spacing: -1.44px; }
+    @media (max-width: 767px) { .br-desk { display: none; } }
+    .pulls__body { width: 692px; max-width: 100%; color: var(--t-body); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-size: 18px; line-height: 29px; letter-spacing: 0.18px; }
+    .pulls__body p { margin: 0 0 16px; }
+    .pulls__body p:last-child { margin: 0; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; height: 45px; padding: 0 24px 1px;
+      border-radius: 96px; background: var(--t-btn-bg);
+      color: var(--t-btn-fg); font-size: 15px; line-height: 14.56px; letter-spacing: 0.15px; white-space: nowrap;
+      transition: background-color .7s cubic-bezier(.33, 1, .68, 1), color .7s cubic-bezier(.33, 1, .68, 1), box-shadow .5s var(--ease-out-expo);
+    }
+    .btn-ghost:hover, .btn-ghost:focus-visible { background: var(--t-btn-bg-hover); box-shadow: var(--t-btn-shadow); }
+
+    /* ---------- Playground — Figma 632:148124 (dark) ---------- */
+    .playground { min-height: 922px; box-sizing: border-box; padding: 137px 0 120px; }
+    .playground__head { display: flex; flex-direction: column; gap: 18px; text-align: center; padding: 0 16px; }
+    .playground__head .eyebrow { color: var(--t-eyebrow); transition: color .7s cubic-bezier(.33, 1, .68, 1); }
+    .playground__title { margin: 0; color: var(--t-head); transition: color .7s cubic-bezier(.33, 1, .68, 1); line-height: 37.8px; }
+    /* Osmo Cascading Slider — resource CSS, styled to Figma 632:148126 (dark cards, 17px gap, 431px tall) */
+    [data-cascading-viewport] { --gap: 17px; }
+    [data-cascading-slide] { --clip: 0; --radius: 16px; }
+    .cascading-slider { width: 1264px; max-width: calc(100% - 32px); margin: 103px auto 0; position: relative; }
+    .cascading-slider__collection { width: 100%; }
+    .cascading-slider__list { width: 100%; height: 431px; position: relative; overflow: hidden; }
+    .cascading-slider__item {
+      color: #fff; cursor: pointer;
+      will-change: transform, clip-path;
+      clip-path: inset(0px calc(var(--clip) * 1px) round var(--radius));
+      -webkit-user-select: none; user-select: none;
+      height: 100%; position: absolute; inset: 0% auto auto 0%;
+    }
+    .cascading-slider__item[data-status="active"] { cursor: default; }
+    .cascading-slider__item-inner {
+      width: 100%; height: 100%; position: relative; overflow: hidden; box-sizing: border-box;
+      border: 1px solid var(--t-card-line); border-radius: var(--radius); background: var(--t-card);
+      transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1);
+    }
+    /* Slide content — resource classes, styled for the site */
+    .cascading-slider__item-bg { z-index: 0; position: absolute; inset: 0%; }
+    .cascading-slider__img { object-fit: cover; width: 100%; height: 100%; position: absolute; inset: 0%; border: 0; }
+    .cascading-slider__frame { pointer-events: none; background: #140700; }
+
+    .cascading-slider__item[data-href][data-status="active"] { cursor: pointer; }
+
+    /* Collapsed side slides show an Untitled UI arrow in the cursor instead of text */
+    .cursor-bubble[data-icon] { width: 45px; padding-left: 0; padding-right: 0; }
+    .cursor-bubble[data-icon] .cursor-bubble__text { font-size: 0; }
+    .cursor-bubble[data-icon]::before {
+      content: ""; width: 20px; height: 20px; background: currentColor;
+      -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat;
+    }
+    .cursor-bubble[data-icon="left"] { --icon: url(icons/arrow-left.svg); }
+    .cursor-bubble[data-icon="right"] { --icon: url(icons/arrow-right.svg); }
+
+    /* Osmo Supply — Dynamic Text Cursor (resource CSS, unchanged) */
+    .cursor {
+      z-index: 25;
+      pointer-events: none;
+      padding-top: 1em;
+      padding-left: .5em;
+      padding-right: 1em;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    /* Styled as the site's pill button (Figma Component 3 / .btn-ghost):
+       45px tall, 24px sides, Geist 15px, themed tint — blur keeps it legible over images */
+    .cursor-bubble {
+      opacity: 0;
+      color: var(--t-btn-fg);
+      background-color: var(--t-btn-bg);
+      -webkit-backdrop-filter: blur(14px) saturate(1.2);
+      backdrop-filter: blur(14px) saturate(1.2);
+      border-radius: 96px;
+      justify-content: center;
+      align-items: center;
+      height: 45px;
+      padding-left: 24px;
+      padding-right: 24px;
+      padding-bottom: 1px;
+      display: flex;
+      position: relative;
+    }
+
+    .cursor-bubble__text {
+      letter-spacing: 0.15px;
+      white-space: nowrap;
+      font-size: 15px;
+      line-height: 14.56px;
+      font-weight: 400;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      [data-cursor] .cursor-bubble {
+        transition: transform 0.4s cubic-bezier(0.625, 0.05, 0, 1), opacity 0.4s cubic-bezier(0.625, 0.05, 0, 1);
+        transform: translateX(0%) scale(0.9) rotate(0.001deg);
+      }
+
+      [data-cursor="active"] .cursor-bubble {
+        opacity: 1;
+        transform: translateX(0%) scale(1) rotate(0.001deg);
+      }
+
+      [data-cursor="active-edge"] .cursor-bubble {
+        opacity: 1;
+        transform: translateX(-100%) scale(1) rotate(0.001deg);
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .cursor {
+        display: none;
+      }
+    }
+
+    .cascading-slider__nav { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 36px auto 0; position: relative; }
+    .cascading-slider__button {
+      display: flex; justify-content: center; align-items: center;
+      width: 40px; height: 40px; padding: 12px; box-sizing: border-box;
+      border: 1px solid var(--t-card-line); border-radius: 6px; background: var(--t-card); color: var(--t-head);
+      box-shadow: 0 16px 31px rgba(0, 0, 0, .06);
+      cursor: pointer; font: inherit;
+      transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1), color .7s cubic-bezier(.33, 1, .68, 1);
+    }
+    .cascading-slider__button:hover { background: var(--t-card-hover); border-color: var(--t-card-line-hover); transition-duration: .3s; }
+    .cascading-slider__button-arrow.is--prev { transform: rotate(-180deg); }
+
+    @media (max-width: 767px) {
+      .testimonials { padding: 120px 16px; }
+      .testimonials__title, .services__head .work__title, .playground__title { line-height: 34px; }
+      .quotes__card { padding: 28px 22px; }
+      .quote { flex-direction: column; align-items: stretch; gap: 24px; }
+      .quote__pull { flex: none; }
+      .quote__pull p:last-child { font-size: 24px; line-height: 29px; }
+      .services { padding-bottom: 120px; }
+      .services__head { padding: 0 16px; }
+      .services__row { margin-top: 32px; padding: 0 16px; scroll-padding: 0 16px; gap: 12px; }
+      .service { flex-basis: 80vw; height: 340px; padding: 28px 24px 36px; }
+      .service__title { font-size: 21px; line-height: 29px; }
+      .pulls { min-height: 0; padding: 100px 20px; }
+      .pulls__title { font-size: 40px; line-height: 42px; letter-spacing: -1px; }
+      .pulls__body { font-size: 16px; line-height: 26px; }
+      .playground { min-height: 0; padding: 100px 0; }
+      .cascading-slider { margin-top: 48px; }
+      .cascading-slider__list { height: 360px; }
+      [data-cascading-viewport] { --gap: 8px; }
+    }
+
+    /* ---------- Footer — Figma 632:148351 (dark) ---------- */
+    .footer { position: relative; overflow: hidden; padding: 189px 0 0; }
+    .footer__inner { display: flex; flex-direction: column; align-items: center; gap: 80px; width: 1264px; max-width: calc(100% - 32px); margin: 0 auto; }
+    .footer__head { display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; }
+    .footer__copy { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .footer__title { width: 608px; max-width: 100%; margin: 0; color: var(--t-head); font-family: var(--font-serif); font-weight: 400; font-size: 64px; line-height: 70px; letter-spacing: -1.44px; transition: color .7s cubic-bezier(.33, 1, .68, 1); }
+    .footer__sub { margin: 0; color: var(--t-body); font-size: 18px; line-height: 28.4px; letter-spacing: 0.36px; transition: color .7s cubic-bezier(.33, 1, .68, 1); }
+    /* Booking box: Figma's 1264×573 card, holding the cal.com inline calendar */
+    .booking {
+      box-sizing: border-box; width: 100%; min-height: 573px;
+      /* cal.com's embed has its own small inner margin (a few px more on top than at the
+         sides), so the sides get 40px to land on the same ~44px visual gap as the top */
+      padding: 37px 40px 12px;
+      border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card);
+      box-shadow: 0 16px 31px rgba(0, 0, 0, .06);
+      transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1);
+    }
+    .booking { position: relative; }
+    .booking__cal { position: relative; z-index: 1; width: 100%; min-height: 549px; overflow: auto; border-radius: 8px; }
+    .booking__fallback {
+      position: absolute; inset: 37px 40px 12px; z-index: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+      color: var(--t-body); font-size: 16px; text-align: center;
+    }
+    .booking.is-loaded .booking__fallback { display: none; }
+    .socials { display: flex; gap: 16px; justify-content: center; margin-top: 81px; }
+    .socials a { display: grid; place-items: center; width: 32px; height: 32px; color: var(--t-head); opacity: .9; transition: color .7s cubic-bezier(.33, 1, .68, 1), opacity .3s ease, transform .4s var(--ease-out-expo); }
+    .socials a:hover { opacity: 1; transform: translateY(-2px); }
+    .socials svg { width: 24px; height: 24px; }
+    .footer__bar {
+      display: flex; justify-content: space-between; align-items: center; gap: 24px;
+      width: 1264px; max-width: calc(100% - 32px); margin: 171px auto 0;
+      font-weight: 500; font-size: 18px; line-height: 27px; letter-spacing: 0.36px;
+    }
+    .footer__legal { margin: 0; color: var(--t-eyebrow); white-space: pre-wrap; transition: color .7s cubic-bezier(.33, 1, .68, 1); }
+    .footer__legal a:hover, .footer__nav a:hover { color: var(--t-head); }
+    .footer__nav { display: flex; gap: 34px; margin: 0; padding: 0; list-style: none; }
+    .footer__nav a { color: var(--t-body); transition: color .3s ease; }
+    /* Wordmark: full-bleed 1440×188, cropped by the section edge as in Figma */
+    .footer__markwrap { position: relative; margin-top: 215px; margin-bottom: -2%; }
+    .footer__mark { display: block; width: 100%; height: auto; }
+    /* Spotlight clipped to the letters: the wordmark's own shape is the mask, so the glow
+       only ever shows inside "DISHA SHAH". Colour is the fireflies' yellow-to-amber. */
+    .footer__glow {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0;
+      background: radial-gradient(circle 280px at var(--mx, 50%) var(--my, 50%),
+        rgba(255, 241, 81, .95) 0%, rgba(255, 207, 74, .7) 22%, rgba(255, 150, 60, .35) 50%, rgba(255, 120, 40, 0) 78%);
+      -webkit-mask: url(img/footer-wordmark.svg) center / 100% 100% no-repeat;
+      mask: url(img/footer-wordmark.svg) center / 100% 100% no-repeat;
+      transition: opacity .6s cubic-bezier(.33, 1, .68, 1);
+    }
+    .footer__glow.is-on { opacity: 1; }
+    /* Sparkle trail (same 4-point star and #FFF151 as the fireflies page) */
+    .spark { position: fixed; top: 0; left: 0; z-index: 30; pointer-events: none; width: 12px; height: 12px; margin: -6px 0 0 -6px;
+      filter: drop-shadow(0 0 5px rgba(255, 207, 74, .9)); animation: spark-fly var(--t, 1s) cubic-bezier(.19, 1, .22, 1) forwards; }
+    .spark svg { display: block; width: 100%; height: 100%; fill: #fff151; }
+    @keyframes spark-fly {
+      0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(.2); }
+      15% { opacity: 1; }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(var(--s)); }
+    }
+    @media (hover: none), (prefers-reduced-motion: reduce) { .footer__glow { display: none; } .spark { display: none; } }
+
+    @media (max-width: 767px) {
+      .footer { padding-top: 100px; }
+      .footer__inner { gap: 48px; }
+      .footer__title { font-size: 44px; line-height: 48px; letter-spacing: -1px; }
+      .footer__sub { font-size: 16px; line-height: 26px; }
+      .booking { min-height: 520px; padding: 6px; }
+      .socials { margin-top: 48px; }
+      .footer__bar { flex-direction: column; align-items: flex-start; margin-top: 64px; font-size: 16px; }
+      .footer__nav { flex-wrap: wrap; gap: 12px 24px; }
+      .footer__mark { margin-top: 72px; }
+    }
+
+    @media (max-width: 1100px) {
+      .story__card { padding: 64px 40px; }
+      .story__inner { padding: 0; gap: 48px; }
+      .story__left { flex-basis: 45%; }
+    }
+    @media (max-width: 767px) {
+      .problem { margin-top: 120px; }
+      .h-primary { font-size: 30px; letter-spacing: -0.6px; }
+      .problem__title { line-height: 33px; }
+      .problem__sub { white-space: normal; }
+      .story { margin-top: 120px; }
+      .story__card { padding: 32px 20px; }
+      .story__inner { flex-direction: column; gap: 32px; }
+      .story__left { flex: none; width: 100%; height: auto; gap: 28px; }
+      .story__title { line-height: 34px; }
+      .story__img { flex: none; height: auto; aspect-ratio: 389 / 259; }
+      .work { margin-top: 120px; }
+      .work__head { padding: 0 16px; white-space: normal; }
+      .work__title { line-height: 34px; }
+      .shelf { padding: 32px 16px 40px; scroll-padding: 0 16px; gap: 12px; }
+      .case { flex-basis: 84vw; }
+      .case__thumb { height: auto; aspect-ratio: 550 / 444; }
+      .case--all { flex-basis: 64vw; }
+      .explore { height: auto; aspect-ratio: 2.25 / 3; padding: 1.5rem; }
+    }
+
+    /* ---------- Logo ticker (Figma 632:148308 — 164×80 tiles) ---------- */
+    .logos {
+      margin-top: 42px;
+      overflow: hidden;
+      mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    }
+    .logos__track {
+      display: flex;
+      gap: 14px;
+      width: max-content;
+      animation: logos-scroll 62s linear infinite;
+    }
+    .logos:hover .logos__track { animation-play-state: paused; }
+    .logos--rev .logos__track { animation-direction: reverse; }
+    .logos__tile {
+      flex: 0 0 164px;
+      height: 80px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: transparent;
+      transition: background-color .3s var(--ease);
+    }
+    .logos__tile:hover {
+      background: var(--tile);
+    }
+    .logos__tile img {
+      max-width: 104px;
+      max-height: 26px;
+      object-fit: contain;
+      filter: brightness(0.35);
+    }
+    /* Lockup is wide and short — size it up to read at the same weight as the others */
+    .logos__tile img[src$="tcs-disq.svg"] { height: 24px; width: auto; }
+    .logos__tile img[src$="think-design.png"] { max-width: 78px; max-height: 18px; }
+    /* Lighter at rest, full strength when a tile is hovered */
+    .logos__tile > * { opacity: .55; transition: opacity .3s ease; }
+    .logos__tile:hover > * { opacity: 1; }
+    /* Praan is a near-square mark with a small wordmark — needs more height to read */
+    .logos__tile img[src$="praan.png"] { max-height: 46px; }
+    .logos__tile img[src$="kree8.png"] { max-width: 78px; max-height: 20px; }
+    /* Flighty — app icon + wordmark, as in Figma 632:148314 (icon from the Flighty iOS design system) */
+    .logos__tile--flighty { display: flex; justify-content: center; align-items: center; gap: 10px; }
+    .logos__tile--flighty img { width: 36px; height: 36px; max-width: none; max-height: none; border-radius: 8px; filter: none; }
+    .logos__tile--flighty span {
+      font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      letter-spacing: 0.37px;
+      color: #474747; /* matches the #CCC logos at brightness(.35) */
+    }
+    @keyframes logos-scroll { to { transform: translateX(-50%); } }
+
+    @media (max-width: 767px) {
+      .carousel { gap: 20px; padding: 0 16px; scroll-padding: 0 16px; }
+      .carousel__card { height: auto; border-radius: 16px; }
+      .carousel__card--journey { width: 86vw; aspect-ratio: 4 / 3; }
+      .carousel__card--work { width: auto; height: 64vw; }
+      .carousel__card--hotplate { width: 76vw; height: 64vw; }
+      .logos__tile { flex-basis: 128px; height: 64px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .logos__track { animation: none; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+
+
+    /* ---------- Menu — Figma 677:103892 (arc reveal timings from exoape.com) ---------- */
+    .page { position: relative; }
+    html.menu-open { overflow: hidden; }
+    .menu {
+      position: fixed; inset: 0; z-index: 100;
+      background: #140700; color: #f8f8f7;
+      visibility: hidden;
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+    .menu.is-active { visibility: visible; }
+    /* Lenis smooth scroll */
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .menu__inner { position: absolute; inset: 0; box-sizing: border-box; display: flex; flex-direction: column; padding: 0 var(--gutter); overflow-y: auto; }
+    .menu__top { flex: none; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; height: 74px; padding: 24px 0; }
+    .menu__brand { white-space: nowrap; font-size: 18px; letter-spacing: -0.16px; color: #f8f8f7; }
+    .menu__close { display: inline-flex; align-items: center; gap: 18px; padding: 0; border: 0; background: none; cursor: pointer;
+      color: #d0d0c8; font: inherit; font-weight: 500; font-size: 14.6px; line-height: 14.56px; letter-spacing: 0.146px; transition: color .3s ease; }
+    .menu__close:hover { color: #f8f8f7; }
+    /* X icon beside the label */
+    .menu__burger { position: relative; display: block; width: 16px; height: 16px; margin: 0; }
+    .menu__burger::before, .menu__burger::after { content: ""; position: absolute; left: 50%; top: 50%; width: 18px; height: 1.5px; margin-left: -9px; background: currentColor; transition: transform .5s var(--ease-out-expo); }
+    .menu__burger::before { transform: rotate(45deg); } .menu__burger::after { transform: rotate(-45deg); }
+    .menu__close:hover .menu__burger::before { transform: rotate(135deg); } .menu__close:hover .menu__burger::after { transform: rotate(45deg); }
+
+    .menu__body { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; padding: 24px 0; }
+    .menu__row { display: flex; justify-content: center; width: 100%; }
+    .menu__links { flex: none; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 26px; position: relative; z-index: 2; }
+    .menu__trail { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+    .menu__trail img { position: absolute; width: 168px; height: 216px; object-fit: cover; border-radius: 10px; opacity: 0; transform: translate(-50%, -46%) scale(.72) rotate(var(--r, 0deg)); transition: opacity .4s ease, transform .9s var(--ease-out-expo); box-shadow: 0 18px 40px rgba(0, 0, 0, .35); }
+    .menu__trail img.is-on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(var(--r, 0deg)); }
+    .menu__trail img.is-off { opacity: 0; transform: translate(-50%, -56%) scale(.94) rotate(var(--r, 0deg)); transition: opacity .55s ease, transform .55s ease; }
+    .menu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+    .menu__link { display: inline-block; font-family: var(--font-serif); font-weight: 400; font-size: 36px; line-height: 37.8px; letter-spacing: -0.7229px; color: #f8f8f7; transition: opacity .4s ease; }
+    .menu__link .roll { height: 1.15em; line-height: 1.15; } .menu__link .roll__in > span { height: 1.15em; }
+    .menu__list:hover .menu__link:not(:hover):not(:focus-visible) { opacity: .35; }
+    .menu__group { display: flex; flex-direction: column; align-items: center; gap: 19px; }
+    .menu__label { margin: 0; color: #767676; font-weight: 500; font-size: 14px; line-height: 20.8px; letter-spacing: -0.16px; text-transform: uppercase; }
+    .menu__subs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .menu__sub { color: #9a9a9a; font-weight: 500; font-size: 18px; line-height: 20.8px; letter-spacing: -0.16px; white-space: nowrap; transition: color .3s ease; }
+    .menu__sub:hover, .menu__sub:focus-visible { color: #f8f8f7; }
+    .menu__foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 0 0 72px; }
+    .menu__social { display: flex; gap: 33px; }
+    .menu__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #d0d0c8; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; white-space: nowrap; transition: color .3s ease; }
+    .menu__cta:hover { color: #f8f8f7; }
+    .menu__cta svg { width: 14px; height: 14px; transition: transform .6s var(--ease-out-expo); }
+    .menu__cta:hover svg { transform: translateX(4px); }
+
+    /* Items start slightly above their place, tilted and invisible, then drop in (Exo Ape) */
+    .menu__item { opacity: 0; transform: translate(0, -25%) rotate(-7deg); transform-origin: 0 100%; transition: opacity .25s ease, transform .35s ease; }
+    .menu.is-open .menu__item { opacity: 1; transform: none; transition: opacity .8s ease, transform 1.1s var(--ease-out-expo); transition-delay: calc(.4s + var(--i) * .07s); }
+    @media (max-width: 767px) {
+      .menu__inner { padding: 0 24px; }
+      .menu__top { height: 64px; padding: 16px 0; }
+      .menu__body { align-items: flex-start; padding: 16px 0 24px; }
+      .menu__row { display: block; margin: 0; } .menu__links { align-items: flex-start; text-align: left; } .menu__group, .menu__subs { align-items: flex-start; }
+      .menu__trail { display: none; }
+      .menu__links { width: 100%; margin-top: 0; gap: 28px; }
+      .menu__link { font-size: 34px; line-height: 38px; }
+      .menu__sub { font-size: 16px; }
+      .menu__foot { flex-direction: column; align-items: flex-start; gap: 18px; padding-bottom: 32px; }
+      .menu__social { gap: 22px; font-size: 16px; }
+      .menu__cta { font-size: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .menu__item { transition: none; } }
+    /* Touch screens have no cursor label, so the fireflies card carries a visible one */
+    @media (hover: none) {
+      .cascading-slider__item[data-href]::after {
+        content: "Play with fireflies \2192"; position: absolute; left: 16px; bottom: 16px; z-index: 3;
+        display: flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 96px;
+        background: rgba(255, 255, 255, .16); color: #f8f8f7; font-size: 14px; letter-spacing: .15px;
+        -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+        opacity: 0; transition: opacity .4s ease;
+      }
+      .cascading-slider__item[data-href][data-status="active"]::after { opacity: 1; }
+    }
+
+    /* ================= Phone layout (≤767px) =================
+       One place for mobile spacing, based on Collins at 375px:
+       24px side gutter, ~96px between sections, 16px card radius. */
+    .pulls__copy, .footer__head, .footer__copy { width: 100%; }  /* lets the big headings wrap instead of overflowing */
+    @media (max-width: 767px) {
+      :root { --gutter: 24px; }
+      html, body { overflow-x: hidden; }
+
+      /* Hero */
+      .nav { padding-top: 16px; }
+      .nav__brand, .menu__brand { font-size: 17px; }
+      .nav__right { gap: 8px; }
+      .nav__cta { padding: 0 14px 1px; font-size: 13px; letter-spacing: 0.13px; }
+      .tagline { margin-top: 40px; font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
+      .hero__title { font-size: 40px; line-height: 1.02; }
+      .hero__sub { margin-bottom: 48px; font-size: 15px; line-height: 24px; }
+      .carousel { padding: 0 24px; scroll-padding: 0 24px; }
+      .logos { margin-top: 32px; }
+      .logos__tile { flex-basis: 120px; height: 60px; }
+
+      /* Shared type */
+      .h-primary { font-size: 30px; letter-spacing: -0.6px; }
+      .problem__title, .testimonials__title, .work__title, .playground__title, .story__title { line-height: 34px; }
+      .eyebrow, .eyebrow--md, .eyebrow--dark { font-size: 15px; }
+
+      /* Problem */
+      .problem { margin-top: 96px; padding: 0 24px; }
+      .problem__sub { font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
+      .gaps { margin-top: 24px; gap: 8px; flex-direction: column; align-items: stretch; width: 100%; }
+      .gap { height: 44px; padding: 0 18px 0 12px; font-size: 14px; width: 100%; box-sizing: border-box; justify-content: center; }
+
+      /* Story card */
+      .story { margin-top: 96px; padding: 0 20px; }
+      .story__card { padding: 48px 32px 52px; border-radius: 20px; }
+      .story__inner { gap: 36px; }
+      .story__left { gap: 32px; }
+      .story__body { font-size: 15px; line-height: 25px; letter-spacing: 0.2px; }
+
+      /* Work */
+      .work { margin-top: 96px; }
+      .work__head { padding: 0 24px; gap: 12px; }
+      .shelf { margin-top: 8px; padding: 24px 24px 32px; scroll-padding: 0 24px; gap: 12px; }
+      .case { flex-basis: calc(100vw - 72px); gap: 16px; }
+      .case__frame { padding: 6px; border-radius: 20px; }
+      .case__thumb { border-radius: 15px; }
+      .case__text { padding: 0 10px; gap: 6px; }
+      .case__text { opacity: 1; transform: none; }   /* no hover on phones: text always visible */
+      .case__title { font-size: 16px; line-height: 24px; }
+      .case__tags { font-size: 14px; line-height: 22px; }
+      .case--all { flex-basis: calc(100vw - 120px); }
+
+      /* Testimonials */
+      .testimonials { padding: 96px 24px; }
+      .testimonials__inner { gap: 32px; }
+      .quotes__card { padding: 28px 24px; }
+      .quote__pull p:last-child { font-size: 23px; line-height: 28px; }
+      .quote__text { font-size: 15px; line-height: 25px; letter-spacing: 0.2px; }
+      .quote__by { font-size: 14px; line-height: 20px; }
+
+      /* Services */
+      .services { padding-bottom: 96px; }
+      .services__head { padding: 0 24px; gap: 12px; }
+      .services__row { margin-top: 28px; padding: 0 24px; scroll-padding: 0 24px; gap: 12px; }
+      .service { flex-basis: calc(100vw - 72px); height: 300px; padding: 28px 24px 32px; }
+      .service__title { font-size: 20px; line-height: 28px; }
+      .service__tags { font-size: 14px; line-height: 22px; }
+
+      /* What pulls me in */
+      .pulls { padding: 96px 24px; gap: 28px; }
+      .pulls__title { font-size: 36px; line-height: 38px; letter-spacing: -1px; }
+      .pulls__body { font-size: 15px; line-height: 25px; letter-spacing: 0.2px; }
+
+      /* Playground */
+      .playground { padding: 96px 0; }
+      .cascading-slider { max-width: calc(100% - 48px); margin-top: 36px; }
+      .cascading-slider__list { height: 320px; }
+      .cascading-slider__nav { margin-top: 24px; }
+
+      /* Footer */
+      .footer { padding-top: 96px; }
+      .footer__inner { max-width: calc(100% - 48px); gap: 40px; }
+      .footer__head { gap: 16px; }
+      .footer__title { font-size: 40px; line-height: 44px; letter-spacing: -1px; }
+      .footer__sub { font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
+      .booking { padding: 6px; min-height: 0; }
+      /* cal.com stacks month + time slots on phones, which makes a very long page.
+         Cap the box so people scroll inside it to find a slot (as on desktop). */
+      .booking__cal {
+        min-height: 0; height: 640px; max-height: 80vh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: auto;
+        /* Taller window, with the bottom edge fading so a partly-visible time slot signals "scroll for more" */
+        -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 44px), transparent);
+        mask-image: linear-gradient(to bottom, #000 calc(100% - 44px), transparent);
+      }
+      .booking__fallback { inset: 6px; }
+      .socials { margin-top: 40px; }
+      .footer__bar { max-width: calc(100% - 48px); margin-top: 56px; gap: 20px; font-size: 15px; line-height: 24px; }
+      .footer__nav { gap: 10px 20px; }
+      .footer__markwrap { margin-top: 48px; }
+    }
+
+    /* ================= Work pages ================= */
+    /* Nav as a floating pill (Fluid Intelligence pattern): 120px radius, translucent fill, 1px hairline, 12.5px blur */
+    .about-nav { position: sticky; top: 14px; z-index: 40; box-sizing: border-box; width: calc(100% - 32px); max-width: 1264px; height: 56px; margin: 14px auto 0; padding: 0 12px 0 28px; border: 1px solid rgba(20, 7, 0, .06); border-radius: 120px; background: rgba(248, 248, 247, .72); -webkit-backdrop-filter: blur(12.5px); backdrop-filter: blur(12.5px); transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1); }
+    html[data-theme="dark"] .about-nav { border-color: rgba(255, 255, 255, .04); background: rgba(255, 255, 255, .06); }
+    .about-nav .nav { height: 100%; padding-top: 0; }
+    .nav--tabs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .nav--tabs .nav__right { justify-self: end; }
+    .pill-tabs { display: flex; gap: 6px; }
+    .pill-tab { padding: 4px 12px; border: 1px solid var(--t-card-line); border-radius: 16px; background: transparent; color: var(--t-body); transition: color .7s, border-color .7s, background-color .3s; font-size: 14px; line-height: 24px; letter-spacing: 0.28px; white-space: nowrap; transition: background-color .3s ease; }
+    .pill-tab.is-active, .pill-tab:hover { background: var(--t-card); color: var(--t-head); }
+    .chip { display: inline-block; padding: 4px 12px; border: 1px solid #eaeaea; border-radius: 16px; background: #fff; color: #5e5855; font-size: 14px; line-height: 24px; letter-spacing: 0.28px; white-space: nowrap; }
+
+    /* --- index --- */
+    .wi-hero { display: flex; flex-direction: column; align-items: center; gap: 38px; padding: 164px 16px 0; text-align: center; }
+    .wi-hero__eyebrow { margin: 0; color: #757575; font-weight: 500; font-size: 16px; line-height: 20.8px; letter-spacing: -0.16px; }
+    .wi-hero__copy { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 650px; max-width: 100%; }
+    .wi-hero__title { margin: 0; width: 566px; max-width: 100%; font-size: 48px; line-height: 53px; letter-spacing: -1.44px; }
+    .wi-hero__sub { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .wi-list { display: flex; flex-direction: column; align-items: center; gap: 45px; margin-top: 148px; padding: 0 16px; }
+    .wcard { display: block; box-sizing: border-box; width: 1048px; max-width: 100%; padding: 60px 64px; border: 1px solid #eaeaea; border-radius: 16px; background: #fff; box-shadow: 0 16px 31px rgba(0, 0, 0, .06); transition: transform .7s var(--ease-out-expo), box-shadow .7s var(--ease-out-expo); }
+    .wcard:hover { transform: translateY(-4px); box-shadow: 0 24px 40px rgba(0, 0, 0, .09); }
+    .wcard__in { display: flex; align-items: center; gap: 73px; }
+    .wcard__img { flex: 0 0 389px; height: 422px; border-radius: 12px; overflow: hidden; background: #eee; }
+    .wcard__img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-out-expo); }
+    .wcard:hover .wcard__img img { transform: scale(1.04); }
+    .wcard__txt { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 33px; padding: 2px 0; }
+    .wcard__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 36px; line-height: 40px; letter-spacing: -0.7229px; color: #000; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+    .wcard__sub { margin: 0; color: #000; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+    .wcard__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #000; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; }
+    .wcard__cta svg { width: 14px; height: 14px; transition: transform .6s var(--ease-out-expo); }
+    .wcard:hover .wcard__cta svg { transform: translateX(4px); }
+    .wcard[hidden] { display: none; }
+    .wi-list { scroll-margin-top: 72px; }
+    .wi-list[hidden], .wi-gallery[hidden] { display: none; }
+    @media (min-width: 768px) { .wi-hero > .pill-tabs { display: none; } }
+    /* Gallery — Osmo infinite draggable grid, immersive: hero and footer step aside, page does not scroll */
+    html.view-gallery, html.view-gallery body { overflow: hidden; height: 100%; }
+    html.view-gallery .wi-hero, html.view-gallery .footer { display: none; }
+    html.view-gallery .about-nav { position: fixed; top: 14px; left: 50%; margin: 0; transform: translateX(-50%); }
+    .wi-gallery { position: relative; height: 100svh; margin: 0; padding: 0; }
+    .infinite-grid { touch-action: none; width: 100%; height: 100svh; position: relative; overflow: clip; cursor: grab; transition: opacity 0.5s ease; opacity: 1; }
+    .infinite-grid[hidden] { display: none; }
+    .infinite-grid[data-infinite-grid-status="loading"] { opacity: 0; }
+    .infinite-grid[data-infinite-grid-status="dragging"] { cursor: grabbing; }
+    .infinite-grid__collection { will-change: transform; width: 100%; height: 100%; position: absolute; }
+    .infinite-grid__list { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+    .infinite-grid__item { box-sizing: border-box; will-change: transform; backface-visibility: hidden; justify-content: center; align-items: center; width: 15em; padding: 2.25em; font-size: clamp(1.5em, 2vw, 3em); display: flex; position: absolute; top: 0; left: 0; }
+    .infinite-grid__card { -webkit-user-select: none; user-select: none; will-change: transform; backface-visibility: hidden; border-radius: .125em; width: 100%; height: 100%; position: relative; }
+    .infinite-grid__card-img { pointer-events: none; object-fit: contain; border-radius: inherit; width: 100%; height: 100%; position: absolute; background: var(--t-card); }
+    .wi-bar { position: fixed; left: 50%; bottom: 28px; z-index: 5; display: flex; gap: 6px; transform: translateX(-50%); }
+    .wi-chip { padding: 5px 14px; border: 1px solid var(--t-card-line); border-radius: 16px; background: rgba(20, 7, 0, .72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--t-body); font: inherit; font-size: 14px; line-height: 24px; letter-spacing: 0.28px; cursor: pointer; white-space: nowrap; transition: color .5s, border-color .5s, background-color .3s; }
+    .wi-chip.is-active, .wi-chip:hover { background: var(--t-card); color: var(--t-head); }
+    .wi-chip--back { display: none; }
+    .wi-lightbox { position: fixed; inset: 0; z-index: 70; background: rgba(20, 7, 0, 0); }
+    .wi-lightbox__fig { position: fixed; overflow: hidden; background: #1e1612; box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
+    .wi-lightbox__fig img, .wi-lightbox__fig video { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+    .wi-lightbox__close { position: fixed; top: 24px; right: 24px; z-index: 2; width: 52px; height: 52px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 100%; background: #f8f8f7; color: #000; cursor: pointer; transition: transform .6s var(--ease-out-expo); }
+    .wi-lightbox__close:hover { transform: rotate(90deg); }
+    .wi-lightbox__close, .wi-lightbox__close:focus, .wi-lightbox__close:focus-visible { outline: none; }
+    .wi-lightbox__close svg { width: 22px; height: 22px; }
+    .wi-more { display: flex; justify-content: center; margin-top: 56px; padding-bottom: 200px; }
+    .wi-more .btn-ghost { border: 0; cursor: pointer; font: inherit; font-size: 15px; background: #fff; }
+
+    /* --- detail --- */
+    .wd-head { width: 633px; max-width: calc(100% - 32px); margin: 0 auto; padding: 160px 16px 0; box-sizing: content-box; }
+    .wd-eyebrow { margin: 0 0 38px; color: #5e5855; font-weight: 500; font-size: 16px; line-height: 21px; letter-spacing: 0.16px; }
+    .wd-title { margin: 0 0 20px; font-size: 48px; line-height: 53px; letter-spacing: -1.44px; }
+    .wd-sub { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .wd-cap { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+    .wd-cap__label { color: #5e5855; font-weight: 600; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .wd-cap__chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .wd-carousel { margin-top: 64px; }
+    .wd-explore { box-sizing: border-box; flex: 0 0 auto; width: calc(472 * var(--u)); display: flex; flex-direction: column; justify-content: space-between; padding: 0 28px 28px; border: 0; background: #fff; color: #000; font: inherit; cursor: pointer; text-align: left; transition: transform .7s var(--ease-out-expo), box-shadow .7s ease; }
+    .wd-explore, .wd-explore:focus, .wd-explore:focus-visible { outline: none; }
+    .wd-explore:hover { transform: scale(1.004); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); }
+    .wd-explore__fan { position: relative; flex: 1; display: block; }
+    .wd-explore__fan img { position: absolute; left: 50%; top: 50%; width: 46%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; box-shadow: 0 10px 28px rgba(0, 0, 0, .14); transform: translate(-50%, -50%) rotate(var(--r, 0deg)); transition: transform .9s var(--ease-out-expo); }
+    .wd-explore__fan img:nth-child(1) { --r: -6deg; margin: -4% 0 0 -12%; }
+    .wd-explore__fan img:nth-child(2) { --r: 5deg; margin: 6% 0 0 12%; }
+    .wd-explore__fan img:nth-child(3) { --r: 1deg; z-index: 1; }
+    .wd-explore:hover .wd-explore__fan img:nth-child(1) { transform: translate(-70%, -58%) rotate(-9deg); }
+    .wd-explore:hover .wd-explore__fan img:nth-child(2) { transform: translate(-30%, -42%) rotate(8deg); }
+    .wd-explore__row { display: flex; align-items: center; justify-content: space-between; font-size: 15px; line-height: 20px; }
+    .wd-explore__row svg { width: 16px; height: 16px; }
+    .sheet--gallery .sheet__content { gap: 0; padding-top: 96px; }
+    .wd-media { display: block; width: 678px; max-width: calc(100% - 32px); margin: 55px auto 0; }
+    .wd-media img, .wd-strip img { display: block; width: 100%; height: auto; border-radius: 16px; background: #eee; }
+    /* Image groups are stacked: the whole case study reads as one long vertical scroll */
+    .wd-strip { display: flex; flex-direction: column; gap: 24px; width: 678px; max-width: calc(100% - 32px); margin: 64px auto 0; }
+    .wd-strip figure { margin: 0; }
+    .wd-info { display: flex; gap: 24px; width: 678px; max-width: calc(100% - 32px); box-sizing: border-box; margin: 78px auto 0; padding: 16px 20px; border: 1px solid #eaeaea; border-radius: 16px; background: rgba(255, 255, 255, .6); color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .wd-info > div { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; overflow-wrap: anywhere; }
+    .wcard__wl { display: block; width: fit-content; padding: 2px 10px; border: 1px solid #e8e5da; border-radius: 999px; color: #5e5855; font-size: 13px; line-height: 20px; letter-spacing: .26px; }
+    .wd-info b { font-weight: 600; }
+    .wd-info a { text-decoration: underline; text-underline-offset: 3px; }
+    .wd-text { width: 633px; max-width: calc(100% - 32px); margin: 106px auto 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .wd-text + .wd-text, .wd-text + .wd-strip + .wd-text { margin-top: 64px; }
+    .wd-text h4 { margin: 0 0 20px; font-weight: 600; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .wd-text h3 { margin: 0 0 20px; color: #000; font-family: var(--font-serif); font-weight: 400; font-size: 28px; line-height: 33px; letter-spacing: -0.56px; }
+    .wd-text p { margin: 0 0 27px; }
+    .wd-text > :last-child { margin-bottom: 0; }
+    .wd-more { margin-top: 160px; }
+    .wd-after { padding-bottom: 150px; }
+
+    @media (max-width: 767px) {
+      .nav--tabs { display: flex; } .nav--tabs .pill-tabs { display: none; }
+      .wi-hero { padding-top: 96px; gap: 28px; } .wi-hero__title { font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
+      .wi-list { margin-top: 64px; gap: 24px; }
+      .wcard { padding: 20px; } .wcard__in { flex-direction: column; align-items: stretch; gap: 24px; }
+      .wcard__img { flex: none; height: auto; aspect-ratio: 4 / 3; }
+      .wcard__title { font-size: 26px; line-height: 31px; } .wcard__txt { gap: 20px; }
+      .wi-more { padding-bottom: 96px; margin-top: 40px; }
+      .wi-bar { bottom: 20px; } .wi-chip--back { display: inline-block; } .wi-chip { padding: 4px 11px; font-size: 13px; }
+      .wd-head { padding-top: 64px; } .wd-title { font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
+      /* Phones (Collins pattern): one white card, two images stacked, and the "Explore the gallery" row inside it */
+      .wd-carousel { margin-top: 40px; padding: 0 16px; }
+      .wd-carousel .carousel { display: flex; flex-direction: column; gap: 12px; overflow: visible; margin: 0; padding: 14px; scroll-snap-type: none; background: #fff; border-radius: 24px; box-shadow: 0 16px 31px rgba(0, 0, 0, .06); cursor: pointer; }
+      .wd-carousel .carousel__card--work { display: none; width: 100%; height: auto; aspect-ratio: var(--ar); border-radius: 16px; }
+      .wd-carousel .carousel__card--work:nth-child(-n+2) { display: block; }
+      .wd-carousel .wd-explore { flex-direction: row; align-items: center; width: 100%; height: auto; padding: 8px 8px 4px; background: none; box-shadow: none; border-radius: 0; }
+      .wd-carousel .wd-explore:hover { transform: none; box-shadow: none; }
+      .wd-carousel .wd-explore__fan { display: none; }
+      .wd-carousel .wd-explore__row { width: 100%; font-size: 15px; }
+      .wd-media { margin-top: 40px; } .wd-info { flex-direction: column; gap: 14px; margin-top: 48px; }
+      .wd-strip { gap: 16px; margin-top: 40px; }
+      .wd-text { margin-top: 64px; } .wd-text h3 { font-size: 24px; line-height: 29px; }
+      .wd-more { margin-top: 96px; } .wd-after { padding-bottom: 96px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page" data-page>
+  <header class="about-nav">
+    <nav class="nav">
+        <a href="./" class="nav__brand">Disha Shah</a>
+        <div class="nav__right">
+          <a href="work/shweta-labs/#contact" class="nav__cta">Book a Discovery Call</a>
+          <button class="nav__menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-open><span></span></button>
+        </div>
+      </nav>
+  </header>
+
+  <main>
+  <article>
+    <header class="wd-head">
+      <p class="wd-eyebrow" data-intro>Shweta Labs (IIT Bombay)</p>
+      <h1 class="wd-title h-primary" data-intro>Brand and product narrative for a cybersecurity company</h1>
+      <p class="wd-sub" data-intro>Brand identity refresh, product strategy, and investor communication for a company building forensic investigation and criminal intelligence tools — founded by professionals from the Indian military and national cybercrime units.</p>
+      <div class="wd-cap" data-intro><span class="wd-cap__label">Capabilities</span><div class="wd-cap__chips"><span class="chip">Brand</span><span class="chip">Website</span><span class="chip">Research &amp; Strategy</span></div></div>
+    </header>
+    <div class="carousel-stage wd-carousel">
+    <div class="carousel" data-carousel>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/895"><img src="work/img/3AZtEQiuU6dZnZGCjfSHuf0w.webp" alt="Shweta Labs (IIT Bombay)" width="1500" height="895" loading="eager" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1236/649"><img src="work/img/j1F1bJr10pKwbUFEXHYUEoKrPU.webp" alt="Shweta Labs (IIT Bombay)" width="1236" height="649" loading="eager" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/570"><img src="work/img/znXHdvnSo646MI8pit2QhacQiM.webp" alt="Shweta Labs (IIT Bombay)" width="1500" height="570" loading="lazy" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/844"><img src="work/img/1HtNiYv7XNnFfGqrF0pbgExWb4.webp" alt="Shweta Labs (IIT Bombay)" width="1500" height="844" loading="lazy" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/844"><img src="work/img/W7cWiGO6zTWiz9fZexm7FBOByU.webp" alt="Shweta Labs (IIT Bombay)" width="1500" height="844" loading="lazy" draggable="false" /></article>
+      <button class="carousel__card wd-explore" type="button" data-sheet="gallery" aria-haspopup="dialog">
+        <span class="wd-explore__fan"><img src="work/img/bCpLjgQDruGPYhn4f32wPWzBoU8.webp" alt="" loading="lazy" /><img src="work/img/HSnKorMdjd3ENeg6DQ0pvuKVwRc.webp" alt="" loading="lazy" /><img src="work/img/j1F1bJr10pKwbUFEXHYUEoKrPU.webp" alt="" loading="lazy" /></span>
+        <span class="wd-explore__row"><span>Explore the gallery</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 2h4v4M6 14H2v-4M14 2l-4.5 4.5M2 14l4.5-4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+    </div>
+    </div>
+    <div class="wd-info" data-reveal><div><b>Industry</b><span>Cybersecurity</span></div><div><b>Client</b><span>Shweta Labs (IIT Bombay)</span></div></div>
+    <div class="wd-text" data-reveal>
+<h4>About</h4>
+<p>Shweta Labs builds forensic investigation and criminal intelligence tools. The ongoing work focuses on product strategy and narrative, supported by a refresh of the company’s brand identity.</p>
+<h4>Challenge</h4>
+<p>Explaining the technology required understanding the investigations it supports: how people work, what information they need, and where the tools fit. In a specialised and sensitive domain, desk research alone couldn’t provide that context.</p>
+<h4>Outcome</h4>
+<p>A clearer product narrative that connects technical capabilities to their role in an investigation. Conversations with domain experts, workflow mapping, and hands-on competitor demonstrations informed how the products are framed and explained.</p>
+<p>That understanding gives the team a foundation for communicating what each product does, where it fits into investigative work, and why its capabilities matter. It also informs the product concepts themselves — connecting strategy and communication to the realities of the domain. The brand refresh supports that narrative across the company’s materials.</p>
+</div>
+    <div class="wd-strip" data-reveal><figure><img src="work/img/bCpLjgQDruGPYhn4f32wPWzBoU8.webp" alt="" width="1500" height="577" loading="lazy" draggable="false" /></figure><figure><img src="work/img/HSnKorMdjd3ENeg6DQ0pvuKVwRc.webp" alt="" width="1440" height="859" loading="lazy" draggable="false" /></figure><figure><img src="work/img/j1F1bJr10pKwbUFEXHYUEoKrPU.webp" alt="" width="1236" height="649" loading="lazy" draggable="false" /></figure><figure><img src="work/img/q2E5utBESfc3iMRDBr7TwZhLZo.webp" alt="" width="1440" height="810" loading="lazy" draggable="false" /></figure></div>
+    <div class="wd-text" data-reveal>
+<p>For Shweta Labs, I worked on a focused brand identity refresh and helped build the product strategy &amp; communication foundation for a company operating in the highly specialised space of forensic investigation and criminal intelligence tools.</p>
+<p>The founding team includes professionals who have worked with the Indian military and national cybercrime units, building technology used in real investigative environments.</p>
+</div>
+    <div class="wd-strip" data-reveal><figure><img src="work/img/znXHdvnSo646MI8pit2QhacQiM.webp" alt="" width="1500" height="570" loading="lazy" draggable="false" /></figure><figure><img src="work/img/tevI9FYPlllmlmdmrNUVSD7Pgg.webp" alt="" width="1500" height="495" loading="lazy" draggable="false" /></figure><figure><img src="work/img/h1kqqG1IzJcnayKEJSQ2oso9jk.webp" alt="" width="1500" height="772" loading="lazy" draggable="false" /></figure><figure><img src="work/img/1HtNiYv7XNnFfGqrF0pbgExWb4.webp" alt="" width="1500" height="844" loading="lazy" draggable="false" /></figure><figure><img src="work/img/W7cWiGO6zTWiz9fZexm7FBOByU.webp" alt="" width="1500" height="844" loading="lazy" draggable="false" /></figure></div>
+    <div class="wd-text" data-reveal>
+<p>Because of the sensitivity and complexity of the domain, traditional desk research was rarely enough.</p>
+<p>Understanding the space required conversations with domain experts, mapping investigative workflows, and studying competitor tools through hands-on demonstrations. This helped translate highly technical investigative capabilities into clearer product concepts and communication.The logo had already been trademarked two years earlier, so the goal wasn’t to redesign it completely, but to carefully evolve it while preserving its legal and visual continuity.</p>
+<p>From there, I established the foundations of the brand system — defining typography, colour palette, visual patterns, and the broader brand language that could scale across different contexts.This extended into building a set of brand and marketing assets across both digital and physical touchpoints, helping ensure consistency in how the company presents itself to partners, institutions, and stakeholders.Alongside the brand work, I also worked closely with the founding team on investor pitch decks and product storytelling — helping shape how the product vision, technology, and roadmap are communicated.</p>
+<p>The work continues as an ongoing project, supporting both the evolution of the brand and the broader product narrative as the company grows.</p>
+</div>
+  </article>
+  <section class="work wd-more" aria-labelledby="more-title">
+    <div class="work__head" data-reveal>
+      <p class="eyebrow">Work Showcase</p>
+      <h2 id="more-title" class="work__title h-primary">More Case Studies</h2>
+    </div>
+    <div class="shelf" data-shelf>
+      <a class="case" href="work/investment-research-platform/" style="--i:0">
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/ALyPwJ9OCKtDzR71TyvMuH3Qw.webp" alt="Atlas" loading="lazy" /></div></div>
+        <div class="case__text">
+          <h3 class="case__title">Designing a research platform for PE/VCs where investment data becomes a decision.</h3>
+          <p class="case__tags">Atlas  ·  Product  ·  Whitelabelled</p>
+        </div>
+      </a>
+      <a class="case" href="work/geosynthesis/" style="--i:1">
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/qnoxdDxlhmtKB5s8ap7pLhl8k8.webp" alt="Geosynthesis" loading="lazy" /></div></div>
+        <div class="case__text">
+          <h3 class="case__title">Brand Identity System, Website &amp; Pitch Deck for a Geopolitical Advisory Firm</h3>
+          <p class="case__tags">Geosynthesis  ·  Brand</p>
+        </div>
+      </a>
+      <a class="case" href="work/nova/" style="--i:2">
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/YPT5W6mvgYhxAD3XZARKr2TWA.webp" alt="NovaAI" loading="lazy" /></div></div>
+        <div class="case__text">
+          <h3 class="case__title">GenAI Knowledge Mining Tool for VC &amp; PE Firms</h3>
+          <p class="case__tags">NovaAI  ·  Product  ·  Whitelabelled</p>
+        </div>
+      </a>
+      <a class="case" href="work/tithe/" style="--i:3">
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/LE7ujj3rLE8ZL3wPVPl94R9Qo.webp" alt="Tithe (Bright Studios)" loading="lazy" /></div></div>
+        <div class="case__text">
+          <h3 class="case__title">Making the cost of distraction tangible</h3>
+          <p class="case__tags">Tithe (Bright Studios)  ·  Product</p>
+        </div>
+      </a>
+      <a class="case" href="work/jobgurus/" style="--i:4">
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/9qPriYftinhuYDaasPJVZu9lGTM.webp" alt="JobGurus (Bright Studios)" loading="lazy" /></div></div>
+        <div class="case__text">
+          <h3 class="case__title">Designing a path-first product website for newcomers navigating the Canadian job market.</h3>
+          <p class="case__tags">JobGurus (Bright Studios)  ·  Website</p>
+        </div>
+      </a>
+      <a class="case" href="work/hotplate/" style="--i:5">
+        <div class="case__frame"><div class="case__thumb case__thumb--hotplate"><img src="img/cover-hotplate.png" alt="" loading="lazy" /><img class="hp-site" src="img/hotplate-site.webp" alt="Hotplate (YCS20) X Ancorpoint Studio" loading="lazy" /></div></div>
+        <div class="case__text">
+          <h3 class="case__title">Designing clarity into a new food business model — so the website sells without over-explaining</h3>
+          <p class="case__tags">Hotplate (YCS20) X Ancorpoint Studio  ·  Website</p>
+        </div>
+      </a>
+    </div>
+  </section>
+  <div class="wd-after"></div>
+  <footer class="footer" id="contact" data-theme="dark" aria-labelledby="footer-title">
+    <div class="footer__inner">
+      <div class="footer__head" data-reveal>
+        <p class="eyebrow--dark">Speak with Disha</p>
+        <div class="footer__copy">
+          <h2 id="footer-title" class="footer__title" style="width:740px">I’m drawn to the distance between interest and instinct.</h2>
+          <p class="footer__sub">Between trying something and relying on it.<br />Between a place in someone’s mind and a place in how they work and live.<br />And in building brand + product systems that hold this together.</p>
+        </div>
+      </div>
+      <div class="booking" data-booking data-reveal>
+        <div class="booking__cal" data-lenis-prevent id="cal-introduction-meeting"></div>
+        <div class="booking__fallback">
+          <p style="margin:0">Loading the calendar…</p>
+          <a class="btn-ghost" href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">Book an introduction call</a>
+        </div>
+      </div>
+    </div>
+    <div class="socials">
+      <a href="https://x.com/dishashah66" target="_blank" rel="noopener" aria-label="Disha on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z"/></svg></a>
+      <a href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener" aria-label="Disha on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h3.96V21H3V9.75Zm6.45 0h3.8v1.54h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V21h-3.96v-4.99c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21H9.45V9.75Z"/></svg></a>
+      <a href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener" aria-label="Disha on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="footer__bar">
+      <p class="footer__legal">© Vanya Studio 2026  ·  <a href="./#privacy">Privacy</a>  ·  <a href="./#terms">Terms</a></p>
+      <ul class="footer__nav">
+        <li><a href="about/">About</a></li>
+        <li><a href="./#services">Services</a></li>
+        <li><a href="work/">Work</a></li>
+        <li><a href="./#playground">Playground</a></li>
+        <li><a href="./#blog">Blog</a></li>
+        <li><a href="work/shweta-labs/#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer__markwrap" data-glow aria-hidden="true">
+      <img class="footer__mark" src="img/footer-wordmark.svg" alt="" width="1440" height="188" />
+      <div class="footer__glow"></div>
+    </div>
+  </footer>
+  </main>
+</div><!-- /.page -->
+<dialog class="sheet sheet--gallery" id="sheet-gallery" aria-label="Gallery" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>
+  <div class="sheet__content">
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="work/img/3AZtEQiuU6dZnZGCjfSHuf0w.webp" alt="" width="1500" height="895" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/bCpLjgQDruGPYhn4f32wPWzBoU8.webp" alt="" width="1500" height="577" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/HSnKorMdjd3ENeg6DQ0pvuKVwRc.webp" alt="" width="1440" height="859" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/j1F1bJr10pKwbUFEXHYUEoKrPU.webp" alt="" width="1236" height="649" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/q2E5utBESfc3iMRDBr7TwZhLZo.webp" alt="" width="1440" height="810" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/znXHdvnSo646MI8pit2QhacQiM.webp" alt="" width="1500" height="570" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/tevI9FYPlllmlmdmrNUVSD7Pgg.webp" alt="" width="1500" height="495" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/h1kqqG1IzJcnayKEJSQ2oso9jk.webp" alt="" width="1500" height="772" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/1HtNiYv7XNnFfGqrF0pbgExWb4.webp" alt="" width="1500" height="844" loading="lazy" /></figure>
+        <figure class="sheet__fig"><img src="work/img/W7cWiGO6zTWiz9fZexm7FBOByU.webp" alt="" width="1500" height="844" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
+
+
+
+
+
+
+  <!-- Menu — arc reveal (see arc.js) -->
+  <nav class="menu" id="menu" data-menu inert aria-hidden="true" aria-label="Menu">
+    <div class="menu__trail" data-menu-trail aria-hidden="true"></div>
+    <div class="menu__inner">
+      <div class="menu__top">
+        <a class="menu__brand" href="./">Disha Shah</a>
+        <button class="menu__close" type="button" data-menu-close aria-label="Close menu"><span>Close</span><span class="menu__burger" aria-hidden="true"></span></button>
+      </div>
+      <div class="menu__body">
+        <div class="menu__row">
+          <div class="menu__links">
+            <ul class="menu__list">
+              <li class="menu__item" style="--i:1"><a class="menu__link" data-trail="home" href="./">Home</a></li>
+              <li class="menu__item" style="--i:2"><a class="menu__link" data-trail="about" href="about/">About</a></li>
+              <li class="menu__item" style="--i:3"><a class="menu__link" data-trail="work" href="work/">Work</a></li>
+              <li class="menu__item" style="--i:4"><a class="menu__link" data-trail="contact" href="work/shweta-labs/#contact">Contact</a></li>
+            </ul>
+            <div class="menu__group menu__item" style="--i:5">
+              <p class="menu__label">Services</p>
+              <ul class="menu__subs">
+                <li><a class="menu__sub" href="./#services">Brand Design</a></li>
+                <li><a class="menu__sub" href="services/product-design/">Product Design</a></li>
+                <li><a class="menu__sub" href="./#services">Design Systems</a></li>
+                <li><a class="menu__sub" href="./#services">Website &amp; Decks</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="menu__foot menu__item" style="--i:6">
+        <div class="menu__social">
+          <a class="menu__sub" href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener">Linkedin</a>
+          <a class="menu__sub" href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener">Instagram</a>
+          <a class="menu__sub" href="https://x.com/dishashah66" target="_blank" rel="noopener">X (Twitter)</a>
+        </div>
+        <a class="menu__cta" href="work/shweta-labs/#contact">Book a Discovery Call <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Osmo Supply — Dynamic Text Cursor -->
+  <div data-cursor="" class="cursor">
+    <div class="cursor-bubble">
+      <span data-cursor-text-target="" class="cursor-bubble__text">Cursor Text</span>
+    </div>
+  </div>
+
+  <script>
+    function initCarouselDrag() {
+      const track = document.querySelector('[data-carousel]');
+      if (!track) return;
+      let startX = 0, startScroll = 0, down = false, moved = false;
+      // A drag shouldn't count as a click on the card underneath
+      track.addEventListener('click', (e) => { if (moved) e.preventDefault(); }, true);
+      track.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        down = true;
+        moved = false;
+        startX = e.clientX;
+        startScroll = track.scrollLeft;
+      });
+      track.addEventListener('pointermove', (e) => {
+        if (!down) return;
+        if (!moved && Math.abs(e.clientX - startX) > 5) {
+          // only a real drag takes over the pointer, so a plain click still reaches buttons inside
+          moved = true;
+          track.classList.add('is-dragging');
+          try { track.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+        if (moved) track.scrollLeft = startScroll - (e.clientX - startX);
+      });
+      const end = () => { down = false; track.classList.remove('is-dragging'); };
+      track.addEventListener('pointerup', end);
+      track.addEventListener('pointercancel', end);
+    }
+
+    // Collins-style appear. The first two gallery images open up together as
+    // you scroll the first ~70% of a viewport (and close again scrolling up);
+    // the logos rise in once they're about a third of the way open.
+    function initAppear() {
+      const root = document.documentElement;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      root.classList.add('motion');
+
+      document.querySelectorAll('[data-intro]').forEach((el, i) => el.style.setProperty('--i', i));
+      // Two frames so the hidden state paints first; the timer covers throttled/background tabs
+      const intro = () => root.classList.add('is-loaded');
+      const wait = (window.__arcDelay || 0) * 1000;
+      setTimeout(() => { requestAnimationFrame(() => requestAnimationFrame(intro)); setTimeout(intro, 120); }, wait);
+
+      const track = document.querySelector('[data-carousel]');
+      const later = [...document.querySelectorAll('[data-appear]')];
+      later.forEach((el, i) => el.style.setProperty('--i', Math.min(i, 6)));
+
+      let shown = false;
+      function update() {
+        const t = Math.min(Math.max(window.scrollY / (window.innerHeight * 0.7), 0), 1);
+        const p = 1 - Math.pow(1 - t, 1.4); // gentle ease-out, matches Collins' curve
+        if (track) track.style.setProperty('--p', p.toFixed(4));
+        if (!shown && p > 0.32) {
+          shown = true;
+          later.forEach(el => el.classList.add('is-in'));
+        }
+      }
+      // Update straight from scroll (one style write) so it never waits on a frame
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    }
+
+    // Sections rise in as they scroll into view; the work shelf opens its
+    // cards one after another (Collins' case-study shelf)
+    function initReveal() {
+      if (!document.documentElement.classList.contains('motion')) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        });
+      }, { rootMargin: '0px 0px -12% 0px' });
+      document.querySelectorAll('[data-reveal], [data-shelf]').forEach(el => io.observe(el));
+      // Stagger siblings that reveal together
+      document.querySelectorAll('.problem [data-reveal]').forEach((el, i) => el.style.setProperty('--i', i));
+    }
+
+    // Collins' light/dark swap: while a [data-theme="dark"] section crosses the
+    // middle of the screen the whole page takes the dark palette, then eases back.
+    function initTheme() {
+      const root = document.documentElement;
+      const dark = new Set();
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => e.isIntersecting ? dark.add(e.target) : dark.delete(e.target));
+        if (dark.size) root.dataset.theme = 'dark'; else delete root.dataset.theme;
+      }, { rootMargin: '-50% 0px -50% 0px' });
+      document.querySelectorAll('[data-theme="dark"]').forEach(el => io.observe(el));
+    }
+
+    function initQuotes() {
+      const root = document.querySelector('[data-quotes]');
+      if (!root) return;
+      const slides = [...root.querySelectorAll('[data-quote]')];
+      const dots = [...root.querySelectorAll('.dots button')];
+      dots.forEach(d => { d.innerHTML = '<i><b></b></i>'; });
+      const INTERVAL = 7000;
+      root.style.setProperty('--dur', INTERVAL + 'ms');
+      let i = 0, timer;
+      // Restart the active bar from empty (re-adding the attribute re-triggers the animation)
+      function restartBar() {
+        const b = dots[i].querySelector('b');
+        b.style.animation = 'none'; void b.offsetWidth; b.style.animation = '';
+      }
+      const card = root.querySelector('.quotes__card');
+      function fit() {
+        const cs = getComputedStyle(card);
+        const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+        card.style.height = (slides[i].offsetHeight + pad) + 'px';
+      }
+      function go(n) {
+        i = (n + slides.length) % slides.length;
+        slides.forEach((s, k) => { s.classList.toggle('is-active', k === i); s.setAttribute('aria-hidden', String(k !== i)); });
+        dots.forEach((d, k) => d.setAttribute('aria-current', String(k === i)));
+        fit();
+        restartBar();
+      }
+      window.addEventListener('resize', fit);
+      document.fonts && document.fonts.ready.then(fit);
+      fit();
+      const play = () => { clearInterval(timer); root.classList.remove('is-paused'); restartBar(); timer = setInterval(() => go(i + 1), INTERVAL); };
+      dots.forEach((d, k) => d.addEventListener('click', () => { go(k); play(); }));
+      root.addEventListener('mouseenter', () => { clearInterval(timer); root.classList.add('is-paused'); });
+      root.addEventListener('mouseleave', play);
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) play();
+    }
+
+    // cal.com inline booking, loaded only when the footer gets close, themed
+    // with the site's dark palette (#140700 / #1e1612 / #f8f8f7)
+    function initBooking() {
+      const box = document.querySelector('[data-booking]');
+      if (!box) return;
+      let started = false;
+      function load() {
+        if (started) return;
+        started = true;
+        (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", "introduction-meeting", { origin: "https://cal.com" });
+        Cal.ns["introduction-meeting"]("inline", {
+          elementOrSelector: "#cal-introduction-meeting",
+          calLink: "dishashah/introduction-meeting",
+          config: { layout: "month_view", theme: "dark" }
+        });
+        Cal.ns["introduction-meeting"]("ui", {
+          theme: "dark",
+          hideEventTypeDetails: false,
+          layout: "month_view",
+          cssVarsPerTheme: {
+            dark: {
+              "cal-brand": "#f8f8f7",
+              "cal-brand-emphasis": "#ffffff",
+              "cal-brand-text": "#140700",
+              "cal-bg": "#1e1612",
+              "cal-bg-muted": "#1e1612",
+              "cal-bg-subtle": "#261d18",
+              "cal-bg-emphasis": "#2c221d",
+              "cal-border": "#3b3434",
+              "cal-border-subtle": "#2f2724",
+              "cal-border-emphasis": "#574c48",
+              "cal-text": "#f8f8f7",
+              "cal-text-emphasis": "#f8f8f7",
+              "cal-text-subtle": "#d0d0c8",
+              "cal-text-muted": "#9a9a9a",
+              "cal-radius": "16px",
+              "cal-radius-md": "16px",
+              "cal-radius-lg": "20px",
+              "cal-radius-xl": "24px"
+            }
+          }
+        });
+        const done = () => box.classList.add('is-loaded');
+        Cal.ns["introduction-meeting"]("on", { action: "linkReady", callback: done });
+        // Backup: hide the placeholder as soon as the calendar iframe has loaded
+        new MutationObserver((_, mo) => {
+          const f = box.querySelector('iframe');
+          if (f) { f.addEventListener('load', done, { once: true }); mo.disconnect(); }
+        }).observe(box, { childList: true, subtree: true });
+      }
+      new IntersectionObserver(([e], io) => { if (e.isIntersecting) { load(); io.disconnect(); } }, { rootMargin: '600px 0px' }).observe(box);
+    }
+
+    // Playground videos (incl. the slider's clones) play only while it's on screen
+    function initPlayVideos() {
+      const wrap = document.querySelector('[data-cascading-slider-wrap]');
+      if (!wrap) return;
+      new IntersectionObserver(([e]) => {
+        wrap.querySelectorAll('[data-play-video]').forEach(v => {
+          if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+        });
+      }, { threshold: 0.15 }).observe(wrap);
+    }
+
+    // Opens a slide's page (data-href) when its card is the active one
+    function initSlideLinks() {
+      const wrap = document.querySelector('[data-cascading-viewport]');
+      if (!wrap) return;
+      wrap.addEventListener('click', (e) => {
+        const slide = e.target.closest('[data-cascading-slide][data-href]');
+        if (slide && slide.dataset.status === 'active') { window.arcGo ? window.arcGo(slide.dataset.href) : (window.location.href = slide.dataset.href); }
+      });
+    }
+
+    // What the cursor shows over each slide: arrow toward a collapsed card, the label
+    // on the active fireflies card, nothing on other active cards.
+    function initCursorIcons() {
+      const vp = document.querySelector('[data-cascading-viewport]');
+      const bubble = document.querySelector('.cursor-bubble');
+      const target = document.querySelector('[data-cursor-text-target]');
+      if (!vp || !bubble || !target || !window.gsap) return;
+      new MutationObserver(() => {
+        const t = target.textContent.trim();
+        if (t === '←') bubble.dataset.icon = 'left';
+        else if (t === '→') bubble.dataset.icon = 'right';
+        else delete bubble.dataset.icon;
+      }).observe(target, { childList: true, characterData: true, subtree: true });
+      vp.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        const slide = e.target.closest('[data-cascading-slide]');
+        if (!slide) return;
+        if (slide.dataset.status === 'active') {
+          if (slide.dataset.href) { slide.setAttribute('data-cursor-hover', ''); slide.setAttribute('data-cursor-text', 'Play with fireflies'); }
+          else slide.removeAttribute('data-cursor-hover');
+        } else {
+          const act = vp.querySelector('[data-status="active"]');
+          const left = act ? gsap.getProperty(slide, 'x') < gsap.getProperty(act, 'x') : false;
+          slide.setAttribute('data-cursor-hover', '');
+          slide.setAttribute('data-cursor-text', left ? '←' : '→');
+        }
+      }, true);
+    }
+
+    // Footer: a firefly-coloured glow follows the cursor inside the DISHA SHAH letters,
+    // and the cursor leaves a little trail of sparkles (same star shape as the fireflies page)
+    function initFooterGlow() {
+      const footer = document.querySelector('.footer');
+      const wrap = document.querySelector('[data-glow]');
+      const glow = wrap && wrap.querySelector('.footer__glow');
+      if (!footer || !glow || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, last = null, alive = 0;
+      const STAR = 'M0 -4.2C.5 -.9 .9 -.5 4.2 0C.9 .5 .5 .9 0 4.2C-.5 .9 -.9 .5 -4.2 0C-.9 -.5 -.5 -.9 0 -4.2Z';
+      const frame = () => {                       // ease the glow toward the pointer so it trails softly
+        cx += (tx - cx) * 0.18; cy += (ty - cy) * 0.18;
+        glow.style.setProperty('--mx', cx + 'px'); glow.style.setProperty('--my', cy + 'px');
+        raf = (Math.abs(tx - cx) + Math.abs(ty - cy) > 0.5) ? requestAnimationFrame(frame) : 0;
+      };
+      function spark(x, y) {
+        if (alive > 36) return;
+        alive++;
+        const el = document.createElement('span');
+        el.className = 'spark';
+        el.innerHTML = '<svg viewBox="-4.4 -4.4 8.8 8.8"><path d="' + STAR + '"/></svg>';
+        const a = Math.random() * Math.PI * 2, d = 14 + Math.random() * 26;
+        el.style.left = x + 'px'; el.style.top = y + 'px';
+        el.style.setProperty('--dx', Math.cos(a) * d + 'px');
+        el.style.setProperty('--dy', (Math.sin(a) * d + 14 + Math.random() * 16) + 'px');   // drifts down a little
+        el.style.setProperty('--r', (Math.random() * 180 - 90) + 'deg');
+        el.style.setProperty('--s', (0.5 + Math.random() * 0.8).toFixed(2));
+        el.style.setProperty('--t', (0.8 + Math.random() * 0.6).toFixed(2) + 's');
+        el.style.width = el.style.height = (7 + Math.random() * 7) + 'px';
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => { el.remove(); alive--; });
+      }
+      footer.addEventListener('mousemove', (e) => {
+        const r = wrap.getBoundingClientRect();
+        tx = e.clientX - r.left; ty = e.clientY - r.top;
+        const over = e.clientY > r.top - 140 && e.clientY < r.bottom;       // near / over the wordmark
+        glow.classList.toggle('is-on', over);
+        if (!raf) { if (!glow.classList.contains('is-on')) { cx = tx; cy = ty; } raf = requestAnimationFrame(frame); }
+        if (!last || Math.hypot(e.clientX - last.x, e.clientY - last.y) > 22) {    // one sparkle every ~22px
+          if (over) spark(e.clientX, e.clientY);
+          last = { x: e.clientX, y: e.clientY };
+        }
+      });
+      footer.addEventListener('mouseleave', () => { glow.classList.remove('is-on'); last = null; });
+    }
+
+
+
+    function initLogos() {
+      // Duplicate once so the -50% loop is seamless (every logo row on the page)
+      document.querySelectorAll('[data-logos]').forEach(track => {
+        [...track.children].forEach(t => {
+          const c = t.cloneNode(true);
+          c.setAttribute('aria-hidden', 'true');
+          track.appendChild(c);
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initCarouselDrag();
+      initLogos();
+      initAppear();
+      initReveal();
+      initTheme();
+      initQuotes();
+      initBooking();
+      initPlayVideos();
+      initSlideLinks();
+      initCursorIcons();
+      initFooterGlow();
+    });
+  </script>
+  <script>
+    // Osmo Supply — Cascading Slider (resource code, unchanged except the
+    // desktop breakpoint, set to Figma's 694px / 145px cards in a 1264px row)
+    function initCascadingSlider() {
+
+      const duration = 0.65;
+      const ease = 'power3.inOut';
+
+      const breakpoints = [
+        { maxWidth: 479, activeWidth: 0.78, siblingWidth: 0.08 },
+        { maxWidth: 767, activeWidth: 0.70, siblingWidth: 0.10 },
+        { maxWidth: 991, activeWidth: 0.60, siblingWidth: 0.10 },
+        { maxWidth: Infinity, activeWidth: 0.549, siblingWidth: 0.115 },
+      ];
+
+      const wrappers = document.querySelectorAll('[data-cascading-slider-wrap]');
+      wrappers.forEach(setupInstance);
+
+      function setupInstance(wrapper) {
+        const viewport = wrapper.querySelector('[data-cascading-viewport]');
+        const prevButton = wrapper.querySelector('[data-cascading-slider-prev]');
+        const nextButton = wrapper.querySelector('[data-cascading-slider-next]');
+        const slides = Array.from(viewport.querySelectorAll('[data-cascading-slide]'));
+        let totalSlides = slides.length;
+
+        if (totalSlides === 0) return;
+
+        if (totalSlides < 9) {
+          const originalSlides = slides.slice();
+          while (slides.length < 9) {
+            originalSlides.forEach(function(original) {
+              const clone = original.cloneNode(true);
+              clone.setAttribute('data-clone', '');
+              viewport.appendChild(clone);
+              slides.push(clone);
+            });
+          }
+          totalSlides = slides.length;
+        }
+
+        let activeIndex = 0;
+        let isAnimating = false;
+        let slideWidth = 0;
+        let slotCenters = {};
+        let slotWidths = {};
+
+        function readGap() {
+          const raw = getComputedStyle(viewport).getPropertyValue('--gap').trim();
+          if (!raw) return 0;
+          const temp = document.createElement('div');
+          temp.style.width = raw;
+          temp.style.position = 'absolute';
+          temp.style.visibility = 'hidden';
+          viewport.appendChild(temp);
+          const px = temp.offsetWidth;
+          viewport.removeChild(temp);
+          return px;
+        }
+
+        function getSettings() {
+          const windowWidth = window.innerWidth;
+          for (let i = 0; i < breakpoints.length; i++) {
+            if (windowWidth <= breakpoints[i].maxWidth) return breakpoints[i];
+          }
+          return breakpoints[breakpoints.length - 1];
+        }
+
+        function getOffset(slideIndex, fromIndex) {
+          if (fromIndex === undefined) fromIndex = activeIndex;
+          let distance = slideIndex - fromIndex;
+          const half = totalSlides / 2;
+          if (distance > half) distance -= totalSlides;
+          if (distance < -half) distance += totalSlides;
+          return distance;
+        }
+
+        function measure() {
+          const settings = getSettings();
+          const viewportWidth = viewport.offsetWidth;
+          const gap = readGap();
+
+          const activeSlideWidth = viewportWidth * settings.activeWidth;
+          const siblingSlideWidth = viewportWidth * settings.siblingWidth;
+          const farSlideWidth = Math.max(0, (viewportWidth - activeSlideWidth - 2 * siblingSlideWidth - 4 * gap) / 2);
+
+          slideWidth = activeSlideWidth;
+
+          const visibleSlots = [
+            { slot: -2, width: farSlideWidth },
+            { slot: -1, width: siblingSlideWidth },
+            { slot: 0, width: activeSlideWidth },
+            { slot: 1, width: siblingSlideWidth },
+            { slot: 2, width: farSlideWidth },
+          ];
+
+          let x = 0;
+          visibleSlots.forEach(function(def, i) {
+            slotCenters[String(def.slot)] = x + def.width / 2;
+            slotWidths[String(def.slot)] = def.width;
+            if (i < visibleSlots.length - 1) x += def.width + gap;
+          });
+
+          slotCenters['-3'] = slotCenters['-2'] - farSlideWidth / 2 - gap - farSlideWidth / 2;
+          slotWidths['-3'] = farSlideWidth;
+          slotCenters['3'] = slotCenters['2'] + farSlideWidth / 2 + gap + farSlideWidth / 2;
+          slotWidths['3'] = farSlideWidth;
+
+          slides.forEach(function(slide) {
+            slide.style.width = slideWidth + 'px';
+          });
+        }
+
+        function getSlideProps(offset) {
+          const clamped = Math.max(-3, Math.min(3, offset));
+          const slotWidth = slotWidths[String(clamped)];
+          const clipAmount = Math.max(0, (slideWidth - slotWidth) / 2);
+          const translateX = slotCenters[String(clamped)] - slideWidth / 2;
+
+          return {
+            x: translateX,
+            '--clip': clipAmount,
+            zIndex: 10 - Math.abs(clamped),
+          };
+        }
+
+        function layout(animate, previousIndex) {
+          slides.forEach(function(slide, index) {
+            const offset = getOffset(index);
+
+            if (offset < -3 || offset > 3) {
+              if (animate && previousIndex !== undefined) {
+                const previousOffset = getOffset(index, previousIndex);
+                if (previousOffset >= -2 && previousOffset <= 2) {
+                  const exitSlot = previousOffset < 0 ? -3 : 3;
+                  gsap.to(slide, Object.assign({}, getSlideProps(exitSlot), {
+                    duration: duration,
+                    ease: ease,
+                    overwrite: true,
+                  }));
+                  return;
+                }
+              }
+
+              const parkSlot = offset < 0 ? -3 : 3;
+              gsap.set(slide, getSlideProps(parkSlot));
+              return;
+            }
+
+            const props = getSlideProps(offset);
+            slide.setAttribute('data-status', offset === 0 ? 'active' : 'inactive');
+
+            if (animate) {
+              gsap.to(slide, Object.assign({}, props, {
+                duration: duration,
+                ease: ease,
+                overwrite: true,
+              }));
+            } else {
+              gsap.set(slide, props);
+            }
+          });
+        }
+
+        function goTo(targetIndex) {
+          const normalizedTarget = ((targetIndex % totalSlides) + totalSlides) % totalSlides;
+          if (isAnimating || normalizedTarget === activeIndex) return;
+          isAnimating = true;
+
+          const previousIndex = activeIndex;
+          const travelDirection = getOffset(normalizedTarget, previousIndex) > 0 ? 1 : -1;
+
+          slides.forEach(function(slide, index) {
+            const currentOffset = getOffset(index, previousIndex);
+            const nextOffset = getOffset(index, normalizedTarget);
+            const wasInRange = currentOffset >= -3 && currentOffset <= 3;
+            const willBeVisible = nextOffset >= -2 && nextOffset <= 2;
+
+            if (!wasInRange && willBeVisible) {
+              const entrySlot = travelDirection > 0 ? 3 : -3;
+              gsap.set(slide, getSlideProps(entrySlot));
+            }
+
+            const wasInvisible = Math.abs(currentOffset) >= 3;
+            const willBeStaging = Math.abs(nextOffset) === 3;
+            const crossesSides = currentOffset * nextOffset < 0;
+            if (wasInvisible && willBeStaging && crossesSides) {
+              gsap.set(slide, getSlideProps(nextOffset > 0 ? 3 : -3));
+            }
+          });
+
+          activeIndex = normalizedTarget;
+          layout(true, previousIndex);
+          gsap.delayedCall(duration + 0.05, function() { isAnimating = false; });
+        }
+
+        if (prevButton) prevButton.addEventListener('click', function() { goTo(activeIndex - 1); });
+        if (nextButton) nextButton.addEventListener('click', function() { goTo(activeIndex + 1); });
+
+        slides.forEach(function(slide, index) {
+          slide.addEventListener('click', function() {
+            if (index !== activeIndex) goTo(index);
+          });
+        });
+
+        document.addEventListener('keydown', function(event) {
+          if (event.key === 'ArrowLeft') goTo(activeIndex - 1);
+          if (event.key === 'ArrowRight') goTo(activeIndex + 1);
+        });
+
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(function() {
+            measure();
+            layout(false);
+          }, 100);
+        });
+
+        measure();
+        layout(false);
+      }
+    }
+
+    // Initialize Cascading Slider
+    document.addEventListener('DOMContentLoaded', function() {
+      initCascadingSlider();
+    });
+
+  </script>
+  <script>
+    function initDynamicTextCursor() {
+      const cursor = document.querySelector("[data-cursor]");
+      const cursorTextTarget = document.querySelector("[data-cursor-text-target]");
+
+      if (!cursor || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+      let mouseX = 0;
+      let mouseY = 0;
+      let hasMouseMoved = false;
+
+      const xTo = gsap.quickTo(cursor, "x", {duration: 0.4, ease: "power3.out"});
+      const yTo = gsap.quickTo(cursor, "y", {duration: 0.4, ease: "power3.out"});
+
+      function updateCursor() {
+        const hoverItem = document.elementFromPoint(mouseX, mouseY)?.closest("[data-cursor-hover]");
+        const rect = cursor.getBoundingClientRect();
+
+        const isHovering = !!hoverItem;
+        const isEdge = rect.right >= window.innerWidth;
+
+        cursor.setAttribute("data-cursor", isHovering ? (isEdge ? "active-edge" : "active") : "");
+
+        if (hoverItem && cursorTextTarget) {
+          const text = hoverItem.getAttribute("data-cursor-text");
+          if (text) cursorTextTarget.textContent = text;
+        }
+      }
+
+      window.addEventListener("mousemove", (event) => {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+        hasMouseMoved = true;
+
+        xTo(mouseX);
+        yTo(mouseY);
+
+        requestAnimationFrame(updateCursor);
+      });
+
+      window.addEventListener("scroll", () => {
+        if (!hasMouseMoved) return;
+        requestAnimationFrame(updateCursor);
+      }, { passive: true });
+    }
+
+    // Initialize Dynamic Text Cursor
+    document.addEventListener("DOMContentLoaded", () => {
+      initDynamicTextCursor();
+    });
+  </script>
+    <script>
+    // Sheets: page pushes back, dialog rises from the bottom (Collins gallery pattern)
+    (function () {
+      var root = document.documentElement, page = document.querySelector('[data-page]'), active = null, busy = false, lastFocus = null;
+      function origin() {
+        if (!page) return;
+        var y = window.scrollY;
+        page.style.transformOrigin = '50% ' + y + 'px';
+        // the pushed-back page is the visible screen only, with rounded corners, like a card stepping back
+        page.style.clipPath = 'inset(' + y + 'px 0 ' + Math.max(0, page.offsetHeight - y - window.innerHeight) + 'px 0 round 24px)';
+      }
+      var fromUrl = false;
+      function open(d) {
+        if (active || busy || typeof d.showModal !== 'function') return;
+        busy = true; active = d; lastFocus = document.activeElement;
+        origin(); root.classList.add('sheet-anim'); d.scrollTop = 0;
+        d.querySelectorAll('.sheet__fig').forEach(function (f, i) { f.style.setProperty('--i', i); });
+        d.showModal();
+        if (!fromUrl) { try { history.pushState({ sheet: d.id }, '', location.pathname + '?sheet=' + d.id.replace('sheet-', '')); } catch (e) {} }
+        if (window.lenis) window.lenis.stop();
+        d.getBoundingClientRect();                 // commit the start position
+        requestAnimationFrame(function () { root.classList.add('sheet-open'); d.classList.add('is-open'); });
+        setTimeout(function () { busy = false; var c = d.querySelector('.sheet__close'); if (c) c.focus({ preventScroll: true }); }, 900);
+      }
+      function close(fromPop) {
+        if (!active || busy) return;
+        var d = active; busy = true;
+        if (fromPop !== true && history.state && history.state.sheet) { busy = false; try { history.back(); return; } catch (e) {} }
+        root.classList.remove('sheet-open'); d.classList.remove('is-open');
+        setTimeout(function () {
+          d.close(); active = null; busy = false;
+          root.classList.remove('sheet-anim');
+          if (page) { page.style.transformOrigin = ''; page.style.clipPath = ''; }
+          if (window.lenis) window.lenis.start();
+          if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+        }, 1000);
+      }
+      window.addEventListener('popstate', function () {
+        var q = new URLSearchParams(location.search).get('sheet');
+        if (active && !q) close(true);
+        else if (!active && q) { var t = document.getElementById('sheet-' + q); if (t) { fromUrl = true; open(t); fromUrl = false; } }
+      });
+      document.querySelectorAll('[data-sheet]').forEach(function (b) {
+        b.addEventListener('click', function () { var d = document.getElementById('sheet-' + b.getAttribute('data-sheet')); if (d) open(d); });
+      });
+      document.querySelectorAll('dialog.sheet').forEach(function (d) {
+        d.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
+        d.querySelectorAll('[data-sheet-close]').forEach(function (b) { b.addEventListener('click', close); });
+        // drawer on phones: pull down from the top to dismiss
+        var sy = 0, dy = 0, pulling = false;
+        d.addEventListener('touchstart', function (e) { sy = e.touches[0].clientY; dy = 0; pulling = false; }, { passive: true });
+        d.addEventListener('touchmove', function (e) {
+          var y = e.touches[0].clientY - sy;
+          if (!pulling && (y <= 6 || d.scrollTop > 0)) return;
+          pulling = true; dy = Math.max(0, y);
+          e.preventDefault();
+          d.style.transition = 'none'; d.style.transform = 'translateY(' + dy + 'px)';
+        }, { passive: false });
+        d.addEventListener('touchend', function () {
+          if (!pulling) return;
+          pulling = false; d.style.transition = ''; d.style.transform = '';
+          if (dy > 110) close();               // keeps the pull position and slides the rest of the way down
+        });
+      });
+      var q0 = new URLSearchParams(location.search).get('sheet');
+      if (q0) { var t0 = document.getElementById('sheet-' + q0); if (t0) setTimeout(function () { fromUrl = true; open(t0); fromUrl = false; }, 600); }
+    })();
+  </script>
+  <script>
+    // Lenis: inertial smooth scroll on every page (off for reduced motion); paused while the menu is open
+    (function () {
+      if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var lenis = new Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
+      window.lenis = lenis;
+      function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+      requestAnimationFrame(raf);
+      new MutationObserver(function () {
+        if (document.documentElement.classList.contains('menu-open')) lenis.stop(); else lenis.start();
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    })();
+  </script>
+  <script src="arc.js?v=2"></script>
+<script>(function(){var c=document.querySelector('.wd-carousel .carousel');if(!c)return;c.addEventListener('click',function(e){if(!matchMedia('(max-width:767px)').matches||e.target.closest('.wd-explore'))return;var b=c.querySelector('.wd-explore');if(b)b.click();});})();</script></body>
+</html>
