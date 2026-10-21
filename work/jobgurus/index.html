@@ -1115,6 +1115,7 @@
     .wd-cap__label { color: #5e5855; font-weight: 600; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .wd-cap__chips { display: flex; flex-wrap: wrap; gap: 6px; }
     .wd-carousel { margin-top: 64px; }
+    @media (min-width: 768px) { .motion .wd-carousel .carousel[data-reveal] { opacity: 1; transform: none; transition: none; } }
     .wd-explore { box-sizing: border-box; flex: 0 0 auto; width: calc(472 * var(--u)); display: flex; flex-direction: column; justify-content: space-between; padding: 0 28px 28px; border: 0; background: #fff; color: #000; font: inherit; cursor: pointer; text-align: left; transition: transform .7s var(--ease-out-expo), box-shadow .7s ease; }
     .wd-explore, .wd-explore:focus, .wd-explore:focus-visible { outline: none; }
     .wd-explore:hover { transform: scale(1.004); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); }
@@ -1157,6 +1158,10 @@
       .wi-more { padding-bottom: 96px; margin-top: 40px; }
       .wi-bar { bottom: 20px; } .wi-chip--back { display: inline-block; } .wi-chip { padding: 4px 11px; font-size: 13px; }
       .wd-head { padding-top: 64px; } .wd-title { font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
+      /* simple scroll reveal on phones: no sideways opening, no zoom, no entrance scale */
+      .motion .wd-carousel.carousel-stage { transform: none; transition: none; }
+      .motion .wd-carousel .carousel { clip-path: none; will-change: auto; }
+      .motion .wd-carousel .carousel__card--reveal > img { transform: none; }
       /* Phones (Collins pattern): one white card, two images stacked, and the "Explore the gallery" row inside it */
       .wd-carousel { margin-top: 40px; padding: 0 16px; }
       .wd-carousel .carousel { display: flex; flex-direction: column; gap: 12px; overflow: visible; margin: 0; padding: 14px; scroll-snap-type: none; background: #fff; border-radius: 24px; box-shadow: 0 16px 31px rgba(0, 0, 0, .06); cursor: pointer; }
@@ -1194,7 +1199,7 @@
       <div class="wd-cap" data-intro><span class="wd-cap__label">Capabilities</span><div class="wd-cap__chips"><span class="chip">Website</span></div></div>
     </header>
     <div class="carousel-stage wd-carousel">
-    <div class="carousel" data-carousel>
+    <div class="carousel" data-carousel data-reveal>
       <article class="carousel__card carousel__card--work" style="--ar:1500/978"><img src="work/img/9qPriYftinhuYDaasPJVZu9lGTM.webp" alt="JobGurus (Bright Studios)" width="1500" height="978" loading="eager" draggable="false" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:1440/954"><img src="work/img/vlAKpWBOGkxTebkqTOQjZL6Efkk.webp" alt="JobGurus (Bright Studios)" width="1440" height="954" loading="eager" draggable="false" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:1440/854"><img src="work/img/5Ah7mG5fZljX3BOd1em1hPDMiM.webp" alt="JobGurus (Bright Studios)" width="1440" height="854" loading="lazy" draggable="false" /></article>
