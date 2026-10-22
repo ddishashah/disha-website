@@ -190,7 +190,9 @@
     @media (max-width: 1023px) {
       .carousel__arrow { position: absolute; top: 50%; bottom: auto; transform: translateY(-50%); z-index: 3; display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #140700; box-shadow: 0 3px 16px rgba(0,0,0,.14); cursor: pointer; transition: opacity .2s ease, box-shadow .2s ease; }
       .carousel__arrow:hover { box-shadow: 0 5px 20px rgba(0,0,0,.2); }
-      .carousel__arrow:disabled { opacity: .35; cursor: default; }
+      .carousel__arrow { transition: opacity .35s ease, visibility 0s linear .35s, box-shadow .3s ease; }
+      .carousel__arrow:not(:disabled) { transition: opacity .35s ease, visibility 0s, box-shadow .3s ease; }
+      .carousel__arrow:disabled { opacity: 0; visibility: hidden; pointer-events: none; }   /* nothing further that way: the button is simply not there */
       .carousel__arrow:focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
       .carousel__arrow svg { width: 18px; height: 18px; }
       .carousel__arrow--prev { left: 24px; }
@@ -306,7 +308,7 @@
     /* ---------- Sheet dialog — Collins "Explore the gallery" pattern ----------
        Page behind: scale .95, translateY 10px, opacity .4, saturate .4 (origin top centre).
        Sheet: fixed, 20px from the top, 24px top radius, rises from 100vh, 1.2s ease-out-expo. */
-    button.gap { border: 0; cursor: pointer; font: inherit; font-weight: 500; font-size: 14.6px; transition: transform .6s var(--ease-out-expo), box-shadow .6s ease; }
+    button.gap { border: 0; cursor: pointer; font: inherit; font-weight: 400; font-size: 14.6px; transition: transform .6s var(--ease-out-expo), box-shadow .6s ease; }
     button.gap, button.gap:focus, button.gap:focus-visible { outline: none; }
     button.gap:hover, button.gap:focus-visible { transform: scale(1.02); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); }
     .gaps > li { display: contents; }
@@ -315,7 +317,7 @@
     html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1); }
     html.sheet-open, html.sheet-open body { background-color: #140700; }
     html.sheet-open [data-page] { transform: translateY(10px) scale(.95); opacity: .4; filter: saturate(.4); }
-    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: var(--top) 0 0 0; width: 100%; max-width: 100%; height: calc(100dvh - var(--top)); max-height: 100%; margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
+    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; height: auto; max-height: calc(100dvh - var(--top)); margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
     .sheet.is-open { transform: translateY(0); }
     .sheet::backdrop { opacity: 0; }
     .sheet__bar { position: sticky; top: 0; z-index: 3; height: 0; display: flex; justify-content: flex-end; padding: 24px 24px 0; }
@@ -323,10 +325,12 @@
     .sheet__close:hover { transform: rotate(90deg) scale(1.04); }
     .sheet__close, .sheet__close:focus, .sheet__close:focus-visible { outline: none; }
     .sheet__close svg { width: 22px; height: 22px; }
-    .sheet__content { box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(64px, 8vw, 128px); padding: clamp(56px, 28px + 6vw, 96px) max(24px, calc((100% - 1268px) / 2)) clamp(56px, 8vw, 96px); }
+    .sheet__content { box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(36px, 5vw, 64px); padding: clamp(64px, 36px + 6vw, 104px) max(24px, calc((100% - 1268px) / 2)) calc(clamp(40px, 6vw, 72px) + env(safe-area-inset-bottom, 0px)); }
+    .sheet--gallery { height: calc(100dvh - var(--top)); }   /* the gallery stays full height; the other sheets size to their content, up to the same limit */
     .sheet__head { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; max-width: 740px; width: 100%; margin: 0 auto; }
     .sheet__eyebrow { margin: 0; color: #757575; font-size: 16px; line-height: 20.8px; letter-spacing: -0.16px; }
     .sheet__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; }
+    .sheet__body { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .sheet__lead { margin: 0; color: #5e5855; font-size: 18px; line-height: 28px; letter-spacing: 0.36px; }
     .sheet__text { display: grid; grid-template-columns: 1fr; gap: 20px 24px; max-width: 740px; width: 100%; margin: 0 auto; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .sheet__text h3 { margin: 24px 0 0; color: #140700; font-weight: 500; font-size: 16px; line-height: 27px; }
@@ -336,13 +340,26 @@
     .sheet__fig { margin: 0; overflow: hidden; border-radius: 16px; background: #f8f8f7; opacity: 0; transform: translateY(5em); transition: opacity .8s ease, transform 1.8s var(--ease-out-expo); }
     .sheet.is-open .sheet__fig { opacity: 1; transform: none; transition-delay: calc(.14s + var(--i, 0) * .06s); }
     .sheet__fig img { display: block; width: 100%; height: auto; }
+    /* Gap pop-ups: the image runs the full width of the sheet, square-cornered, right down to the bottom edge */
+    .sheet--bleed .sheet__content { --sx: max(24px, calc((100vw - 1268px) / 2)); padding-bottom: 0; gap: clamp(56px, 10vw, 144px); }   /* more air between the text and the image */
+    .sheet--bleed .sheet__gallery { margin-inline: calc(var(--sx) * -1); }
+    /* All three pictures share one shape (the city picture's): the same height in every gap pop-up */
+    .sheet--bleed .sheet__fig { aspect-ratio: 1659 / 948; }
+    /* the three paragraphs reserve the same number of lines, so the three pop-ups come out the same height */
+    .sheet--bleed .sheet__body { min-height: 5lh; }
+    @media (max-width: 1023px) { .sheet--bleed .sheet__body { min-height: 6lh; } }
+    @media (max-width: 767px) { .sheet--bleed .sheet__body { min-height: 7lh; } }
+    .sheet--bleed .sheet__fig img { width: 100%; height: 100%; object-fit: cover; }
+    .sheet--bleed .sheet__fig { border-radius: 0; corner-shape: round; }
+    /* as the sheet is pulled down the picture slides up inside its frame (parallax), and settles back with the sheet */
+    .sheet--bleed .sheet__fig img { transform-origin: 50% 0; transform: translateY(calc(var(--pk, 0) * -0.15px)) scale(calc(1 + var(--pk, 0) * 0.0009)); will-change: transform; }
     .sheet__handle { display: none; }
     @media (max-width: 767px) {
       /* Drawer: grab handle on top, pull down to dismiss, no round close button */
       .sheet__handle { touch-action: none; position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 44px; margin: 0 0 -44px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
       .sheet__handle span { display: block; width: 36px; height: 5px; margin: 10px auto 0; border-radius: 3px; background: rgba(20, 7, 0, .2); }
       .sheet__bar { display: none; }
-      .sheet__content { padding-top: 56px; }
+      .sheet__content { padding-top: 76px; }   /* room under the grab handle */
     }
     @media (min-width: 768px) {
       .sheet__text { grid-template-columns: repeat(6, 1fr); }
@@ -952,6 +969,18 @@
     .menu__foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 0 0 72px; }
     .menu__social { display: flex; gap: 33px; }
     .menu__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #d0d0c8; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; white-space: nowrap; transition: color .3s ease; }
+    /* ---------- Footer headline: the last words roll through build trust / create loyalty / build devotion / create adoption (line-mask roll, as in the hero) ---------- */
+    .rot { position: relative; display: inline-block; vertical-align: top; height: 1.1em; padding-bottom: .16em; margin-bottom: -.16em; overflow: hidden; }
+    .rot__w { position: absolute; left: 0; top: 0; white-space: nowrap; will-change: transform; }
+    .rot__w:empty { visibility: hidden; }
+    .menu__mail { display: flex; align-items: center; gap: 0; }
+    .menu__copy { position: relative; display: grid; place-items: center; width: 40px; height: 40px; margin-left: 2px; padding: 0; border: 0; border-radius: 50%; background: none; color: #d0d0c8; cursor: pointer; transition: color .3s ease, background-color .3s ease; }
+    .menu__copy:hover { color: #f8f8f7; background: rgba(255, 255, 255, .1); }
+    .menu__copy svg { grid-area: 1 / 1; width: 18px; height: 18px; transition: opacity .25s ease, transform .5s var(--ease-out-expo); }
+    .menu__copy .i-check { opacity: 0; transform: scale(.6); }
+    .menu__copy.is-copied { color: #f8f8f7; }
+    .menu__copy.is-copied .i-copy { opacity: 0; transform: scale(.6); }
+    .menu__copy.is-copied .i-check { opacity: 1; transform: none; }
     .menu__cta:hover { color: #f8f8f7; }
     .menu__cta svg { width: 18px; height: 18px; transition: transform .6s var(--ease-out-expo); }
     .menu__cta:hover svg { transform: translateX(4px); }
@@ -1049,15 +1078,16 @@
       .quote__by { font-size: 16px; line-height: 22px; }
 
       /* Services */
-      .services { padding-bottom: 56px; }
+      .services { padding-bottom: 8px; }   /* + the row's 40px = 48px to the light/dark edge */
       .services__head { padding: 0 28px; gap: 12px; }
       .services__row { margin-top: 4px; padding: 24px 28px 40px; scroll-padding: 0 28px; gap: 16px; }
-      .service { flex-basis: calc(100vw - 96px); height: 300px; padding: 28px 24px 32px; }
+      .services__row { flex-direction: column; overflow: visible; scroll-snap-type: none; }   /* the four services stack and scroll with the page */
+      .service { flex: none; width: 100%; height: auto; gap: 44px; padding: 28px 24px 32px; }
       .service__title { font-size: 20px; line-height: 28px; }
       .service__tags { font-size: 16px; line-height: 24px; }
 
       /* What pulls me in */
-      .pulls { padding: 96px 28px 0; gap: 28px; }   /* dark sections follow each other with one 96px gap, not two */
+      .pulls { padding: 48px 28px 0; gap: 28px; }   /* dark sections follow each other with one 96px gap, not two */
       .pulls__title { font-size: 36px; line-height: 38px; letter-spacing: -1px; }
       .pulls__body { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
 
@@ -1084,8 +1114,14 @@
       }
       .booking__fallback { inset: 6px; }
       .socials { margin-top: 40px; }
-      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 20px; font-size: 16px; line-height: 26px; }
-      .footer__nav { gap: 10px 20px; justify-content: center; }
+      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 40px; font-size: 16px; line-height: 26px; }
+      /* roomy, thumb-sized links like the Fluid Intelligence footer: one per row, 44px tall */
+      .footer__nav { flex-direction: column; align-items: center; gap: 0; }
+      .footer__nav a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; }
+      .footer__legal a { display: inline-block; padding: 12px 6px; margin: -12px 0; }
+      .footer__c, .footer__links { display: block; }
+      .footer__dot { display: none; }
+      .footer__links { margin-top: 2px; }
       .footer__sub--para br { display: none; }
       .footer__bar { align-items: center; text-align: center; }
       .footer__markwrap { margin-top: 48px; }
@@ -1100,6 +1136,13 @@
     @keyframes loaderSweep { from { -webkit-mask-position: 0 100%; mask-position: 0 100%; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
     @keyframes loaderLift { from { transform: translateY(0); } to { transform: translateY(-102%); } }
     @media (prefers-reduced-motion: reduce) { .loader { display: none !important; } }
+    /* ---------- Accessibility: skip link, visible keyboard focus ---------- */
+    .skip-link { position: fixed; left: 16px; top: -80px; z-index: 100000; padding: 12px 20px; border-radius: 99px; background: #140700; color: #f8f8f7; font-size: 15px; line-height: 20px; text-decoration: none; transition: top .3s var(--ease-out-expo); }
+    .skip-link:focus { top: 16px; outline: 2px solid #f8f8f7; outline-offset: 2px; }
+    :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
+    [data-theme="dark"] :focus-visible, .menu :focus-visible, .loader :focus-visible { outline-color: #f8f8f7; }
+    main:focus { outline: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     /* ---------- Hero statements: the two lines take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
     .ln { display: block; }
     .motion .hero__stage { position: relative; }
@@ -1139,6 +1182,8 @@
     .logo-rows .logos--rev .logos__track { animation-duration: 24s; }
     .logo-rows .logos__tile { flex: 0 0 auto; height: 44px; border-radius: 0; background: none; }
     .logo-rows .logos__track { padding-right: 64px; }
+    .bio__sub { margin: 40px 0 10px; color: var(--ink, #000); font-weight: 500; font-size: 18px; line-height: 26px; letter-spacing: 0.18px; }
+    .bio__sub:first-child { margin-top: 0; }
     .vanya { display: flex; justify-content: center; padding: 0 var(--pad, 16px); margin-top: 115px; padding-bottom: 30px; }
     .vanya__inner { width: 633px; max-width: 100%; }
     .vanya .bio__label { margin: 0 0 20px; }
@@ -1170,20 +1215,48 @@
       .bio__title { margin-top: 40px; font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
       .logo-rows { margin-top: 96px; }
       .logo-rows { gap: 28px; } .logo-rows .logos__track { gap: 50px; padding-right: 50px; } .logo-rows .logos__tile { height: 36px; }
-      .vanya { margin-top: 96px; padding-bottom: 0; }
-      .faq { padding: 96px var(--pad, 28px); }
+      .vanya { margin-top: 96px; padding-bottom: 48px; }
+      .faq { padding: 48px var(--pad, 28px); }
+      .testimonials { padding-top: 48px; padding-bottom: 48px; }
+      .footer { padding-top: 48px; }   /* even rhythm: 96px between content; at a light/dark edge 48px each side */
       .faq__inner { flex-direction: column; gap: 32px; }
       .faq__head { flex: none; }
       .faq__q { font-size: 17px; padding: 20px 20px; }
       .faq__a-in p { padding: 0 20px 20px; font-size: 16px; line-height: 24px; }
     }
   </style>
+<!-- seo:start -->
+<meta name="description" content="Seven years of designing brands and products with teams across 15+ countries, from Fortune 100 companies and family businesses to YC- and Accel-backed startups." />
+<link rel="canonical" href="https://ddishashah.github.io/disha-website/about/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="author" content="Disha Shah" />
+<meta name="theme-color" content="#f8f8f7" />
+<link rel="icon" href="https://ddishashah.github.io/disha-website/favicon.ico" sizes="any" />
+<link rel="icon" href="https://ddishashah.github.io/disha-website/favicon-32.png" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="https://ddishashah.github.io/disha-website/apple-touch-icon.png" />
+<meta property="og:site_name" content="Disha Shah" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en" />
+<meta property="og:title" content="About — Disha Shah" />
+<meta property="og:description" content="Seven years of designing brands and products with teams across 15+ countries, from Fortune 100 companies and family businesses to YC- and Accel-backed startups." />
+<meta property="og:url" content="https://ddishashah.github.io/disha-website/about/" />
+<meta property="og:image" content="https://ddishashah.github.io/disha-website/img/og-image.jpg" />
+<meta property="og:image:alt" content="Disha Shah — brand and product systems" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="About — Disha Shah" />
+<meta name="twitter:description" content="Seven years of designing brands and products with teams across 15+ countries, from Fortune 100 companies and family businesses to YC- and Accel-backed startups." />
+<meta name="twitter:image" content="https://ddishashah.github.io/disha-website/img/og-image.jpg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"AboutPage","name":"About — Disha Shah","url":"https://ddishashah.github.io/disha-website/about/","description":"Seven years of designing brands and products with teams across 15+ countries, from Fortune 100 companies and family businesses to YC- and Accel-backed startups.","mainEntity":{"@type":"Person","@id":"https://ddishashah.github.io/disha-website/#person","name":"Disha Shah","url":"https://ddishashah.github.io/disha-website/","image":"https://ddishashah.github.io/disha-website/img/me.webp","jobTitle":"Brand and product designer","sameAs":["https://www.linkedin.com/in/disha-shah-8b706814/","https://www.instagram.com/dishashah66/","https://x.com/dishashah66"],"knowsAbout":["Brand strategy","Visual identity","Product design","Design systems","Websites","Pitch decks","AI-native products","Deep-tech"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ddishashah.github.io/disha-website/"},{"@type":"ListItem","position":2,"name":"About","item":"https://ddishashah.github.io/disha-website/about/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do we start working together?","acceptedAnswer":{"@type":"Answer","text":"Send me a little about what you’re working on and where you need help. We’ll talk through the project, timing, and budget, and I’ll put together a scope. You don’t need to have everything figured out before reaching out."}},{"@type":"Question","name":"Who do you work best with?","acceptedAnswer":{"@type":"Answer","text":"I mostly work with founders and teams in AI, deep-tech, SaaS, and B2B, alongside established businesses and design studios. I enjoy working with people who care about what they’re building and are open to working through the details together."}},{"@type":"Question","name":"Will I work directly with you?","acceptedAnswer":{"@type":"Answer","text":"Yes. I lead every project, and you work with me throughout. When we need a specialist in copywriting, development, motion, or content marketing, I bring them in and stay closely involved. We agree on this as part of the scope."}},{"@type":"Question","name":"Can you work with our existing team?","acceptedAnswer":{"@type":"Answer","text":"Yes. I often work alongside internal designers, engineers, and marketing teams, as well as behind the scenes with studios. We work out where I can contribute, what I’ll own, and how we’ll collaborate."}},{"@type":"Question","name":"Do you handle website development?","acceptedAnswer":{"@type":"Answer","text":"Yes, I develop the frontend myself. I work with Framer, Webflow, Astro, and Next.js, including Sanity and Cloudflare where appropriate—from smaller sites to enterprise websites with hundreds of pages. If the project needs specialist development, I bring in the right people and review the work through delivery."}},{"@type":"Question","name":"What if we need help with the story and copy?","acceptedAnswer":{"@type":"Answer","text":"That’s part of the work. I help shape the narrative—who we’re speaking to, what matters to them, and what we want them to take away. I bring in a copywriting expert to develop the words and work with them through the design."}},{"@type":"Question","name":"Do you take on projects or ongoing work?","acceptedAnswer":{"@type":"Answer","text":"Both. We can work towards a defined scope or set aside time each month for ongoing design support. It depends on what you need and how your team works."}},{"@type":"Question","name":"Where do you work with clients?","acceptedAnswer":{"@type":"Answer","text":"I work remotely and have collaborated with teams across 15+ countries. We agree on meeting times and how we’ll share feedback at the start."}},{"@type":"Question","name":"Are you open to full-time roles?","acceptedAnswer":{"@type":"Answer","text":"Yes, if the team and the work feel like a good fit. I currently run Vanya Studio as a solo, independent practitioner, but I’m happy to talk about a role where I can contribute more deeply over time."}}]}</script>
+<!-- seo:end -->
 </head>
 <body>
+<a class="skip-link" href="#main" onclick="var m=document.getElementById(\'main\');if(m){m.focus();m.scrollIntoView();}return false;">Skip to main content</a>
 <div class="page" data-page>
 
   <header class="about-nav">
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
         <a href="./index.html" class="nav__brand">Disha Shah</a>
         <div class="nav__right">
           <a href="about/#contact" class="nav__cta">Book a Discovery Call</a>
@@ -1192,23 +1265,29 @@
       </nav>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
   <section class="bio" aria-labelledby="bio-title">
     <div class="bio__inner">
       <img class="bio__photo" data-intro src="img/me.webp" alt="Disha Shah" width="137" height="137" />
       <h1 id="bio-title" class="bio__title h-primary" data-intro>I’m Disha Shah, a brand and experience designer.</h1>
       <div class="bio__text" data-intro>
-        <p>I work across brand and product, connecting how a business presents itself with how its products work and how people experience them.</p>
-        <p>Since 2019, I’ve worked with teams across 15+ countries, from YC-, Accel-, and IIT-backed startups to established family businesses, global design studios, and organisations including Deloitte, Tata Group, the UN Volunteers, and other Fortune 500 companies.</p>
-        <p>My strength is seeing how these things connect and how each decision shapes the experience for people experiencing your company and your product - users, partners, investors and teams. I work closely with founders, business, engineering, and go-to-market teams, bringing their perspectives into the design from the get go. I care about whether the work holds up when the product evolves, the team grows, and the business changes direction—for the people using it and the teams building on it.</p>
-        <p>I love solving complex product problems. I’m happiest when there’s a lot to untangle and a clear intention to create impact at scale. I like pulling apart the pieces, understanding what’s actually going on, and figuring out how they can work better together.</p>
-        <p>Sometimes that means rethinking an industry from first principles. Sometimes it means solving a problem that matters. And sometimes, simply putting a little more joy into the world.</p>
-        <p>That’s the kind of work I want to be part of.</p>
+        <p>I work across branding, products, and websites. I’m interested in how people come to understand a business, what makes them choose it, and what happens once they start using what it offers.</p>
+        <p>I’m happiest when there’s a lot to untangle. A technical product, an unfamiliar industry, a website that’s grown in several directions. I like getting into the subject, asking questions, and understanding how the pieces relate before deciding what to make.</p>
+        <p>That curiosity takes me across different kinds of work. Sometimes I’m helping a founder find the story that makes their business easier to explain. Sometimes I’m working through a product’s flows and interactions, or designing and developing a website. Other times, I’m building the system that helps a team keep all of it consistent.</p>
+        <p>I work closely with founders, engineers, and business and go-to-market teams. Understanding what each person is trying to achieve is part of the work. It helps me connect the broader direction with the details people will actually read, see, and use.</p>
+        <p>Since 2019, I’ve worked with teams across 15+ countries—from startups and family businesses to global studios and enterprise teams. My experience includes work with YC- and Accel-backed companies and organisations including Deloitte, Tata Group, and UN Volunteers, both directly and through studio collaborations.</p>
       </div>
-      <h2 class="bio__label" data-reveal>Work Exposure</h2>
+      <h2 class="bio__label" data-reveal>A little more about the work</h2>
       <div class="bio__text" data-reveal>
-        <p>My work includes 15+ AI and SaaS MVPs and proofs of concept across defence, cybersecurity, healthcare, life sciences, finance, Web3, and travel.</p>
-        <p>I’ve also built 10+ design systems, including two supporting 30–40 products for Fortune 100 firms, spanning multiple tenants, brands, and products, with workflows designed for people and AI tools.</p>
+        <h3 class="bio__sub">Websites, from first launches to enterprise scale</h3>
+        <p>A substantial part of my practice is designing and developing websites for businesses as they grow. I work with Framer, Webflow, and Sanity with Next.js, from landing pages and 5–8-page sites to enterprise websites with multiple CMS collections and 200–500+ pages.</p>
+        <p>I’ve also supported studios behind the scenes on this work—thinking through the narrative, page structure, design, and development, along with how the team will manage the site after launch.</p>
+        <h3 class="bio__sub">Products that take time to understand</h3>
+        <p>I’ve worked on 15+ AI and SaaS MVPs and proofs of concept across defence, cybersecurity, healthcare, life sciences, finance, Web3, and travel.</p>
+        <p>I enjoy the learning these projects ask of me. Each domain has its own language, responsibilities, and ways of working. In high-stakes industries, those details matter to the design: what someone needs during onboarding, where they need reassurance or control, and what helps them get value from the product over time. I work with the team to understand those needs and where friction may be contributing to people leaving.</p>
+        <h3 class="bio__sub">Design systems that carry the decisions forward</h3>
+        <p>I’ve built 10+ design systems, including two supporting 30–40 products for Fortune 100 firms. The work has spanned multiple brands and tenants, with shared components, patterns, and documentation.</p>
+        <p>I’m interested in how these systems work in practice—whether people can find what they need, understand the reasoning, and build on it. That also shapes how I prepare the context and guidance for teams working with AI.</p>
       </div>
     </div>
   </section>
@@ -1244,9 +1323,9 @@
     <div class="vanya__inner">
       <h2 class="bio__label">About Vanya Studio</h2>
       <div class="bio__text">
-        <p>Vanya Studio is the independent, full-cycle design solo-studio I founded in 2025. We work with B2B and technology businesses across brand identity, digital products, websites, presentations, and design systems.</p>
-        <p>We connect how people first understand your business with what they experience through your products and services, making that experience clearer, more recognisable, and easier to build on as your business grows.</p>
-        <p>Time and again, specialists from different domains varying front-end or backend development, motion designers, copywriters and marketing content creators are brought in to ensure that the end-outcome is delivered well to the clientele</p>
+        <p>I founded Vanya Studio in 2025 as an independent solo design practice, bringing together my work across branding, product design, design systems, and websites and decks.</p>
+        <p>I lead projects from the early conversations through design and delivery, and develop website frontends myself. When a project needs additional expertise, I bring in specialists across copywriting, development, motion, and content marketing, to make sure you get an output that is the best fit to help you achieve your growth and business goals.</p>
+        <p>You work directly with me throughout. I stay close to the decisions, review the work with everyone involved, and see it through to delivery.</p>
       </div>
     </div>
   </section>
@@ -1310,17 +1389,18 @@
     <div class="faq__inner">
       <div class="faq__head" data-reveal>
         <h2 id="faq-title" class="h-primary" style="margin:0;line-height:37.8px">Frequently asked questions</h2>
-        <p class="faq__sub">The things people actually ask us, answered plainly.</p>
+        <p class="faq__sub">The things people actually ask, answered plainly.</p>
       </div>
       <div class="faq__list" data-faq data-reveal>
-        <div class="faq__item is-open">
-          <button class="faq__q" type="button" aria-expanded="true"><span>How do we start working together?</span><i class="faq__icon" aria-hidden="true"></i></button>
-          <div class="faq__a"><div class="faq__a-in"><p>Send us an email. We will set up a call, and you tell us what is not working. If we can help, we will say what we would do and what it costs. If we cannot, we will say that too.</p></div></div>
-        </div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>Who do you work best with?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Founders and teams of AI-native, deep-tech, SaaS and B2B firms who need their brand and product to feel like one thing. I’ve worked with YC- and Accel-backed startups, family businesses, global design studios and Fortune 100 teams.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>Can you work with our existing team?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Yes, and it’s how I work best. I slot into your existing team and rituals, working alongside your founders, product managers, engineers and go-to-market leads. I design with your constraints in mind, so what we ship is something your team can build, maintain and grow after I step back. Design systems, documentation and handover files are part of the work.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>Where do you work with clients?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Remotely, with teams across 15+ countries. I can also join workshops in person when it helps the project.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>Are you available for full-time work?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Yes, I’m open to it. I run Vanya Studio, so I currently take on projects and retainers, but if the team, the problem and the product are the right fit, I’m happy to talk about a full-time role. Send me a note or book an intro call.</p></div></div></div>
+        <div class="faq__item is-open"><button class="faq__q" id="faq-q-1" aria-controls="faq-a-1" type="button" aria-expanded="true"><span>How do we start working together?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-1" role="region" aria-labelledby="faq-q-1"><div class="faq__a-in"><p>Send me a little about what you’re working on and where you need help. We’ll talk through the project, timing, and budget, and I’ll put together a scope. You don’t need to have everything figured out before reaching out.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>Who do you work best with?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>I mostly work with founders and teams in AI, deep-tech, SaaS, and B2B, alongside established businesses and design studios. I enjoy working with people who care about what they’re building and are open to working through the details together.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>Will I work directly with you?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>Yes. I lead every project, and you work with me throughout. When we need a specialist in copywriting, development, motion, or content marketing, I bring them in and stay closely involved. We agree on this as part of the scope.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Can you work with our existing team?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>Yes. I often work alongside internal designers, engineers, and marketing teams, as well as behind the scenes with studios. We work out where I can contribute, what I’ll own, and how we’ll collaborate.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>Do you handle website development?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>Yes, I develop the frontend myself. I work with Framer, Webflow, Astro, and Next.js, including Sanity and Cloudflare where appropriate—from smaller sites to enterprise websites with hundreds of pages. If the project needs specialist development, I bring in the right people and review the work through delivery.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>What if we need help with the story and copy?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>That’s part of the work. I help shape the narrative—who we’re speaking to, what matters to them, and what we want them to take away. I bring in a copywriting expert to develop the words and work with them through the design.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-7" aria-controls="faq-a-7" type="button" aria-expanded="false"><span>Do you take on projects or ongoing work?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-7" role="region" aria-labelledby="faq-q-7"><div class="faq__a-in"><p>Both. We can work towards a defined scope or set aside time each month for ongoing design support. It depends on what you need and how your team works.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-8" aria-controls="faq-a-8" type="button" aria-expanded="false"><span>Where do you work with clients?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-8" role="region" aria-labelledby="faq-q-8"><div class="faq__a-in"><p>I work remotely and have collaborated with teams across 15+ countries. We agree on meeting times and how we’ll share feedback at the start.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-9" aria-controls="faq-a-9" type="button" aria-expanded="false"><span>Are you open to full-time roles?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-9" role="region" aria-labelledby="faq-q-9"><div class="faq__a-in"><p>Yes, if the team and the work feel like a good fit. I currently run Vanya Studio as a solo, independent practitioner, but I’m happy to talk about a role where I can contribute more deeply over time.</p></div></div></div>
       </div>
     </div>
   </section>
@@ -1348,14 +1428,14 @@
       <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="footer__bar">
-      <p class="footer__legal">© Vanya Studio 2026  ·  <a href="./#privacy">Privacy</a>  ·  <a href="./#terms">Terms</a></p>
-      <ul class="footer__nav">
+      <ul class="footer__nav" aria-label="Footer">
         <li><a href="about/index.html">About</a></li>
         <li><a href="./#services">Services</a></li>
         <li><a href="work/index.html">Work</a></li>
-        <li><a href="./#playground">Playground</a></li>
+        <!-- hidden for now: <li><a href="./#playground">Playground</a></li> -->
         <li><a href="about/#contact">Contact</a></li>
       </ul>
+      <p class="footer__legal"><span class="footer__c">© Disha Shah / Vanya Studio 2026</span><span class="footer__dot">  ·  </span><span class="footer__links"><a href="privacy/">Privacy</a>  ·  <a href="terms/">Terms</a></span></p>
     </div>
     <div class="footer__markwrap" data-glow aria-hidden="true">
       <img class="footer__mark" src="img/footer-wordmark.svg" alt="" width="1440" height="188" />
@@ -1365,8 +1445,47 @@
   </main>
 </div><!-- /.page -->
 
+<dialog class="sheet sheet--bleed" id="sheet-complexity" aria-labelledby="sheet-complexity-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-complexity-t" class="sheet__title">The Complexity Gap</h2>
+      <p class="sheet__body">You know the product and industry inside out. The people buying or using it bring different levels of knowledge and experience. The work is in making that complexity manageable throughout the product—helping beginners get started, supporting people as their needs grow, and giving experts the depth and control they need.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-complexity.webp" alt="" width="1774" height="887" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
+<dialog class="sheet sheet--bleed" id="sheet-retention" aria-labelledby="sheet-retention-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-retention-t" class="sheet__title">The Retention Gap</h2>
+      <p class="sheet__body">Getting someone to try a product is one thing. Becoming part of their day-to-day workflow is another. That comes down to how well it helps them do their job—how naturally it fits into their work, how much easier it makes important tasks, and whether it gives them a reason to keep using it.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-retention.webp" alt="" width="1675" height="939" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
+<dialog class="sheet sheet--bleed" id="sheet-growth" aria-labelledby="sheet-growth-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-growth-t" class="sheet__title">The Growth Gap</h2>
+      <p class="sheet__body">The business moves forward, but the experience doesn’t always keep up. The story reflects an earlier stage, the website struggles with new content, and the product feels different depending on where you are. Growth, engineering, business, and design teams spend more time explaining, fixing, and working around the gaps. It gets frustrating for everyone.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-growth.webp" alt="" width="1659" height="948" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
 
   <!-- Menu — arc reveal (see arc.js) -->
@@ -1389,10 +1508,10 @@
             <div class="menu__group menu__item" style="--i:5">
               <p class="menu__label">Services</p>
               <ul class="menu__subs">
-                <li><a class="menu__sub" href="./#services">Brand Design</a></li>
-                <li><a class="menu__sub" href="services/product-design/index.html">Product Design</a></li>
-                <li><a class="menu__sub" href="./#services">Design Systems</a></li>
-                <li><a class="menu__sub" href="./#services">Website &amp; Decks</a></li>
+                <li><a class="menu__sub" href="services/branding/">Brand Design</a></li>
+                <li><a class="menu__sub" href="services/product-design/">Product Design</a></li>
+                <li><a class="menu__sub" href="services/design-systems/">Design Systems</a></li>
+                <li><a class="menu__sub" href="services/websites-decks/">Websites &amp; Decks</a></li>
               </ul>
             </div>
           </div>
@@ -1404,7 +1523,10 @@
           <a class="menu__sub" href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener">Instagram</a>
           <a class="menu__sub" href="https://x.com/dishashah66" target="_blank" rel="noopener">X (Twitter)</a>
         </div>
-        <a class="menu__cta" href="about/#contact">Book a Discovery Call <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="menu__mail">
+          <a class="menu__cta" href="mailto:disha@vanya.studio">disha@vanya.studio</a>
+          <button class="menu__copy" type="button" data-copy="disha@vanya.studio" aria-label="Copy email address"><svg class="i-copy" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 15c-.932 0-1.398 0-1.765-.152a2 2 0 0 1-1.083-1.083C2 13.398 2 12.932 2 12V5.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C3.52 2 4.08 2 5.2 2H12c.932 0 1.398 0 1.765.152a2 2 0 0 1 1.083 1.083C15 3.602 15 4.068 15 5m-2.8 17h6.6c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C22 20.48 22 19.92 22 18.8v-6.6c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C20.48 9 19.92 9 18.8 9h-6.6c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C9 10.52 9 11.08 9 12.2v6.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874C10.52 22 11.08 22 12.2 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only" role="status" aria-live="polite" data-copy-status></span></button>
+        </div>
       </div>
     </div>
   </nav>
@@ -2171,7 +2293,7 @@
         //  - letting go early is a critically damped spring that keeps the finger's speed (no wobble)
         //  - interruptible: touch it again mid-spring and it follows the finger from where it is
         var mode = 'idle', startY = 0, lastY = 0, origin = 0, base = 0, cur = 0, raf = 0, fromHandle = false, pulled = false, samples = [];
-        function setY(v) { cur = v; d.style.transform = v > 0.01 ? 'translateY(' + v + 'px)' : ''; }
+        function setY(v) { cur = v; d.style.transform = v > 0.01 ? 'translateY(' + v + 'px)' : ''; d.style.setProperty('--pk', v > 0.01 ? v.toFixed(1) : '0'); }   // --pk: how far the sheet is pulled, for the image to react to
         function velocity() {                                    // px per ms over the last ~100ms, downward positive
           var n = samples.length; if (n < 2) return 0;
           var a = samples[0], b = samples[n - 1], dt = b[0] - a[0];
@@ -2301,6 +2423,52 @@
     function arm() { if (root.classList.contains('is-loaded')) setTimeout(start, 500); }
     new MutationObserver(arm).observe(root, { attributes: true, attributeFilter: ['class'] });
     arm();
+  })();
+  </script>
+  <script>
+  // Copy the email address from the menu
+  (function () {
+    document.querySelectorAll('[data-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy'), done = function () {
+          btn.classList.add('is-copied');
+          var s = btn.querySelector('[data-copy-status]'); if (s) s.textContent = 'Email address copied';
+          clearTimeout(btn._t); btn._t = setTimeout(function () { btn.classList.remove('is-copied'); if (s) s.textContent = ''; }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, fallback); } else fallback();
+        function fallback() {
+          var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+          document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) {} ta.remove();
+        }
+      });
+    });
+  })();
+  </script>
+  <script>
+  // Footer headline: roll the closing words (Collins-style mask roll, same easing as the hero statements)
+  (function () {
+    var root = document.querySelector('[data-rotate]'); if (!root) return;
+    var title = root.closest('.footer__title'), words = [].slice.call(root.querySelectorAll('.rot__w'));
+    var PHRASES = ['build devotion', 'create adoption', 'build trust', 'create loyalty'], HOLD = 2800, i = 0, a = words[0], b = words[1], timer = null, busy = false;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (title) title.setAttribute('aria-label', 'Building experiences that build trust, loyalty, devotion and adoption.');
+    function width(text, el) { var prev = el.textContent; el.textContent = text; el.style.visibility = 'hidden'; var w = el.getBoundingClientRect().width; el.textContent = prev; el.style.visibility = ''; return Math.ceil(w) + 1; }
+    function size() { root.style.width = width(PHRASES[i], a) + 'px'; }
+    function step() {
+      if (busy) return; busy = true;
+      var next = (i + 1) % PHRASES.length;
+      b.textContent = PHRASES[next]; b.style.visibility = '';
+      root.style.transition = 'width .9s cubic-bezier(.19, 1, .22, 1)'; root.style.width = width(PHRASES[next], b) + 'px';
+      var out = a.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-112%)' }], { duration: 750, easing: 'cubic-bezier(.76, 0, .24, 1)', fill: 'forwards' });
+      var inn = b.animate([{ transform: 'translateY(112%)' }, { transform: 'translateY(0)' }], { duration: 1100, delay: 140, easing: 'cubic-bezier(.19, 1, .22, 1)', fill: 'both' });
+      inn.onfinish = function () {
+        out.cancel(); inn.cancel(); a.textContent = PHRASES[next]; a.style.visibility = ''; b.textContent = ''; i = next; busy = false;
+      };
+    }
+    function arm() { clearInterval(timer); timer = setInterval(step, HOLD + 1100); }
+    function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); else arm(); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(init); else init();
+    window.addEventListener('resize', function () { if (!busy) { root.style.transition = 'none'; size(); } });
   })();
   </script>
   <script src="arc.js?v=8"></script>

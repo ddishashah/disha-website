@@ -190,7 +190,9 @@
     @media (max-width: 1023px) {
       .carousel__arrow { position: absolute; top: 50%; bottom: auto; transform: translateY(-50%); z-index: 3; display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #140700; box-shadow: 0 3px 16px rgba(0,0,0,.14); cursor: pointer; transition: opacity .2s ease, box-shadow .2s ease; }
       .carousel__arrow:hover { box-shadow: 0 5px 20px rgba(0,0,0,.2); }
-      .carousel__arrow:disabled { opacity: .35; cursor: default; }
+      .carousel__arrow { transition: opacity .35s ease, visibility 0s linear .35s, box-shadow .3s ease; }
+      .carousel__arrow:not(:disabled) { transition: opacity .35s ease, visibility 0s, box-shadow .3s ease; }
+      .carousel__arrow:disabled { opacity: 0; visibility: hidden; pointer-events: none; }   /* nothing further that way: the button is simply not there */
       .carousel__arrow:focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
       .carousel__arrow svg { width: 18px; height: 18px; }
       .carousel__arrow--prev { left: 24px; }
@@ -306,7 +308,7 @@
     /* ---------- Sheet dialog — Collins "Explore the gallery" pattern ----------
        Page behind: scale .95, translateY 10px, opacity .4, saturate .4 (origin top centre).
        Sheet: fixed, 20px from the top, 24px top radius, rises from 100vh, 1.2s ease-out-expo. */
-    button.gap { border: 0; cursor: pointer; font: inherit; font-weight: 500; font-size: 14.6px; transition: transform .6s var(--ease-out-expo), box-shadow .6s ease; }
+    button.gap { border: 0; cursor: pointer; font: inherit; font-weight: 400; font-size: 14.6px; transition: transform .6s var(--ease-out-expo), box-shadow .6s ease; }
     button.gap, button.gap:focus, button.gap:focus-visible { outline: none; }
     button.gap:hover, button.gap:focus-visible { transform: scale(1.02); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); }
     .gaps > li { display: contents; }
@@ -315,7 +317,7 @@
     html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1); }
     html.sheet-open, html.sheet-open body { background-color: #140700; }
     html.sheet-open [data-page] { transform: translateY(10px) scale(.95); opacity: .4; filter: saturate(.4); }
-    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: var(--top) 0 0 0; width: 100%; max-width: 100%; height: calc(100dvh - var(--top)); max-height: 100%; margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
+    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; height: auto; max-height: calc(100dvh - var(--top)); margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
     .sheet.is-open { transform: translateY(0); }
     .sheet::backdrop { opacity: 0; }
     .sheet__bar { position: sticky; top: 0; z-index: 3; height: 0; display: flex; justify-content: flex-end; padding: 24px 24px 0; }
@@ -323,10 +325,12 @@
     .sheet__close:hover { transform: rotate(90deg) scale(1.04); }
     .sheet__close, .sheet__close:focus, .sheet__close:focus-visible { outline: none; }
     .sheet__close svg { width: 22px; height: 22px; }
-    .sheet__content { box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(64px, 8vw, 128px); padding: clamp(56px, 28px + 6vw, 96px) max(24px, calc((100% - 1268px) / 2)) clamp(56px, 8vw, 96px); }
+    .sheet__content { box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(36px, 5vw, 64px); padding: clamp(64px, 36px + 6vw, 104px) max(24px, calc((100% - 1268px) / 2)) calc(clamp(40px, 6vw, 72px) + env(safe-area-inset-bottom, 0px)); }
+    .sheet--gallery { height: calc(100dvh - var(--top)); }   /* the gallery stays full height; the other sheets size to their content, up to the same limit */
     .sheet__head { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; max-width: 740px; width: 100%; margin: 0 auto; }
     .sheet__eyebrow { margin: 0; color: #757575; font-size: 16px; line-height: 20.8px; letter-spacing: -0.16px; }
     .sheet__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; }
+    .sheet__body { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .sheet__lead { margin: 0; color: #5e5855; font-size: 18px; line-height: 28px; letter-spacing: 0.36px; }
     .sheet__text { display: grid; grid-template-columns: 1fr; gap: 20px 24px; max-width: 740px; width: 100%; margin: 0 auto; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .sheet__text h3 { margin: 24px 0 0; color: #140700; font-weight: 500; font-size: 16px; line-height: 27px; }
@@ -336,13 +340,26 @@
     .sheet__fig { margin: 0; overflow: hidden; border-radius: 16px; background: #f8f8f7; opacity: 0; transform: translateY(5em); transition: opacity .8s ease, transform 1.8s var(--ease-out-expo); }
     .sheet.is-open .sheet__fig { opacity: 1; transform: none; transition-delay: calc(.14s + var(--i, 0) * .06s); }
     .sheet__fig img { display: block; width: 100%; height: auto; }
+    /* Gap pop-ups: the image runs the full width of the sheet, square-cornered, right down to the bottom edge */
+    .sheet--bleed .sheet__content { --sx: max(24px, calc((100vw - 1268px) / 2)); padding-bottom: 0; gap: clamp(56px, 10vw, 144px); }   /* more air between the text and the image */
+    .sheet--bleed .sheet__gallery { margin-inline: calc(var(--sx) * -1); }
+    /* All three pictures share one shape (the city picture's): the same height in every gap pop-up */
+    .sheet--bleed .sheet__fig { aspect-ratio: 1659 / 948; }
+    /* the three paragraphs reserve the same number of lines, so the three pop-ups come out the same height */
+    .sheet--bleed .sheet__body { min-height: 5lh; }
+    @media (max-width: 1023px) { .sheet--bleed .sheet__body { min-height: 6lh; } }
+    @media (max-width: 767px) { .sheet--bleed .sheet__body { min-height: 7lh; } }
+    .sheet--bleed .sheet__fig img { width: 100%; height: 100%; object-fit: cover; }
+    .sheet--bleed .sheet__fig { border-radius: 0; corner-shape: round; }
+    /* as the sheet is pulled down the picture slides up inside its frame (parallax), and settles back with the sheet */
+    .sheet--bleed .sheet__fig img { transform-origin: 50% 0; transform: translateY(calc(var(--pk, 0) * -0.15px)) scale(calc(1 + var(--pk, 0) * 0.0009)); will-change: transform; }
     .sheet__handle { display: none; }
     @media (max-width: 767px) {
       /* Drawer: grab handle on top, pull down to dismiss, no round close button */
       .sheet__handle { touch-action: none; position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 44px; margin: 0 0 -44px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
       .sheet__handle span { display: block; width: 36px; height: 5px; margin: 10px auto 0; border-radius: 3px; background: rgba(20, 7, 0, .2); }
       .sheet__bar { display: none; }
-      .sheet__content { padding-top: 56px; }
+      .sheet__content { padding-top: 76px; }   /* room under the grab handle */
     }
     @media (min-width: 768px) {
       .sheet__text { grid-template-columns: repeat(6, 1fr); }
@@ -952,6 +969,18 @@
     .menu__foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 0 0 72px; }
     .menu__social { display: flex; gap: 33px; }
     .menu__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #d0d0c8; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; white-space: nowrap; transition: color .3s ease; }
+    /* ---------- Footer headline: the last words roll through build trust / create loyalty / build devotion / create adoption (line-mask roll, as in the hero) ---------- */
+    .rot { position: relative; display: inline-block; vertical-align: top; height: 1.1em; padding-bottom: .16em; margin-bottom: -.16em; overflow: hidden; }
+    .rot__w { position: absolute; left: 0; top: 0; white-space: nowrap; will-change: transform; }
+    .rot__w:empty { visibility: hidden; }
+    .menu__mail { display: flex; align-items: center; gap: 0; }
+    .menu__copy { position: relative; display: grid; place-items: center; width: 40px; height: 40px; margin-left: 2px; padding: 0; border: 0; border-radius: 50%; background: none; color: #d0d0c8; cursor: pointer; transition: color .3s ease, background-color .3s ease; }
+    .menu__copy:hover { color: #f8f8f7; background: rgba(255, 255, 255, .1); }
+    .menu__copy svg { grid-area: 1 / 1; width: 18px; height: 18px; transition: opacity .25s ease, transform .5s var(--ease-out-expo); }
+    .menu__copy .i-check { opacity: 0; transform: scale(.6); }
+    .menu__copy.is-copied { color: #f8f8f7; }
+    .menu__copy.is-copied .i-copy { opacity: 0; transform: scale(.6); }
+    .menu__copy.is-copied .i-check { opacity: 1; transform: none; }
     .menu__cta:hover { color: #f8f8f7; }
     .menu__cta svg { width: 18px; height: 18px; transition: transform .6s var(--ease-out-expo); }
     .menu__cta:hover svg { transform: translateX(4px); }
@@ -1049,15 +1078,16 @@
       .quote__by { font-size: 16px; line-height: 22px; }
 
       /* Services */
-      .services { padding-bottom: 56px; }
+      .services { padding-bottom: 8px; }   /* + the row's 40px = 48px to the light/dark edge */
       .services__head { padding: 0 28px; gap: 12px; }
       .services__row { margin-top: 4px; padding: 24px 28px 40px; scroll-padding: 0 28px; gap: 16px; }
-      .service { flex-basis: calc(100vw - 96px); height: 300px; padding: 28px 24px 32px; }
+      .services__row { flex-direction: column; overflow: visible; scroll-snap-type: none; }   /* the four services stack and scroll with the page */
+      .service { flex: none; width: 100%; height: auto; gap: 44px; padding: 28px 24px 32px; }
       .service__title { font-size: 20px; line-height: 28px; }
       .service__tags { font-size: 16px; line-height: 24px; }
 
       /* What pulls me in */
-      .pulls { padding: 96px 28px 0; gap: 28px; }   /* dark sections follow each other with one 96px gap, not two */
+      .pulls { padding: 48px 28px 0; gap: 28px; }   /* dark sections follow each other with one 96px gap, not two */
       .pulls__title { font-size: 36px; line-height: 38px; letter-spacing: -1px; }
       .pulls__body { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
 
@@ -1084,8 +1114,14 @@
       }
       .booking__fallback { inset: 6px; }
       .socials { margin-top: 40px; }
-      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 20px; font-size: 16px; line-height: 26px; }
-      .footer__nav { gap: 10px 20px; justify-content: center; }
+      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 40px; font-size: 16px; line-height: 26px; }
+      /* roomy, thumb-sized links like the Fluid Intelligence footer: one per row, 44px tall */
+      .footer__nav { flex-direction: column; align-items: center; gap: 0; }
+      .footer__nav a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; }
+      .footer__legal a { display: inline-block; padding: 12px 6px; margin: -12px 0; }
+      .footer__c, .footer__links { display: block; }
+      .footer__dot { display: none; }
+      .footer__links { margin-top: 2px; }
       .footer__sub--para br { display: none; }
       .footer__bar { align-items: center; text-align: center; }
       .footer__markwrap { margin-top: 48px; }
@@ -1100,6 +1136,13 @@
     @keyframes loaderSweep { from { -webkit-mask-position: 0 100%; mask-position: 0 100%; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
     @keyframes loaderLift { from { transform: translateY(0); } to { transform: translateY(-102%); } }
     @media (prefers-reduced-motion: reduce) { .loader { display: none !important; } }
+    /* ---------- Accessibility: skip link, visible keyboard focus ---------- */
+    .skip-link { position: fixed; left: 16px; top: -80px; z-index: 100000; padding: 12px 20px; border-radius: 99px; background: #140700; color: #f8f8f7; font-size: 15px; line-height: 20px; text-decoration: none; transition: top .3s var(--ease-out-expo); }
+    .skip-link:focus { top: 16px; outline: 2px solid #f8f8f7; outline-offset: 2px; }
+    :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
+    [data-theme="dark"] :focus-visible, .menu :focus-visible, .loader :focus-visible { outline-color: #f8f8f7; }
+    main:focus { outline: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     /* ---------- Hero statements: the two lines take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
     .ln { display: block; }
     .motion .hero__stage { position: relative; }
@@ -1170,6 +1213,16 @@
     .pd-dots { display: flex; justify-content: center; gap: 6px; margin-top: 22px; }
     .pd-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: var(--t-track); cursor: pointer; transition: width .5s var(--ease-out-expo), background-color .7s; }
     .pd-dot.is-active { width: 34px; background: var(--t-eyebrow); }
+    /* Process steps: panels slide on a track, one highlight glides behind the tabs */
+    :root { --pd-ease: cubic-bezier(.22, 1, .36, 1); }
+    .pd-tabs { position: relative; }
+    .pd-tab { position: relative; z-index: 1; background: none; transition: color .5s; }
+    .pd-tab.is-active { background: none; }
+    .pd-ind { position: absolute; top: var(--ind-inset, 0); bottom: var(--ind-inset, 0); left: 0; width: 0; z-index: 0; border-radius: var(--ind-r, 0); background: var(--t-card); pointer-events: none; will-change: transform, width; transition: transform .8s var(--pd-ease), width .8s var(--pd-ease), background-color .7s; }
+    .pd-viewport { overflow: hidden; transition: height .8s var(--pd-ease); }
+    .pd-track { display: flex; will-change: transform; transition: transform .8s var(--pd-ease); }
+    .pd-track > .pd-panel { flex: 0 0 100%; min-width: 0; display: grid; animation: none; }
+    @media (prefers-reduced-motion: reduce) { .pd-ind, .pd-viewport, .pd-track { transition: none; } }
     .pd-why { padding: 170px var(--pad, 16px) 180px; }
     .pd-why__list { width: 684px; max-width: 100%; margin: 0 auto; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .pd-why__row { display: grid; grid-template-columns: 28px 230px 1fr; align-items: center; column-gap: 18px; padding: 24px 18px; border: 1px solid transparent; border-radius: 12px; transition: background-color .5s, border-color .5s; }
@@ -1181,8 +1234,9 @@
     .pd-plans__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; width: 1048px; max-width: 100%; margin: 0 auto 36px; }
     .pd-plans__head .pd-head { align-items: flex-start; margin: 0; text-align: left; }
     .pd-plans__head .pd-head h2 { max-width: 560px; }
-    .pd-plans__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .pd-plan { display: flex; flex-direction: column; border-left: 1px solid var(--t-card-line); }
+    /* the three plans share rows, so the white parts match in height and so do the beige parts */
+    .pd-plans__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto 1fr; }
+    .pd-plan { display: grid; grid-row: span 2; grid-template-rows: subgrid; border-left: 1px solid var(--t-card-line); }
     .pd-plan:first-child { border-left: 0; }
     .pd-plan__top { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 28px 28px 34px; background: var(--t-card); transition: background-color .7s; }
     .pd-plan__top h3 { margin: 8px 0 0; color: var(--t-head); font-weight: 500; font-size: 22px; line-height: 28px; letter-spacing: -0.3px; }
@@ -1249,8 +1303,9 @@
       .pd-gap__track { height: auto; margin-top: 72px; }
       .pd-gap__sticky { position: static; height: auto; overflow: visible; }
       .pd-gap__layer { position: static; display: block; padding: 0; }
-      .pd-gap__layer--a { height: 135vh; }
-      .pd-gap__a-in { position: sticky; top: 22vh; top: 22svh; height: auto; padding: 0 var(--pad, 16px); box-sizing: border-box; }
+      /* the statement pins in the exact middle of the screen while its words light up */
+      .pd-gap__layer--a { height: 200vh; height: 200svh; }
+      .pd-gap__a-in { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 var(--pad, 16px); box-sizing: border-box; }
       .pd-gap__layer--b { opacity: 1; pointer-events: auto; padding: 0 var(--pad, 16px); margin-top: 80px; }
       .pd-gap .pd-head { margin-bottom: 36px; }
       .motion .pd-card[data-stagger] { opacity: 0; transform: translateY(48px); transition: opacity .9s ease, transform 1.4s var(--ease-out-expo), box-shadow .7s ease, background-color .7s, border-color .7s; }
@@ -1266,7 +1321,7 @@
       .pd-lose { padding-top: 96px; } .pd-cards { grid-template-columns: 1fr; gap: 16px; } .pd-card { min-height: 0; }
       .pd-approach { padding-top: 96px; } .pd-panel { grid-template-columns: 1fr; } .pd-tab { padding: 16px var(--pad, 16px); font-size: 14px; }
       .pd-why { padding: 96px var(--pad, 16px) 96px; } .pd-why__list { gap: 16px; } .pd-why__row { padding: 18px 8px; }
-      .pd-plans { padding-top: 96px; } .pd-plans__head { flex-direction: column; align-items: flex-start; } .pd-plans__grid { grid-template-columns: 1fr; } .pd-plan { border-left: 0; border-top: 1px solid var(--t-card-line); } .pd-plan:first-child { border-top: 0; }
+      .pd-plans { padding-top: 96px; } .pd-plans__head { flex-direction: column; align-items: flex-start; } .pd-plans__grid { grid-template-columns: 1fr; grid-template-rows: none; } .pd-plan { grid-row: auto; grid-template-rows: auto auto; } .pd-plan { border-left: 0; border-top: 1px solid var(--t-card-line); } .pd-plan:first-child { border-top: 0; }
       .faq { padding: 96px 28px; } .faq__inner { flex-direction: column; gap: 32px; } .faq__head { flex: none; } .faq__q { font-size: 17px; padding: 20px 20px; } .faq__a-in p { padding: 0 20px 20px; font-size: 16px; line-height: 24px; }
     }
 
@@ -1291,14 +1346,59 @@
       .pd-story .story__card { padding: 56px 24px 32px; }
       .faq__q { padding-left: 24px; padding-right: 24px; }
       .faq__a-in p { padding-left: 24px; padding-right: 24px; }
+      /* Process tabs on phones: five equal numbered tabs, all visible, no scrolling; the step's name is the label right under the tabs */
+      .pd-tabs { overflow: hidden; gap: 4px; padding: 4px; border-radius: 12px 12px 0 0; }
+      .pd-tab { flex: 1 1 0; min-width: 0; height: 44px; padding: 0; gap: 0; border-radius: 8px; font-size: 14px; transition: background-color .5s, color .5s; }
+      .pd-tab i { font-size: 13px; color: inherit; }
+      .pd-tab__t { display: none; }
+      .pd-dots { display: none; }
+      /* Even rhythm: 96px between content everywhere. Where the colour changes (light to dark and back) the edge sits in the middle: 48px each side */
+      .pd-approach { padding-bottom: 48px; }
+      .pd-why { padding-top: 48px; padding-bottom: 48px; }
+      .pd-plans { padding-top: 48px; padding-bottom: 48px; }
+      .testimonials--about { padding-top: 48px; padding-bottom: 48px; }
+      .pd-faqwrap .faq, .faq { padding-top: 48px; padding-bottom: 48px; }
+      .footer { padding-top: 48px; }
+      .pd-carousel, .pd-selected { margin-top: 96px; }
+      .pd-selected .pd-carousel { margin-top: 0; }
+      .pd-gap__track { margin-top: 96px; }
+      /* Cover cards never run wider than the screen: the next card always peeks in, and every cover stays centred in its card */
+      .pd-carousel .carousel__card--work { max-width: 74vw; }
+      .pd-carousel .carousel__card--work img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
     }
   </style>
+<!-- seo:start -->
+<meta name="description" content="Product design for AI, deep-tech and enterprise teams, built around how your users and your industry actually work." />
+<link rel="canonical" href="https://ddishashah.github.io/disha-website/services/product-design/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="author" content="Disha Shah" />
+<meta name="theme-color" content="#f8f8f7" />
+<link rel="icon" href="https://ddishashah.github.io/disha-website/favicon.ico" sizes="any" />
+<link rel="icon" href="https://ddishashah.github.io/disha-website/favicon-32.png" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="https://ddishashah.github.io/disha-website/apple-touch-icon.png" />
+<meta property="og:site_name" content="Disha Shah" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en" />
+<meta property="og:title" content="Product Design — Disha Shah" />
+<meta property="og:description" content="Product design for AI, deep-tech and enterprise teams, built around how your users and your industry actually work." />
+<meta property="og:url" content="https://ddishashah.github.io/disha-website/services/product-design/" />
+<meta property="og:image" content="https://ddishashah.github.io/disha-website/img/og-image.jpg" />
+<meta property="og:image:alt" content="Disha Shah — brand and product systems" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Product Design — Disha Shah" />
+<meta name="twitter:description" content="Product design for AI, deep-tech and enterprise teams, built around how your users and your industry actually work." />
+<meta name="twitter:image" content="https://ddishashah.github.io/disha-website/img/og-image.jpg" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Product Design","serviceType":"Product Design","description":"Product design for AI, deep-tech and enterprise teams, built around how your users and your industry actually work.","url":"https://ddishashah.github.io/disha-website/services/product-design/","areaServed":"Worldwide","provider":{"@id":"https://ddishashah.github.io/disha-website/#person"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ddishashah.github.io/disha-website/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://ddishashah.github.io/disha-website/#services"},{"@type":"ListItem","position":3,"name":"Product Design","item":"https://ddishashah.github.io/disha-website/services/product-design/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do we start working together?","acceptedAnswer":{"@type":"Answer","text":"Book a call with me or send over an email. We will set up a call, and you tell me what is not working. If I can help, I will say what we would do and what it costs. If we cannot, we will say that too."}},{"@type":"Question","name":"Project or retainer?","acceptedAnswer":{"@type":"Answer","text":"Either works. We’ll pick whatever fits where you are."}},{"@type":"Question","name":"What if it’s not the right fit?","acceptedAnswer":{"@type":"Answer","text":"Most people start with a short audit or sprint. If it isn’t working, you can stop, and I’ll refund any time I haven’t worked yet."}},{"@type":"Question","name":"Where are you based?","acceptedAnswer":{"@type":"Answer","text":"In India, working between IST and EST, with plenty of overlap with US teams."}},{"@type":"Question","name":"Do you work with AI tools and engineers?","acceptedAnswer":{"@type":"Answer","text":"Yes. I design with Claude, Cursor and VS Code in mind, and can ship front end myself."}},{"@type":"Question","name":"NDAs?","acceptedAnswer":{"@type":"Answer","text":"Always happy to sign one."}}]}</script>
+<!-- seo:end -->
 </head>
 <body>
+<a class="skip-link" href="#main" onclick="var m=document.getElementById(\'main\');if(m){m.focus();m.scrollIntoView();}return false;">Skip to main content</a>
 <div class="page" data-page>
 
   <header class="about-nav">
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
         <a href="./index.html" class="nav__brand">Disha Shah</a>
         <div class="nav__right">
           <a href="services/product-design/#contact" class="nav__cta">Book a Discovery Call</a>
@@ -1307,7 +1407,7 @@
       </nav>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
   <section class="pd-hero" aria-labelledby="pd-title">
     <p class="eyebrow" data-intro>Product Design</p>
     <h1 id="pd-title" class="pd-hero__title h-primary" data-intro>Your product does a lot. Let’s make it easier to use.</h1>
@@ -1317,7 +1417,7 @@
 
   <div class="pd-carousel">
     <div class="carousel-stage">
-    <div class="carousel" data-carousel>
+    <div class="carousel" data-carousel role="region" aria-roledescription="carousel" aria-label="Selected work">
       <article class="carousel__card carousel__card--work" style="--ar:1800/1076"><img src="img/product-northside.webp" alt="Northside health app screens" width="1800" height="1076" loading="lazy" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:1328/1003"><img src="gallery/p/naW4gfab71QU2QLlNdGxEUONg4.webp" alt="Fintech trading dashboard" width="1328" height="1003" loading="lazy" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:1500/974"><img src="work/img/nwZBHmikNwIq3epe8qU4oLgaOQ.webp" alt="Complaints Intelligence Platform" width="1500" height="974" loading="lazy" /></article>
@@ -1331,6 +1431,8 @@
       <article class="carousel__card carousel__card--work" style="--ar:1328/967"><img src="gallery/p/PSIEdDl2uMRfBzlbsVun08i9DqM.webp" alt="Product design work" width="1328" height="967" loading="lazy" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:1328/1113"><img src="gallery/p/lanGmuxGzLmeKNiYeTKPHqV6M.webp" alt="Product design work" width="1328" height="1113" loading="lazy" /></article>
     </div>
+    <button class="carousel__arrow carousel__arrow--prev" type="button" data-carousel-prev aria-label="Scroll gallery left"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5m0 0 7 7m-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="carousel__arrow carousel__arrow--next" type="button" data-carousel-next aria-label="Scroll gallery right"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </div>
 
@@ -1416,24 +1518,24 @@
       <h2 id="pd-approach-title" class="h-primary">How I work through a product.</h2>
     </div>
     <div class="pd-box" data-reveal data-pd>
-      <div class="pd-tabs" role="tablist" aria-label="How I work"><button class="pd-tab is-active" type="button" role="tab" aria-selected="true" data-pd-tab="0"><i>01</i>Product audit</button><button class="pd-tab" type="button" role="tab" aria-selected="false" data-pd-tab="1"><i>02</i>User flows + IA</button><button class="pd-tab" type="button" role="tab" aria-selected="false" data-pd-tab="2"><i>03</i>Wireframes + UX</button><button class="pd-tab" type="button" role="tab" aria-selected="false" data-pd-tab="3"><i>04</i>Product UI</button><button class="pd-tab" type="button" role="tab" aria-selected="false" data-pd-tab="4"><i>05</i>Handoff + QA</button></div>
-        <div class="pd-panel is-active" role="tabpanel" data-pd-panel="0">
+      <div class="pd-tabs" role="tablist" aria-label="How I work"><button class="pd-tab is-active" id="pd-tab-0-0" aria-controls="pd-panel-0-0" type="button" role="tab" aria-selected="true" data-pd-tab="0"><i>01</i><span class="pd-tab__t"><span>Product audit</span></span></button><button class="pd-tab" id="pd-tab-0-1" aria-controls="pd-panel-0-1" type="button" role="tab" aria-selected="false" data-pd-tab="1"><i>02</i><span class="pd-tab__t"><span>User flows + IA</span></span></button><button class="pd-tab" id="pd-tab-0-2" aria-controls="pd-panel-0-2" type="button" role="tab" aria-selected="false" data-pd-tab="2"><i>03</i><span class="pd-tab__t"><span>Wireframes + UX</span></span></button><button class="pd-tab" id="pd-tab-0-3" aria-controls="pd-panel-0-3" type="button" role="tab" aria-selected="false" data-pd-tab="3"><i>04</i><span class="pd-tab__t"><span>Product UI</span></span></button><button class="pd-tab" id="pd-tab-0-4" aria-controls="pd-panel-0-4" type="button" role="tab" aria-selected="false" data-pd-tab="4"><i>05</i><span class="pd-tab__t"><span>Handoff + QA</span></span></button></div>
+        <div class="pd-panel is-active" id="pd-panel-0-0" aria-labelledby="pd-tab-0-0" role="tabpanel" data-pd-panel="0">
           <div class="pd-panel__main"><p class="pd-label">01 / Product audit</p><h3>First, understand what’s there.</h3><p>I look at your product, who uses it, and the work they’re trying to get done. Together, we find where things get difficult and what’s worth addressing first.</p></div>
           <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Product and UX review</b></li><li><i>02</i><b>Review of relevant competitors</b></li><li><i>03</i><b>Friction points across key journeys</b></li><li><i>04</i><b>Priorities + Strategy on how to approach the design work</b></li></ul></div>
         </div>
-        <div class="pd-panel" role="tabpanel" data-pd-panel="1" hidden>
+        <div class="pd-panel" id="pd-panel-0-1" aria-labelledby="pd-tab-0-1" role="tabpanel" data-pd-panel="1" hidden>
           <div class="pd-panel__main"><p class="pd-label">02 / User flows + IA</p><h3>Make the structure make sense.</h3><p>I map how people move through the product—what they need to find, decide, and do. This includes the different roles, permissions, and handoffs along the way.</p></div>
           <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Key user flows</b></li><li><i>02</i><b>Navigation and information structure</b></li><li><i>03</i><b>Roles and permissions mapping</b></li><li><i>04</i><b>Alternate paths and edge cases</b></li></ul></div>
         </div>
-        <div class="pd-panel" role="tabpanel" data-pd-panel="2" hidden>
+        <div class="pd-panel" id="pd-panel-0-2" aria-labelledby="pd-tab-0-2" role="tabpanel" data-pd-panel="2" hidden>
           <div class="pd-panel__main"><p class="pd-label">03 / Wireframes + UX</p><h3>Work out how it should behave.</h3><p>I use wireframes and prototypes to work through the important screens and interactions. We review the flow, question assumptions, and refine the details before moving into visual design.</p></div>
           <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Wireframes for key screens</b></li><li><i>02</i><b>Interaction patterns</b></li><li><i>03</i><b>Clickable prototypes</b></li><li><i>04</i><b>Empty, loading, and error states</b></li></ul></div>
         </div>
-        <div class="pd-panel" role="tabpanel" data-pd-panel="3" hidden>
+        <div class="pd-panel" id="pd-panel-0-3" aria-labelledby="pd-tab-0-3" role="tabpanel" data-pd-panel="3" hidden>
           <div class="pd-panel__main"><p class="pd-label">04 / Product UI</p><h3>Bring the experience into focus.</h3><p>I shape the visual details so people can tell what matters and what to do next. Layout, type, colour, and components come together across the product.</p></div>
           <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>High-fidelity screens</b></li><li><i>02</i><b>Reusable UI components</b></li><li><i>03</i><b>Responsive layouts</b></li><li><i>04</i><b>Component and interaction states</b></li></ul></div>
         </div>
-        <div class="pd-panel" role="tabpanel" data-pd-panel="4" hidden>
+        <div class="pd-panel" id="pd-panel-0-4" aria-labelledby="pd-tab-0-4" role="tabpanel" data-pd-panel="4" hidden>
           <div class="pd-panel__main"><p class="pd-label">05 / Handoff + QA</p><h3>Carry the thinking into the build.</h3><p>I work with your developers on behaviour, states, and the details that can get missed between design and implementation. As things take shape, I review the build and help resolve gaps.</p></div>
           <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Organised design files and annotations</b></li><li><i>02</i><b>Interaction and behaviour notes</b></li><li><i>03</i><b>Design reviews of the build</b></li><li><i>04</i><b>Follow-up fixes and refinements</b></li></ul></div>
         </div>
@@ -1463,7 +1565,7 @@
         <h2 id="pd-plans-title" class="h-primary">A fresh look, a focused project, or someone to keep building with.</h2>
         <p class="sub">From PoCs + MVPs, to product redesigns and ongoing product support, I work with you at the stage or the level you need.</p>
       </div>
-      <a class="btn-ghost" href="services/product-design/#contact">Start your project today</a>
+      <a class="btn-ghost" href="services/product-design/#contact">Speak to Disha</a>
     </div>
     <div class="pd-box" data-reveal><div class="pd-grid-box"><div class="pd-plans__grid">
         <div class="pd-plan"><div class="pd-plan__top"><p class="pd-label">3-5 days</p><h3>Product Clarity Audit</h3><p>For teams with a live product that feels harder to use than it should. I help you understand where people get stuck and what needs attention first.</p></div><div class="pd-plan__inc"><p class="pd-label">What is included:</p><ul><li><i>01</i><b>Review of key user journeys &amp; friction points</b></li><li><i>02</i><b>User Interface consistency, visual design and accessibility review</b></li><li><i>03</i><b>Findings prioritised by impact, effort and priority</b></li><li><i>04</i><b>Clear recommendations that your team can act upon</b></li></ul></div></div>
@@ -1535,12 +1637,12 @@
         <p class="faq__sub">The things people actually ask, answered plainly.</p>
       </div>
       <div class="faq__list" data-faq data-reveal>
-        <div class="faq__item is-open"><button class="faq__q" type="button" aria-expanded="true"><span>How do we start working together?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Book a call with me or send over an email. We will set up a call, and you tell me what is not working. If I can help, I will say what we would do and what it costs. If we cannot, we will say that too.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>Project or retainer?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Either works. We’ll pick whatever fits where you are.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>What if it’s not the right fit?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Most people start with a short audit or sprint. If it isn’t working, you can stop, and I’ll refund any time I haven’t worked yet.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>Where are you based?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>In India, working between IST and EST, with plenty of overlap with US teams.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>Do you work with AI tools and engineers?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Yes. I design with Claude, Cursor and VS Code in mind, and can ship front end myself.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" type="button" aria-expanded="false"><span>NDAs?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a"><div class="faq__a-in"><p>Always happy to sign one.</p></div></div></div>
+        <div class="faq__item is-open"><button class="faq__q" id="faq-q-1" aria-controls="faq-a-1" type="button" aria-expanded="true"><span>How do we start working together?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-1" role="region" aria-labelledby="faq-q-1"><div class="faq__a-in"><p>Book a call with me or send over an email. We will set up a call, and you tell me what is not working. If I can help, I will say what we would do and what it costs. If we cannot, we will say that too.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>Project or retainer?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>Either works. We’ll pick whatever fits where you are.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>What if it’s not the right fit?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>Most people start with a short audit or sprint. If it isn’t working, you can stop, and I’ll refund any time I haven’t worked yet.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Where are you based?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>In India, working between IST and EST, with plenty of overlap with US teams.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>Do you work with AI tools and engineers?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>Yes. I design with Claude, Cursor and VS Code in mind, and can ship front end myself.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>NDAs?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>Always happy to sign one.</p></div></div></div>
       </div>
     </div>
   </section>
@@ -1551,7 +1653,7 @@
         <p class="eyebrow--dark">Speak with Disha</p>
         <div class="footer__copy">
           <h2 id="footer-title" class="footer__title" style="width:760px">Let’s make sense of what you’re building.</h2>
-          <p class="footer__sub" style="max-width:600px">Whether you’re starting with an idea or working through a product that’s grown complicated, I’d love to hear about it.</p><a class="pd-cta" href="services/product-design/#booking">Let’s talk about your product <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7m0 0H7m10 0v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <p class="footer__sub" style="max-width:600px">Whether you’re starting with an idea or working through a product that’s grown complicated, I’d love to hear about it.</p>
         </div>
       </div>
       <div class="booking" id="booking" data-booking data-reveal>
@@ -1569,14 +1671,14 @@
       <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="footer__bar">
-      <p class="footer__legal">© Vanya Studio 2026  ·  <a href="./#privacy">Privacy</a>  ·  <a href="./#terms">Terms</a></p>
-      <ul class="footer__nav">
+      <ul class="footer__nav" aria-label="Footer">
         <li><a href="about/index.html">About</a></li>
         <li><a href="./#services">Services</a></li>
         <li><a href="work/index.html">Work</a></li>
-        <li><a href="./#playground">Playground</a></li>
+        <!-- hidden for now: <li><a href="./#playground">Playground</a></li> -->
         <li><a href="services/product-design/#contact">Contact</a></li>
       </ul>
+      <p class="footer__legal"><span class="footer__c">© Disha Shah / Vanya Studio 2026</span><span class="footer__dot">  ·  </span><span class="footer__links"><a href="privacy/">Privacy</a>  ·  <a href="terms/">Terms</a></span></p>
     </div>
     <div class="footer__markwrap" data-glow aria-hidden="true">
       <img class="footer__mark" src="img/footer-wordmark.svg" alt="" width="1440" height="188" />
@@ -1586,8 +1688,47 @@
   </main>
 </div><!-- /.page -->
 
+<dialog class="sheet sheet--bleed" id="sheet-complexity" aria-labelledby="sheet-complexity-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-complexity-t" class="sheet__title">The Complexity Gap</h2>
+      <p class="sheet__body">You know the product and industry inside out. The people buying or using it bring different levels of knowledge and experience. The work is in making that complexity manageable throughout the product—helping beginners get started, supporting people as their needs grow, and giving experts the depth and control they need.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-complexity.webp" alt="" width="1774" height="887" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
+<dialog class="sheet sheet--bleed" id="sheet-retention" aria-labelledby="sheet-retention-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-retention-t" class="sheet__title">The Retention Gap</h2>
+      <p class="sheet__body">Getting someone to try a product is one thing. Becoming part of their day-to-day workflow is another. That comes down to how well it helps them do their job—how naturally it fits into their work, how much easier it makes important tasks, and whether it gives them a reason to keep using it.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-retention.webp" alt="" width="1675" height="939" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
+<dialog class="sheet sheet--bleed" id="sheet-growth" aria-labelledby="sheet-growth-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-growth-t" class="sheet__title">The Growth Gap</h2>
+      <p class="sheet__body">The business moves forward, but the experience doesn’t always keep up. The story reflects an earlier stage, the website struggles with new content, and the product feels different depending on where you are. Growth, engineering, business, and design teams spend more time explaining, fixing, and working around the gaps. It gets frustrating for everyone.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-growth.webp" alt="" width="1659" height="948" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
 
   <!-- Menu — arc reveal (see arc.js) -->
@@ -1610,10 +1751,10 @@
             <div class="menu__group menu__item" style="--i:5">
               <p class="menu__label">Services</p>
               <ul class="menu__subs">
-                <li><a class="menu__sub" href="./#services">Brand Design</a></li>
-                <li><a class="menu__sub" href="services/product-design/index.html">Product Design</a></li>
-                <li><a class="menu__sub" href="./#services">Design Systems</a></li>
-                <li><a class="menu__sub" href="./#services">Website &amp; Decks</a></li>
+                <li><a class="menu__sub" href="services/branding/">Brand Design</a></li>
+                <li><a class="menu__sub" href="services/product-design/">Product Design</a></li>
+                <li><a class="menu__sub" href="services/design-systems/">Design Systems</a></li>
+                <li><a class="menu__sub" href="services/websites-decks/">Websites &amp; Decks</a></li>
               </ul>
             </div>
           </div>
@@ -1625,7 +1766,10 @@
           <a class="menu__sub" href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener">Instagram</a>
           <a class="menu__sub" href="https://x.com/dishashah66" target="_blank" rel="noopener">X (Twitter)</a>
         </div>
-        <a class="menu__cta" href="services/product-design/#contact">Book a Discovery Call <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="menu__mail">
+          <a class="menu__cta" href="mailto:disha@vanya.studio">disha@vanya.studio</a>
+          <button class="menu__copy" type="button" data-copy="disha@vanya.studio" aria-label="Copy email address"><svg class="i-copy" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 15c-.932 0-1.398 0-1.765-.152a2 2 0 0 1-1.083-1.083C2 13.398 2 12.932 2 12V5.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C3.52 2 4.08 2 5.2 2H12c.932 0 1.398 0 1.765.152a2 2 0 0 1 1.083 1.083C15 3.602 15 4.068 15 5m-2.8 17h6.6c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C22 20.48 22 19.92 22 18.8v-6.6c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C20.48 9 19.92 9 18.8 9h-6.6c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C9 10.52 9 11.08 9 12.2v6.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874C10.52 22 11.08 22 12.2 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only" role="status" aria-live="polite" data-copy-status></span></button>
+        </div>
       </div>
     </div>
   </nav>
@@ -1991,22 +2135,94 @@
 
     // Product page: "How I work" tabs
     function initPdTabs() {
-      const box = document.querySelector('[data-pd]');
-      if (!box) return;
-      const tabs = [...box.querySelectorAll('[data-pd-tab]')];
-      const dots = [...document.querySelectorAll('.pd-dot')];
-      const panels = [...box.querySelectorAll('[data-pd-panel]')];
-      function go(i) {
-        tabs.forEach(t => { const on = +t.dataset.pdTab === i; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on); });
-        dots.forEach(d => d.classList.toggle('is-active', +d.dataset.pdTab === i));
-        panels.forEach(p => { const on = +p.dataset.pdPanel === i; p.hidden = !on; p.classList.toggle('is-active', on); });
-      }
-      [...tabs, ...dots].forEach(t => t.addEventListener('click', () => go(+t.dataset.pdTab)));
-      box.addEventListener('keydown', (e) => {
-        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-        const cur = tabs.findIndex(t => t.classList.contains('is-active'));
-        const n = (cur + (e.key === 'ArrowRight' ? 1 : -1) + 5) % 5;
-        go(n); tabs[n].focus();
+      // Process steps: the five panels sit side by side on a track that glides under a clip. A single highlight slides
+      // behind the tabs. The track follows the finger 1:1 on a swipe, rubber-bands at the ends, and settles from the
+      // release speed, so it never snaps or bounces.
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+      document.querySelectorAll('[data-pd-set]').forEach((set) => {
+        const box = set.querySelector('[data-pd]');
+        const tabsEl = box.querySelector('.pd-tabs');
+        const tabs = [...box.querySelectorAll('[data-pd-tab]')];
+        const dots = [...set.querySelectorAll('.pd-dot')];
+        const panels = [...box.querySelectorAll('[data-pd-panel]')];
+        const n = panels.length;
+        const vp = document.createElement('div'); vp.className = 'pd-viewport';
+        const track = document.createElement('div'); track.className = 'pd-track';
+        panels.forEach((p) => { p.hidden = false; track.appendChild(p); });
+        vp.appendChild(track); box.appendChild(vp);
+        const ind = document.createElement('span'); ind.className = 'pd-ind'; ind.setAttribute('aria-hidden', 'true');
+        tabsEl.insertBefore(ind, tabsEl.firstChild);
+        let cur = 0, W = 0, pos = [];
+        const measure = () => {
+          W = vp.clientWidth;
+          pos = tabs.map((t) => ({ x: t.offsetLeft, w: t.offsetWidth }));
+        };
+        const setInd = (f) => {                                    // f: fractional step, so it can follow a drag
+          if (!pos.length) return;
+          const i0 = clamp(Math.floor(f), 0, n - 1), i1 = Math.min(n - 1, i0 + 1), t = clamp(f - i0, 0, 1);
+          const x = pos[i0].x + (pos[i1].x - pos[i0].x) * t, w = pos[i0].w + (pos[i1].w - pos[i0].w) * t;
+          ind.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)'; ind.style.width = w.toFixed(2) + 'px';
+        };
+        const still = (on) => { const v = on ? 'none' : ''; track.style.transition = v; ind.style.transition = v; vp.style.transition = v; };
+        const place = () => {                                       // jump to the current step with no animation
+          measure(); still(true);
+          track.style.transform = 'translate3d(' + (-cur * W) + 'px,0,0)'; setInd(cur);
+          vp.style.height = panels[cur].offsetHeight + 'px';
+          void vp.offsetWidth; still(false);
+        };
+        const go = (i, animate = true) => {
+          i = clamp(i, 0, n - 1);
+          cur = i;
+          tabs.forEach((t, k) => { const on = k === i; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+          dots.forEach((d, k) => d.classList.toggle('is-active', k === i));
+          panels.forEach((p, k) => { p.classList.toggle('is-active', k === i); p.inert = k !== i; p.setAttribute('aria-hidden', k !== i); });
+          if (!animate) { place(); return; }
+          measure();
+          track.style.transform = 'translate3d(' + (-i * W) + 'px,0,0)';
+          setInd(i);
+          vp.style.height = panels[i].offsetHeight + 'px';
+        };
+        [...tabs, ...dots].forEach((t) => t.addEventListener('click', () => go(+t.dataset.pdTab)));
+        // swipe: follows the finger, then settles from the release speed
+        let sx = 0, sy = 0, mode = null, dx = 0, lastX = 0, lastT = 0, v = 0;
+        vp.addEventListener('touchstart', (e) => {
+          if (e.touches.length !== 1) return;
+          sx = lastX = e.touches[0].clientX; sy = e.touches[0].clientY; lastT = e.timeStamp; mode = null; dx = 0; v = 0;
+        }, { passive: true });
+        vp.addEventListener('touchmove', (e) => {
+          if (e.touches.length !== 1) return;
+          const x = e.touches[0].clientX, y = e.touches[0].clientY;
+          if (mode === null) {
+            const ax = Math.abs(x - sx), ay = Math.abs(y - sy);
+            if (ax < 6 && ay < 6) return;
+            mode = ax > ay * 1.2 ? 'h' : 'v';
+            if (mode === 'h') { measure(); still(true); }
+          }
+          if (mode !== 'h') return;
+          dx = x - sx;
+          const eff = ((cur === 0 && dx > 0) || (cur === n - 1 && dx < 0)) ? dx * 0.35 : dx;   // resistance at the ends
+          track.style.transform = 'translate3d(' + (-cur * W + eff) + 'px,0,0)';
+          setInd(clamp(cur - eff / W, 0, n - 1));
+          const dtm = Math.max(1, e.timeStamp - lastT); v = 0.75 * v + 0.25 * ((x - lastX) / dtm); lastX = x; lastT = e.timeStamp;
+          if (e.cancelable) e.preventDefault();
+        }, { passive: false });
+        const end = () => {
+          if (mode !== 'h') { mode = null; return; }
+          mode = null; still(false);
+          const proj = dx + v * 160;
+          go(proj < -W * 0.28 ? cur + 1 : proj > W * 0.28 ? cur - 1 : cur);
+        };
+        vp.addEventListener('touchend', end); vp.addEventListener('touchcancel', end);
+        box.addEventListener('keydown', (e) => {
+          if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+          const m = (cur + (e.key === 'ArrowRight' ? 1 : -1) + n) % n;
+          go(m); tabs[m].focus();
+        });
+        if ('ResizeObserver' in window) new ResizeObserver(place).observe(vp);
+        panels.forEach((p) => { if ('ResizeObserver' in window) new ResizeObserver(() => { if (panels[cur] === p) vp.style.height = p.offsetHeight + 'px'; }).observe(p); });
+        window.addEventListener('resize', place);
+        go(0, false);
+        set.__pdRefresh = place;
       });
     }
 
@@ -2055,7 +2271,7 @@
         } else {
           const a = layerA.getBoundingClientRect();
           const inn = layerA.querySelector('.pd-gap__a-in');
-          const stick = window.innerHeight * 0.22;
+          const stick = 0;
           const span = Math.max(1, a.height - inn.offsetHeight);
           fill(reduce ? 1 : clamp((stick - a.top) / (span * 0.8)));
           layerA.style.opacity = layerA.style.transform = layerB.style.opacity = layerB.style.transform = layerB.style.pointerEvents = '';
@@ -2490,7 +2706,7 @@
         //  - letting go early is a critically damped spring that keeps the finger's speed (no wobble)
         //  - interruptible: touch it again mid-spring and it follows the finger from where it is
         var mode = 'idle', startY = 0, lastY = 0, origin = 0, base = 0, cur = 0, raf = 0, fromHandle = false, pulled = false, samples = [];
-        function setY(v) { cur = v; d.style.transform = v > 0.01 ? 'translateY(' + v + 'px)' : ''; }
+        function setY(v) { cur = v; d.style.transform = v > 0.01 ? 'translateY(' + v + 'px)' : ''; d.style.setProperty('--pk', v > 0.01 ? v.toFixed(1) : '0'); }   // --pk: how far the sheet is pulled, for the image to react to
         function velocity() {                                    // px per ms over the last ~100ms, downward positive
           var n = samples.length; if (n < 2) return 0;
           var a = samples[0], b = samples[n - 1], dt = b[0] - a[0];
@@ -2620,6 +2836,52 @@
     function arm() { if (root.classList.contains('is-loaded')) setTimeout(start, 500); }
     new MutationObserver(arm).observe(root, { attributes: true, attributeFilter: ['class'] });
     arm();
+  })();
+  </script>
+  <script>
+  // Copy the email address from the menu
+  (function () {
+    document.querySelectorAll('[data-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy'), done = function () {
+          btn.classList.add('is-copied');
+          var s = btn.querySelector('[data-copy-status]'); if (s) s.textContent = 'Email address copied';
+          clearTimeout(btn._t); btn._t = setTimeout(function () { btn.classList.remove('is-copied'); if (s) s.textContent = ''; }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, fallback); } else fallback();
+        function fallback() {
+          var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+          document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) {} ta.remove();
+        }
+      });
+    });
+  })();
+  </script>
+  <script>
+  // Footer headline: roll the closing words (Collins-style mask roll, same easing as the hero statements)
+  (function () {
+    var root = document.querySelector('[data-rotate]'); if (!root) return;
+    var title = root.closest('.footer__title'), words = [].slice.call(root.querySelectorAll('.rot__w'));
+    var PHRASES = ['build devotion', 'create adoption', 'build trust', 'create loyalty'], HOLD = 2800, i = 0, a = words[0], b = words[1], timer = null, busy = false;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (title) title.setAttribute('aria-label', 'Building experiences that build trust, loyalty, devotion and adoption.');
+    function width(text, el) { var prev = el.textContent; el.textContent = text; el.style.visibility = 'hidden'; var w = el.getBoundingClientRect().width; el.textContent = prev; el.style.visibility = ''; return Math.ceil(w) + 1; }
+    function size() { root.style.width = width(PHRASES[i], a) + 'px'; }
+    function step() {
+      if (busy) return; busy = true;
+      var next = (i + 1) % PHRASES.length;
+      b.textContent = PHRASES[next]; b.style.visibility = '';
+      root.style.transition = 'width .9s cubic-bezier(.19, 1, .22, 1)'; root.style.width = width(PHRASES[next], b) + 'px';
+      var out = a.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-112%)' }], { duration: 750, easing: 'cubic-bezier(.76, 0, .24, 1)', fill: 'forwards' });
+      var inn = b.animate([{ transform: 'translateY(112%)' }, { transform: 'translateY(0)' }], { duration: 1100, delay: 140, easing: 'cubic-bezier(.19, 1, .22, 1)', fill: 'both' });
+      inn.onfinish = function () {
+        out.cancel(); inn.cancel(); a.textContent = PHRASES[next]; a.style.visibility = ''; b.textContent = ''; i = next; busy = false;
+      };
+    }
+    function arm() { clearInterval(timer); timer = setInterval(step, HOLD + 1100); }
+    function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); else arm(); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(init); else init();
+    window.addEventListener('resize', function () { if (!busy) { root.style.transition = 'none'; size(); } });
   })();
   </script>
   <script src="arc.js?v=8"></script>

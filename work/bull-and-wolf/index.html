@@ -191,7 +191,9 @@
     @media (max-width: 1023px) {
       .carousel__arrow { position: absolute; top: 50%; bottom: auto; transform: translateY(-50%); z-index: 3; display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #140700; box-shadow: 0 3px 16px rgba(0,0,0,.14); cursor: pointer; transition: opacity .2s ease, box-shadow .2s ease; }
       .carousel__arrow:hover { box-shadow: 0 5px 20px rgba(0,0,0,.2); }
-      .carousel__arrow:disabled { opacity: .35; cursor: default; }
+      .carousel__arrow { transition: opacity .35s ease, visibility 0s linear .35s, box-shadow .3s ease; }
+      .carousel__arrow:not(:disabled) { transition: opacity .35s ease, visibility 0s, box-shadow .3s ease; }
+      .carousel__arrow:disabled { opacity: 0; visibility: hidden; pointer-events: none; }   /* nothing further that way: the button is simply not there */
       .carousel__arrow:focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
       .carousel__arrow svg { width: 18px; height: 18px; }
       .carousel__arrow--prev { left: 24px; }
@@ -307,7 +309,7 @@
     /* ---------- Sheet dialog — Collins "Explore the gallery" pattern ----------
        Page behind: scale .95, translateY 10px, opacity .4, saturate .4 (origin top centre).
        Sheet: fixed, 20px from the top, 24px top radius, rises from 100vh, 1.2s ease-out-expo. */
-    button.gap { border: 0; cursor: pointer; font: inherit; font-weight: 500; font-size: 14.6px; transition: transform .6s var(--ease-out-expo), box-shadow .6s ease; }
+    button.gap { border: 0; cursor: pointer; font: inherit; font-weight: 400; font-size: 14.6px; transition: transform .6s var(--ease-out-expo), box-shadow .6s ease; }
     button.gap, button.gap:focus, button.gap:focus-visible { outline: none; }
     button.gap:hover, button.gap:focus-visible { transform: scale(1.02); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); }
     .gaps > li { display: contents; }
@@ -316,7 +318,7 @@
     html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1); }
     html.sheet-open, html.sheet-open body { background-color: #140700; }
     html.sheet-open [data-page] { transform: translateY(10px) scale(.95); opacity: .4; filter: saturate(.4); }
-    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: var(--top) 0 0 0; width: 100%; max-width: 100%; height: calc(100dvh - var(--top)); max-height: 100%; margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
+    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; height: auto; max-height: calc(100dvh - var(--top)); margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
     .sheet.is-open { transform: translateY(0); }
     .sheet::backdrop { opacity: 0; }
     .sheet__bar { position: sticky; top: 0; z-index: 3; height: 0; display: flex; justify-content: flex-end; padding: 24px 24px 0; }
@@ -324,10 +326,12 @@
     .sheet__close:hover { transform: rotate(90deg) scale(1.04); }
     .sheet__close, .sheet__close:focus, .sheet__close:focus-visible { outline: none; }
     .sheet__close svg { width: 22px; height: 22px; }
-    .sheet__content { box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(64px, 8vw, 128px); padding: clamp(56px, 28px + 6vw, 96px) max(24px, calc((100% - 1268px) / 2)) clamp(56px, 8vw, 96px); }
+    .sheet__content { box-sizing: border-box; display: flex; flex-direction: column; gap: clamp(36px, 5vw, 64px); padding: clamp(64px, 36px + 6vw, 104px) max(24px, calc((100% - 1268px) / 2)) calc(clamp(40px, 6vw, 72px) + env(safe-area-inset-bottom, 0px)); }
+    .sheet--gallery { height: calc(100dvh - var(--top)); }   /* the gallery stays full height; the other sheets size to their content, up to the same limit */
     .sheet__head { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; max-width: 740px; width: 100%; margin: 0 auto; }
     .sheet__eyebrow { margin: 0; color: #757575; font-size: 16px; line-height: 20.8px; letter-spacing: -0.16px; }
     .sheet__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; }
+    .sheet__body { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .sheet__lead { margin: 0; color: #5e5855; font-size: 18px; line-height: 28px; letter-spacing: 0.36px; }
     .sheet__text { display: grid; grid-template-columns: 1fr; gap: 20px 24px; max-width: 740px; width: 100%; margin: 0 auto; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .sheet__text h3 { margin: 24px 0 0; color: #140700; font-weight: 500; font-size: 16px; line-height: 27px; }
@@ -337,13 +341,26 @@
     .sheet__fig { margin: 0; overflow: hidden; border-radius: 16px; background: #f8f8f7; opacity: 0; transform: translateY(5em); transition: opacity .8s ease, transform 1.8s var(--ease-out-expo); }
     .sheet.is-open .sheet__fig { opacity: 1; transform: none; transition-delay: calc(.14s + var(--i, 0) * .06s); }
     .sheet__fig img { display: block; width: 100%; height: auto; }
+    /* Gap pop-ups: the image runs the full width of the sheet, square-cornered, right down to the bottom edge */
+    .sheet--bleed .sheet__content { --sx: max(24px, calc((100vw - 1268px) / 2)); padding-bottom: 0; gap: clamp(56px, 10vw, 144px); }   /* more air between the text and the image */
+    .sheet--bleed .sheet__gallery { margin-inline: calc(var(--sx) * -1); }
+    /* All three pictures share one shape (the city picture's): the same height in every gap pop-up */
+    .sheet--bleed .sheet__fig { aspect-ratio: 1659 / 948; }
+    /* the three paragraphs reserve the same number of lines, so the three pop-ups come out the same height */
+    .sheet--bleed .sheet__body { min-height: 5lh; }
+    @media (max-width: 1023px) { .sheet--bleed .sheet__body { min-height: 6lh; } }
+    @media (max-width: 767px) { .sheet--bleed .sheet__body { min-height: 7lh; } }
+    .sheet--bleed .sheet__fig img { width: 100%; height: 100%; object-fit: cover; }
+    .sheet--bleed .sheet__fig { border-radius: 0; corner-shape: round; }
+    /* as the sheet is pulled down the picture slides up inside its frame (parallax), and settles back with the sheet */
+    .sheet--bleed .sheet__fig img { transform-origin: 50% 0; transform: translateY(calc(var(--pk, 0) * -0.15px)) scale(calc(1 + var(--pk, 0) * 0.0009)); will-change: transform; }
     .sheet__handle { display: none; }
     @media (max-width: 767px) {
       /* Drawer: grab handle on top, pull down to dismiss, no round close button */
       .sheet__handle { touch-action: none; position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 44px; margin: 0 0 -44px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
       .sheet__handle span { display: block; width: 36px; height: 5px; margin: 10px auto 0; border-radius: 3px; background: rgba(20, 7, 0, .2); }
       .sheet__bar { display: none; }
-      .sheet__content { padding-top: 56px; }
+      .sheet__content { padding-top: 76px; }   /* room under the grab handle */
     }
     @media (min-width: 768px) {
       .sheet__text { grid-template-columns: repeat(6, 1fr); }
@@ -953,6 +970,18 @@
     .menu__foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 0 0 72px; }
     .menu__social { display: flex; gap: 33px; }
     .menu__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #d0d0c8; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; white-space: nowrap; transition: color .3s ease; }
+    /* ---------- Footer headline: the last words roll through build trust / create loyalty / build devotion / create adoption (line-mask roll, as in the hero) ---------- */
+    .rot { position: relative; display: inline-block; vertical-align: top; height: 1.1em; padding-bottom: .16em; margin-bottom: -.16em; overflow: hidden; }
+    .rot__w { position: absolute; left: 0; top: 0; white-space: nowrap; will-change: transform; }
+    .rot__w:empty { visibility: hidden; }
+    .menu__mail { display: flex; align-items: center; gap: 0; }
+    .menu__copy { position: relative; display: grid; place-items: center; width: 40px; height: 40px; margin-left: 2px; padding: 0; border: 0; border-radius: 50%; background: none; color: #d0d0c8; cursor: pointer; transition: color .3s ease, background-color .3s ease; }
+    .menu__copy:hover { color: #f8f8f7; background: rgba(255, 255, 255, .1); }
+    .menu__copy svg { grid-area: 1 / 1; width: 18px; height: 18px; transition: opacity .25s ease, transform .5s var(--ease-out-expo); }
+    .menu__copy .i-check { opacity: 0; transform: scale(.6); }
+    .menu__copy.is-copied { color: #f8f8f7; }
+    .menu__copy.is-copied .i-copy { opacity: 0; transform: scale(.6); }
+    .menu__copy.is-copied .i-check { opacity: 1; transform: none; }
     .menu__cta:hover { color: #f8f8f7; }
     .menu__cta svg { width: 18px; height: 18px; transition: transform .6s var(--ease-out-expo); }
     .menu__cta:hover svg { transform: translateX(4px); }
@@ -1050,15 +1079,16 @@
       .quote__by { font-size: 16px; line-height: 22px; }
 
       /* Services */
-      .services { padding-bottom: 56px; }
+      .services { padding-bottom: 8px; }   /* + the row's 40px = 48px to the light/dark edge */
       .services__head { padding: 0 28px; gap: 12px; }
       .services__row { margin-top: 4px; padding: 24px 28px 40px; scroll-padding: 0 28px; gap: 16px; }
-      .service { flex-basis: calc(100vw - 96px); height: 300px; padding: 28px 24px 32px; }
+      .services__row { flex-direction: column; overflow: visible; scroll-snap-type: none; }   /* the four services stack and scroll with the page */
+      .service { flex: none; width: 100%; height: auto; gap: 44px; padding: 28px 24px 32px; }
       .service__title { font-size: 20px; line-height: 28px; }
       .service__tags { font-size: 16px; line-height: 24px; }
 
       /* What pulls me in */
-      .pulls { padding: 96px 28px 0; gap: 28px; }   /* dark sections follow each other with one 96px gap, not two */
+      .pulls { padding: 48px 28px 0; gap: 28px; }   /* dark sections follow each other with one 96px gap, not two */
       .pulls__title { font-size: 36px; line-height: 38px; letter-spacing: -1px; }
       .pulls__body { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
 
@@ -1085,8 +1115,14 @@
       }
       .booking__fallback { inset: 6px; }
       .socials { margin-top: 40px; }
-      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 20px; font-size: 16px; line-height: 26px; }
-      .footer__nav { gap: 10px 20px; justify-content: center; }
+      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 40px; font-size: 16px; line-height: 26px; }
+      /* roomy, thumb-sized links like the Fluid Intelligence footer: one per row, 44px tall */
+      .footer__nav { flex-direction: column; align-items: center; gap: 0; }
+      .footer__nav a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; }
+      .footer__legal a { display: inline-block; padding: 12px 6px; margin: -12px 0; }
+      .footer__c, .footer__links { display: block; }
+      .footer__dot { display: none; }
+      .footer__links { margin-top: 2px; }
       .footer__sub--para br { display: none; }
       .footer__bar { align-items: center; text-align: center; }
       .footer__markwrap { margin-top: 48px; }
@@ -1101,6 +1137,13 @@
     @keyframes loaderSweep { from { -webkit-mask-position: 0 100%; mask-position: 0 100%; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
     @keyframes loaderLift { from { transform: translateY(0); } to { transform: translateY(-102%); } }
     @media (prefers-reduced-motion: reduce) { .loader { display: none !important; } }
+    /* ---------- Accessibility: skip link, visible keyboard focus ---------- */
+    .skip-link { position: fixed; left: 16px; top: -80px; z-index: 100000; padding: 12px 20px; border-radius: 99px; background: #140700; color: #f8f8f7; font-size: 15px; line-height: 20px; text-decoration: none; transition: top .3s var(--ease-out-expo); }
+    .skip-link:focus { top: 16px; outline: 2px solid #f8f8f7; outline-offset: 2px; }
+    :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
+    [data-theme="dark"] :focus-visible, .menu :focus-visible, .loader :focus-visible { outline-color: #f8f8f7; }
+    main:focus { outline: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     /* ---------- Hero statements: the two lines take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
     .ln { display: block; }
     .motion .hero__stage { position: relative; }
@@ -1136,17 +1179,17 @@
     .wi-hero__title { margin: 0; width: 566px; max-width: 100%; font-size: 48px; line-height: 53px; letter-spacing: -1.44px; }
     .wi-hero__sub { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .wi-list { display: flex; flex-direction: column; align-items: center; gap: 45px; margin-top: 148px; padding: 0 var(--pad, 16px); }
-    .wcard { display: block; box-sizing: border-box; width: 1048px; max-width: 100%; padding: 60px 64px; border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); transition: transform .7s var(--ease-out-expo), box-shadow .7s var(--ease-out-expo); }
+    .wcard { display: block; box-sizing: border-box; width: 1110px; max-width: 100%; padding: 60px 64px; border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); transition: transform .7s var(--ease-out-expo), box-shadow .7s var(--ease-out-expo); }
     .wcard:hover { transform: translateY(-4px); box-shadow: 0 24px 40px rgba(0, 0, 0, .09); }
     .wcard__in { display: flex; align-items: center; gap: 73px; }
-    .wcard__img { flex: 0 0 389px; height: 422px; border-radius: 12px; overflow: hidden; background: #eee; }
+    .wcard__img { flex: 0 0 439px; height: 413.834px; border-radius: 18.08px; overflow: hidden; background: #eee; }
     .wcard__img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-out-expo); }
     .wcard:hover .wcard__img img { transform: scale(1.04); }
     .wcard__txt { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 33px; padding: 2px 0; }
     .wcard__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 36px; line-height: 40px; letter-spacing: -0.7229px; color: var(--t-head); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
     .wcard__sub { margin: 0; color: var(--t-body); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
-    .wcard__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: var(--t-head); font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; }
-    .wcard__cta svg { width: 18px; height: 18px; transition: transform .6s var(--ease-out-expo); }
+    .wcard__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: var(--t-head); font-weight: 500; font-size: 16px; line-height: 14.56px; letter-spacing: 0.16px; }
+    .wcard__cta svg { width: 16px; height: 16px; transition: transform .6s var(--ease-out-expo); }
     .wcard:hover .wcard__cta svg { transform: translateX(4px); }
     .wcard[hidden] { display: none; }
     .wi-list { scroll-margin-top: 72px; }
@@ -1216,6 +1259,22 @@
     .wd-info a { text-decoration: underline; text-underline-offset: 3px; }
     .wd-text { width: 633px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 106px auto 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .wd-text + .wd-text, .wd-text + .wd-strip + .wd-text { margin-top: 64px; }
+    /* ---------- Case-study progress rail: one dash per section, the current one long and dark; hover for a preview card ---------- */
+    .wd-rail { position: fixed; left: clamp(20px, 3.4vw, 64px); top: 50%; z-index: 30; display: none; flex-direction: column; gap: 6px; transform: translateY(-50%); opacity: 0; pointer-events: none; transition: opacity .6s ease; }
+    .wd-rail.is-on { opacity: 1; pointer-events: auto; }
+    @media (min-width: 1100px) { .wd-rail { display: flex; } }
+    .wd-rail__i { position: relative; display: flex; align-items: center; width: 56px; height: 18px; padding: 0; border: 0; background: none; cursor: pointer; }
+    .wd-rail__i::before { content: ""; display: block; width: 24px; height: 2px; border-radius: 2px; background: #b2aea4; transition: width .5s var(--ease-out-expo), background-color .4s ease, height .3s ease; }
+    .wd-rail__i:hover::before { background: #6f6b63; }
+    .wd-rail__i.is-active::before { width: 48px; height: 3px; background: #2b2722; }
+    .wd-rail__i:focus-visible { outline: none; }
+    .wd-rail__i:focus-visible::before { background: #2b2722; }
+    .wd-rail__tip { position: absolute; left: 64px; top: 50%; width: 300px; box-sizing: border-box; padding: 18px 22px 16px; border-radius: 16px; background: #fcfbf9; box-shadow: 0 14px 32px rgba(40, 32, 20, .12), 0 2px 6px rgba(40, 32, 20, .06); opacity: 0; transform: translate(-8px, -50%); pointer-events: none; transition: opacity .3s ease, transform .5s var(--ease-out-expo); text-align: left; }
+    @supports (corner-shape: squircle) { .wd-rail__tip { corner-shape: squircle; border-radius: 22px; } }
+    .wd-rail__i:hover .wd-rail__tip, .wd-rail__i:focus-visible .wd-rail__tip { opacity: 1; transform: translate(0, -50%); }
+    .wd-rail__tip b { display: block; color: #2b2722; font-weight: 500; font-size: 17px; line-height: 22px; letter-spacing: -0.1px; }
+    .wd-rail__tip span { display: block; margin-top: 6px; color: #7a766e; font-size: 14.5px; line-height: 22px; letter-spacing: 0.1px; }
+    .wd-rail__tip em { display: block; margin-top: 12px; color: #b6b2a8; font-style: normal; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; letter-spacing: .6px; }
     .wd-text h4 { margin: 0 0 20px; font-weight: 600; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .wd-text h3 { margin: 0 0 20px; color: #000; font-family: var(--font-serif); font-weight: 400; font-size: 28px; line-height: 33px; letter-spacing: -0.56px; }
     .wd-text p { margin: 0 0 27px; }
@@ -1230,7 +1289,7 @@
       .wcard { padding: 20px; } .wcard__in { flex-direction: column; align-items: stretch; gap: 24px; }
       .wcard__img { flex: none; height: auto; aspect-ratio: 4 / 3; }
       .wcard__title { font-size: 26px; line-height: 31px; } .wcard__txt { gap: 20px; }
-      .wi-more { padding-bottom: 96px; margin-top: 40px; }
+      .wi-more { padding-bottom: 48px; margin-top: 40px; }
       .wi-bar { bottom: 18px; gap: 4px; max-width: calc(100% - 16px); } .wi-chip--back { display: inline-block; } .wi-chip { padding: 4px 10px; font-size: 12px; line-height: 22px; letter-spacing: 0.1px; }
       .wcard__wl { display: none; }
       .wd-head { padding-top: 112px; } .wd-title { font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
@@ -1253,14 +1312,38 @@
       .wd-media { margin-top: 40px; } .wd-info { flex-direction: column; gap: 14px; margin-top: 48px; }
       .wd-strip { gap: 16px; margin-top: 40px; }
       .wd-text { margin-top: 64px; } .wd-text h3 { font-size: 24px; line-height: 29px; }
-      .wd-more { margin-top: 96px; } .wd-after { padding-bottom: 96px; }
+      .wd-more { margin-top: 96px; } .wd-after { padding-bottom: 48px; } .footer { padding-top: 48px; }   /* even rhythm: 48px each side of the light/dark edge */
     }
   </style>
+<!-- seo:start -->
+<link rel="canonical" href="https://ddishashah.github.io/disha-website/work/bull-and-wolf/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="author" content="Disha Shah" />
+<meta name="theme-color" content="#f8f8f7" />
+<link rel="icon" href="https://ddishashah.github.io/disha-website/favicon.ico" sizes="any" />
+<link rel="icon" href="https://ddishashah.github.io/disha-website/favicon-32.png" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="https://ddishashah.github.io/disha-website/apple-touch-icon.png" />
+<meta property="og:site_name" content="Disha Shah" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="en" />
+<meta property="og:title" content="Making trading education feel credible in a category built on hype. — Disha Shah" />
+<meta property="og:description" content="Brand identity, learning platform, website, and copy for a trading academy built on fundamentals — education product design for serious market learners." />
+<meta property="og:url" content="https://ddishashah.github.io/disha-website/work/bull-and-wolf/" />
+<meta property="og:image" content="https://ddishashah.github.io/disha-website/work/img/1WS6qWOuULjxpVhEpe66edNLSH0.webp" />
+<meta property="og:image:alt" content="Making trading education feel credible in a category built on hype." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Making trading education feel credible in a category built on hype. — Disha Shah" />
+<meta name="twitter:description" content="Brand identity, learning platform, website, and copy for a trading academy built on fundamentals — education product design for serious market learners." />
+<meta name="twitter:image" content="https://ddishashah.github.io/disha-website/work/img/1WS6qWOuULjxpVhEpe66edNLSH0.webp" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"Making trading education feel credible in a category built on hype.","headline":"Making trading education feel credible in a category built on hype.","description":"Brand identity, learning platform, website, and copy for a trading academy built on fundamentals — education product design for serious market learners.","url":"https://ddishashah.github.io/disha-website/work/bull-and-wolf/","image":"https://ddishashah.github.io/disha-website/work/img/1WS6qWOuULjxpVhEpe66edNLSH0.webp","inLanguage":"en","creator":{"@id":"https://ddishashah.github.io/disha-website/#person"},"author":{"@id":"https://ddishashah.github.io/disha-website/#person"},"genre":"Bull & Wolf"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ddishashah.github.io/disha-website/"},{"@type":"ListItem","position":2,"name":"Work","item":"https://ddishashah.github.io/disha-website/work/"},{"@type":"ListItem","position":3,"name":"Making trading education feel credible in a category built on hype.","item":"https://ddishashah.github.io/disha-website/work/bull-and-wolf/"}]}</script>
+<!-- seo:end -->
 </head>
 <body>
+<a class="skip-link" href="#main" onclick="var m=document.getElementById(\'main\');if(m){m.focus();m.scrollIntoView();}return false;">Skip to main content</a>
 <div class="page" data-page>
   <header class="about-nav">
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
         <a href="./index.html" class="nav__brand">Disha Shah</a>
         <div class="nav__right">
           <a href="work/bull-and-wolf/#contact" class="nav__cta">Book a Discovery Call</a>
@@ -1269,7 +1352,7 @@
       </nav>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
   <article>
     <header class="wd-head">
       <p class="wd-eyebrow" data-intro>Bull &amp; Wolf</p>
@@ -1279,11 +1362,11 @@
     </header>
     <div class="carousel-stage wd-carousel">
     <div class="carousel" data-carousel data-reveal>
-      <article class="carousel__card carousel__card--work" style="--ar:1500/772"><img src="work/img/1WS6qWOuULjxpVhEpe66edNLSH0.webp" alt="Bull &amp; Wolf" width="1500" height="772" loading="eager" draggable="false" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1500/779"><img src="work/img/wDTtl1LAtcsRSt8hy5SGGr4AI4.webp" alt="Bull &amp; Wolf" width="1500" height="779" loading="eager" draggable="false" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1500/778"><img src="work/img/VVMh4TzUQ9fwtEYdq1GHUmUxYZ8.webp" alt="Bull &amp; Wolf" width="1500" height="778" loading="lazy" draggable="false" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1500/718"><img src="work/img/xtX1Vp21339DwzTni3fzEJBuFnE.webp" alt="Bull &amp; Wolf" width="1500" height="718" loading="lazy" draggable="false" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1500/1005"><img src="work/img/J4raRl5ZSRkneQsGx0Yz8NWFg.webp" alt="Bull &amp; Wolf" width="1500" height="1005" loading="lazy" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/772"><img src="work/img/1WS6qWOuULjxpVhEpe66edNLSH0.webp" alt="Making trading education feel credible in a category built on hype." width="1500" height="772" loading="eager" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/779"><img src="work/img/wDTtl1LAtcsRSt8hy5SGGr4AI4.webp" alt="Making trading education feel credible in a category built on hype." width="1500" height="779" loading="eager" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/778"><img src="work/img/VVMh4TzUQ9fwtEYdq1GHUmUxYZ8.webp" alt="Making trading education feel credible in a category built on hype." width="1500" height="778" loading="lazy" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/718"><img src="work/img/xtX1Vp21339DwzTni3fzEJBuFnE.webp" alt="Making trading education feel credible in a category built on hype." width="1500" height="718" loading="lazy" draggable="false" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/1005"><img src="work/img/J4raRl5ZSRkneQsGx0Yz8NWFg.webp" alt="Making trading education feel credible in a category built on hype." width="1500" height="1005" loading="lazy" draggable="false" /></article>
       <button class="carousel__card wd-explore" type="button" data-sheet="gallery" aria-haspopup="dialog">
         <span class="wd-explore__fan"><img src="work/img/wDTtl1LAtcsRSt8hy5SGGr4AI4.webp" alt="" loading="lazy" /><img src="work/img/8hCQ54LPN4yBve8GlVvzQCXMiwU.webp" alt="" loading="lazy" /><img src="work/img/N9hGg8iw4iHpzmdA4zCjGVNdL48.webp" alt="" loading="lazy" /></span>
         <span class="wd-explore__row"><span>Explore the gallery</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 10 7-7m0 0h-6m6 0v6m-11 5-7 7m0 0h6m-6 0v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1298,13 +1381,13 @@
 <p>A connected brand, website, and learning platform built around the academy’s teaching philosophy. The website introduces the approach and what students can expect; the product design carries that direction into how the learning is organised.</p>
 <p>The work establishes a consistent foundation for the academy as it develops, connecting how Bull &amp; Wolf presents itself with the education it sets out to deliver.</p>
 </div>
-    <div class="wd-strip" data-reveal><figure><img src="work/img/wDTtl1LAtcsRSt8hy5SGGr4AI4.webp" alt="" width="1500" height="779" loading="lazy" draggable="false" /></figure><figure><img src="work/img/8hCQ54LPN4yBve8GlVvzQCXMiwU.webp" alt="" width="1440" height="1121" loading="lazy" draggable="false" /></figure><figure><img src="work/img/N9hGg8iw4iHpzmdA4zCjGVNdL48.webp" alt="" width="1500" height="1010" loading="lazy" draggable="false" /></figure><figure><img src="work/img/VVMh4TzUQ9fwtEYdq1GHUmUxYZ8.webp" alt="" width="1500" height="778" loading="lazy" draggable="false" /></figure><figure><img src="work/img/xtX1Vp21339DwzTni3fzEJBuFnE.webp" alt="" width="1500" height="718" loading="lazy" draggable="false" /></figure></div>
+    <div class="wd-strip" data-reveal><figure><img src="work/img/wDTtl1LAtcsRSt8hy5SGGr4AI4.webp" alt="Making trading education feel credible in a category built on hype. — image 1" width="1500" height="779" loading="lazy" draggable="false" /></figure><figure><img src="work/img/8hCQ54LPN4yBve8GlVvzQCXMiwU.webp" alt="Making trading education feel credible in a category built on hype. — image 2" width="1440" height="1121" loading="lazy" draggable="false" /></figure><figure><img src="work/img/N9hGg8iw4iHpzmdA4zCjGVNdL48.webp" alt="Making trading education feel credible in a category built on hype. — image 3" width="1500" height="1010" loading="lazy" draggable="false" /></figure><figure><img src="work/img/VVMh4TzUQ9fwtEYdq1GHUmUxYZ8.webp" alt="Making trading education feel credible in a category built on hype. — image 4" width="1500" height="778" loading="lazy" draggable="false" /></figure><figure><img src="work/img/xtX1Vp21339DwzTni3fzEJBuFnE.webp" alt="Making trading education feel credible in a category built on hype. — image 5" width="1500" height="718" loading="lazy" draggable="false" /></figure></div>
     <div class="wd-text" data-reveal>
 <h4>Project Overview</h4>
 <p>For Bull &amp; Wolf, I worked on building the brand and product foundation for a stock market education platform founded by two professional traders who are also actively serving in the Indian military. The work spanned brand identity, learning platform and web-app experience design, website design and development, as well as copywriting and SEO.</p>
 <p>The academy was created to address a gap the founders repeatedly saw in trading education — most programs focus on tips, signals, and profit screenshots, while very little attention is given to building strong fundamentals.</p>
 </div>
-    <div class="wd-strip" data-reveal><figure><img src="work/img/J4raRl5ZSRkneQsGx0Yz8NWFg.webp" alt="" width="1500" height="1005" loading="lazy" draggable="false" /></figure><figure><img src="work/img/PTmnLSvqc7JetIy9MyWPkGuyCc.webp" alt="" width="1500" height="1334" loading="lazy" draggable="false" /></figure><figure><img src="work/img/IabWhSYDPjLeC0rPwQeG2cxA.webp" alt="" width="1500" height="571" loading="lazy" draggable="false" /></figure><figure><img src="work/img/jd5FZnYyBecARo9WfTbBg4bok1M.webp" alt="" width="1500" height="772" loading="lazy" draggable="false" /></figure></div>
+    <div class="wd-strip" data-reveal><figure><img src="work/img/J4raRl5ZSRkneQsGx0Yz8NWFg.webp" alt="Making trading education feel credible in a category built on hype. — image 6" width="1500" height="1005" loading="lazy" draggable="false" /></figure><figure><img src="work/img/PTmnLSvqc7JetIy9MyWPkGuyCc.webp" alt="Making trading education feel credible in a category built on hype. — image 7" width="1500" height="1334" loading="lazy" draggable="false" /></figure><figure><img src="work/img/IabWhSYDPjLeC0rPwQeG2cxA.webp" alt="Making trading education feel credible in a category built on hype. — image 8" width="1500" height="571" loading="lazy" draggable="false" /></figure><figure><img src="work/img/jd5FZnYyBecARo9WfTbBg4bok1M.webp" alt="Making trading education feel credible in a category built on hype. — image 9" width="1500" height="772" loading="lazy" draggable="false" /></figure></div>
     <div class="wd-text" data-reveal>
 <p>Bull &amp; Wolf was built on a different belief: the stronger a trader’s understanding of markets, risk, and discipline, the better their long-term results become. The program focuses on helping traders understand how markets behave, plan trades thoughtfully, and manage risk rather than rely on predictions or signals.</p>
 <p>A key goal of the project was to design a brand and learning experience that felt distinct from typical trading platforms, which often rely on hype-driven graphics and aggressive messaging. Instead, the identity was designed to feel calm, disciplined, and intellectually grounded, reflecting the founders’ philosophy of structured learning and long-term thinking.</p>
@@ -1319,42 +1402,42 @@
     </div>
     <div class="shelf" data-shelf>
       <a class="case" href="work/shweta-labs/" style="--i:0">
-        <div class="case__frame"><div class="case__thumb"><img src="img/cover-shweta-labs.webp" alt="Shweta Labs (IIT Bombay)" loading="lazy" /></div></div>
+        <div class="case__frame"><div class="case__thumb"><img src="img/cover-shweta-labs.webp" alt="Brand and product narrative for a cybersecurity company" loading="lazy" /></div></div>
         <div class="case__text">
           <h3 class="case__title">Brand and product narrative for a cybersecurity company</h3>
           <p class="case__tags">Shweta Labs (IIT Bombay)  ·  Brand</p>
         </div>
       </a>
       <a class="case" href="work/investment-research-platform/" style="--i:1">
-        <div class="case__frame"><div class="case__thumb"><img src="work/img/ALyPwJ9OCKtDzR71TyvMuH3Qw.webp" alt="Atlas" loading="lazy" /></div></div>
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/ALyPwJ9OCKtDzR71TyvMuH3Qw.webp" alt="Designing a research platform for PE/VCs where investment data becomes a decision." loading="lazy" /></div></div>
         <div class="case__text">
           <h3 class="case__title">Designing a research platform for PE/VCs where investment data becomes a decision.</h3>
-          <p class="case__tags">Atlas  ·  Product  ·  Whitelabelled</p>
+          <p class="case__tags">Finance  ·  Product  ·  Whitelabelled</p>
         </div>
       </a>
       <a class="case" href="work/geosynthesis/" style="--i:2">
-        <div class="case__frame"><div class="case__thumb"><img src="work/img/qnoxdDxlhmtKB5s8ap7pLhl8k8.webp" alt="Geosynthesis" loading="lazy" /></div></div>
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/qnoxdDxlhmtKB5s8ap7pLhl8k8.webp" alt="Brand Identity System, Website &amp; Pitch Deck for a Geopolitical Advisory Firm" loading="lazy" /></div></div>
         <div class="case__text">
           <h3 class="case__title">Brand Identity System, Website &amp; Pitch Deck for a Geopolitical Advisory Firm</h3>
           <p class="case__tags">Geosynthesis  ·  Brand</p>
         </div>
       </a>
       <a class="case" href="work/nova/" style="--i:3">
-        <div class="case__frame"><div class="case__thumb"><img src="work/img/YPT5W6mvgYhxAD3XZARKr2TWA.webp" alt="NovaAI" loading="lazy" /></div></div>
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/YPT5W6mvgYhxAD3XZARKr2TWA.webp" alt="GenAI Knowledge Mining Tool for VC &amp; PE Firms" loading="lazy" /></div></div>
         <div class="case__text">
           <h3 class="case__title">GenAI Knowledge Mining Tool for VC &amp; PE Firms</h3>
-          <p class="case__tags">NovaAI  ·  Product  ·  Whitelabelled</p>
+          <p class="case__tags">Finance  ·  Product  ·  Whitelabelled</p>
         </div>
       </a>
       <a class="case" href="work/tithe/" style="--i:4">
-        <div class="case__frame"><div class="case__thumb"><img src="work/img/LE7ujj3rLE8ZL3wPVPl94R9Qo.webp" alt="Tithe (Bright Studios)" loading="lazy" /></div></div>
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/LE7ujj3rLE8ZL3wPVPl94R9Qo.webp" alt="Making the cost of distraction tangible" loading="lazy" /></div></div>
         <div class="case__text">
           <h3 class="case__title">Making the cost of distraction tangible</h3>
           <p class="case__tags">Tithe (Bright Studios)  ·  Product</p>
         </div>
       </a>
       <a class="case" href="work/jobgurus/" style="--i:5">
-        <div class="case__frame"><div class="case__thumb"><img src="work/img/9qPriYftinhuYDaasPJVZu9lGTM.webp" alt="JobGurus (Bright Studios)" loading="lazy" /></div></div>
+        <div class="case__frame"><div class="case__thumb"><img src="work/img/9qPriYftinhuYDaasPJVZu9lGTM.webp" alt="Designing a path-first product website for newcomers navigating the Canadian job market." loading="lazy" /></div></div>
         <div class="case__text">
           <h3 class="case__title">Designing a path-first product website for newcomers navigating the Canadian job market.</h3>
           <p class="case__tags">JobGurus (Bright Studios)  ·  Website</p>
@@ -1387,14 +1470,14 @@
       <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="footer__bar">
-      <p class="footer__legal">© Vanya Studio 2026  ·  <a href="./#privacy">Privacy</a>  ·  <a href="./#terms">Terms</a></p>
-      <ul class="footer__nav">
+      <ul class="footer__nav" aria-label="Footer">
         <li><a href="about/index.html">About</a></li>
         <li><a href="./#services">Services</a></li>
         <li><a href="work/index.html">Work</a></li>
-        <li><a href="./#playground">Playground</a></li>
+        <!-- hidden for now: <li><a href="./#playground">Playground</a></li> -->
         <li><a href="work/bull-and-wolf/#contact">Contact</a></li>
       </ul>
+      <p class="footer__legal"><span class="footer__c">© Disha Shah / Vanya Studio 2026</span><span class="footer__dot">  ·  </span><span class="footer__links"><a href="privacy/">Privacy</a>  ·  <a href="terms/">Terms</a></span></p>
     </div>
     <div class="footer__markwrap" data-glow aria-hidden="true">
       <img class="footer__mark" src="img/footer-wordmark.svg" alt="" width="1440" height="188" />
@@ -1423,8 +1506,47 @@
 </dialog>
 
 
+<dialog class="sheet sheet--bleed" id="sheet-complexity" aria-labelledby="sheet-complexity-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-complexity-t" class="sheet__title">The Complexity Gap</h2>
+      <p class="sheet__body">You know the product and industry inside out. The people buying or using it bring different levels of knowledge and experience. The work is in making that complexity manageable throughout the product—helping beginners get started, supporting people as their needs grow, and giving experts the depth and control they need.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-complexity.webp" alt="" width="1774" height="887" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
+<dialog class="sheet sheet--bleed" id="sheet-retention" aria-labelledby="sheet-retention-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-retention-t" class="sheet__title">The Retention Gap</h2>
+      <p class="sheet__body">Getting someone to try a product is one thing. Becoming part of their day-to-day workflow is another. That comes down to how well it helps them do their job—how naturally it fits into their work, how much easier it makes important tasks, and whether it gives them a reason to keep using it.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-retention.webp" alt="" width="1675" height="939" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
+<dialog class="sheet sheet--bleed" id="sheet-growth" aria-labelledby="sheet-growth-t" data-lenis-prevent>
+  <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div class="sheet__content">
+    <header class="sheet__head">
+      <h2 id="sheet-growth-t" class="sheet__title">The Growth Gap</h2>
+      <p class="sheet__body">The business moves forward, but the experience doesn’t always keep up. The story reflects an earlier stage, the website struggles with new content, and the product feels different depending on where you are. Growth, engineering, business, and design teams spend more time explaining, fixing, and working around the gaps. It gets frustrating for everyone.</p>
+    </header>
+    <div class="sheet__gallery">
+        <figure class="sheet__fig is-wide"><img src="gallery/gap-growth.webp" alt="" width="1659" height="948" loading="lazy" /></figure>
+    </div>
+  </div>
+</dialog>
 
 
   <!-- Menu — arc reveal (see arc.js) -->
@@ -1447,10 +1569,10 @@
             <div class="menu__group menu__item" style="--i:5">
               <p class="menu__label">Services</p>
               <ul class="menu__subs">
-                <li><a class="menu__sub" href="./#services">Brand Design</a></li>
-                <li><a class="menu__sub" href="services/product-design/index.html">Product Design</a></li>
-                <li><a class="menu__sub" href="./#services">Design Systems</a></li>
-                <li><a class="menu__sub" href="./#services">Website &amp; Decks</a></li>
+                <li><a class="menu__sub" href="services/branding/">Brand Design</a></li>
+                <li><a class="menu__sub" href="services/product-design/">Product Design</a></li>
+                <li><a class="menu__sub" href="services/design-systems/">Design Systems</a></li>
+                <li><a class="menu__sub" href="services/websites-decks/">Websites &amp; Decks</a></li>
               </ul>
             </div>
           </div>
@@ -1462,7 +1584,10 @@
           <a class="menu__sub" href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener">Instagram</a>
           <a class="menu__sub" href="https://x.com/dishashah66" target="_blank" rel="noopener">X (Twitter)</a>
         </div>
-        <a class="menu__cta" href="work/bull-and-wolf/#contact">Book a Discovery Call <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="menu__mail">
+          <a class="menu__cta" href="mailto:disha@vanya.studio">disha@vanya.studio</a>
+          <button class="menu__copy" type="button" data-copy="disha@vanya.studio" aria-label="Copy email address"><svg class="i-copy" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 15c-.932 0-1.398 0-1.765-.152a2 2 0 0 1-1.083-1.083C2 13.398 2 12.932 2 12V5.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C3.52 2 4.08 2 5.2 2H12c.932 0 1.398 0 1.765.152a2 2 0 0 1 1.083 1.083C15 3.602 15 4.068 15 5m-2.8 17h6.6c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C22 20.48 22 19.92 22 18.8v-6.6c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C20.48 9 19.92 9 18.8 9h-6.6c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C9 10.52 9 11.08 9 12.2v6.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874C10.52 22 11.08 22 12.2 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only" role="status" aria-live="polite" data-copy-status></span></button>
+        </div>
       </div>
     </div>
   </nav>
@@ -2215,7 +2340,7 @@
         //  - letting go early is a critically damped spring that keeps the finger's speed (no wobble)
         //  - interruptible: touch it again mid-spring and it follows the finger from where it is
         var mode = 'idle', startY = 0, lastY = 0, origin = 0, base = 0, cur = 0, raf = 0, fromHandle = false, pulled = false, samples = [];
-        function setY(v) { cur = v; d.style.transform = v > 0.01 ? 'translateY(' + v + 'px)' : ''; }
+        function setY(v) { cur = v; d.style.transform = v > 0.01 ? 'translateY(' + v + 'px)' : ''; d.style.setProperty('--pk', v > 0.01 ? v.toFixed(1) : '0'); }   // --pk: how far the sheet is pulled, for the image to react to
         function velocity() {                                    // px per ms over the last ~100ms, downward positive
           var n = samples.length; if (n < 2) return 0;
           var a = samples[0], b = samples[n - 1], dt = b[0] - a[0];
@@ -2347,6 +2472,87 @@
     arm();
   })();
   </script>
+  <script>
+  // Copy the email address from the menu
+  (function () {
+    document.querySelectorAll('[data-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy'), done = function () {
+          btn.classList.add('is-copied');
+          var s = btn.querySelector('[data-copy-status]'); if (s) s.textContent = 'Email address copied';
+          clearTimeout(btn._t); btn._t = setTimeout(function () { btn.classList.remove('is-copied'); if (s) s.textContent = ''; }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, fallback); } else fallback();
+        function fallback() {
+          var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+          document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) {} ta.remove();
+        }
+      });
+    });
+  })();
+  </script>
+  <script>
+  // Footer headline: roll the closing words (Collins-style mask roll, same easing as the hero statements)
+  (function () {
+    var root = document.querySelector('[data-rotate]'); if (!root) return;
+    var title = root.closest('.footer__title'), words = [].slice.call(root.querySelectorAll('.rot__w'));
+    var PHRASES = ['build devotion', 'create adoption', 'build trust', 'create loyalty'], HOLD = 2800, i = 0, a = words[0], b = words[1], timer = null, busy = false;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (title) title.setAttribute('aria-label', 'Building experiences that build trust, loyalty, devotion and adoption.');
+    function width(text, el) { var prev = el.textContent; el.textContent = text; el.style.visibility = 'hidden'; var w = el.getBoundingClientRect().width; el.textContent = prev; el.style.visibility = ''; return Math.ceil(w) + 1; }
+    function size() { root.style.width = width(PHRASES[i], a) + 'px'; }
+    function step() {
+      if (busy) return; busy = true;
+      var next = (i + 1) % PHRASES.length;
+      b.textContent = PHRASES[next]; b.style.visibility = '';
+      root.style.transition = 'width .9s cubic-bezier(.19, 1, .22, 1)'; root.style.width = width(PHRASES[next], b) + 'px';
+      var out = a.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-112%)' }], { duration: 750, easing: 'cubic-bezier(.76, 0, .24, 1)', fill: 'forwards' });
+      var inn = b.animate([{ transform: 'translateY(112%)' }, { transform: 'translateY(0)' }], { duration: 1100, delay: 140, easing: 'cubic-bezier(.19, 1, .22, 1)', fill: 'both' });
+      inn.onfinish = function () {
+        out.cancel(); inn.cancel(); a.textContent = PHRASES[next]; a.style.visibility = ''; b.textContent = ''; i = next; busy = false;
+      };
+    }
+    function arm() { clearInterval(timer); timer = setInterval(step, HOLD + 1100); }
+    function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); else arm(); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(init); else init();
+    window.addEventListener('resize', function () { if (!busy) { root.style.transition = 'none'; size(); } });
+  })();
+  </script>
   <script src="arc.js?v=8"></script>
-<script>(function(){var c=document.querySelector('.wd-carousel .carousel');if(!c)return;c.addEventListener('click',function(e){if(!matchMedia('(max-width:767px)').matches||e.target.closest('.wd-explore'))return;var b=c.querySelector('.wd-explore');if(b)b.click();});})();</script></body>
+<script>(function(){var c=document.querySelector('.wd-carousel .carousel');if(!c)return;c.addEventListener('click',function(e){if(!matchMedia('(max-width:767px)').matches||e.target.closest('.wd-explore'))return;var b=c.querySelector('.wd-explore');if(b)b.click();});})();</script><script>
+// Case-study progress rail: a dash per section heading; follows the scroll, jumps on click, previews on hover
+(function () {
+  var heads = [].slice.call(document.querySelectorAll('.wd-text h3, .wd-text h4'));
+  if (heads.length < 3) return;
+  var items = heads.map(function (h) {
+    var p = h.nextElementSibling; while (p && p.tagName !== 'P') p = p.nextElementSibling;
+    var d = p ? p.textContent.replace(/\s+/g, ' ').trim() : '';
+    if (d.length > 120) d = d.slice(0, 117).replace(/\s+\S*$/, '') + '…';
+    return { el: h, title: h.textContent.replace(/^[✦\s]+/, '').trim(), desc: d };
+  });
+  var n = items.length, pad = function (v) { return (v < 10 ? '0' : '') + v; };
+  var rail = document.createElement('nav'); rail.className = 'wd-rail'; rail.setAttribute('aria-label', 'Sections');
+  rail.innerHTML = items.map(function (it, i) {
+    return '<button type="button" class="wd-rail__i" aria-label="' + it.title.replace(/"/g, '&quot;') + '"><span class="wd-rail__tip"><b>' + it.title + '</b>' + (it.desc ? '<span>' + it.desc + '</span>' : '') + '<em>' + pad(i + 1) + ' / ' + pad(n) + '</em></span></button>';
+  }).join('');
+  document.body.appendChild(rail);
+  var btns = [].slice.call(rail.querySelectorAll('.wd-rail__i')), cur = -1;
+  btns.forEach(function (b, i) {
+    b.addEventListener('click', function () {
+      var y = items[i].el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.22;
+      if (window.lenis && window.lenis.scrollTo) window.lenis.scrollTo(y, { duration: 1.2 }); else window.scrollTo({ top: y, behavior: 'smooth' });
+    });
+  });
+  function update() {
+    var line = window.innerHeight * 0.4, k = -1;
+    items.forEach(function (it, i) { if (it.el.getBoundingClientRect().top <= line) k = i; });
+    var first = items[0].el.getBoundingClientRect().top, foot = document.querySelector('.wd-more, .footer'), end = foot ? foot.getBoundingClientRect().top : 1e9;
+    rail.classList.toggle('is-on', first < window.innerHeight * 0.85 && end > window.innerHeight * 0.6);
+    if (k < 0) k = 0;
+    if (k !== cur) { btns.forEach(function (b, i) { b.classList.toggle('is-active', i === k); }); cur = k; }
+  }
+  window.addEventListener('scroll', update, { passive: true }); window.addEventListener('resize', update); update();
+})();
+</script>
+</body>
 </html>
