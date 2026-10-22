@@ -6,7 +6,7 @@
   <base href="../../" />
   <title>Branding — Disha Shah</title>
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
-  <link rel="preload" href="fonts/portrait-text-400.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
@@ -14,7 +14,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    @font-face { font-family: "Portrait Text Web"; src: url("fonts/portrait-text-400.ttf") format("truetype"); font-weight: 400; font-display: block; }
+    /* Portrait Text Web: licensed webfont, property of Commercial Type (Copyright (C) 2026 Schwartzco Inc., license 2610-WDXIWN). Not to be modified or used on another website. https://commercialtype.com/eula */
+    @font-face { font-family: "Portrait Text Web"; src: url("fonts/PortraitText-Regular-Web.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
 
     :root {
       --bg: #f8f8f7;
@@ -1139,8 +1140,8 @@
     /* ---------- Accessibility: skip link, visible keyboard focus ---------- */
     .skip-link { position: fixed; left: 16px; top: -80px; z-index: 100000; padding: 12px 20px; border-radius: 99px; background: #140700; color: #f8f8f7; font-size: 15px; line-height: 20px; text-decoration: none; transition: top .3s var(--ease-out-expo); }
     .skip-link:focus { top: 16px; outline: 2px solid #f8f8f7; outline-offset: 2px; }
-    :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
-    [data-theme="dark"] :focus-visible, .menu :focus-visible, .loader :focus-visible { outline-color: #f8f8f7; }
+    html.kbd :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }   /* only for people using the keyboard: a tap or click never shows a ring */
+    html.kbd [data-theme="dark"] :focus-visible, html.kbd .menu :focus-visible, html.kbd .loader :focus-visible { outline-color: #f8f8f7; }
     main:focus { outline: none; }
     .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     /* ---------- Hero statements: the two lines take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
@@ -1369,7 +1370,7 @@
       .faq__q { padding-left: 24px; padding-right: 24px; }
       .faq__a-in p { padding-left: 24px; padding-right: 24px; }
       /* Process tabs on phones: five equal numbered tabs, all visible, no scrolling; the step's name is the label right under the tabs */
-      .pd-tabs { overflow: hidden; gap: 4px; padding: 4px; border-radius: 12px 12px 0 0; }
+      .pd-tabs { overflow: hidden; gap: 4px; padding: 4px; border-radius: 12px 12px 0 0; --ind-inset: 4px; --ind-r: 8px; }
       .pd-tab { flex: 1 1 0; min-width: 0; height: 44px; padding: 0; gap: 0; border-radius: 8px; font-size: 14px; transition: background-color .5s, color .5s; }
       .pd-tab i { font-size: 13px; color: inherit; }
       .pd-tab__t { display: none; }
@@ -1412,7 +1413,7 @@
 <meta name="twitter:image" content="https://ddishashah.github.io/disha-website/img/og-image.jpg" />
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Branding","serviceType":"Branding","description":"Brand strategy and visual identity for founders and teams: what your business stands for, and how it shows up in the words, the identity and the details.","url":"https://ddishashah.github.io/disha-website/services/branding/","areaServed":"Worldwide","provider":{"@id":"https://ddishashah.github.io/disha-website/#person"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ddishashah.github.io/disha-website/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://ddishashah.github.io/disha-website/#services"},{"@type":"ListItem","position":3,"name":"Branding","item":"https://ddishashah.github.io/disha-website/services/branding/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can you work with an existing brand?","acceptedAnswer":{"@type":"Answer","text":"Yes. We start by looking at what still feels right and what needs to change. The scope might be a focused refresh or a more complete rethink."}},{"@type":"Question","name":"Do I need brand strategy before visual identity?","acceptedAnswer":{"@type":"Answer","text":"We need a clear understanding of your business, audience, and positioning. If you already have that work, I can build from it. If there are gaps, we work through them before moving into design."}},{"@type":"Question","name":"Can we keep our existing logo?","acceptedAnswer":{"@type":"Answer","text":"Yes. We can work with the parts of the identity that still serve the business and develop the system around them."}},{"@type":"Question","name":"What kinds of brand applications are included?","acceptedAnswer":{"@type":"Answer","text":"We agree on the materials you need before starting. These might include presentation templates, social templates, stationery, or other assets your team uses regularly."}},{"@type":"Question","name":"Can you design the website or deck too?","acceptedAnswer":{"@type":"Answer","text":"Yes. Websites and decks are a separate offering, and we can scope them alongside the branding work so everything develops together."}},{"@type":"Question","name":"How long does a branding project take?","acceptedAnswer":{"@type":"Answer","text":"Brand strategy usually takes about a week. A logo takes around two weeks, and about one more week if you need other brand assets developed alongside it. If you need it faster, we can plan for that. I generally recommend 3–4 weeks for the whole process, and we adjust the timeline to what your team needs and how decisions get made. We agree on the timeline and review stages before starting."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can you work with an existing brand?","acceptedAnswer":{"@type":"Answer","text":"Yes. We start by looking at what still feels right and what needs to change. The scope might be a focused refresh or a more complete rethink."}},{"@type":"Question","name":"How is this priced?","acceptedAnswer":{"@type":"Answer","text":"Per project. I look at the scope and what you’re trying to achieve, then recommend the structure that suits it best. One-time project fees generally work well. I also take on monthly retainers for 2–3 months, with each month scoped to a set goal."}},{"@type":"Question","name":"Do I need brand strategy before visual identity?","acceptedAnswer":{"@type":"Answer","text":"We need a clear understanding of your business, audience, and positioning. If you already have that work, I can build from it. If there are gaps, we work through them before moving into design."}},{"@type":"Question","name":"Can we keep our existing logo?","acceptedAnswer":{"@type":"Answer","text":"Yes. We can work with the parts of the identity that still serve the business and develop the system around them."}},{"@type":"Question","name":"What kinds of brand applications are included?","acceptedAnswer":{"@type":"Answer","text":"We agree on the materials you need before starting. These might include presentation templates, social templates, stationery, or other assets your team uses regularly."}},{"@type":"Question","name":"Can you design the website or deck too?","acceptedAnswer":{"@type":"Answer","text":"Yes. Websites and decks are a separate offering, and we can scope them alongside the branding work so everything develops together."}},{"@type":"Question","name":"How long does a branding project take?","acceptedAnswer":{"@type":"Answer","text":"Brand strategy usually takes about a week. A logo takes around two weeks, and about one more week if you need other brand assets developed alongside it. If you need it faster, we can plan for that. I generally recommend 3–4 weeks for the whole process, and we adjust the timeline to what your team needs and how decisions get made. We agree on the timeline and review stages before starting."}}]}</script>
 <!-- seo:end -->
 </head>
 <body>
@@ -1642,11 +1643,12 @@
       </div>
       <div class="faq__list" data-faq data-reveal>
         <div class="faq__item is-open"><button class="faq__q" id="faq-q-1" aria-controls="faq-a-1" type="button" aria-expanded="true"><span>Can you work with an existing brand?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-1" role="region" aria-labelledby="faq-q-1"><div class="faq__a-in"><p>Yes. We start by looking at what still feels right and what needs to change. The scope might be a focused refresh or a more complete rethink.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>Do I need brand strategy before visual identity?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>We need a clear understanding of your business, audience, and positioning. If you already have that work, I can build from it. If there are gaps, we work through them before moving into design.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>Can we keep our existing logo?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>Yes. We can work with the parts of the identity that still serve the business and develop the system around them.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>What kinds of brand applications are included?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>We agree on the materials you need before starting. These might include presentation templates, social templates, stationery, or other assets your team uses regularly.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>Can you design the website or deck too?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>Yes. Websites and decks are a separate offering, and we can scope them alongside the branding work so everything develops together.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>How long does a branding project take?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>Brand strategy usually takes about a week. A logo takes around two weeks, and about one more week if you need other brand assets developed alongside it. If you need it faster, we can plan for that. I generally recommend 3–4 weeks for the whole process, and we adjust the timeline to what your team needs and how decisions get made. We agree on the timeline and review stages before starting.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>How is this priced?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>Per project. I look at the scope and what you’re trying to achieve, then recommend the structure that suits it best. One-time project fees generally work well. I also take on monthly retainers for 2–3 months, with each month scoped to a set goal.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>Do I need brand strategy before visual identity?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>We need a clear understanding of your business, audience, and positioning. If you already have that work, I can build from it. If there are gaps, we work through them before moving into design.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Can we keep our existing logo?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>Yes. We can work with the parts of the identity that still serve the business and develop the system around them.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>What kinds of brand applications are included?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>We agree on the materials you need before starting. These might include presentation templates, social templates, stationery, or other assets your team uses regularly.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>Can you design the website or deck too?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>Yes. Websites and decks are a separate offering, and we can scope them alongside the branding work so everything develops together.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-7" aria-controls="faq-a-7" type="button" aria-expanded="false"><span>How long does a branding project take?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-7" role="region" aria-labelledby="faq-q-7"><div class="faq__a-in"><p>Brand strategy usually takes about a week. A logo takes around two weeks, and about one more week if you need other brand assets developed alongside it. If you need it faster, we can plan for that. I generally recommend 3–4 weeks for the whole process, and we adjust the timeline to what your team needs and how decisions get made. We agree on the timeline and review stages before starting.</p></div></div></div>
       </div>
     </div>
   </section>
@@ -2137,39 +2139,101 @@
       });
     }
 
-    // Service pages: process tabs (one set per format) + format toggle
+    // Product page: "How I work" tabs
     function initPdTabs() {
+      // Process steps: the five panels sit side by side on a track that glides under a clip. A single highlight slides
+      // behind the tabs. The track follows the finger 1:1 on a swipe, rubber-bands at the ends, and settles from the
+      // release speed, so it never snaps or bounces.
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
       document.querySelectorAll('[data-pd-set]').forEach((set) => {
         const box = set.querySelector('[data-pd]');
+        const tabsEl = box.querySelector('.pd-tabs');
         const tabs = [...box.querySelectorAll('[data-pd-tab]')];
         const dots = [...set.querySelectorAll('.pd-dot')];
         const panels = [...box.querySelectorAll('[data-pd-panel]')];
-        function go(i) {
-          tabs.forEach(t => { const on = +t.dataset.pdTab === i; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on); });
-          dots.forEach(d => d.classList.toggle('is-active', +d.dataset.pdTab === i));
-          panels.forEach(p => { const on = +p.dataset.pdPanel === i; p.hidden = !on; p.classList.toggle('is-active', on); });
-        }
-        [...tabs, ...dots].forEach(t => t.addEventListener('click', () => go(+t.dataset.pdTab)));
-        // phones: swipe the panel sideways to move between steps
-        let sx = 0, sy = 0;
-        box.addEventListener('touchstart', (e) => { if (e.touches.length === 1) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; } }, { passive: true });
-        box.addEventListener('touchend', (e) => {
-          const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
-          if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-          const n = tabs.findIndex(x => x.classList.contains('is-active')) + (dx < 0 ? 1 : -1);
-          if (n >= 0 && n < tabs.length) go(n);
+        const n = panels.length;
+        const vp = document.createElement('div'); vp.className = 'pd-viewport';
+        const track = document.createElement('div'); track.className = 'pd-track';
+        panels.forEach((p) => { p.hidden = false; track.appendChild(p); });
+        vp.appendChild(track); box.appendChild(vp);
+        const ind = document.createElement('span'); ind.className = 'pd-ind'; ind.setAttribute('aria-hidden', 'true');
+        tabsEl.insertBefore(ind, tabsEl.firstChild);
+        let cur = 0, W = 0, pos = [];
+        const measure = () => {
+          W = vp.clientWidth;
+          pos = tabs.map((t) => ({ x: t.offsetLeft, w: t.offsetWidth }));
+        };
+        const setInd = (f) => {                                    // f: fractional step, so it can follow a drag
+          if (!pos.length) return;
+          const i0 = clamp(Math.floor(f), 0, n - 1), i1 = Math.min(n - 1, i0 + 1), t = clamp(f - i0, 0, 1);
+          const x = pos[i0].x + (pos[i1].x - pos[i0].x) * t, w = pos[i0].w + (pos[i1].w - pos[i0].w) * t;
+          ind.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)'; ind.style.width = w.toFixed(2) + 'px';
+        };
+        const still = (on) => { const v = on ? 'none' : ''; track.style.transition = v; ind.style.transition = v; vp.style.transition = v; };
+        const place = () => {                                       // jump to the current step with no animation
+          measure(); still(true);
+          track.style.transform = 'translate3d(' + (-cur * W) + 'px,0,0)'; setInd(cur);
+          vp.style.height = panels[cur].offsetHeight + 'px';
+          void vp.offsetWidth; still(false);
+        };
+        const go = (i, animate = true) => {
+          i = clamp(i, 0, n - 1);
+          cur = i;
+          tabs.forEach((t, k) => { const on = k === i; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+          dots.forEach((d, k) => d.classList.toggle('is-active', k === i));
+          panels.forEach((p, k) => { p.classList.toggle('is-active', k === i); p.inert = k !== i; p.setAttribute('aria-hidden', k !== i); });
+          if (!animate) { place(); return; }
+          measure();
+          track.style.transform = 'translate3d(' + (-i * W) + 'px,0,0)';
+          setInd(i);
+          vp.style.height = panels[i].offsetHeight + 'px';
+        };
+        [...tabs, ...dots].forEach((t) => t.addEventListener('click', () => go(+t.dataset.pdTab)));
+        // swipe: follows the finger, then settles from the release speed
+        let sx = 0, sy = 0, mode = null, dx = 0, lastX = 0, lastT = 0, v = 0;
+        vp.addEventListener('touchstart', (e) => {
+          if (e.touches.length !== 1) return;
+          sx = lastX = e.touches[0].clientX; sy = e.touches[0].clientY; lastT = e.timeStamp; mode = null; dx = 0; v = 0;
         }, { passive: true });
+        vp.addEventListener('touchmove', (e) => {
+          if (e.touches.length !== 1) return;
+          const x = e.touches[0].clientX, y = e.touches[0].clientY;
+          if (mode === null) {
+            const ax = Math.abs(x - sx), ay = Math.abs(y - sy);
+            if (ax < 6 && ay < 6) return;
+            mode = ax > ay * 1.2 ? 'h' : 'v';
+            if (mode === 'h') { measure(); still(true); }
+          }
+          if (mode !== 'h') return;
+          dx = x - sx;
+          const eff = ((cur === 0 && dx > 0) || (cur === n - 1 && dx < 0)) ? dx * 0.35 : dx;   // resistance at the ends
+          track.style.transform = 'translate3d(' + (-cur * W + eff) + 'px,0,0)';
+          setInd(clamp(cur - eff / W, 0, n - 1));
+          const dtm = Math.max(1, e.timeStamp - lastT); v = 0.75 * v + 0.25 * ((x - lastX) / dtm); lastX = x; lastT = e.timeStamp;
+          if (e.cancelable) e.preventDefault();
+        }, { passive: false });
+        const end = () => {
+          if (mode !== 'h') { mode = null; return; }
+          mode = null; still(false);
+          const proj = dx + v * 160;
+          go(proj < -W * 0.28 ? cur + 1 : proj > W * 0.28 ? cur - 1 : cur);
+        };
+        vp.addEventListener('touchend', end); vp.addEventListener('touchcancel', end);
         box.addEventListener('keydown', (e) => {
           if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-          const cur = tabs.findIndex(t => t.classList.contains('is-active'));
-          const n = (cur + (e.key === 'ArrowRight' ? 1 : -1) + 5) % 5;
-          go(n); tabs[n].focus();
+          const m = (cur + (e.key === 'ArrowRight' ? 1 : -1) + n) % n;
+          go(m); tabs[m].focus();
         });
+        if ('ResizeObserver' in window) new ResizeObserver(place).observe(vp);
+        panels.forEach((p) => { if ('ResizeObserver' in window) new ResizeObserver(() => { if (panels[cur] === p) vp.style.height = p.offsetHeight + 'px'; }).observe(p); });
+        window.addEventListener('resize', place);
+        go(0, false);
+        set.__pdRefresh = place;
       });
       const fmts = [...document.querySelectorAll('[data-pd-fmt]')];
       fmts.forEach((b) => b.addEventListener('click', () => {
         fmts.forEach((x) => { const on = x === b; x.classList.toggle('is-active', on); x.setAttribute('aria-pressed', on); });
-        document.querySelectorAll('[data-pd-set]').forEach((st) => { st.hidden = st.dataset.pdSet !== b.dataset.pdFmt; });
+        document.querySelectorAll('[data-pd-set]').forEach((st) => { const on = st.dataset.pdSet === b.dataset.pdFmt; st.hidden = !on; if (on && st.__pdRefresh) requestAnimationFrame(() => requestAnimationFrame(st.__pdRefresh)); });
       }));
     }
 
@@ -2829,6 +2893,14 @@
     function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); else arm(); }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(init); else init();
     window.addEventListener('resize', function () { if (!busy) { root.style.transition = 'none'; size(); } });
+  })();
+  </script>
+  <script>
+  // Keyboard focus rings only appear once someone uses the keyboard (Tab); any pointer use hides them again
+  (function () {
+    var r = document.documentElement;
+    document.addEventListener('keydown', function (e) { if (e.key === 'Tab') r.classList.add('kbd'); }, true);
+    ['pointerdown', 'mousedown', 'touchstart'].forEach(function (ev) { document.addEventListener(ev, function () { r.classList.remove('kbd'); }, true); });
   })();
   </script>
   <script src="arc.js?v=8"></script>

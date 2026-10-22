@@ -7,7 +7,7 @@
   <title>Building Enterprise-Scale Design Systems for Multiple Product Suites — Disha Shah</title>
   <meta name="description" content="How I built cross-platform design systems for healthcare and life sciences product suites — research, tokens, patterns, and GenAI-ready components that scale across teams." />
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
-  <link rel="preload" href="fonts/portrait-text-400.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
@@ -15,7 +15,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    @font-face { font-family: "Portrait Text Web"; src: url("fonts/portrait-text-400.ttf") format("truetype"); font-weight: 400; font-display: block; }
+    /* Portrait Text Web: licensed webfont, property of Commercial Type (Copyright (C) 2026 Schwartzco Inc., license 2610-WDXIWN). Not to be modified or used on another website. https://commercialtype.com/eula */
+    @font-face { font-family: "Portrait Text Web"; src: url("fonts/PortraitText-Regular-Web.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
 
     :root {
       --bg: #f8f8f7;
@@ -1140,8 +1141,8 @@
     /* ---------- Accessibility: skip link, visible keyboard focus ---------- */
     .skip-link { position: fixed; left: 16px; top: -80px; z-index: 100000; padding: 12px 20px; border-radius: 99px; background: #140700; color: #f8f8f7; font-size: 15px; line-height: 20px; text-decoration: none; transition: top .3s var(--ease-out-expo); }
     .skip-link:focus { top: 16px; outline: 2px solid #f8f8f7; outline-offset: 2px; }
-    :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
-    [data-theme="dark"] :focus-visible, .menu :focus-visible, .loader :focus-visible { outline-color: #f8f8f7; }
+    html.kbd :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }   /* only for people using the keyboard: a tap or click never shows a ring */
+    html.kbd [data-theme="dark"] :focus-visible, html.kbd .menu :focus-visible, html.kbd .loader :focus-visible { outline-color: #f8f8f7; }
     main:focus { outline: none; }
     .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     /* ---------- Hero statements: the two lines take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
@@ -2538,6 +2539,14 @@
     function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); else arm(); }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(init); else init();
     window.addEventListener('resize', function () { if (!busy) { root.style.transition = 'none'; size(); } });
+  })();
+  </script>
+  <script>
+  // Keyboard focus rings only appear once someone uses the keyboard (Tab); any pointer use hides them again
+  (function () {
+    var r = document.documentElement;
+    document.addEventListener('keydown', function (e) { if (e.key === 'Tab') r.classList.add('kbd'); }, true);
+    ['pointerdown', 'mousedown', 'touchstart'].forEach(function (ev) { document.addEventListener(ev, function () { r.classList.remove('kbd'); }, true); });
   })();
   </script>
   <script src="arc.js?v=8"></script>

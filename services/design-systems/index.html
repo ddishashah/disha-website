@@ -6,7 +6,7 @@
   <base href="../../" />
   <title>Design Systems — Disha Shah</title>
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
-  <link rel="preload" href="fonts/portrait-text-400.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
@@ -14,7 +14,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    @font-face { font-family: "Portrait Text Web"; src: url("fonts/portrait-text-400.ttf") format("truetype"); font-weight: 400; font-display: block; }
+    /* Portrait Text Web: licensed webfont, property of Commercial Type (Copyright (C) 2026 Schwartzco Inc., license 2610-WDXIWN). Not to be modified or used on another website. https://commercialtype.com/eula */
+    @font-face { font-family: "Portrait Text Web"; src: url("fonts/PortraitText-Regular-Web.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
 
     :root {
       --bg: #f8f8f7;
@@ -1139,8 +1140,8 @@
     /* ---------- Accessibility: skip link, visible keyboard focus ---------- */
     .skip-link { position: fixed; left: 16px; top: -80px; z-index: 100000; padding: 12px 20px; border-radius: 99px; background: #140700; color: #f8f8f7; font-size: 15px; line-height: 20px; text-decoration: none; transition: top .3s var(--ease-out-expo); }
     .skip-link:focus { top: 16px; outline: 2px solid #f8f8f7; outline-offset: 2px; }
-    :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
-    [data-theme="dark"] :focus-visible, .menu :focus-visible, .loader :focus-visible { outline-color: #f8f8f7; }
+    html.kbd :focus-visible { outline: 2px solid #140700; outline-offset: 3px; }   /* only for people using the keyboard: a tap or click never shows a ring */
+    html.kbd [data-theme="dark"] :focus-visible, html.kbd .menu :focus-visible, html.kbd .loader :focus-visible { outline-color: #f8f8f7; }
     main:focus { outline: none; }
     .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     /* ---------- Hero statements: the two lines take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
@@ -1369,7 +1370,7 @@
       .faq__q { padding-left: 24px; padding-right: 24px; }
       .faq__a-in p { padding-left: 24px; padding-right: 24px; }
       /* Process tabs on phones: five equal numbered tabs, all visible, no scrolling; the step's name is the label right under the tabs */
-      .pd-tabs { overflow: hidden; gap: 4px; padding: 4px; border-radius: 12px 12px 0 0; }
+      .pd-tabs { overflow: hidden; gap: 4px; padding: 4px; border-radius: 12px 12px 0 0; --ind-inset: 4px; --ind-r: 8px; }
       .pd-tab { flex: 1 1 0; min-width: 0; height: 44px; padding: 0; gap: 0; border-radius: 8px; font-size: 14px; transition: background-color .5s, color .5s; }
       .pd-tab i { font-size: 13px; color: inherit; }
       .pd-tab__t { display: none; }
@@ -1412,7 +1413,7 @@
 <meta name="twitter:image" content="https://ddishashah.github.io/disha-website/img/og-image.jpg" />
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Design Systems","serviceType":"Design Systems","description":"Design systems for brands, websites and products: shared foundations, reusable patterns and clear guidance as the work grows.","url":"https://ddishashah.github.io/disha-website/services/design-systems/","areaServed":"Worldwide","provider":{"@id":"https://ddishashah.github.io/disha-website/#person"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ddishashah.github.io/disha-website/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://ddishashah.github.io/disha-website/#services"},{"@type":"ListItem","position":3,"name":"Design Systems","item":"https://ddishashah.github.io/disha-website/services/design-systems/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this for our brand, website, or product?","acceptedAnswer":{"@type":"Answer","text":"It can support any of the three. For brand and website work, I focus on visual foundations, sections, templates, and consistent application. For products, I focus on components, interactions, and behaviour. We can combine the approaches when needed."}},{"@type":"Question","name":"Do we need a finished brand identity first?","acceptedAnswer":{"@type":"Answer","text":"An established identity gives us a starting point. If positioning or the identity itself still needs work, we can scope that through my branding service before developing the system."}},{"@type":"Question","name":"Can you work with what we already have?","acceptedAnswer":{"@type":"Answer","text":"Yes. I review what your team uses and build from the parts that work. The scope might be a cleanup, missing components, better documentation, or a wider refresh."}},{"@type":"Question","name":"Can we start with one website or product area?","acceptedAnswer":{"@type":"Answer","text":"Yes. We can start with a set of priority pages or workflows, apply the system there, and extend it as new needs come up."}},{"@type":"Question","name":"How does this support working with AI?","acceptedAnswer":{"@type":"Answer","text":"The system gives AI tools explicit foundations, reusable patterns, and guidance to work from. I help organise that context around your team’s workflow and review how it translates into the resulting designs and builds."}},{"@type":"Question","name":"Does this include development?","acceptedAnswer":{"@type":"Answer","text":"We agree on implementation scope at the start. I can work with your developers on design-to-code alignment, behaviour, and build reviews, with any development deliverables defined separately."}},{"@type":"Question","name":"What happens after handoff?","acceptedAnswer":{"@type":"Answer","text":"You get the agreed libraries, templates, documentation, and a walkthrough. We also establish how the system should be updated, with ongoing support available if your team needs it."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this for our brand, website, or product?","acceptedAnswer":{"@type":"Answer","text":"It can support any of the three. For brand and website work, I focus on visual foundations, sections, templates, and consistent application. For products, I focus on components, interactions, and behaviour. We can combine the approaches when needed."}},{"@type":"Question","name":"How is this priced?","acceptedAnswer":{"@type":"Answer","text":"Per project. I look at the scope and what you’re trying to achieve, then recommend the structure that suits it best. One-time project fees generally work well. I also take on monthly retainers for 2–3 months, with each month scoped to a set goal."}},{"@type":"Question","name":"Do we need a finished brand identity first?","acceptedAnswer":{"@type":"Answer","text":"An established identity gives us a starting point. If positioning or the identity itself still needs work, we can scope that through my branding service before developing the system."}},{"@type":"Question","name":"Can you work with what we already have?","acceptedAnswer":{"@type":"Answer","text":"Yes. I review what your team uses and build from the parts that work. The scope might be a cleanup, missing components, better documentation, or a wider refresh."}},{"@type":"Question","name":"Can we start with one website or product area?","acceptedAnswer":{"@type":"Answer","text":"Yes. We can start with a set of priority pages or workflows, apply the system there, and extend it as new needs come up."}},{"@type":"Question","name":"How does this support working with AI?","acceptedAnswer":{"@type":"Answer","text":"The system gives AI tools explicit foundations, reusable patterns, and guidance to work from. I help organise that context around your team’s workflow and review how it translates into the resulting designs and builds."}},{"@type":"Question","name":"Does this include development?","acceptedAnswer":{"@type":"Answer","text":"Yes, in the way that suits your team. I can build the system so it works with AI tools like Claude, Codex and VS Code, in Figma and Storybook, and in the tech stack you’ve chosen: React, HTML/CSS/JS, iOS, Svelte and more. I can also work with your developers on design-to-code alignment, behaviour and build reviews. We agree on the scope at the start, with any development deliverables defined separately."}},{"@type":"Question","name":"What happens after handoff?","acceptedAnswer":{"@type":"Answer","text":"You get the agreed libraries, templates, documentation, and a walkthrough. We also establish how the system should be updated, with ongoing support available if your team needs it."}}]}</script>
 <!-- seo:end -->
 </head>
 <body>
@@ -1529,55 +1530,55 @@
       <p class="eyebrow">My process</p>
       <h2 id="pd-approach-title" class="h-primary">From shared decisions to a working system.</h2>
     </div>
-    <div class="pd-fmtwrap" data-reveal><p class="pd-label">Choose your starting point</p><div class="pd-fmts" role="group"><button class="pd-fmt is-active" type="button" aria-pressed="true" data-pd-fmt="brand">Brand &amp; Website</button><button class="pd-fmt" type="button" aria-pressed="false" data-pd-fmt="product">Product</button></div></div>
-    <div class="pd-set" data-pd-set="brand">
+    <div class="pd-fmtwrap" data-reveal><p class="pd-label">Choose your starting point</p><div class="pd-fmts" role="group"><button class="pd-fmt is-active" type="button" aria-pressed="true" data-pd-fmt="product">Product</button><button class="pd-fmt" type="button" aria-pressed="false" data-pd-fmt="brand">Brand &amp; Website</button></div></div>
+    <div class="pd-set" data-pd-set="product">
     <div class="pd-box" data-reveal data-pd>
-      <div class="pd-tabs" role="tablist" aria-label="Brand &amp; Website process"><button class="pd-tab is-active" id="pd-tab-0-0" aria-controls="pd-panel-0-0" type="button" role="tab" aria-selected="true" data-pd-tab="0"><i>01</i><span class="pd-tab__t"><span>Review</span></span></button><button class="pd-tab" id="pd-tab-0-1" aria-controls="pd-panel-0-1" type="button" role="tab" aria-selected="false" data-pd-tab="1"><i>02</i><span class="pd-tab__t"><span>Foundations</span></span></button><button class="pd-tab" id="pd-tab-0-2" aria-controls="pd-panel-0-2" type="button" role="tab" aria-selected="false" data-pd-tab="2"><i>03</i><span class="pd-tab__t"><span>Sections + templates</span></span></button><button class="pd-tab" id="pd-tab-0-3" aria-controls="pd-panel-0-3" type="button" role="tab" aria-selected="false" data-pd-tab="3"><i>04</i><span class="pd-tab__t"><span>Guidance + implementation</span></span></button><button class="pd-tab" id="pd-tab-0-4" aria-controls="pd-panel-0-4" type="button" role="tab" aria-selected="false" data-pd-tab="4"><i>05</i><span class="pd-tab__t"><span>Apply + rollout</span></span></button></div>
+      <div class="pd-tabs" role="tablist" aria-label="Product process"><button class="pd-tab is-active" id="pd-tab-0-0" aria-controls="pd-panel-0-0" type="button" role="tab" aria-selected="true" data-pd-tab="0"><i>01</i><span class="pd-tab__t"><span>Audit</span></span></button><button class="pd-tab" id="pd-tab-0-1" aria-controls="pd-panel-0-1" type="button" role="tab" aria-selected="false" data-pd-tab="1"><i>02</i><span class="pd-tab__t"><span>Foundations + tokens</span></span></button><button class="pd-tab" id="pd-tab-0-2" aria-controls="pd-panel-0-2" type="button" role="tab" aria-selected="false" data-pd-tab="2"><i>03</i><span class="pd-tab__t"><span>Components + patterns</span></span></button><button class="pd-tab" id="pd-tab-0-3" aria-controls="pd-panel-0-3" type="button" role="tab" aria-selected="false" data-pd-tab="3"><i>04</i><span class="pd-tab__t"><span>Documentation + code</span></span></button><button class="pd-tab" id="pd-tab-0-4" aria-controls="pd-panel-0-4" type="button" role="tab" aria-selected="false" data-pd-tab="4"><i>05</i><span class="pd-tab__t"><span>Validate + rollout</span></span></button></div>
         <div class="pd-panel is-active" id="pd-panel-0-0" aria-labelledby="pd-tab-0-0" role="tabpanel" data-pd-panel="0">
-          <div class="pd-panel__main"><p class="pd-label">01 / Review</p><h3>Understand the brand in use.</h3><p>I review the identity, website, and existing materials to see what holds together and where teams are having to improvise.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Review of the brand and its applications</b></li><li><i>02</i><b>Website and template inventory</b></li><li><i>03</i><b>Inconsistencies and missing patterns</b></li><li><i>04</i><b>Agreed priorities and scope</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">01 / Audit</p><h3>Start with the product your team is building.</h3><p>I review the product, libraries, and key workflows with your team. We identify what’s useful, what’s repeated, and where the system falls short.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Product and component inventory</b></li><li><i>02</i><b>Design and code consistency review</b></li><li><i>03</i><b>Gaps across key workflows</b></li><li><i>04</i><b>Agreed priorities and scope</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-0-1" aria-labelledby="pd-tab-0-1" role="tabpanel" data-pd-panel="1" hidden>
-          <div class="pd-panel__main"><p class="pd-label">02 / Foundations</p><h3>Make the visual decisions clear.</h3><p>I turn the identity into practical rules for type, colour, spacing, imagery, and layout—so it works across real content and screen sizes.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Typography, colour, and spacing foundations</b></li><li><i>02</i><b>Layout and imagery guidance</b></li><li><i>03</i><b>Responsive and accessibility considerations</b></li><li><i>04</i><b>Variables and tokens where needed</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">02 / Foundations + tokens</p><h3>Give the system a shared structure.</h3><p>I organise the visual foundations and tokens around the product’s needs, with naming and logic that make sense to design and engineering.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Visual foundations</b></li><li><i>02</i><b>Token structure and naming</b></li><li><i>03</i><b>Themes and modes where needed</b></li><li><i>04</i><b>Accessibility requirements</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-0-2" aria-labelledby="pd-tab-0-2" role="tabpanel" data-pd-panel="2" hidden>
-          <div class="pd-panel__main"><p class="pd-label">03 / Sections + templates</p><h3>Give the team useful things to build with.</h3><p>I create reusable sections and templates around the content you publish. We work through how they can adapt while keeping the brand recognisable.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Website components and sections</b></li><li><i>02</i><b>Page and content templates</b></li><li><i>03</i><b>Variants for different content needs</b></li><li><i>04</i><b>Responsive layouts and examples</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">03 / Components + patterns</p><h3>Work through the behaviour as well as the screen.</h3><p>I build components and patterns around real tasks, including the roles, states, and edge cases that shape how the product works.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Reusable component library</b></li><li><i>02</i><b>Variants and interaction states</b></li><li><i>03</i><b>Patterns for key workflows</b></li><li><i>04</i><b>Responsive behaviour</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-0-3" aria-labelledby="pd-tab-0-3" role="tabpanel" data-pd-panel="3" hidden>
-          <div class="pd-panel__main"><p class="pd-label">04 / Guidance + implementation</p><h3>Make it easier to use and build.</h3><p>I document how the pieces work together, where there’s flexibility, and what needs to stay consistent. I work through implementation with the people building and maintaining the site.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Usage guidelines and examples</b></li><li><i>02</i><b>Content and layout rules</b></li><li><i>03</i><b>Design-to-build notes</b></li><li><i>04</i><b>Context for AI-assisted workflows</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">04 / Documentation + code</p><h3>Carry the decisions into implementation.</h3><p>I document usage, behaviour, and constraints, then work with your engineers to connect the design library with what gets built.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Usage and behaviour guidelines</b></li><li><i>02</i><b>Design-to-code component mapping</b></li><li><i>03</i><b>Context for AI-assisted builds</b></li><li><i>04</i><b>Implementation notes and examples</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-0-4" aria-labelledby="pd-tab-0-4" role="tabpanel" data-pd-panel="4" hidden>
-          <div class="pd-panel__main"><p class="pd-label">05 / Apply + rollout</p><h3>See how it holds up in use.</h3><p>We apply the system to agreed pages and materials, refine what doesn’t fit, and give your team a clear way to keep working with it.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Application to priority pages or materials</b></li><li><i>02</i><b>Visual and responsive reviews</b></li><li><i>03</i><b>Team walkthrough</b></li><li><i>04</i><b>Maintenance and update guidance</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">05 / Validate + rollout</p><h3>Put the system to work in real flows.</h3><p>We apply the system to agreed product areas, review the build, and address gaps. Your team gets guidance for adopting and maintaining it.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Application to priority product flows</b></li><li><i>02</i><b>Design and implementation reviews</b></li><li><i>03</i><b>Team walkthrough</b></li><li><i>04</i><b>Contribution and maintenance guidance</b></li></ul></div>
         </div>
     </div>
     <div class="pd-dots" data-pd-dots><button type="button" class="pd-dot is-active" aria-label="Step 1" data-pd-tab="0"></button><button type="button" class="pd-dot" aria-label="Step 2" data-pd-tab="1"></button><button type="button" class="pd-dot" aria-label="Step 3" data-pd-tab="2"></button><button type="button" class="pd-dot" aria-label="Step 4" data-pd-tab="3"></button><button type="button" class="pd-dot" aria-label="Step 5" data-pd-tab="4"></button></div>
     </div>
-    <div class="pd-set" hidden data-pd-set="product">
+    <div class="pd-set" hidden data-pd-set="brand">
     <div class="pd-box" data-reveal data-pd>
-      <div class="pd-tabs" role="tablist" aria-label="Product process"><button class="pd-tab is-active" id="pd-tab-1-0" aria-controls="pd-panel-1-0" type="button" role="tab" aria-selected="true" data-pd-tab="0"><i>01</i><span class="pd-tab__t"><span>Audit</span></span></button><button class="pd-tab" id="pd-tab-1-1" aria-controls="pd-panel-1-1" type="button" role="tab" aria-selected="false" data-pd-tab="1"><i>02</i><span class="pd-tab__t"><span>Foundations + tokens</span></span></button><button class="pd-tab" id="pd-tab-1-2" aria-controls="pd-panel-1-2" type="button" role="tab" aria-selected="false" data-pd-tab="2"><i>03</i><span class="pd-tab__t"><span>Components + patterns</span></span></button><button class="pd-tab" id="pd-tab-1-3" aria-controls="pd-panel-1-3" type="button" role="tab" aria-selected="false" data-pd-tab="3"><i>04</i><span class="pd-tab__t"><span>Documentation + code</span></span></button><button class="pd-tab" id="pd-tab-1-4" aria-controls="pd-panel-1-4" type="button" role="tab" aria-selected="false" data-pd-tab="4"><i>05</i><span class="pd-tab__t"><span>Validate + rollout</span></span></button></div>
+      <div class="pd-tabs" role="tablist" aria-label="Brand &amp; Website process"><button class="pd-tab is-active" id="pd-tab-1-0" aria-controls="pd-panel-1-0" type="button" role="tab" aria-selected="true" data-pd-tab="0"><i>01</i><span class="pd-tab__t"><span>Review</span></span></button><button class="pd-tab" id="pd-tab-1-1" aria-controls="pd-panel-1-1" type="button" role="tab" aria-selected="false" data-pd-tab="1"><i>02</i><span class="pd-tab__t"><span>Foundations</span></span></button><button class="pd-tab" id="pd-tab-1-2" aria-controls="pd-panel-1-2" type="button" role="tab" aria-selected="false" data-pd-tab="2"><i>03</i><span class="pd-tab__t"><span>Sections + templates</span></span></button><button class="pd-tab" id="pd-tab-1-3" aria-controls="pd-panel-1-3" type="button" role="tab" aria-selected="false" data-pd-tab="3"><i>04</i><span class="pd-tab__t"><span>Guidance + implementation</span></span></button><button class="pd-tab" id="pd-tab-1-4" aria-controls="pd-panel-1-4" type="button" role="tab" aria-selected="false" data-pd-tab="4"><i>05</i><span class="pd-tab__t"><span>Apply + rollout</span></span></button></div>
         <div class="pd-panel is-active" id="pd-panel-1-0" aria-labelledby="pd-tab-1-0" role="tabpanel" data-pd-panel="0">
-          <div class="pd-panel__main"><p class="pd-label">01 / Audit</p><h3>Start with the product your team is building.</h3><p>I review the product, libraries, and key workflows with your team. We identify what’s useful, what’s repeated, and where the system falls short.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Product and component inventory</b></li><li><i>02</i><b>Design and code consistency review</b></li><li><i>03</i><b>Gaps across key workflows</b></li><li><i>04</i><b>Agreed priorities and scope</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">01 / Review</p><h3>Understand the brand in use.</h3><p>I review the identity, website, and existing materials to see what holds together and where teams are having to improvise.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Review of the brand and its applications</b></li><li><i>02</i><b>Website and template inventory</b></li><li><i>03</i><b>Inconsistencies and missing patterns</b></li><li><i>04</i><b>Agreed priorities and scope</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-1-1" aria-labelledby="pd-tab-1-1" role="tabpanel" data-pd-panel="1" hidden>
-          <div class="pd-panel__main"><p class="pd-label">02 / Foundations + tokens</p><h3>Give the system a shared structure.</h3><p>I organise the visual foundations and tokens around the product’s needs, with naming and logic that make sense to design and engineering.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Visual foundations</b></li><li><i>02</i><b>Token structure and naming</b></li><li><i>03</i><b>Themes and modes where needed</b></li><li><i>04</i><b>Accessibility requirements</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">02 / Foundations</p><h3>Make the visual decisions clear.</h3><p>I turn the identity into practical rules for type, colour, spacing, imagery, and layout—so it works across real content and screen sizes.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Typography, colour, and spacing foundations</b></li><li><i>02</i><b>Layout and imagery guidance</b></li><li><i>03</i><b>Responsive and accessibility considerations</b></li><li><i>04</i><b>Variables and tokens where needed</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-1-2" aria-labelledby="pd-tab-1-2" role="tabpanel" data-pd-panel="2" hidden>
-          <div class="pd-panel__main"><p class="pd-label">03 / Components + patterns</p><h3>Work through the behaviour as well as the screen.</h3><p>I build components and patterns around real tasks, including the roles, states, and edge cases that shape how the product works.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Reusable component library</b></li><li><i>02</i><b>Variants and interaction states</b></li><li><i>03</i><b>Patterns for key workflows</b></li><li><i>04</i><b>Responsive behaviour</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">03 / Sections + templates</p><h3>Give the team useful things to build with.</h3><p>I create reusable sections and templates around the content you publish. We work through how they can adapt while keeping the brand recognisable.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Website components and sections</b></li><li><i>02</i><b>Page and content templates</b></li><li><i>03</i><b>Variants for different content needs</b></li><li><i>04</i><b>Responsive layouts and examples</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-1-3" aria-labelledby="pd-tab-1-3" role="tabpanel" data-pd-panel="3" hidden>
-          <div class="pd-panel__main"><p class="pd-label">04 / Documentation + code</p><h3>Carry the decisions into implementation.</h3><p>I document usage, behaviour, and constraints, then work with your engineers to connect the design library with what gets built.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Usage and behaviour guidelines</b></li><li><i>02</i><b>Design-to-code component mapping</b></li><li><i>03</i><b>Context for AI-assisted builds</b></li><li><i>04</i><b>Implementation notes and examples</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">04 / Guidance + implementation</p><h3>Make it easier to use and build.</h3><p>I document how the pieces work together, where there’s flexibility, and what needs to stay consistent. I work through implementation with the people building and maintaining the site.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Usage guidelines and examples</b></li><li><i>02</i><b>Content and layout rules</b></li><li><i>03</i><b>Design-to-build notes</b></li><li><i>04</i><b>Context for AI-assisted workflows</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-1-4" aria-labelledby="pd-tab-1-4" role="tabpanel" data-pd-panel="4" hidden>
-          <div class="pd-panel__main"><p class="pd-label">05 / Validate + rollout</p><h3>Put the system to work in real flows.</h3><p>We apply the system to agreed product areas, review the build, and address gaps. Your team gets guidance for adopting and maintaining it.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Application to priority product flows</b></li><li><i>02</i><b>Design and implementation reviews</b></li><li><i>03</i><b>Team walkthrough</b></li><li><i>04</i><b>Contribution and maintenance guidance</b></li></ul></div>
+          <div class="pd-panel__main"><p class="pd-label">05 / Apply + rollout</p><h3>See how it holds up in use.</h3><p>We apply the system to agreed pages and materials, refine what doesn’t fit, and give your team a clear way to keep working with it.</p></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Application to priority pages or materials</b></li><li><i>02</i><b>Visual and responsive reviews</b></li><li><i>03</i><b>Team walkthrough</b></li><li><i>04</i><b>Maintenance and update guidance</b></li></ul></div>
         </div>
     </div>
     <div class="pd-dots" data-pd-dots><button type="button" class="pd-dot is-active" aria-label="Step 1" data-pd-tab="0"></button><button type="button" class="pd-dot" aria-label="Step 2" data-pd-tab="1"></button><button type="button" class="pd-dot" aria-label="Step 3" data-pd-tab="2"></button><button type="button" class="pd-dot" aria-label="Step 4" data-pd-tab="3"></button><button type="button" class="pd-dot" aria-label="Step 5" data-pd-tab="4"></button></div>
@@ -1679,12 +1680,13 @@
       </div>
       <div class="faq__list" data-faq data-reveal>
         <div class="faq__item is-open"><button class="faq__q" id="faq-q-1" aria-controls="faq-a-1" type="button" aria-expanded="true"><span>Is this for our brand, website, or product?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-1" role="region" aria-labelledby="faq-q-1"><div class="faq__a-in"><p>It can support any of the three. For brand and website work, I focus on visual foundations, sections, templates, and consistent application. For products, I focus on components, interactions, and behaviour. We can combine the approaches when needed.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>Do we need a finished brand identity first?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>An established identity gives us a starting point. If positioning or the identity itself still needs work, we can scope that through my branding service before developing the system.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>Can you work with what we already have?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>Yes. I review what your team uses and build from the parts that work. The scope might be a cleanup, missing components, better documentation, or a wider refresh.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Can we start with one website or product area?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>Yes. We can start with a set of priority pages or workflows, apply the system there, and extend it as new needs come up.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>How does this support working with AI?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>The system gives AI tools explicit foundations, reusable patterns, and guidance to work from. I help organise that context around your team’s workflow and review how it translates into the resulting designs and builds.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>Does this include development?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>We agree on implementation scope at the start. I can work with your developers on design-to-code alignment, behaviour, and build reviews, with any development deliverables defined separately.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-7" aria-controls="faq-a-7" type="button" aria-expanded="false"><span>What happens after handoff?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-7" role="region" aria-labelledby="faq-q-7"><div class="faq__a-in"><p>You get the agreed libraries, templates, documentation, and a walkthrough. We also establish how the system should be updated, with ongoing support available if your team needs it.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>How is this priced?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>Per project. I look at the scope and what you’re trying to achieve, then recommend the structure that suits it best. One-time project fees generally work well. I also take on monthly retainers for 2–3 months, with each month scoped to a set goal.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>Do we need a finished brand identity first?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>An established identity gives us a starting point. If positioning or the identity itself still needs work, we can scope that through my branding service before developing the system.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Can you work with what we already have?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>Yes. I review what your team uses and build from the parts that work. The scope might be a cleanup, missing components, better documentation, or a wider refresh.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>Can we start with one website or product area?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>Yes. We can start with a set of priority pages or workflows, apply the system there, and extend it as new needs come up.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>How does this support working with AI?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>The system gives AI tools explicit foundations, reusable patterns, and guidance to work from. I help organise that context around your team’s workflow and review how it translates into the resulting designs and builds.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-7" aria-controls="faq-a-7" type="button" aria-expanded="false"><span>Does this include development?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-7" role="region" aria-labelledby="faq-q-7"><div class="faq__a-in"><p>Yes, in the way that suits your team. I can build the system so it works with AI tools like Claude, Codex and VS Code, in Figma and Storybook, and in the tech stack you’ve chosen: React, HTML/CSS/JS, iOS, Svelte and more. I can also work with your developers on design-to-code alignment, behaviour and build reviews. We agree on the scope at the start, with any development deliverables defined separately.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-8" aria-controls="faq-a-8" type="button" aria-expanded="false"><span>What happens after handoff?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-8" role="region" aria-labelledby="faq-q-8"><div class="faq__a-in"><p>You get the agreed libraries, templates, documentation, and a walkthrough. We also establish how the system should be updated, with ongoing support available if your team needs it.</p></div></div></div>
       </div>
     </div>
   </section>
@@ -2175,39 +2177,101 @@
       });
     }
 
-    // Service pages: process tabs (one set per format) + format toggle
+    // Product page: "How I work" tabs
     function initPdTabs() {
+      // Process steps: the five panels sit side by side on a track that glides under a clip. A single highlight slides
+      // behind the tabs. The track follows the finger 1:1 on a swipe, rubber-bands at the ends, and settles from the
+      // release speed, so it never snaps or bounces.
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
       document.querySelectorAll('[data-pd-set]').forEach((set) => {
         const box = set.querySelector('[data-pd]');
+        const tabsEl = box.querySelector('.pd-tabs');
         const tabs = [...box.querySelectorAll('[data-pd-tab]')];
         const dots = [...set.querySelectorAll('.pd-dot')];
         const panels = [...box.querySelectorAll('[data-pd-panel]')];
-        function go(i) {
-          tabs.forEach(t => { const on = +t.dataset.pdTab === i; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on); });
-          dots.forEach(d => d.classList.toggle('is-active', +d.dataset.pdTab === i));
-          panels.forEach(p => { const on = +p.dataset.pdPanel === i; p.hidden = !on; p.classList.toggle('is-active', on); });
-        }
-        [...tabs, ...dots].forEach(t => t.addEventListener('click', () => go(+t.dataset.pdTab)));
-        // phones: swipe the panel sideways to move between steps
-        let sx = 0, sy = 0;
-        box.addEventListener('touchstart', (e) => { if (e.touches.length === 1) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; } }, { passive: true });
-        box.addEventListener('touchend', (e) => {
-          const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
-          if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-          const n = tabs.findIndex(x => x.classList.contains('is-active')) + (dx < 0 ? 1 : -1);
-          if (n >= 0 && n < tabs.length) go(n);
+        const n = panels.length;
+        const vp = document.createElement('div'); vp.className = 'pd-viewport';
+        const track = document.createElement('div'); track.className = 'pd-track';
+        panels.forEach((p) => { p.hidden = false; track.appendChild(p); });
+        vp.appendChild(track); box.appendChild(vp);
+        const ind = document.createElement('span'); ind.className = 'pd-ind'; ind.setAttribute('aria-hidden', 'true');
+        tabsEl.insertBefore(ind, tabsEl.firstChild);
+        let cur = 0, W = 0, pos = [];
+        const measure = () => {
+          W = vp.clientWidth;
+          pos = tabs.map((t) => ({ x: t.offsetLeft, w: t.offsetWidth }));
+        };
+        const setInd = (f) => {                                    // f: fractional step, so it can follow a drag
+          if (!pos.length) return;
+          const i0 = clamp(Math.floor(f), 0, n - 1), i1 = Math.min(n - 1, i0 + 1), t = clamp(f - i0, 0, 1);
+          const x = pos[i0].x + (pos[i1].x - pos[i0].x) * t, w = pos[i0].w + (pos[i1].w - pos[i0].w) * t;
+          ind.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)'; ind.style.width = w.toFixed(2) + 'px';
+        };
+        const still = (on) => { const v = on ? 'none' : ''; track.style.transition = v; ind.style.transition = v; vp.style.transition = v; };
+        const place = () => {                                       // jump to the current step with no animation
+          measure(); still(true);
+          track.style.transform = 'translate3d(' + (-cur * W) + 'px,0,0)'; setInd(cur);
+          vp.style.height = panels[cur].offsetHeight + 'px';
+          void vp.offsetWidth; still(false);
+        };
+        const go = (i, animate = true) => {
+          i = clamp(i, 0, n - 1);
+          cur = i;
+          tabs.forEach((t, k) => { const on = k === i; t.classList.toggle('is-active', on); t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+          dots.forEach((d, k) => d.classList.toggle('is-active', k === i));
+          panels.forEach((p, k) => { p.classList.toggle('is-active', k === i); p.inert = k !== i; p.setAttribute('aria-hidden', k !== i); });
+          if (!animate) { place(); return; }
+          measure();
+          track.style.transform = 'translate3d(' + (-i * W) + 'px,0,0)';
+          setInd(i);
+          vp.style.height = panels[i].offsetHeight + 'px';
+        };
+        [...tabs, ...dots].forEach((t) => t.addEventListener('click', () => go(+t.dataset.pdTab)));
+        // swipe: follows the finger, then settles from the release speed
+        let sx = 0, sy = 0, mode = null, dx = 0, lastX = 0, lastT = 0, v = 0;
+        vp.addEventListener('touchstart', (e) => {
+          if (e.touches.length !== 1) return;
+          sx = lastX = e.touches[0].clientX; sy = e.touches[0].clientY; lastT = e.timeStamp; mode = null; dx = 0; v = 0;
         }, { passive: true });
+        vp.addEventListener('touchmove', (e) => {
+          if (e.touches.length !== 1) return;
+          const x = e.touches[0].clientX, y = e.touches[0].clientY;
+          if (mode === null) {
+            const ax = Math.abs(x - sx), ay = Math.abs(y - sy);
+            if (ax < 6 && ay < 6) return;
+            mode = ax > ay * 1.2 ? 'h' : 'v';
+            if (mode === 'h') { measure(); still(true); }
+          }
+          if (mode !== 'h') return;
+          dx = x - sx;
+          const eff = ((cur === 0 && dx > 0) || (cur === n - 1 && dx < 0)) ? dx * 0.35 : dx;   // resistance at the ends
+          track.style.transform = 'translate3d(' + (-cur * W + eff) + 'px,0,0)';
+          setInd(clamp(cur - eff / W, 0, n - 1));
+          const dtm = Math.max(1, e.timeStamp - lastT); v = 0.75 * v + 0.25 * ((x - lastX) / dtm); lastX = x; lastT = e.timeStamp;
+          if (e.cancelable) e.preventDefault();
+        }, { passive: false });
+        const end = () => {
+          if (mode !== 'h') { mode = null; return; }
+          mode = null; still(false);
+          const proj = dx + v * 160;
+          go(proj < -W * 0.28 ? cur + 1 : proj > W * 0.28 ? cur - 1 : cur);
+        };
+        vp.addEventListener('touchend', end); vp.addEventListener('touchcancel', end);
         box.addEventListener('keydown', (e) => {
           if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-          const cur = tabs.findIndex(t => t.classList.contains('is-active'));
-          const n = (cur + (e.key === 'ArrowRight' ? 1 : -1) + 5) % 5;
-          go(n); tabs[n].focus();
+          const m = (cur + (e.key === 'ArrowRight' ? 1 : -1) + n) % n;
+          go(m); tabs[m].focus();
         });
+        if ('ResizeObserver' in window) new ResizeObserver(place).observe(vp);
+        panels.forEach((p) => { if ('ResizeObserver' in window) new ResizeObserver(() => { if (panels[cur] === p) vp.style.height = p.offsetHeight + 'px'; }).observe(p); });
+        window.addEventListener('resize', place);
+        go(0, false);
+        set.__pdRefresh = place;
       });
       const fmts = [...document.querySelectorAll('[data-pd-fmt]')];
       fmts.forEach((b) => b.addEventListener('click', () => {
         fmts.forEach((x) => { const on = x === b; x.classList.toggle('is-active', on); x.setAttribute('aria-pressed', on); });
-        document.querySelectorAll('[data-pd-set]').forEach((st) => { st.hidden = st.dataset.pdSet !== b.dataset.pdFmt; });
+        document.querySelectorAll('[data-pd-set]').forEach((st) => { const on = st.dataset.pdSet === b.dataset.pdFmt; st.hidden = !on; if (on && st.__pdRefresh) requestAnimationFrame(() => requestAnimationFrame(st.__pdRefresh)); });
       }));
     }
 
@@ -2867,6 +2931,14 @@
     function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); else arm(); }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(init); else init();
     window.addEventListener('resize', function () { if (!busy) { root.style.transition = 'none'; size(); } });
+  })();
+  </script>
+  <script>
+  // Keyboard focus rings only appear once someone uses the keyboard (Tab); any pointer use hides them again
+  (function () {
+    var r = document.documentElement;
+    document.addEventListener('keydown', function (e) { if (e.key === 'Tab') r.classList.add('kbd'); }, true);
+    ['pointerdown', 'mousedown', 'touchstart'].forEach(function (ev) { document.addEventListener(ev, function () { r.classList.remove('kbd'); }, true); });
   })();
   </script>
   <script src="arc.js?v=8"></script>
