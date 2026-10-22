@@ -222,9 +222,11 @@
       clip-path: inset(0 calc((1 - var(--p)) * 10%) round 20px);
       will-change: clip-path;
     }
-    /* Phones: opens from the left only, the right edge is never cut */
+    /* Phones: same sideways opening, but with square clip corners (nothing rounded on the right),
+       and the strip sits a little higher (8% of the screen height) */
     @media (max-width: 767px) {
-      .motion .carousel { clip-path: inset(0 0 0 calc((1 - var(--p)) * 10%)); }
+      .motion .carousel { clip-path: inset(0 calc((1 - var(--p)) * 10%)); }
+      .hero__stage { min-height: calc(92svh - 64px); }
     }
     .motion .carousel__card--reveal > img,
     .motion .carousel__card--reveal > svg {
