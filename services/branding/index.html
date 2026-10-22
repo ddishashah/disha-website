@@ -1137,6 +1137,8 @@
     @keyframes loaderSweep { from { -webkit-mask-position: 0 100%; mask-position: 0 100%; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
     @keyframes loaderLift { from { transform: translateY(0); } to { transform: translateY(-102%); } }
     @media (prefers-reduced-motion: reduce) { .loader { display: none !important; } }
+    /* ---------- Assets: no drag-out, no long-press save, no text selection on media. Clicks still pass through, so linked cards keep working ---------- */
+    img, video, picture { -webkit-user-drag: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
     /* ---------- Accessibility: skip link, visible keyboard focus ---------- */
     .skip-link { position: fixed; left: 16px; top: -80px; z-index: 100000; padding: 12px 20px; border-radius: 99px; background: #140700; color: #f8f8f7; font-size: 15px; line-height: 20px; text-decoration: none; transition: top .3s var(--ease-out-expo); }
     .skip-link:focus { top: 16px; outline: 2px solid #f8f8f7; outline-offset: 2px; }
@@ -2901,6 +2903,15 @@
     var r = document.documentElement;
     document.addEventListener('keydown', function (e) { if (e.key === 'Tab') r.classList.add('kbd'); }, true);
     ['pointerdown', 'mousedown', 'touchstart'].forEach(function (ev) { document.addEventListener(ev, function () { r.classList.remove('kbd'); }, true); });
+  })();
+  </script>
+  <script>
+  // Discourage saving media: no right-click menu or dragging on images and videos (left-click, tap and keyboard are untouched, so cards and links still work)
+  (function () {
+    var media = 'img, video, picture, canvas';
+    document.addEventListener('contextmenu', function (e) { if (e.target.closest && e.target.closest(media)) e.preventDefault(); }, true);
+    document.addEventListener('dragstart', function (e) { if (e.target.closest && e.target.closest(media)) e.preventDefault(); }, true);
+    document.querySelectorAll('video').forEach(function (v) { v.setAttribute('controlslist', 'nodownload noremoteplayback'); v.setAttribute('disablepictureinpicture', ''); v.setAttribute('disableremoteplayback', ''); });
   })();
   </script>
   <script src="arc.js?v=8"></script>
