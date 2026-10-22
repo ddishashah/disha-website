@@ -218,7 +218,9 @@
     .carousel { --p: 0; }
     /* (the strip used to open sideways with a clip-path; it now just settles in) */
     .motion .carousel {
-      /* no sideways clip: the strip stays fully visible while the scroll reveal and appear play */
+      /* opens from the left only (like Collins); the right side is never clipped and no corners are rounded */
+      clip-path: inset(0 0 0 calc((1 - var(--p)) * 10%));
+      will-change: clip-path;
     }
     .motion .carousel__card--reveal > img,
     .motion .carousel__card--reveal > svg {
