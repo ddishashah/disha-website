@@ -244,6 +244,7 @@
       .motion .carousel { clip-path: inset(0 calc((1 - var(--p)) * 10%) round 20px); }
       .hero__stage { min-height: calc(92svh - 64px); }
     }
+    .motion .carousel.is-open { clip-path: none; will-change: auto; }
     .motion .carousel__card--reveal > img,
     .motion .carousel__card--reveal > svg {
       transform: scale(calc(1.12 - 0.12 * var(--p)));
@@ -971,7 +972,7 @@
     /* Touch screens have no cursor label, so the fireflies card carries a visible one */
     @media (hover: none) {
       .cascading-slider__item[data-href]::after {
-        content: "Play with fireflies"; position: absolute; left: 50%; top: 50%; z-index: 3; transform: translate(-50%, -50%);
+        content: "Play with fireflies"; position: absolute; left: 50%; top: 20px; z-index: 3; transform: translateX(-50%);
         display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 46px 0 22px; border-radius: 96px; white-space: nowrap;
         background: rgba(255, 255, 255, .16) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12H19M12 19L19 12L12 5' stroke='%23f8f8f7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 18px center / 18px 18px;
         color: #f8f8f7; font-size: 15px; letter-spacing: .15px;
@@ -994,9 +995,9 @@
       .nav__brand, .menu__brand { font-size: 17px; }
       .nav__right { gap: 8px; }
       .nav__cta { padding: 0 14px 1px; font-size: 13px; letter-spacing: 0.13px; }
-      .tagline { margin-top: 30px; font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
+      .tagline { margin-top: 30px; font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
       .hero__title { font-size: 40px; line-height: 1.02; }
-      .hero__sub { margin-bottom: 48px; font-size: 15px; line-height: 24px; }
+      .hero__sub { margin-bottom: 48px; font-size: 16px; line-height: 26px; }
       .carousel { padding: 0 28px; scroll-padding: 0 28px; }
       .logos { margin-top: 32px; }
       .logos__tile { flex-basis: 120px; height: 60px; }
@@ -1004,12 +1005,12 @@
       /* Shared type */
       .h-primary { font-size: 30px; letter-spacing: -0.6px; }
       .problem__title, .testimonials__title, .work__title, .playground__title, .story__title { line-height: 34px; }
-      .eyebrow, .eyebrow--md, .eyebrow--dark { font-size: 15px; }
+      .eyebrow, .eyebrow--md, .eyebrow--dark { font-size: 16px; }
 
       /* Problem */
       .hero { padding-bottom: 0; }
       .problem { margin-top: 96px; padding: 0 28px; }
-      .problem__sub { font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
+      .problem__sub { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
       .gaps { margin-top: 24px; gap: 12px; flex-direction: column; align-items: stretch; width: 100%; }
       .gap { height: 44px; padding: 0 18px 0 12px; font-size: 14px; width: 100%; box-sizing: border-box; justify-content: center; }
 
@@ -1018,7 +1019,7 @@
       .story__card { padding: 48px 32px 28px; border-radius: 20px; }
       .story__inner { gap: 36px; }
       .story__left { gap: 32px; }
-      .story__body { font-size: 15px; line-height: 25px; letter-spacing: 0.2px; }
+      .story__body { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
 
       /* Work */
       .work { margin-top: 96px; }
@@ -1030,7 +1031,7 @@
       .case__text { padding: 0 10px; gap: 6px; }
       .case__text { opacity: 1; transform: none; }   /* no hover on phones: text always visible */
       .case__title { font-size: 16px; line-height: 24px; }
-      .case__tags { font-size: 14px; line-height: 22px; }
+      .case__tags { font-size: 16px; line-height: 24px; }
       .case--all { flex-basis: calc(100vw - 120px); align-self: flex-start; }
       .case--all .explore__img { width: 48cqw; }
       .case--all .explore { height: calc((100vw - 110px) * 444 / 550 + 14px); aspect-ratio: auto; }   /* same height as a cover frame, like desktop */
@@ -1041,7 +1042,7 @@
       .quotes__card { padding: 28px 24px; }
       .quote__pull p:last-child { font-size: 23px; line-height: 28px; }
       .quote__text { font-size: 15px; line-height: 25px; letter-spacing: 0.2px; }
-      .quote__by { font-size: 14px; line-height: 20px; }
+      .quote__by { font-size: 16px; line-height: 22px; }
 
       /* Services */
       .services { padding-bottom: 56px; }
@@ -1049,12 +1050,12 @@
       .services__row { margin-top: 4px; padding: 24px 28px 40px; scroll-padding: 0 28px; gap: 16px; }
       .service { flex-basis: calc(100vw - 96px); height: 300px; padding: 28px 24px 32px; }
       .service__title { font-size: 20px; line-height: 28px; }
-      .service__tags { font-size: 14px; line-height: 22px; }
+      .service__tags { font-size: 16px; line-height: 24px; }
 
       /* What pulls me in */
       .pulls { padding: 96px 28px; gap: 28px; }
       .pulls__title { font-size: 36px; line-height: 38px; letter-spacing: -1px; }
-      .pulls__body { font-size: 15px; line-height: 25px; letter-spacing: 0.2px; }
+      .pulls__body { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
 
       /* Playground */
       .playground { padding: 96px 0; }
@@ -1067,7 +1068,7 @@
       .footer__inner { max-width: calc(100% - 56px); gap: 40px; }
       .footer__head { gap: 16px; }
       .footer__title { font-size: 40px; line-height: 44px; letter-spacing: -1px; }
-      .footer__sub { font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
+      .footer__sub { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
       .booking { padding: 6px; min-height: 0; }
       /* cal.com stacks month + time slots on phones, which makes a very long page.
          Cap the box so people scroll inside it to find a slot (as on desktop). */
@@ -1079,12 +1080,35 @@
       }
       .booking__fallback { inset: 6px; }
       .socials { margin-top: 40px; }
-      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 20px; font-size: 15px; line-height: 24px; }
+      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 20px; font-size: 16px; line-height: 26px; }
       .footer__nav { gap: 10px 20px; justify-content: center; }
       .footer__sub--para br { display: none; }
       .footer__bar { align-items: center; text-align: center; }
       .footer__markwrap { margin-top: 48px; }
     }
+
+    /* ---------- Loader (same mechanism as fluidintelligence.ai): dim copy, a lit copy revealed top to bottom through a soft gradient mask, then the panel lifts away ---------- */
+    .loader { --loader-size: 40px; position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 28px; box-sizing: border-box; background: #140700; will-change: transform; animation: loaderLift .9s cubic-bezier(.76, 0, .24, 1) 2.35s forwards; }
+    @media (max-width: 809.98px) { .loader { --loader-size: 28px; } }
+    .loader__text { position: relative; }
+    .loader__copy { margin: 0; text-align: center; font-family: var(--font-serif); font-weight: 400; font-size: var(--loader-size); line-height: 1.1; letter-spacing: -0.01em; color: rgba(248, 248, 247, .23); }
+    .loader__copy span { display: block; }
+    .loader__copy--lit { position: absolute; inset: 0; color: #f8f8f7; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 60%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 60%, transparent 100%); -webkit-mask-size: 100% 250%; mask-size: 100% 250%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: 0 100%; mask-position: 0 100%; animation: loaderSweep 1.6s cubic-bezier(.45, 0, .3, 1) .2s forwards; }
+    @keyframes loaderSweep { from { -webkit-mask-position: 0 100%; mask-position: 0 100%; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
+    @keyframes loaderLift { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+    @media (prefers-reduced-motion: reduce) { .loader { display: none !important; } }
+    /* ---------- Phone hero: the two statements take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
+    .ln { display: block; }
+    @media (max-width: 767px) {
+      .motion .hero__stage { position: relative; }
+      .motion .tagline { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 48px; margin: 0; opacity: 1; transform: none; transition: none; }
+      .motion .hero__sub[data-intro] { opacity: 1; transform: none; transition: none; }
+      .motion .tagline .ln, .motion .hero__sub .ln { overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
+      .motion .ln__in { display: block; transform: translateY(112%); }
+      .motion .swap-in .ln__in { transform: none; transition: transform 1.1s var(--ease-out-expo); transition-delay: calc(var(--li, 0) * .08s); }
+      .motion .swap-out .ln__in { transform: translateY(-112%); transition: transform .8s cubic-bezier(.76, 0, .24, 1); transition-delay: calc(var(--li, 0) * .05s); }
+    }
+    html.is-loader, html.is-loader body { overflow: hidden; }
 
     /* ================= Work pages ================= */
     .about-nav { height: 54px; }
@@ -1548,9 +1572,10 @@
 
       let shown = false;
       function update() {
-        const t = Math.min(Math.max(window.scrollY / (window.innerHeight * 0.7), 0), 1);
+        const span = window.matchMedia('(max-width: 767px)').matches ? 0.4 : 0.7;   // phones finish opening after 40% of a screen
+        const t = Math.min(Math.max(window.scrollY / (window.innerHeight * span), 0), 1);
         const p = 1 - Math.pow(1 - t, 1.4); // gentle ease-out, matches Collins' curve
-        if (track) track.style.setProperty('--p', p.toFixed(4));
+        if (track) { track.style.setProperty('--p', p.toFixed(4)); track.classList.toggle('is-open', p >= 0.999); }   // fully open: no clip at all, so the peeking card keeps its corners
         if (!shown && p > 0.32) {
           shown = true;
           later.forEach(el => el.classList.add('is-in'));
@@ -2192,6 +2217,46 @@
       }
       window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     })();
+  </script>
+  <script>
+  // Phone hero: "Brand and Product Systems…" and "Care all the way through…" take turns (line mask roll)
+  (function () {
+    var root = document.documentElement, mq = window.matchMedia('(max-width: 767px)');
+    var a = document.querySelector('.hero .tagline'), b = document.querySelector('.hero .hero__sub');
+    if (!a || !b || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var items = [a, b], idx = 0, timer = null, started = false, HOLD = 3600;
+    function wrap() {
+      items.forEach(function (el) {
+        if (el.getAttribute('data-wrapped')) return;
+        var label = el.textContent.replace(/\s+/g, ' ').trim();
+        var lines = el.innerHTML.trim().split(/<br\s*\/?>/i);
+        el.setAttribute('aria-label', label); el.setAttribute('data-wrapped', '1');
+        el.innerHTML = lines.map(function (l, i) { return '<span class="ln" aria-hidden="true"><span class="ln__in" style="--li:' + i + '">' + l.trim() + '</span></span>'; }).join('');
+      });
+    }
+    function step() {
+      var cur = items[idx], nxt = items[1 - idx];
+      cur.classList.remove('swap-in'); cur.classList.add('swap-out');
+      setTimeout(function () { cur.classList.remove('swap-out'); }, 1100);
+      setTimeout(function () { nxt.classList.add('swap-in'); }, 450);
+      idx = 1 - idx;
+      timer = setTimeout(step, HOLD + 1100);
+    }
+    function start() {
+      if (started || !mq.matches) return;
+      started = true; wrap();
+      items[0].classList.add('swap-in'); idx = 0;
+      timer = setTimeout(step, HOLD + 1100);
+    }
+    function stop() {
+      clearTimeout(timer); started = false;
+      items.forEach(function (el) { el.classList.remove('swap-in', 'swap-out'); });
+    }
+    function arm() { if (root.classList.contains('is-loaded')) setTimeout(start, 500); }
+    new MutationObserver(arm).observe(root, { attributes: true, attributeFilter: ['class'] });
+    arm();
+    (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(function () { if (mq.matches) arm(); else stop(); });
+  })();
   </script>
   <script src="arc.js?v=8"></script>
 <script>(function(){var c=document.querySelector('.wd-carousel .carousel');if(!c)return;c.addEventListener('click',function(e){if(!matchMedia('(max-width:767px)').matches||e.target.closest('.wd-explore'))return;var b=c.querySelector('.wd-explore');if(b)b.click();});})();</script></body>
