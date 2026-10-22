@@ -911,7 +911,7 @@
     .menu__trail img.is-on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(var(--r, 0deg)); }
     .menu__trail img.is-off { opacity: 0; transform: translate(-50%, -56%) scale(.94) rotate(var(--r, 0deg)); transition: opacity .55s ease, transform .55s ease; }
     .menu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
-    .menu__link { display: inline-block; font-family: var(--font-serif); font-weight: 400; font-size: 36px; line-height: 37.8px; letter-spacing: -0.7229px; color: #f8f8f7; transition: opacity .4s ease; }
+    .menu__link { padding: 8px 52px; margin: -8px -52px; display: inline-block; font-family: var(--font-serif); font-weight: 400; font-size: 36px; line-height: 37.8px; letter-spacing: -0.7229px; color: #f8f8f7; transition: opacity .4s ease; }
     .menu__link .roll { height: 1.15em; line-height: 1.15; } .menu__link .roll__in > span { height: 1.15em; }
     .menu__list:hover .menu__link:not(:hover):not(:focus-visible) { opacity: .35; }
     .menu__group { display: flex; flex-direction: column; align-items: center; gap: 19px; }
@@ -2062,6 +2062,6 @@
       window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     })();
   </script>
-  <script src="arc.js?v=5"></script>
+  <script src="arc.js?v=6"></script>
 </body>
 </html>

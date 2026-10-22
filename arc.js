@@ -175,15 +175,19 @@
       im.style.setProperty('--r', (Math.random() * 10 - 5).toFixed(1) + 'deg');
       trail.appendChild(im);
       requestAnimationFrame(function () { requestAnimationFrame(function () { im.classList.add('is-on'); }); });
-      setTimeout(function () { im.classList.remove('is-on'); im.classList.add('is-off'); setTimeout(function () { im.remove(); }, 600); }, 900);
+      setTimeout(function () { im.classList.remove('is-on'); im.classList.add('is-off'); setTimeout(function () { im.remove(); }, 600); }, 1300);
     };
     menu.querySelectorAll('[data-trail]').forEach(function (a) {
-      a.addEventListener('pointerenter', function () { set = a.getAttribute('data-trail'); idx = 0; lx = ly = -999; });
+      a.addEventListener('pointerenter', function (e) {
+        set = a.getAttribute('data-trail'); idx = 0;
+        var r = menu.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+        lx = x; ly = y; spawn(x, y);                       // the first image appears the moment you land on a link
+      });
       a.addEventListener('pointerleave', function () { set = null; });
       a.addEventListener('pointermove', function (e) {
         if (!set) return;
         var r = menu.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-        if (Math.hypot(x - lx, y - ly) < 110) return;
+        if (Math.hypot(x - lx, y - ly) < 40) return;
         lx = x; ly = y; spawn(x, y);
       });
     });
