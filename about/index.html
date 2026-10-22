@@ -216,10 +216,14 @@
        --p (0→1) is written from JS as the page scrolls. */
     .carousel { --p: 0; }
     /* (the strip used to open sideways with a clip-path; it now just settles in) */
+    /* Desktop: the whole strip opens sideways as one piece (10% off each side, 20px rounded), as originally built */
     .motion .carousel {
-      /* opens from the left only (like Collins); the right side is never clipped and no corners are rounded */
-      clip-path: inset(0 0 0 calc((1 - var(--p)) * 10%));
+      clip-path: inset(0 calc((1 - var(--p)) * 10%) round 20px);
       will-change: clip-path;
+    }
+    /* Phones: opens from the left only, the right edge is never cut */
+    @media (max-width: 767px) {
+      .motion .carousel { clip-path: inset(0 0 0 calc((1 - var(--p)) * 10%)); }
     }
     .motion .carousel__card--reveal > img,
     .motion .carousel__card--reveal > svg {
