@@ -452,9 +452,13 @@
       .case:hover:active .case__frame { transform: rotateX(0deg); }
     }
     .case:focus-visible { outline: none; }
-    /* Entrance: cards un-tilt and fade up one after another (no clipping) */
-    .motion .shelf:not(.is-in) .case { opacity: 0; transform: translateY(48px); }
-    .motion .shelf .case { transition: opacity .8s ease, transform 1.4s var(--ease-out-expo); transition-delay: calc(var(--i, 0) * 0.07s + 0.15s); }
+    /* Entrance, in step with every other section ([data-reveal]): the whole shelf rises 8rem (opacity 1s, transform 2s expo).
+       The shelf is an overflow container, so lifting the cards themselves would be clipped at its edge; the shelf moves instead.
+       Cards then un-tilt and fade in one after another. */
+    .motion .shelf { transition: opacity 1s ease, transform 2s var(--ease-out-expo); }
+    .motion .shelf:not(.is-in) { opacity: 0; transform: translateY(8rem); }
+    .motion .shelf:not(.is-in) .case { opacity: 0; }
+    .motion .shelf .case { transition: opacity 1s ease; transition-delay: calc(var(--i, 0) * 0.07s); }
     .motion .shelf:not(.is-in) .case__frame { transform: rotateX(30deg); }
 
     /* Hotplate cover: Figma's composition underneath, with the full-res site
@@ -1329,7 +1333,7 @@
         </div>
         <div class="story__right">
           <p class="story__body">And I keep coming back to how much a well-designed experience shapes how people see the value, how naturally something fits into the way they already work or live, and whether it becomes something they actually want to keep using.<br /><br />I’ve seen this play out up close, through the teams and products I’ve worked on — <b>from Fortune 100 companies</b> and <b>family businesses</b> to <b>YC- and Accel-backed startups</b>, across AI, deep-tech, healthcare, finance, defence, consumer spaces, and everything in between.</p>
-          <a class="link-arrow" href="#about">About Me <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="link-arrow" href="about/">About Me <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
     </div>
