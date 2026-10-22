@@ -221,10 +221,9 @@
       clip-path: inset(0 calc((1 - var(--p)) * 10%) round 20px);
       will-change: clip-path;
     }
-    /* Phones: same sideways opening, but with square clip corners (nothing rounded on the right),
-       and the strip sits a little higher (8% of the screen height) */
+    /* Phones: same sideways opening with the rounded clip, and the strip sits a little higher (8% of the screen height) */
     @media (max-width: 767px) {
-      .motion .carousel { clip-path: inset(0 calc((1 - var(--p)) * 10%)); }
+      .motion .carousel { clip-path: inset(0 calc((1 - var(--p)) * 10%) round 20px); }
       .hero__stage { min-height: calc(92svh - 64px); }
     }
     .motion .carousel__card--reveal > img,
