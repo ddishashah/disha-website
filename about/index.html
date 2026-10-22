@@ -809,7 +809,7 @@
       display: flex;
       gap: 14px;
       width: max-content;
-      animation: logos-scroll 62s linear infinite;
+      animation: logos-scroll 34s linear infinite;
     }
     .logos:hover .logos__track { animation-play-state: paused; }
     .logos--rev .logos__track { animation-direction: reverse; }
@@ -859,6 +859,7 @@
       .carousel__card--work { width: auto; height: 64vw; }
       .carousel__card--hotplate { width: 76vw; height: 64vw; }
       .logos__tile { flex-basis: 128px; height: 64px; }
+      .logos__track { animation-duration: 28s; }
       .logos__tile--flighty img { width: 24px; height: 24px; border-radius: 6px; } .logos__tile--flighty span { font-size: 16px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -1063,8 +1064,8 @@
     /* 6 distinct logos per row: tiles stretch so one set fills the viewport, so nothing repeats within a line */
     /* Three tickers in a column-width window (633px), distinct logos per row, edges faded */
     .logo-rows .logos { width: 633px; max-width: calc(100% - 32px); margin: 0 auto; }
-    .logo-rows .logos__track { gap: 64px; animation-duration: 38s; }
-    .logo-rows .logos--rev .logos__track { animation-duration: 40s; }
+    .logo-rows .logos__track { gap: 64px; animation-duration: 22s; }
+    .logo-rows .logos--rev .logos__track { animation-duration: 24s; }
     .logo-rows .logos__tile { flex: 0 0 auto; height: 44px; border-radius: 0; background: none; }
     .logo-rows .logos__track { padding-right: 64px; }
     .vanya { display: flex; justify-content: center; padding: 0 16px; margin-top: 115px; padding-bottom: 30px; }
