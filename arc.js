@@ -159,7 +159,7 @@
     work: ['img/cover-hotplate.png', 'img/cover-eds.png', 'img/cover-complaints.png', 'img/cover-bull-and-wolf.webp', 'img/cover-shweta-labs.webp', 'img/menu-northside.webp'],
     home: ['img/menu-hotplate.webp', 'img/menu-coin.webp', 'img/menu-wax.webp', 'img/menu-arch.webp'],
     about: ['img/me.webp', 'img/menu-arch.webp', 'img/menu-northside.webp', 'img/menu-coin.webp'],
-    contact: ['img/menu-wax.webp', 'img/menu-coin.webp', 'img/menu-hotplate.webp']
+    contact: ['img/menu-coin.webp', 'img/menu-wax.webp']
   };
   if (trail && !reduce && window.matchMedia('(hover: hover) and (min-width: 768px)').matches) {
     var set = null, idx = 0, lx = -999, ly = -999, z = 1, pool = [];
