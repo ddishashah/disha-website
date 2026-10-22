@@ -14,3 +14,7 @@
   Cache-Control: public, max-age=31536000, immutable
 /img/*
   Cache-Control: public, max-age=31536000, immutable
+
+# The free *.pages.dev address is only for testing: keep it out of search results (the real domain is what should rank)
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex

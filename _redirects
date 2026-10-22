@@ -1,0 +1,23 @@
+# Old Framer site (disha-shah.io) -> new site. 301 = permanent: keeps search ranking and old links working.
+# Applies on Cloudflare Pages. First matching rule wins, so specific rules come before the :slug rule.
+
+# case studies moved from /case-studies/... to /work/...
+/case-studies/valley-cool-message-bro   /work/   301
+/case-studies/mirage                    /work/   301
+/case-studies/:slug                     /work/:slug/   301
+/case-studies                           /work/   301
+
+# pages that exist in both
+/about                                  /about/   301
+
+# pages that became sections of the home page
+/services                               /#services   301
+/contact                                /#contact   301
+/testimonials                           /#work   301
+
+# pages with no direct equivalent yet: nearest page
+/stack                                  /about/   301
+/gallery-product                        /work/   301
+/gallery-brand                          /work/   301
+
+# /blog and /blog/* are intentionally NOT redirected: there is no blog on the new site yet (see notes).
