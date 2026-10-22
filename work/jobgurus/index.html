@@ -40,6 +40,7 @@
        light sections (heading #000, body #5e5855, eyebrow #757575, white cards);
        dark values are Figma's dark sections. */
     :root {
+      --pad: 16px;
       --t-head: #000; --t-body: #5e5855; --t-eyebrow: #757575;
       --t-btn-bg: #fff; --t-btn-bg-hover: #fff; --t-btn-fg: #140700;
       --t-btn-shadow: 0 21px 13px 0 rgba(0, 0, 0, .04), 0 9px 9px 0 rgba(0, 0, 0, .04), 0 2px 5px 0 rgba(0, 0, 0, .05);
@@ -58,7 +59,7 @@
     body {
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
     a { color: inherit; text-decoration: none; }
     button { font: inherit; color: inherit; }
@@ -83,8 +84,8 @@
     /* Full-width fixed nav: slides away when you scroll down, comes back when you scroll up */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 40;
-      box-sizing: border-box; height: 72px; padding: 18px var(--gutter) 0;
-      display: flex; align-items: flex-start; justify-content: space-between;
+      box-sizing: border-box; height: 72px; padding: 0 var(--gutter);
+      display: flex; align-items: center; justify-content: space-between;
       background: var(--bg, #f8f8f7);
       transition: transform .6s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1);
     }
@@ -184,6 +185,22 @@
     }
     .carousel::-webkit-scrollbar { display: none; }
     .carousel.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+    .carousel-stage { position: relative; }
+    .carousel__arrow { display: none; }
+    @media (max-width: 1023px) {
+      .carousel__arrow { position: absolute; top: 50%; bottom: auto; transform: translateY(-50%); z-index: 3; display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #140700; box-shadow: 0 3px 16px rgba(0,0,0,.14); cursor: pointer; transition: opacity .2s ease, box-shadow .2s ease; }
+      .carousel__arrow:hover { box-shadow: 0 5px 20px rgba(0,0,0,.2); }
+      .carousel__arrow:disabled { opacity: .35; cursor: default; }
+      .carousel__arrow:focus-visible { outline: 2px solid #140700; outline-offset: 3px; }
+      .carousel__arrow svg { width: 18px; height: 18px; }
+      .carousel__arrow--prev { left: 24px; }
+      .carousel__arrow--next { right: 24px; }
+    }
+    @media (max-width: 767px) {
+      .carousel__arrow { width: 38px; height: 38px; }
+      .carousel__arrow--prev { left: 28px; }
+      .carousel__arrow--next { right: 28px; }
+    }
     .carousel__card {
       flex: 0 0 auto;
       height: calc(501 * var(--u));
@@ -273,7 +290,7 @@
     .motion [data-reveal].is-in { opacity: 1; transform: none; }
 
     /* ---------- Problem — Figma 632:148265 (600 wide, top at y=1815) ---------- */
-    .problem { display: flex; flex-direction: column; align-items: center; margin-top: 197px; padding: 0 16px; text-align: center; }
+    .problem { display: flex; flex-direction: column; align-items: center; margin-top: 197px; padding: 0 var(--pad, 16px); text-align: center; }
     .problem__title { max-width: 600px; margin: 0; line-height: 39px; }
     .problem__sub { margin: 8px 0 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .gaps { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 32px 0 0; padding: 0; list-style: none; }
@@ -337,7 +354,7 @@
     @media (prefers-reduced-motion: reduce) { html.sheet-anim [data-page], .sheet, .sheet__fig { transition: none; } }
 
     /* ---------- Story card — Figma 632:148294 (1048×640, top at y=2265) ---------- */
-    .story { margin-top: 193px; padding: 0 16px; }
+    .story { margin-top: 193px; padding: 0 var(--pad, 16px); }
     .story__card {
       box-sizing: border-box;
       width: 1048px; max-width: 100%;
@@ -362,7 +379,7 @@
     /* Figma's pill button (Component 3): on hover a grey pill fills in behind it.
        The negative margin keeps the text exactly where Figma puts it. */
     .link-arrow { margin-left: -14px; padding: 0 14px; border-radius: 96px; transition: background-color .3s ease, color .3s ease; }
-    .link-arrow svg { width: 14px; height: 14px; transition: transform .6s var(--ease-out-expo); }
+    .link-arrow svg { width: 18px; height: 18px; transition: transform .6s var(--ease-out-expo); }
     .link-arrow:hover { background: var(--bg); } /* page background, #f8f8f7 */
     .link-arrow:hover svg { transform: translateX(4px); }
     .link-arrow:active { background: #efeeeb; }
@@ -400,7 +417,7 @@
     }
     .case__thumb { height: 444px; border-radius: 19.398px; overflow: hidden; }
     .case__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
-    .case__text { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; opacity: .7; transition: opacity .5s var(--ease-out-expo), transform .6s var(--ease-out-expo); }
+    .case__text { display: flex; flex-direction: column; gap: 8px; padding: 0 var(--pad, 16px); opacity: .7; transition: opacity .5s var(--ease-out-expo), transform .6s var(--ease-out-expo); }
     @media (hover: hover) {
       /* Space stays reserved so nothing jumps; the words appear on hover */
       .case__text { opacity: 0; transform: translateY(8px); }
@@ -413,7 +430,7 @@
     }
     .case:hover .case__text, .case:focus-visible .case__text { opacity: 1; transform: none; }
     @media (hover: hover) {
-      .case:hover .case__frame { transform: rotateX(10deg); }   /* leans back, away from the viewer */
+      .case:hover .case__frame { transform: rotateX(-5deg); }   /* leans forward, toward the viewer */
       .case:hover:active .case__frame { transform: rotateX(0deg); }
     }
     .case:focus-visible { outline: none; }
@@ -470,10 +487,10 @@
     .case--all:hover .explore__img:nth-child(2), .case--all:focus-visible .explore__img:nth-child(2) { transform: translate(-40%, -20%) rotate(-10deg) rotateY(25deg) rotateX(5deg); }
     .case--all:hover .explore__img:nth-child(3), .case--all:focus-visible .explore__img:nth-child(3) { transform: translate(25%, -60%) rotate(7deg) rotateY(-20deg) rotateX(-25deg); }
     .explore__label { display: flex; justify-content: space-between; align-items: center; color: #000; font-size: 18px; line-height: 27px; letter-spacing: 0.18px; }
-    .explore__label svg { width: 14px; height: 14px; }
+    .explore__label svg { width: 20px; height: 20px; }
 
     /* ---------- Testimonials — Figma 632:148140 ---------- */
-    .testimonials { display: flex; flex-direction: column; align-items: center; padding: 189px 16px 197px; }
+    .testimonials { display: flex; flex-direction: column; align-items: center; padding: 189px var(--pad, 16px) 197px; }
     .testimonials__inner { display: flex; flex-direction: column; align-items: center; gap: 52px; width: 842px; max-width: 100%; }
     .hgroup--center { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
     .eyebrow--md { margin: 0; color: var(--t-body); font-weight: 500; font-size: 16px; line-height: 26px; letter-spacing: 0.16px; }
@@ -527,12 +544,12 @@
     .dots button:hover { background: var(--t-card-hover); }
 
     /* ---------- Services — Figma 632:148844 ---------- */
-    .services { padding-bottom: 197px; }
+    .services { padding-bottom: 157px; }
     .services__head { display: flex; flex-direction: column; gap: 18px; padding: 0 calc(129 * var(--u)); }
     .services__row {
       display: flex; gap: 20px;
-      margin-top: 52px;
-      padding: 0 calc(120 * var(--u));
+      margin-top: 28px;
+      padding: 24px calc(120 * var(--u)) 40px;
       overflow-x: auto; overflow-y: hidden;
       overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory; scroll-padding: 0 calc(120 * var(--u));
@@ -544,15 +561,19 @@
       display: flex; flex-direction: column; justify-content: space-between;
       padding: 40px 36px 59px;
       border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card);
-      scroll-snap-align: start;
-      transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1);
+      scroll-snap-align: start; color: inherit; text-decoration: none; cursor: pointer;
+      transform-origin: center bottom; perspective: none;
+      transition: background-color .7s cubic-bezier(.33, 1, .68, 1), border-color .7s cubic-bezier(.33, 1, .68, 1), box-shadow .5s var(--ease-out-expo), transform .8s var(--ease-out-expo);
+    }
+    @media (hover: hover) {
+      .service:hover { box-shadow: 0 16px 31px rgba(0, 0, 0, .06); transform: perspective(1400px) rotateX(-5deg); }
     }
     .service__kicker { margin: 0 0 11px; color: var(--t-eyebrow); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .service__title { margin: 0; color: var(--t-head); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-weight: 500; font-size: 24px; line-height: 33px; letter-spacing: -0.2px; }
     .service__tags { margin: 0; color: var(--t-eyebrow); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-size: 16px; line-height: 25px; letter-spacing: 0.32px; }
 
     /* ---------- What pulls me in — Figma 632:148837 (dark) ---------- */
-    .pulls { min-height: 730px; box-sizing: border-box; padding: 137px 16px 120px; display: flex; flex-direction: column; align-items: center; gap: 38px; text-align: center; }
+    .pulls { min-height: 730px; box-sizing: border-box; padding: 137px var(--pad, 16px) 120px; display: flex; flex-direction: column; align-items: center; gap: 38px; text-align: center; }
     .eyebrow--dark { margin: 0; color: var(--t-eyebrow); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-weight: 500; font-size: 16px; line-height: 26px; letter-spacing: 0.16px; }
     .pulls__copy { display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .pulls__title { margin: 0; color: var(--t-head); transition: color .7s cubic-bezier(.33, 1, .68, 1); font-family: var(--font-serif); font-weight: 400; font-size: 56px; line-height: 57px; letter-spacing: -1.44px; }
@@ -570,13 +591,13 @@
 
     /* ---------- Playground — Figma 632:148124 (dark) ---------- */
     .playground { min-height: 922px; box-sizing: border-box; padding: 137px 0 120px; }
-    .playground__head { display: flex; flex-direction: column; gap: 18px; text-align: center; padding: 0 16px; }
+    .playground__head { display: flex; flex-direction: column; gap: 18px; text-align: center; padding: 0 var(--pad, 16px); }
     .playground__head .eyebrow { color: var(--t-eyebrow); transition: color .7s cubic-bezier(.33, 1, .68, 1); }
     .playground__title { margin: 0; color: var(--t-head); transition: color .7s cubic-bezier(.33, 1, .68, 1); line-height: 37.8px; }
     /* Osmo Cascading Slider — resource CSS, styled to Figma 632:148126 (dark cards, 17px gap, 431px tall) */
     [data-cascading-viewport] { --gap: 17px; }
     [data-cascading-slide] { --clip: 0; --radius: 16px; }
-    .cascading-slider { width: 1264px; max-width: calc(100% - 32px); margin: 103px auto 0; position: relative; }
+    .cascading-slider { width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 103px auto 0; position: relative; }
     .cascading-slider__collection { width: 100%; }
     .cascading-slider__list { width: 100%; height: 431px; position: relative; overflow: hidden; }
     .cascading-slider__item {
@@ -687,15 +708,15 @@
     .cascading-slider__button-arrow.is--prev { transform: rotate(-180deg); }
 
     @media (max-width: 767px) {
-      .testimonials { padding: 120px 16px; }
+      .testimonials { padding: 120px var(--pad, 16px); }
       .testimonials__title, .services__head .work__title, .playground__title { line-height: 34px; }
       .quotes__card { padding: 28px 22px; }
       .quote { flex-direction: column; align-items: stretch; gap: 24px; }
       .quote__pull { flex: none; }
       .quote__pull p:last-child { font-size: 24px; line-height: 29px; }
-      .services { padding-bottom: 120px; }
-      .services__head { padding: 0 16px; }
-      .services__row { margin-top: 32px; padding: 0 16px; scroll-padding: 0 16px; gap: 12px; }
+      .services { padding-bottom: 80px; }
+      .services__head { padding: 0 var(--pad, 16px); }
+      .services__row { margin-top: 8px; padding: 24px var(--pad, 16px) 40px; scroll-padding: 0 var(--pad, 16px); gap: 12px; }
       .service { flex-basis: 80vw; height: 340px; padding: 28px 24px 36px; }
       .service__title { font-size: 21px; line-height: 29px; }
       .pulls { min-height: 0; padding: 100px 20px; }
@@ -709,7 +730,7 @@
 
     /* ---------- Footer — Figma 632:148351 (dark) ---------- */
     .footer { position: relative; overflow: hidden; padding: 189px 0 0; }
-    .footer__inner { display: flex; flex-direction: column; align-items: center; gap: 80px; width: 1264px; max-width: calc(100% - 32px); margin: 0 auto; }
+    .footer__inner { display: flex; flex-direction: column; align-items: center; gap: 80px; width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 0 auto; }
     .footer__head { display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; }
     .footer__copy { display: flex; flex-direction: column; align-items: center; gap: 8px; }
     .footer__title { width: 608px; max-width: 100%; margin: 0; color: var(--t-head); font-family: var(--font-serif); font-weight: 400; font-size: 64px; line-height: 70px; letter-spacing: -1.44px; transition: color .7s cubic-bezier(.33, 1, .68, 1); }
@@ -738,7 +759,7 @@
     .socials svg { width: 24px; height: 24px; }
     .footer__bar {
       display: flex; justify-content: space-between; align-items: center; gap: 24px;
-      width: 1264px; max-width: calc(100% - 32px); margin: 171px auto 0;
+      width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 171px auto 0;
       font-weight: 500; font-size: 18px; line-height: 27px; letter-spacing: 0.36px;
     }
     .footer__legal { margin: 0; color: var(--t-eyebrow); white-space: pre-wrap; transition: color .7s cubic-bezier(.33, 1, .68, 1); }
@@ -749,20 +770,20 @@
     .footer__markwrap { position: relative; margin-top: 215px; margin-bottom: -2%; }
     .footer__mark { display: block; width: 100%; height: auto; }
     /* Spotlight clipped to the letters: the wordmark's own shape is the mask, so the glow
-       only ever shows inside "DISHA SHAH". Colour is the fireflies' yellow-to-amber. */
+       only ever shows inside "DISHA SHAH". Colour is #50423A with a slightly brighter core (#6B5A4F). */
     .footer__glow {
       position: absolute; inset: 0; pointer-events: none; opacity: 0;
       background: radial-gradient(circle 280px at var(--mx, 50%) var(--my, 50%),
-        rgba(255, 241, 81, .95) 0%, rgba(255, 207, 74, .7) 22%, rgba(255, 150, 60, .35) 50%, rgba(255, 120, 40, 0) 78%);
+        rgba(107, 90, 79, .98) 0%, rgba(93, 77, 67, .85) 24%, rgba(80, 66, 58, .55) 52%, rgba(80, 66, 58, 0) 78%);
       -webkit-mask: url(img/footer-wordmark.svg) center / 100% 100% no-repeat;
       mask: url(img/footer-wordmark.svg) center / 100% 100% no-repeat;
       transition: opacity .6s cubic-bezier(.33, 1, .68, 1);
     }
     .footer__glow.is-on { opacity: 1; }
-    /* Sparkle trail (same 4-point star and #FFF151 as the fireflies page) */
+    /* Sparkle trail (same 4-point star as the fireflies page, in the brown glow colours) */
     .spark { position: fixed; top: 0; left: 0; z-index: 30; pointer-events: none; width: 12px; height: 12px; margin: -6px 0 0 -6px;
-      filter: drop-shadow(0 0 5px rgba(255, 207, 74, .9)); animation: spark-fly var(--t, 1s) cubic-bezier(.19, 1, .22, 1) forwards; }
-    .spark svg { display: block; width: 100%; height: 100%; fill: #fff151; }
+      filter: drop-shadow(0 0 5px rgba(80, 66, 58, .9)); animation: spark-fly var(--t, 1s) cubic-bezier(.19, 1, .22, 1) forwards; }
+    .spark svg { display: block; width: 100%; height: 100%; fill: #6b5a4f; }
     @keyframes spark-fly {
       0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(.2); }
       15% { opacity: 1; }
@@ -799,9 +820,9 @@
       .story__title { line-height: 34px; }
       .story__img { flex: none; height: auto; aspect-ratio: 389 / 259; }
       .work { margin-top: 120px; }
-      .work__head { padding: 0 16px; white-space: normal; }
+      .work__head { padding: 0 var(--pad, 16px); white-space: normal; }
       .work__title { line-height: 34px; }
-      .shelf { padding: 32px 16px 40px; scroll-padding: 0 16px; gap: 12px; }
+      .shelf { padding: 32px var(--pad, 16px) 40px; scroll-padding: 0 var(--pad, 16px); gap: 12px; }
       .case { flex-basis: 84vw; }
       .case__thumb { height: auto; aspect-ratio: 550 / 444; }
       .case--all { flex-basis: 64vw; }
@@ -818,9 +839,10 @@
       display: flex;
       gap: 14px;
       width: max-content;
-      animation: logos-scroll 34s linear infinite;
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+      animation: logos-scroll 56s linear infinite;
     }
-    .logos:hover .logos__track { animation-play-state: paused; }
     .logos--rev .logos__track { animation-direction: reverse; }
     .logos__tile {
       flex: 0 0 164px;
@@ -843,6 +865,7 @@
     /* Lockup is wide and short — size it up to read at the same weight as the others */
     .logos__tile img[src$="tcs-disq.svg"] { height: 24px; width: auto; }
     .logos__tile img[src$="think-design.png"] { max-width: 78px; max-height: 18px; }
+    .logos__tile img[src$="flex.png"] { max-width: 84px; max-height: 21px; }
     /* Lighter at rest, full strength when a tile is hovered */
     .logos__tile > * { opacity: .55; transition: opacity .3s ease; }
     .logos__tile:hover > * { opacity: 1; }
@@ -859,20 +882,21 @@
       letter-spacing: 0.3px;
       color: #474747; /* matches the #CCC logos at brightness(.35) */
     }
-    @keyframes logos-scroll { to { transform: translateX(-50%); } }
+    /* Half the duplicated track, plus half its 14px gap, lands on the matching first logo. */
+    @keyframes logos-scroll { to { transform: translate3d(calc(-50% - 7px), 0, 0); } }
 
     @media (max-width: 767px) {
-      .carousel { gap: 20px; padding: 0 16px; scroll-padding: 0 16px; }
+      .carousel { gap: 20px; padding: 0 var(--pad, 16px); scroll-padding: 0 var(--pad, 16px); }
       .carousel__card { height: auto; border-radius: 16px; }
       .carousel__card--journey { width: 78vw; aspect-ratio: 4 / 3; }
       .carousel__card--work { width: auto; height: 64vw; }
       .carousel__card--hotplate { width: 76vw; height: 64vw; }
-      .logos__tile { flex-basis: 128px; height: 64px; }
-      .logos__track { animation-duration: 28s; }
+      .logos__tile { flex-basis: 166px; height: 64px; }
+      .logos__track { gap: 20px; }
+      .logos__track { animation-duration: 58s; }
       .logos__tile--flighty img { width: 24px; height: 24px; border-radius: 6px; } .logos__tile--flighty span { font-size: 16px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .logos__track { animation: none; }
       *, *::before, *::after { transition-duration: .01ms !important; }
     }
 
@@ -924,14 +948,14 @@
     .menu__social { display: flex; gap: 33px; }
     .menu__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #d0d0c8; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; white-space: nowrap; transition: color .3s ease; }
     .menu__cta:hover { color: #f8f8f7; }
-    .menu__cta svg { width: 14px; height: 14px; transition: transform .6s var(--ease-out-expo); }
+    .menu__cta svg { width: 18px; height: 18px; transition: transform .6s var(--ease-out-expo); }
     .menu__cta:hover svg { transform: translateX(4px); }
 
     /* Items start slightly above their place, tilted and invisible, then drop in (Exo Ape) */
     .menu__item { opacity: 0; transform: translate(0, -25%) rotate(-7deg); transform-origin: 0 100%; transition: opacity .25s ease, transform .35s ease; }
     .menu.is-open .menu__item { opacity: 1; transform: none; transition: opacity .8s ease, transform 1.1s var(--ease-out-expo); transition-delay: calc(.4s + var(--i) * .07s); }
     @media (max-width: 767px) {
-      .menu__inner { padding: 0 24px; }
+      .menu__inner { padding: 0 28px; }
       .menu__top { height: 64px; padding: 16px 0; }
       .menu__body { align-items: flex-start; padding: 16px 0 24px; }
       .menu__row { display: block; margin: 0; } .menu__links { align-items: flex-start; text-align: left; } .menu__group, .menu__subs { align-items: flex-start; }
@@ -962,18 +986,18 @@
        24px side gutter, ~96px between sections, 16px card radius. */
     .pulls__copy, .footer__head, .footer__copy { width: 100%; }  /* lets the big headings wrap instead of overflowing */
     @media (max-width: 767px) {
-      :root { --gutter: 24px; }
-      html, body { overflow-x: hidden; }
+      :root { --gutter: 28px; --pad: 28px; }
+      html, body { overflow-x: clip; }   /* clip, not hidden: hidden turns body into a scroller and breaks position: sticky */
 
       /* Hero */
-      .nav { height: 62px; padding-top: 16px; } .nav-space { height: 62px; }
+      .nav { height: 62px; } .nav-space { height: 62px; }
       .nav__brand, .menu__brand { font-size: 17px; }
       .nav__right { gap: 8px; }
       .nav__cta { padding: 0 14px 1px; font-size: 13px; letter-spacing: 0.13px; }
       .tagline { margin-top: 30px; font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
       .hero__title { font-size: 40px; line-height: 1.02; }
       .hero__sub { margin-bottom: 48px; font-size: 15px; line-height: 24px; }
-      .carousel { padding: 0 24px; scroll-padding: 0 24px; }
+      .carousel { padding: 0 28px; scroll-padding: 0 28px; }
       .logos { margin-top: 32px; }
       .logos__tile { flex-basis: 120px; height: 60px; }
 
@@ -984,22 +1008,22 @@
 
       /* Problem */
       .hero { padding-bottom: 0; }
-      .problem { margin-top: 96px; padding: 0 24px; }
+      .problem { margin-top: 96px; padding: 0 28px; }
       .problem__sub { font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
       .gaps { margin-top: 24px; gap: 12px; flex-direction: column; align-items: stretch; width: 100%; }
       .gap { height: 44px; padding: 0 18px 0 12px; font-size: 14px; width: 100%; box-sizing: border-box; justify-content: center; }
 
       /* Story card */
-      .story { margin-top: 96px; padding: 0 20px; }
-      .story__card { padding: 48px 32px 52px; border-radius: 20px; }
+      .story { margin-top: 96px; padding: 0 28px; }
+      .story__card { padding: 48px 32px 28px; border-radius: 20px; }
       .story__inner { gap: 36px; }
       .story__left { gap: 32px; }
       .story__body { font-size: 15px; line-height: 25px; letter-spacing: 0.2px; }
 
       /* Work */
       .work { margin-top: 96px; }
-      .work__head { padding: 0 24px; gap: 12px; }
-      .shelf { margin-top: 8px; padding: 24px 24px 32px; scroll-padding: 0 24px; gap: 16px; }
+      .work__head { padding: 0 28px; gap: 12px; }
+      .shelf { margin-top: 8px; padding: 24px 24px 32px; scroll-padding: 0 28px; gap: 16px; }
       .case { flex-basis: calc(100vw - 96px); gap: 16px; }
       .case__frame { padding: 6px; border-radius: 20px; }
       .case__thumb { border-radius: 15px; }
@@ -1007,10 +1031,12 @@
       .case__text { opacity: 1; transform: none; }   /* no hover on phones: text always visible */
       .case__title { font-size: 16px; line-height: 24px; }
       .case__tags { font-size: 14px; line-height: 22px; }
-      .case--all { flex-basis: calc(100vw - 120px); }
+      .case--all { flex-basis: calc(100vw - 120px); align-self: flex-start; }
+      .case--all .explore__img { width: 48cqw; }
+      .case--all .explore { height: calc((100vw - 110px) * 444 / 550 + 14px); aspect-ratio: auto; }   /* same height as a cover frame, like desktop */
 
       /* Testimonials */
-      .testimonials { padding: 96px 24px; }
+      .testimonials { padding: 96px 28px; }
       .testimonials__inner { gap: 32px; }
       .quotes__card { padding: 28px 24px; }
       .quote__pull p:last-child { font-size: 23px; line-height: 28px; }
@@ -1018,27 +1044,27 @@
       .quote__by { font-size: 14px; line-height: 20px; }
 
       /* Services */
-      .services { padding-bottom: 96px; }
-      .services__head { padding: 0 24px; gap: 12px; }
-      .services__row { margin-top: 28px; padding: 0 24px; scroll-padding: 0 24px; gap: 16px; }
+      .services { padding-bottom: 56px; }
+      .services__head { padding: 0 28px; gap: 12px; }
+      .services__row { margin-top: 4px; padding: 24px 28px 40px; scroll-padding: 0 28px; gap: 16px; }
       .service { flex-basis: calc(100vw - 96px); height: 300px; padding: 28px 24px 32px; }
       .service__title { font-size: 20px; line-height: 28px; }
       .service__tags { font-size: 14px; line-height: 22px; }
 
       /* What pulls me in */
-      .pulls { padding: 96px 24px; gap: 28px; }
+      .pulls { padding: 96px 28px; gap: 28px; }
       .pulls__title { font-size: 36px; line-height: 38px; letter-spacing: -1px; }
       .pulls__body { font-size: 15px; line-height: 25px; letter-spacing: 0.2px; }
 
       /* Playground */
       .playground { padding: 96px 0; }
-      .cascading-slider { max-width: calc(100% - 48px); margin-top: 36px; }
+      .cascading-slider { max-width: calc(100% - 56px); margin-top: 36px; }
       .cascading-slider__list { height: 320px; }
       .cascading-slider__nav { margin-top: 24px; }
 
       /* Footer */
       .footer { padding-top: 96px; }
-      .footer__inner { max-width: calc(100% - 48px); gap: 40px; }
+      .footer__inner { max-width: calc(100% - 56px); gap: 40px; }
       .footer__head { gap: 16px; }
       .footer__title { font-size: 40px; line-height: 44px; letter-spacing: -1px; }
       .footer__sub { font-size: 15px; line-height: 24px; letter-spacing: 0.2px; }
@@ -1053,8 +1079,10 @@
       }
       .booking__fallback { inset: 6px; }
       .socials { margin-top: 40px; }
-      .footer__bar { max-width: calc(100% - 48px); margin-top: 56px; gap: 20px; font-size: 15px; line-height: 24px; }
-      .footer__nav { gap: 10px 20px; }
+      .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 20px; font-size: 15px; line-height: 24px; }
+      .footer__nav { gap: 10px 20px; justify-content: center; }
+      .footer__sub--para br { display: none; }
+      .footer__bar { align-items: center; text-align: center; }
       .footer__markwrap { margin-top: 48px; }
     }
 
@@ -1069,23 +1097,23 @@
     .chip { display: inline-block; padding: 4px 12px; border: 1px solid #eaeaea; border-radius: 16px; background: #fff; color: #5e5855; font-size: 14px; line-height: 24px; letter-spacing: 0.28px; white-space: nowrap; }
 
     /* --- index --- */
-    .wi-hero { display: flex; flex-direction: column; align-items: center; gap: 38px; padding: 164px 16px 0; text-align: center; }
+    .wi-hero { display: flex; flex-direction: column; align-items: center; gap: 38px; padding: 164px var(--pad, 16px) 0; text-align: center; }
     .wi-hero__eyebrow { margin: 0; color: #757575; font-weight: 500; font-size: 16px; line-height: 20.8px; letter-spacing: -0.16px; }
     .wi-hero__copy { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 650px; max-width: 100%; }
     .wi-hero__title { margin: 0; width: 566px; max-width: 100%; font-size: 48px; line-height: 53px; letter-spacing: -1.44px; }
     .wi-hero__sub { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
-    .wi-list { display: flex; flex-direction: column; align-items: center; gap: 45px; margin-top: 148px; padding: 0 16px; }
-    .wcard { display: block; box-sizing: border-box; width: 1048px; max-width: 100%; padding: 60px 64px; border: 1px solid #eaeaea; border-radius: 16px; background: #fff; box-shadow: 0 16px 31px rgba(0, 0, 0, .06); transition: transform .7s var(--ease-out-expo), box-shadow .7s var(--ease-out-expo); }
+    .wi-list { display: flex; flex-direction: column; align-items: center; gap: 45px; margin-top: 148px; padding: 0 var(--pad, 16px); }
+    .wcard { display: block; box-sizing: border-box; width: 1048px; max-width: 100%; padding: 60px 64px; border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); transition: transform .7s var(--ease-out-expo), box-shadow .7s var(--ease-out-expo); }
     .wcard:hover { transform: translateY(-4px); box-shadow: 0 24px 40px rgba(0, 0, 0, .09); }
     .wcard__in { display: flex; align-items: center; gap: 73px; }
     .wcard__img { flex: 0 0 389px; height: 422px; border-radius: 12px; overflow: hidden; background: #eee; }
     .wcard__img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-out-expo); }
     .wcard:hover .wcard__img img { transform: scale(1.04); }
     .wcard__txt { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 33px; padding: 2px 0; }
-    .wcard__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 36px; line-height: 40px; letter-spacing: -0.7229px; color: #000; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
-    .wcard__sub { margin: 0; color: #000; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
-    .wcard__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #000; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; }
-    .wcard__cta svg { width: 14px; height: 14px; transition: transform .6s var(--ease-out-expo); }
+    .wcard__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 36px; line-height: 40px; letter-spacing: -0.7229px; color: var(--t-head); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+    .wcard__sub { margin: 0; color: var(--t-body); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+    .wcard__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: var(--t-head); font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; }
+    .wcard__cta svg { width: 18px; height: 18px; transition: transform .6s var(--ease-out-expo); }
     .wcard:hover .wcard__cta svg { transform: translateX(4px); }
     .wcard[hidden] { display: none; }
     .wi-list { scroll-margin-top: 72px; }
@@ -1118,10 +1146,10 @@
     .wi-lightbox__close, .wi-lightbox__close:focus, .wi-lightbox__close:focus-visible { outline: none; }
     .wi-lightbox__close svg { width: 22px; height: 22px; }
     .wi-more { display: flex; justify-content: center; margin-top: 56px; padding-bottom: 200px; }
-    .wi-more .btn-ghost { border: 0; cursor: pointer; font: inherit; font-size: 15px; background: #fff; }
+    .wi-more .btn-ghost { border: 0; cursor: pointer; font: inherit; font-size: 15px; background: var(--t-btn-bg); color: var(--t-btn-fg); }
 
     /* --- detail --- */
-    .wd-head { width: 633px; max-width: calc(100% - 32px); margin: 0 auto; padding: 160px 16px 0; box-sizing: content-box; }
+    .wd-head { width: 633px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 0 auto; padding: 160px var(--pad, 16px) 0; box-sizing: content-box; }
     .wd-eyebrow { margin: 0 0 38px; color: #5e5855; font-weight: 500; font-size: 16px; line-height: 21px; letter-spacing: 0.16px; }
     .wd-title { margin: 0 0 20px; font-size: 48px; line-height: 53px; letter-spacing: -1.44px; }
     .wd-sub { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
@@ -1141,19 +1169,19 @@
     .wd-explore:hover .wd-explore__fan img:nth-child(1) { transform: translate(-70%, -58%) rotate(-9deg); }
     .wd-explore:hover .wd-explore__fan img:nth-child(2) { transform: translate(-30%, -42%) rotate(8deg); }
     .wd-explore__row { display: flex; align-items: center; justify-content: space-between; font-size: 15px; line-height: 20px; }
-    .wd-explore__row svg { width: 16px; height: 16px; }
+    .wd-explore__row svg { width: 20px; height: 20px; }
     .sheet--gallery .sheet__content { gap: 0; padding-top: 96px; }
-    .wd-media { display: block; width: 678px; max-width: calc(100% - 32px); margin: 55px auto 0; }
+    .wd-media { display: block; width: 678px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 55px auto 0; }
     .wd-media img, .wd-strip img { display: block; width: 100%; height: auto; border-radius: 16px; background: #eee; }
     /* Image groups are stacked: the whole case study reads as one long vertical scroll */
-    .wd-strip { display: flex; flex-direction: column; gap: 24px; width: 678px; max-width: calc(100% - 32px); margin: 64px auto 0; }
+    .wd-strip { display: flex; flex-direction: column; gap: 24px; width: 678px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 64px auto 0; }
     .wd-strip figure { margin: 0; }
-    .wd-info { display: flex; gap: 24px; width: 678px; max-width: calc(100% - 32px); box-sizing: border-box; margin: 78px auto 0; padding: 16px 20px; border: 1px solid #eaeaea; border-radius: 16px; background: rgba(255, 255, 255, .6); color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .wd-info { display: flex; gap: 24px; width: 678px; max-width: calc(100% - 2 * var(--pad, 16px)); box-sizing: border-box; margin: 78px auto 0; padding: 16px 20px; border: 1px solid #eaeaea; border-radius: 16px; background: rgba(255, 255, 255, .6); color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .wd-info > div { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; overflow-wrap: anywhere; }
-    .wcard__wl { display: block; width: fit-content; padding: 2px 10px; border: 1px solid #e8e5da; border-radius: 999px; color: #5e5855; font-size: 13px; line-height: 20px; letter-spacing: .26px; }
+    .wcard__wl { display: block; width: fit-content; padding: 2px 10px; border: 1px solid var(--t-card-line); border-radius: 999px; color: var(--t-body); font-size: 13px; line-height: 20px; letter-spacing: .26px; }
     .wd-info b { font-weight: 600; }
     .wd-info a { text-decoration: underline; text-underline-offset: 3px; }
-    .wd-text { width: 633px; max-width: calc(100% - 32px); margin: 106px auto 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .wd-text { width: 633px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 106px auto 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .wd-text + .wd-text, .wd-text + .wd-strip + .wd-text { margin-top: 64px; }
     .wd-text h4 { margin: 0 0 20px; font-weight: 600; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .wd-text h3 { margin: 0 0 20px; color: #000; font-family: var(--font-serif); font-weight: 400; font-size: 28px; line-height: 33px; letter-spacing: -0.56px; }
@@ -1171,7 +1199,8 @@
       .wcard__title { font-size: 26px; line-height: 31px; } .wcard__txt { gap: 20px; }
       .wi-more { padding-bottom: 96px; margin-top: 40px; }
       .wi-bar { bottom: 18px; gap: 4px; max-width: calc(100% - 16px); } .wi-chip--back { display: inline-block; } .wi-chip { padding: 4px 10px; font-size: 12px; line-height: 22px; letter-spacing: 0.1px; }
-      .wd-head { padding-top: 64px; } .wd-title { font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
+      .wcard__wl { display: none; }
+      .wd-head { padding-top: 112px; } .wd-title { font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
       /* even rhythm between every block on a case-study page (phone) */
       .wd-carousel { margin-top: 40px; } .wd-info { margin-top: 40px !important; }
       .wd-text, .wd-strip, .wd-media { margin-top: 48px !important; }
@@ -1180,11 +1209,11 @@
       .motion .wd-carousel .carousel { clip-path: none; will-change: auto; }
       .motion .wd-carousel .carousel__card--reveal > img { transform: none; }
       /* Phones (Collins pattern): one white card, two images stacked, and the "Explore the gallery" row inside it */
-      .wd-carousel { margin-top: 40px; padding: 0 16px; }
-      .wd-carousel .carousel { display: flex; flex-direction: column; gap: 12px; overflow: visible; margin: 0; padding: 14px; scroll-snap-type: none; background: #fff; border-radius: 24px; box-shadow: 0 16px 31px rgba(0, 0, 0, .06); cursor: pointer; }
-      .wd-carousel .carousel__card--work { display: none; width: 100%; height: auto; aspect-ratio: var(--ar); border-radius: 16px; }
+      .wd-carousel { margin-top: 40px; padding: 0 var(--pad, 16px); }
+      .wd-carousel .carousel { display: flex; flex-direction: column; gap: 6px; overflow: visible; margin: 0; padding: 6px; scroll-snap-type: none; background: #fff; border: 1px solid #eaeaea; box-sizing: border-box; border-radius: 20px; box-shadow: 0 16px 31px rgba(0, 0, 0, .06); cursor: pointer; }
+      .wd-carousel .carousel__card--work { display: none; width: 100%; height: auto; aspect-ratio: var(--ar); border-radius: 15px; }
       .wd-carousel .carousel__card--work:nth-child(-n+2) { display: block; }
-      .wd-carousel .wd-explore { flex-direction: row; align-items: center; width: 100%; height: auto; padding: 8px 8px 4px; background: none; box-shadow: none; border-radius: 0; }
+      .wd-carousel .wd-explore { flex-direction: row; align-items: center; width: 100%; height: auto; padding: 14px 14px 12px; background: none; box-shadow: none; border-radius: 0; }
       .wd-carousel .wd-explore:hover { transform: none; box-shadow: none; }
       .wd-carousel .wd-explore__fan { display: none; }
       .wd-carousel .wd-explore__row { width: 100%; font-size: 15px; }
@@ -1199,7 +1228,7 @@
 <div class="page" data-page>
   <header class="about-nav">
     <nav class="nav">
-        <a href="./" class="nav__brand">Disha Shah</a>
+        <a href="./index.html" class="nav__brand">Disha Shah</a>
         <div class="nav__right">
           <a href="work/jobgurus/#contact" class="nav__cta">Book a Discovery Call</a>
           <button class="nav__menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-open><span></span></button>
@@ -1224,11 +1253,11 @@
       <article class="carousel__card carousel__card--work" style="--ar:1440/888"><img src="work/img/iE8QkcLFylryj1Tdwfyyq7FZS8.webp" alt="JobGurus (Bright Studios)" width="1440" height="888" loading="lazy" draggable="false" /></article>
       <button class="carousel__card wd-explore" type="button" data-sheet="gallery" aria-haspopup="dialog">
         <span class="wd-explore__fan"><img src="work/img/vlAKpWBOGkxTebkqTOQjZL6Efkk.webp" alt="" loading="lazy" /><img src="work/img/GZOyDWf9UWVy1NqkLukl64Jm8NU.webp" alt="" loading="lazy" /><img src="work/img/5Ah7mG5fZljX3BOd1em1hPDMiM.webp" alt="" loading="lazy" /></span>
-        <span class="wd-explore__row"><span>Explore the gallery</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 2h4v4M6 14H2v-4M14 2l-4.5 4.5M2 14l4.5-4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="wd-explore__row"><span>Explore the gallery</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 10 7-7m0 0h-6m6 0v6m-11 5-7 7m0 0h6m-6 0v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </button>
     </div>
     </div>
-    <div class="wd-info" data-reveal><div><b>Industry</b><span>Education</span></div><div><b>Client</b><span>JobGurus (Bright Studios)</span></div></div>
+    <div class="wd-info" data-reveal><div><b>Industry</b><span>Education</span></div><div><b>Company</b><span>JobGurus (Bright Studios)</span></div></div>
     <div class="wd-text" data-reveal>
 <h4>About</h4>
 <p>JobGurus helps newcomers navigate the Canadian job market through career pathways. The project covered five website pages, designed with Bright Studios, using the route to becoming an electrician in Ontario as the launch showcase.</p>
@@ -1260,7 +1289,7 @@
     </div>
     <div class="shelf" data-shelf>
       <a class="case" href="work/hotplate/" style="--i:0">
-        <div class="case__frame"><div class="case__thumb case__thumb--hotplate"><img src="img/cover-hotplate.png" alt="" loading="lazy" /><img class="hp-site" src="img/hotplate-site.webp" alt="Hotplate (YCS20) X Ancorpoint Studio" loading="lazy" /></div></div>
+        <div class="case__frame"><div class="case__thumb"><img src="gallery/p/gUDZ8isjfO7fuX70o7dopPhCE.webp" alt="Hotplate (YCS20) X Ancorpoint Studio" loading="lazy" /></div></div>
         <div class="case__text">
           <h3 class="case__title">Designing clarity into a new food business model — so the website sells without over-explaining</h3>
           <p class="case__tags">Hotplate (YCS20) X Ancorpoint Studio  ·  Website</p>
@@ -1310,7 +1339,7 @@
         <p class="eyebrow--dark">Speak with Disha</p>
         <div class="footer__copy">
           <h2 id="footer-title" class="footer__title" style="width:740px">I’m drawn to the distance between interest and instinct.</h2>
-          <p class="footer__sub">Between trying something and relying on it.<br />Between a place in someone’s mind and a place in how they work and live.<br />And in building brand + product systems that hold this together.</p>
+          <p class="footer__sub footer__sub--para">Between trying something and relying on it.<br /> Between a place in someone’s mind and a place in how they work and live.<br /> And in building brand + product systems that hold this together.</p>
         </div>
       </div>
       <div class="booking" data-booking data-reveal>
@@ -1325,14 +1354,14 @@
       <a href="https://x.com/dishashah66" target="_blank" rel="noopener" aria-label="Disha on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z"/></svg></a>
       <a href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener" aria-label="Disha on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h3.96V21H3V9.75Zm6.45 0h3.8v1.54h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V21h-3.96v-4.99c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21H9.45V9.75Z"/></svg></a>
       <a href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener" aria-label="Disha on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
-      <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="footer__bar">
       <p class="footer__legal">© Vanya Studio 2026  ·  <a href="./#privacy">Privacy</a>  ·  <a href="./#terms">Terms</a></p>
       <ul class="footer__nav">
-        <li><a href="about/">About</a></li>
+        <li><a href="about/index.html">About</a></li>
         <li><a href="./#services">Services</a></li>
-        <li><a href="work/">Work</a></li>
+        <li><a href="work/index.html">Work</a></li>
         <li><a href="./#playground">Playground</a></li>
         <li><a href="work/jobgurus/#contact">Contact</a></li>
       </ul>
@@ -1346,7 +1375,7 @@
 </div><!-- /.page -->
 <dialog class="sheet sheet--gallery" id="sheet-gallery" aria-label="Gallery" data-lenis-prevent>
   <button class="sheet__handle" type="button" data-sheet-close aria-label="Close"><span></span></button>
-  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>
+  <div class="sheet__bar"><button class="sheet__close" type="button" data-sheet-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   <div class="sheet__content">
     <div class="sheet__gallery">
         <figure class="sheet__fig is-wide"><img src="work/img/9qPriYftinhuYDaasPJVZu9lGTM.webp" alt="" width="1500" height="978" loading="lazy" /></figure>
@@ -1380,16 +1409,16 @@
         <div class="menu__row">
           <div class="menu__links">
             <ul class="menu__list">
-              <li class="menu__item" style="--i:1"><a class="menu__link" data-trail="home" href="./">Home</a></li>
-              <li class="menu__item" style="--i:2"><a class="menu__link" data-trail="about" href="about/">About</a></li>
-              <li class="menu__item" style="--i:3"><a class="menu__link" data-trail="work" href="work/">Work</a></li>
+              <li class="menu__item" style="--i:1"><a class="menu__link" data-trail="home" href="./index.html">Home</a></li>
+              <li class="menu__item" style="--i:2"><a class="menu__link" data-trail="about" href="about/index.html">About</a></li>
+              <li class="menu__item" style="--i:3"><a class="menu__link" data-trail="work" href="work/index.html">Work</a></li>
               <li class="menu__item" style="--i:4"><a class="menu__link" data-trail="contact" href="work/jobgurus/#contact">Contact</a></li>
             </ul>
             <div class="menu__group menu__item" style="--i:5">
               <p class="menu__label">Services</p>
               <ul class="menu__subs">
                 <li><a class="menu__sub" href="./#services">Brand Design</a></li>
-                <li><a class="menu__sub" href="services/product-design/">Product Design</a></li>
+                <li><a class="menu__sub" href="services/product-design/index.html">Product Design</a></li>
                 <li><a class="menu__sub" href="./#services">Design Systems</a></li>
                 <li><a class="menu__sub" href="./#services">Website &amp; Decks</a></li>
               </ul>
@@ -1403,7 +1432,7 @@
           <a class="menu__sub" href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener">Instagram</a>
           <a class="menu__sub" href="https://x.com/dishashah66" target="_blank" rel="noopener">X (Twitter)</a>
         </div>
-        <a class="menu__cta" href="work/jobgurus/#contact">Book a Discovery Call <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="menu__cta" href="work/jobgurus/#contact">Book a Discovery Call <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
     </div>
   </nav>
@@ -1442,6 +1471,39 @@
       const end = () => { down = false; track.classList.remove('is-dragging'); };
       track.addEventListener('pointerup', end);
       track.addEventListener('pointercancel', end);
+    }
+
+    function initCarouselArrows() {
+      const track = document.querySelector('[data-carousel]');
+      const prev = document.querySelector('[data-carousel-prev]');
+      const next = document.querySelector('[data-carousel-next]');
+      if (!track || !prev || !next) return;
+      const cards = [...track.querySelectorAll('.carousel__card')];
+      const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
+      const positions = () => {
+        const left = track.getBoundingClientRect().left;
+        const inset = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+        return [...new Set(cards.map(card => Math.min(maxScroll(), Math.max(0,
+          card.getBoundingClientRect().left - left + track.scrollLeft - inset
+        ))))];
+      };
+      const update = () => {
+        prev.disabled = track.scrollLeft <= 2;
+        next.disabled = track.scrollLeft >= maxScroll() - 2;
+      };
+      const move = direction => {
+        const current = track.scrollLeft;
+        const stops = positions();
+        const target = direction > 0
+          ? stops.find(x => x > current + 8)
+          : stops.slice().reverse().find(x => x < current - 8);
+        if (target !== undefined) track.scrollTo({ left: target, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      };
+      prev.addEventListener('click', () => move(-1));
+      next.addEventListener('click', () => move(1));
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
     }
 
     // Collins-style appear. The first two gallery images open up together as
@@ -1708,6 +1770,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initCarouselDrag();
+      initCarouselArrows();
       initLogos();
       initAppear();
       initReveal();
@@ -2108,6 +2171,6 @@
       window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     })();
   </script>
-  <script src="arc.js?v=6"></script>
+  <script src="arc.js?v=8"></script>
 <script>(function(){var c=document.querySelector('.wd-carousel .carousel');if(!c)return;c.addEventListener('click',function(e){if(!matchMedia('(max-width:767px)').matches||e.target.closest('.wd-explore'))return;var b=c.querySelector('.wd-explore');if(b)b.click();});})();</script></body>
 </html>

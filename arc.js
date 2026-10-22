@@ -1,7 +1,4 @@
-/* Arc reveal — slanted-polygon wipe, as used on exoape.com (values measured there):
-   clip-path polygon(0 0, 100% 0, 100% p*110vh, 0 p*100vh), ~1.1s, quartic in-out.
-   Drives: the full-screen menu, the page-to-page transition, and rolling button labels.
-   No dependencies. */
+/* Shared rising-panel menu and page transitions. No dependencies. */
 (function () {
   var root = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -10,7 +7,11 @@
 
   var style = document.createElement('style');
   style.textContent =
-    '.arc-cover{position:fixed;inset:0;z-index:9999;background:' + DARK + ';pointer-events:none;visibility:visible;clip-path:polygon(0 0,100% 0,100% 0,0 0)}' +
+    '.arc-cover{position:fixed;inset:0;z-index:9999;background:' + DARK + ';pointer-events:none;visibility:visible;transform:translate3d(0,100%,0);will-change:transform}' +
+    '.menu{clip-path:none;transform:translate3d(0,100%,0);will-change:transform}' +
+    '.menu .menu__item{opacity:0;transform:translate3d(0,32px,0);transform-origin:center bottom}' +
+    '.menu.is-open .menu__item{opacity:1;transform:none;transition:opacity .7s ease,transform 1.05s cubic-bezier(.19,1,.22,1);transition-delay:calc(.22s + var(--i,0)*.07s)}' +
+    '@media(prefers-reduced-motion:reduce){.menu.is-open .menu__item{transition:none}}' +
     '.roll{display:inline-block;vertical-align:top;overflow:hidden;height:1.25em;line-height:1.25}' +
     '.roll__in{display:flex;flex-direction:column;transition:transform .6s cubic-bezier(.19,1,.22,1)}' +
     '.roll__in>span{display:block;height:1.25em;white-space:nowrap}' +
@@ -34,10 +35,8 @@
     setTimeout(end, dur * 1000 + 400);
   }
 
-  function wipe(el, p) {
-    var h = window.innerHeight;
-    el.style.clipPath = 'polygon(0 0,100% 0,100% ' + (p * h * 1.1) + 'px,0 ' + (p * h) + 'px)';
-  }
+  function rise(el, p) { el.style.transform = 'translate3d(0,' + ((1 - p) * 100) + '%,0)'; }
+  function leaveUp(el, p) { el.style.transform = 'translate3d(0,' + (-p * 100) + '%,0)'; }
 
   /* ---------- Page transition ---------- */
   var navigating = false;
@@ -54,17 +53,17 @@
     try { if (ss) ss.setItem('arc', '1'); } catch (e) {}
     var c = makeCover();
     var jump = function () { window.location.href = url; };
-    tween(0, 1, 0.9, function (p) { wipe(c, p); }, jump);
+    tween(0, 1, 0.9, function (p) { rise(c, p); }, jump);
   }
   window.arcGo = go;
 
-  // Arriving through a transition: the cover is already up (head snippet), wipe it away
+  // Arriving through a transition: lift the cover to reveal the new page.
   if (root.classList.contains('arc-pending')) {
     var cover = makeCover();
-    wipe(cover, 1);
+    rise(cover, 1);
     root.classList.remove('arc-pending');
     window.__arcDelay = 0.45;            // let the page's own intro wait for the reveal
-    tween(1, 0, 1, function (p) { wipe(cover, p); }, function () { cover.remove(); });
+    tween(0, 1, 0.95, function (p) { leaveUp(cover, p); }, function () { cover.remove(); });
   }
   window.addEventListener('pageshow', function (e) {
     if (!e.persisted) return;
@@ -106,13 +105,9 @@
   var isOpen = false, busy = false, lastFocus = null;
 
   function render(p) {
-    wipe(menu, p);
-    // content settles from 130% / -7deg, the page behind scales and tilts the other way
-    inner.style.transform = 'scale(' + (1.3 - 0.3 * p) + ') rotate(' + (-7 * (1 - p)) + 'deg)';
-    if (page) page.style.transform = 'scale(' + (1 + 0.29 * p) + ') rotate(' + (7 * p) + 'deg)';
-  }
-  function origin() {
-    if (page) page.style.transformOrigin = (window.innerWidth / 2) + 'px ' + (window.scrollY + window.innerHeight / 2) + 'px';
+    rise(menu, p);
+    inner.style.transform = 'translate3d(0,' + ((1 - p) * 36) + 'px,0)';
+    if (page) page.style.transform = 'translate3d(0,' + (-18 * p) + 'px,0) scale(' + (1 - 0.015 * p) + ')';
   }
   function setExpanded(v) { openBtns.forEach(function (b) { b.setAttribute('aria-expanded', String(v)); }); }
 
@@ -120,7 +115,6 @@
     if (isOpen || busy) return;
     isOpen = busy = true;
     lastFocus = document.activeElement;
-    origin();
     if (page) page.style.willChange = 'transform';
     root.classList.add('menu-open');
     menu.removeAttribute('inert'); menu.setAttribute('aria-hidden', 'false');
@@ -135,17 +129,16 @@
     if (!isOpen || busy) return;
     isOpen = false; busy = true;
     if (target) {                                 // jump behind the menu so the reveal lands on the section
-      if (page) page.style.transform = '';        // measure without the 1.29x scale
+      if (page) page.style.transform = '';
       target.scrollIntoView();
     }
-    origin();
     render(1);
     menu.classList.remove('is-open');
     setExpanded(false);
     tween(1, 0, 1.1, render, function () {
       menu.classList.remove('is-active');
-      menu.style.clipPath = ''; inner.style.transform = '';
-      if (page) { page.style.transform = ''; page.style.willChange = ''; page.style.transformOrigin = ''; }
+      menu.style.transform = ''; inner.style.transform = '';
+      if (page) { page.style.transform = ''; page.style.willChange = ''; }
       menu.setAttribute('inert', ''); menu.setAttribute('aria-hidden', 'true');
       root.classList.remove('menu-open');
       busy = false;
@@ -153,43 +146,35 @@
     });
   }
 
-  // Hover trail: images appear one after another behind the pointer while it moves over a link
+  // Hover picture: one image per link, beside the link column (never on top of the text), at its own ratio
   var trail = menu.querySelector('[data-menu-trail]');
-  var SETS = {
-    work: ['img/cover-hotplate.png', 'img/cover-eds.png', 'img/cover-complaints.png', 'img/cover-bull-and-wolf.webp', 'img/cover-shweta-labs.webp', 'img/menu-northside.webp'],
-    home: ['img/menu-hotplate.webp', 'img/menu-coin.webp', 'img/menu-wax.webp', 'img/menu-arch.webp'],
-    about: ['img/me.webp', 'img/menu-arch.webp', 'img/menu-northside.webp', 'img/menu-coin.webp'],
-    contact: ['img/menu-coin.webp', 'img/menu-wax.webp']
-  };
+  var PIC = { home: 'img/menu-northside.webp', about: 'img/me.webp', work: 'img/cover-hotplate.png', contact: 'img/menu-coin.webp' };
+  var SIDE = { home: 1, about: -1, work: 1, contact: -1 };
   if (trail && !reduce && window.matchMedia('(hover: hover) and (min-width: 768px)').matches) {
-    var set = null, idx = 0, lx = -999, ly = -999, z = 1, pool = [];
-    Object.keys(SETS).forEach(function (k) { SETS[k].forEach(function (src) { var im = new Image(); im.src = src; pool.push(im); }); });
-    var spawn = function (x, y) {
+    var cur = null;
+    Object.keys(PIC).forEach(function (k) { var im = new Image(); im.src = PIC[k]; });
+    var hidePic = function () {
+      if (!cur) return;
+      var im = cur; cur = null;
+      im.classList.remove('is-on'); im.classList.add('is-off');
+      setTimeout(function () { im.remove(); }, 600);
+    };
+    var showPic = function (a) {
+      hidePic();
+      var key = a.getAttribute('data-trail'); if (!PIC[key]) return;
+      var mr = menu.getBoundingClientRect(), lr = a.getBoundingClientRect();
       var im = document.createElement('img');
-      im.src = SETS[set][idx++ % SETS[set].length]; im.alt = '';
-      // images appear to the sides of the link column, never on top of the links
-      var mw = menu.getBoundingClientRect().width, side = (idx % 2 ? 1 : -1), off = 230 + Math.random() * 150;
-      var px = Math.max(110, Math.min(mw - 110, mw / 2 + side * off));
-      im.style.width = Math.round(150 + Math.random() * 100) + 'px';   // unequal sizes, each at its own ratio
-      im.style.left = px + 'px'; im.style.top = (y + (Math.random() * 70 - 35)) + 'px'; im.style.zIndex = z++;
-      im.style.setProperty('--r', (Math.random() * 10 - 5).toFixed(1) + 'deg');
-      trail.appendChild(im);
-      requestAnimationFrame(function () { requestAnimationFrame(function () { im.classList.add('is-on'); }); });
-      setTimeout(function () { im.classList.remove('is-on'); im.classList.add('is-off'); setTimeout(function () { im.remove(); }, 600); }, 1300);
+      im.src = PIC[key]; im.alt = '';
+      im.style.width = '230px';
+      im.style.left = Math.round(mr.width / 2 + SIDE[key] * 300) + 'px';
+      im.style.top = Math.round(lr.top - mr.top + lr.height / 2) + 'px';
+      im.style.setProperty('--r', (SIDE[key] * -3) + 'deg');
+      trail.appendChild(im); cur = im;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { if (cur === im) im.classList.add('is-on'); }); });
     };
     menu.querySelectorAll('[data-trail]').forEach(function (a) {
-      a.addEventListener('pointerenter', function (e) {
-        set = a.getAttribute('data-trail'); idx = 0;
-        var r = menu.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-        lx = x; ly = y; spawn(x, y);                       // the first image appears the moment you land on a link
-      });
-      a.addEventListener('pointerleave', function () { set = null; });
-      a.addEventListener('pointermove', function (e) {
-        if (!set) return;
-        var r = menu.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-        if (Math.hypot(x - lx, y - ly) < 40) return;
-        lx = x; ly = y; spawn(x, y);
-      });
+      a.addEventListener('pointerenter', function () { showPic(a); });
+      a.addEventListener('pointerleave', hidePic);
     });
   }
 
