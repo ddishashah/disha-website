@@ -1088,12 +1088,11 @@
     }
 
     /* ---------- Loader (same mechanism as fluidintelligence.ai): dim copy, a lit copy revealed top to bottom through a soft gradient mask, then the panel lifts away ---------- */
-    .loader { --loader-size: 40px; position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 28px; box-sizing: border-box; background: #140700; will-change: transform; animation: loaderLift .9s cubic-bezier(.76, 0, .24, 1) 2.35s forwards; }
-    @media (max-width: 809.98px) { .loader { --loader-size: 28px; } }
-    .loader__text { position: relative; }
-    .loader__copy { margin: 0; text-align: center; font-family: var(--font-serif); font-weight: 400; font-size: var(--loader-size); line-height: 1.1; letter-spacing: -0.01em; color: rgba(248, 248, 247, .23); }
+    .loader { --loader-size: 32px; position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 28px; box-sizing: border-box; background: #140700; will-change: transform; animation: loaderLift .9s cubic-bezier(.76, 0, .24, 1) 2.35s forwards; }
+    .loader__text { position: relative; width: 454px; max-width: 100%; }   /* Figma 727:111206: 454px wide, centred */
+    .loader__copy { margin: 0; text-align: center; font-family: var(--font-serif); font-weight: 400; font-size: var(--loader-size); line-height: 40px; letter-spacing: -0.7229px; color: rgba(208, 208, 200, .23); }
     .loader__copy span { display: block; }
-    .loader__copy--lit { position: absolute; inset: 0; color: #f8f8f7; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 60%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 60%, transparent 100%); -webkit-mask-size: 100% 250%; mask-size: 100% 250%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: 0 100%; mask-position: 0 100%; animation: loaderSweep 1.6s cubic-bezier(.45, 0, .3, 1) .2s forwards; }
+    .loader__copy--lit { position: absolute; inset: 0; color: #d0d0c8; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 60%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 60%, transparent 100%); -webkit-mask-size: 100% 250%; mask-size: 100% 250%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: 0 100%; mask-position: 0 100%; animation: loaderSweep 1.6s cubic-bezier(.45, 0, .3, 1) .2s forwards; }
     @keyframes loaderSweep { from { -webkit-mask-position: 0 100%; mask-position: 0 100%; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
     @keyframes loaderLift { from { transform: translateY(0); } to { transform: translateY(-100%); } }
     @media (prefers-reduced-motion: reduce) { .loader { display: none !important; } }
@@ -2222,7 +2221,7 @@
     }
     function start() {
       if (started || !mq.matches) return;
-      started = true; wrap();
+      started = true;
       items[0].classList.add('swap-in'); idx = 0;
       timer = setTimeout(step, HOLD + 1100);
     }
@@ -2230,6 +2229,7 @@
       clearTimeout(timer); started = false;
       items.forEach(function (el) { el.classList.remove('swap-in', 'swap-out'); });
     }
+    wrap();   // lines are masked out from the first paint, so the two statements never show on top of each other
     function arm() { if (root.classList.contains('is-loaded')) setTimeout(start, 500); }
     new MutationObserver(arm).observe(root, { attributes: true, attributeFilter: ['class'] });
     arm();
