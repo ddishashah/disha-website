@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ddishashah.github.io/disha-website/sitemap.xml
+Sitemap: https://disha-shah.io/sitemap.xml
