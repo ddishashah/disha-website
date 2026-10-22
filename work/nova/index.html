@@ -216,11 +216,9 @@
        clip inset 10% on the sides → 0, image settles from a slight zoom.
        --p (0→1) is written from JS as the page scrolls. */
     .carousel { --p: 0; }
-    /* The whole strip opens sideways as one piece, so the 20px gaps between
-       images never change — full height, no vertical drift */
+    /* (the strip used to open sideways with a clip-path; it now just settles in) */
     .motion .carousel {
-      clip-path: inset(0 calc((1 - var(--p)) * 6%));
-      will-change: clip-path;
+      /* no sideways clip: the strip stays fully visible while the scroll reveal and appear play */
     }
     .motion .carousel__card--reveal > img,
     .motion .carousel__card--reveal > svg {
@@ -590,7 +588,10 @@
     /* Slide content — resource classes, styled for the site */
     .cascading-slider__item-bg { z-index: 0; position: absolute; inset: 0%; }
     .cascading-slider__img { object-fit: cover; width: 100%; height: 100%; position: absolute; inset: 0%; border: 0; }
-    .cascading-slider__frame { pointer-events: none; background: #140700; }
+    /* A still of the scene sits behind the live one, so the card is never empty while it loads */
+    .cascading-slider__poster { object-position: 50% 100%; }
+    .cascading-slider__frame { pointer-events: none; background: transparent; opacity: 0; transition: opacity .7s ease; }
+    .cascading-slider__frame.is-ready { opacity: 1; }
 
     .cascading-slider__item[data-href][data-status="active"] { cursor: pointer; }
 

@@ -36,6 +36,22 @@ const TUNING = {
   dizzyFor: 3.2,                     // seconds a dizzy firefly needs to recover
 };
 
+// On small screens the 1920-px frame is scaled down hard (a phone sees it at ~0.2×), which shrinks
+// the fireflies to specks. VIEW lifts their on-screen size back to a comfortable minimum, and makes
+// a grabbed firefly grow a lot more so it can be seen under the finger.
+const VIEW = { boost: 1, held: 1, hover: 1, spread: false, edge: 90 };
+function updateView(svg) {
+  const w = svg.clientWidth || 1920, h = svg.clientHeight || 1317;
+  const k = Math.min(w / 1920, h / 1317);                 // css px per frame px
+  const restPx = 58.7 * k;                                // a resting firefly's width today
+  VIEW.boost = Math.min(3.4, Math.max(1, 26 / restPx));   // aim for ~26 css px at rest
+  const small = VIEW.boost > 1.15;
+  VIEW.hover = small ? 1.25 : 1;                          // touch / hover: bigger again
+  VIEW.held = small ? 2.1 : 1;                            // while dragged: much bigger
+  VIEW.spread = w < 500;                                  // phones: roam the whole screen, away from the word
+  VIEW.edge = Math.max(TUNING.edge, 44 / k);              // keep a whole firefly (even a grabbed one) inside the sides
+}
+
 // Four-point sparkles that circle a dizzy firefly's head.
 let visitors = 0;                    // how many fireflies are visiting the word right now
 
@@ -96,7 +112,7 @@ class Fly {
     else this.fly(dt, t, b, word, cursor);
 
     // Size spring: grows when you touch it, settles back afterwards.
-    const target = this.mode === 'free' ? 1 : TUNING.hoverScale;
+    const target = this.mode === 'free' ? 1 : this.mode === 'held' ? TUNING.hoverScale * VIEW.held : TUNING.hoverScale * VIEW.hover;
     this.sv += (target - this.s) * 220 * dt;
     this.sv *= Math.exp(-16 * dt);
     this.s += this.sv * dt;
@@ -117,7 +133,7 @@ class Fly {
 
     // Stay in view.
     let sx = 0, sy = 0;
-    const m = TUNING.edge;
+    const m = VIEW.edge;
     if (this.x < b.x0 + m) sx += (b.x0 + m - this.x) / m;
     if (this.x > b.x1 - m) sx -= (this.x - (b.x1 - m)) / m;
     if (this.y < b.y0 + m) sy += (b.y0 + m - this.y) / m;
@@ -125,7 +141,8 @@ class Fly {
 
     // Stay in the meander area around the word; the further out, the firmer the turn back.
     const z = TUNING.zone, w = this.wide;
-    const zx0 = word.x0 - z.x * w, zx1 = word.x1 + z.x * w, zy0 = word.y0 - z.top * w, zy1 = word.y1 + z.bottom * w;
+    let zx0 = word.x0 - z.x * w, zx1 = word.x1 + z.x * w, zy0 = word.y0 - z.top * w, zy1 = word.y1 + z.bottom * w;
+    if (VIEW.spread) { zx0 = b.x0 + m; zx1 = b.x1 - m; zy0 = b.y0 + m; zy1 = b.y1 - m; }
     if (this.x < zx0) sx += Math.min(1.5, (zx0 - this.x) / 120);
     if (this.x > zx1) sx -= Math.min(1.5, (this.x - zx1) / 120);
     if (this.y < zy0) sy += Math.min(1.5, (zy0 - this.y) / 120);
@@ -134,7 +151,7 @@ class Fly {
     // Visiting the word: fly to a spot on the letters, linger around it, then wander off.
     const V = TUNING.visit;
     if (!this.visit && t > this.nextVisit) {
-      if (visitors < V.max) {
+      if (visitors < (VIEW.spread ? 1 : V.max)) {
         visitors++;
         this.visit = { x: rand(word.x0 + 40, word.x1 - 40), y: rand(word.y0 + 70, word.y1 - 30), until: 0, giveUp: t + 12 };
       } else this.nextVisit = t + rand(2, 5);          // the word is busy; try again soon
@@ -153,11 +170,20 @@ class Fly {
     } else {
       // Otherwise lean towards its own spot on a slow loop around the word (not across it).
       const [w1, w2] = this.drift;
-      const cx = (word.x0 + word.x1) / 2, cy = (word.y0 + word.y1) / 2;
-      const rx = (word.x1 - word.x0) / 2 + z.x * 0.6 * w, ry = (word.y1 - word.y0) / 2 + z.top * 0.55 * w;
+      const cx = VIEW.spread ? (b.x0 + b.x1) / 2 : (word.x0 + word.x1) / 2, cy = VIEW.spread ? (b.y0 + b.y1) / 2 : (word.y0 + word.y1) / 2;
+      const rx = VIEW.spread ? (b.x1 - b.x0) / 2 - m : (word.x1 - word.x0) / 2 + z.x * 0.6 * w, ry = VIEW.spread ? (b.y1 - b.y0) / 2 - m : (word.y1 - word.y0) / 2 + z.top * 0.55 * w;
       const a = t * w1 * 1.4 + a1;
       ax = Math.min(zx1, Math.max(zx0, cx + Math.cos(a) * rx));
       ay = Math.min(zy1, Math.max(zy0, cy + Math.sin(a) * ry * (0.85 + 0.15 * Math.sin(t * w2 + a3))));
+    }
+    // Phones: keep clear of the letters (unless visiting) by sliding out of the word's box
+    if (VIEW.spread && !this.visit) {
+      const bx0 = word.x0 - 60, bx1 = word.x1 + 60, by0 = word.y0 - 110, by1 = word.y1 + 70;
+      if (this.x > bx0 && this.x < bx1 && this.y > by0 && this.y < by1) {
+        const dl = this.x - bx0, dr = bx1 - this.x, dt2 = this.y - by0, db = by1 - this.y, mn = Math.min(dl, dr, dt2, db);
+        const push = 2.2;
+        if (mn === dt2) sy -= push; else if (mn === db) sy += push; else if (mn === dl) sx -= push; else sx += push;
+      }
     }
     if (!this.visit && t < (this.leaveUntil || 0)) lean = 1;
     const d = Math.hypot(ax - this.x, ay - this.y);
@@ -241,7 +267,7 @@ class Fly {
       pose = `rotate(${this.rot.toFixed(2)})`;
     }
     const s = this.s.toFixed(3);
-    this.el.setAttribute('transform', `translate(${this.x.toFixed(1)} ${this.y.toFixed(1)}) scale(${(this.s * TUNING.size).toFixed(3)})`);
+    this.el.setAttribute('transform', `translate(${this.x.toFixed(1)} ${this.y.toFixed(1)}) scale(${(this.s * TUNING.size * VIEW.boost).toFixed(3)})`);
     this.pose.setAttribute('transform', pose);
     this.spot.setAttribute('transform', `translate(${this.gx.toFixed(1)} ${this.gy.toFixed(1)}) scale(${s})`);
 
@@ -258,7 +284,7 @@ class Fly {
   }
 
   // Top of the firefly in frame px — where the tooltip points (above the stars when dizzy).
-  get top() { return { x: this.x, y: this.y - (this.el.classList.contains('is-dizzy') ? 38 : 22) * this.s * TUNING.size }; }
+  get top() { return { x: this.x, y: this.y - (this.el.classList.contains('is-dizzy') ? 38 : 22) * this.s * TUNING.size * VIEW.boost }; }
 }
 
 // The window in frame coordinates. The frame is fitted inside the window, so this
@@ -275,6 +301,7 @@ function visibleBounds(svg) {
 function start({ svg, swarm, glow, word, fireflies }) {
   const { createFirefly, injectDefs, blurredDisc } = window.Firefly;
   injectDefs(svg);
+  updateView(svg);
 
   const flies = fireflies.map((cfg) => {
     const el = createFirefly({ ...cfg, rot: 0, halo: { color: cfg.halo }, flap: cfg.type === 'small' ? 0.09 : 0.11 });
@@ -300,7 +327,7 @@ function start({ svg, swarm, glow, word, fireflies }) {
   const cursor = { x: 0, y: 0, active: false };
   const hooks = [];
   let bounds = visibleBounds(svg);
-  addEventListener('resize', () => { bounds = visibleBounds(svg); });
+  addEventListener('resize', () => { bounds = visibleBounds(svg); updateView(svg); });
 
   let last = performance.now(), t = 0;
   const frame = (now) => {
