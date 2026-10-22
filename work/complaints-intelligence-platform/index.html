@@ -842,13 +842,13 @@
     .logos__tile img[src$="praan.png"] { max-height: 46px; }
     .logos__tile img[src$="kree8.png"] { max-width: 78px; max-height: 20px; }
     /* Flighty — app icon + wordmark, as in Figma 632:148314 (icon from the Flighty iOS design system) */
-    .logos__tile--flighty { display: flex; justify-content: center; align-items: center; gap: 10px; }
-    .logos__tile--flighty img { width: 36px; height: 36px; max-width: none; max-height: none; border-radius: 8px; filter: none; }
+    .logos__tile--flighty { display: flex; justify-content: center; align-items: center; gap: 8px; }
+    .logos__tile--flighty img { width: 28px; height: 28px; max-width: none; max-height: none; border-radius: 8px; filter: none; }
     .logos__tile--flighty span {
       font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
       font-weight: 600;
-      font-size: 24px;
-      letter-spacing: 0.37px;
+      font-size: 19px;
+      letter-spacing: 0.3px;
       color: #474747; /* matches the #CCC logos at brightness(.35) */
     }
     @keyframes logos-scroll { to { transform: translateX(-50%); } }
@@ -860,6 +860,7 @@
       .carousel__card--work { width: auto; height: 64vw; }
       .carousel__card--hotplate { width: 76vw; height: 64vw; }
       .logos__tile { flex-basis: 128px; height: 64px; }
+      .logos__tile--flighty img { width: 24px; height: 24px; border-radius: 6px; } .logos__tile--flighty span { font-size: 16px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .logos__track { animation: none; }
