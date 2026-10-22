@@ -1797,10 +1797,27 @@
         b.style.animation = 'none'; void b.offsetWidth; b.style.animation = '';
       }
       const card = root.querySelector('.quotes__card');
+      const after = root.closest('section') && root.closest('section').nextElementSibling;   // what sits below the testimonials
+      let ready = false;
+      // The card resizes to each quote. If it is above what you are looking at, hold the content below still by
+      // nudging the scroll position along with the card's growth, so nothing on screen jumps.
       function fit() {
         const cs = getComputedStyle(card);
         const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+        const hold = ready && after && card.getBoundingClientRect().bottom < window.innerHeight * 0.55;
+        const startTop = hold ? after.getBoundingClientRect().top : 0;
         card.style.height = (slides[i].offsetHeight + pad) + 'px';
+        if (hold) {
+          const t0 = performance.now();
+          (function tick(now) {
+            const dlt = after.getBoundingClientRect().top - startTop;
+            if (Math.abs(dlt) > 0.5) {
+              const y = window.scrollY + dlt;
+              if (window.lenis && window.lenis.scrollTo) window.lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
+            }
+            if (now - t0 < 950) requestAnimationFrame(tick);
+          })(t0);
+        }
       }
       function go(n) {
         i = (n + slides.length) % slides.length;
@@ -1812,11 +1829,19 @@
       window.addEventListener('resize', fit);
       document.fonts && document.fonts.ready.then(fit);
       fit();
+      setTimeout(() => { ready = true; }, 800);
+      // The quote only changes while the card is on screen, so it can never reshuffle the page under something else you are reading
+      let visible = false, hovered = false;
+      const stop = () => { clearInterval(timer); root.classList.add('is-paused'); };
       const play = () => { clearInterval(timer); root.classList.remove('is-paused'); restartBar(); timer = setInterval(() => go(i + 1), INTERVAL); };
-      dots.forEach((d, k) => d.addEventListener('click', () => { go(k); play(); }));
-      root.addEventListener('mouseenter', () => { clearInterval(timer); root.classList.add('is-paused'); });
-      root.addEventListener('mouseleave', play);
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) play();
+      const sync = () => { if (reduce) return; if (visible && !hovered) play(); else stop(); };
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      dots.forEach((d, k) => d.addEventListener('click', () => { go(k); sync(); }));
+      root.addEventListener('mouseenter', () => { hovered = true; sync(); });
+      root.addEventListener('mouseleave', () => { hovered = false; sync(); });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(es => { visible = es[0].isIntersecting; sync(); }, { rootMargin: '-15% 0px -15% 0px' }).observe(card);
+      } else { visible = true; sync(); }
     }
 
     // cal.com inline booking, loaded only when the footer gets close, themed
