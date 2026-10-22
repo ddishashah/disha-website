@@ -20,4 +20,6 @@
 /gallery-product                        /work/   301
 /gallery-brand                          /work/   301
 
-# /blog and /blog/* are intentionally NOT redirected: there is no blog on the new site yet (see notes).
+# Blog: not rebuilt yet, so send old post URLs to the work page for now. Remove these two lines when the blog returns at /blog/<slug>.
+/blog                                   /work/   302
+/blog/*                                 /work/   302
