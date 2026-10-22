@@ -9,7 +9,6 @@
   <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
@@ -453,9 +452,13 @@
       .case:hover:active .case__frame { transform: rotateX(0deg); }
     }
     .case:focus-visible { outline: none; }
-    /* Entrance: cards un-tilt and fade up one after another (no clipping) */
-    .motion .shelf:not(.is-in) .case { opacity: 0; transform: translateY(48px); }
-    .motion .shelf .case { transition: opacity .8s ease, transform 1.4s var(--ease-out-expo); transition-delay: calc(var(--i, 0) * 0.07s + 0.15s); }
+    /* Entrance, in step with every other section ([data-reveal]): the whole shelf rises 8rem (opacity 1s, transform 2s expo).
+       The shelf is an overflow container, so lifting the cards themselves would be clipped at its edge; the shelf moves instead.
+       Cards then un-tilt and fade in one after another. */
+    .motion .shelf { transition: opacity 1s ease, transform 2s var(--ease-out-expo); }
+    .motion .shelf:not(.is-in) { opacity: 0; transform: translateY(8rem); }
+    .motion .shelf:not(.is-in) .case { opacity: 0; }
+    .motion .shelf .case { transition: opacity 1s ease; transition-delay: calc(var(--i, 0) * 0.07s); }
     .motion .shelf:not(.is-in) .case__frame { transform: rotateX(30deg); }
 
     /* Hotplate cover: Figma's composition underneath, with the full-res site
@@ -1445,12 +1448,14 @@
     <div class="carousel-stage">
     <div class="carousel" data-carousel role="region" aria-roledescription="carousel" aria-label="Selected work">
       <article class="carousel__card carousel__card--work" style="--ar:550/444"><img src="img/cover-eds.png" alt="Selected work" width="550" height="444" loading="lazy" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:863/1000"><img src="img/hotplate-site.webp" alt="Selected work" width="863" height="1000" loading="lazy" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1400/720"><img src="img/cover-bull-and-wolf.webp" alt="Selected work" width="1400" height="720" loading="lazy" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1328/1003"><img src="gallery/p/naW4gfab71QU2QLlNdGxEUONg4.webp" alt="Selected work" width="1328" height="1003" loading="lazy" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1328/1196"><img src="gallery/p/ANFvwEIWhctuoHymtqqEYWq27Bw.webp" alt="Selected work" width="1328" height="1196" loading="lazy" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1328/848"><img src="gallery/p/kWUpsNimHpkeHYqYaAEFnsqCEMs.webp" alt="Selected work" width="1328" height="848" loading="lazy" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1328/683"><img src="gallery/p/NMIF2UEIdm8mAt2ldVRqbpjXCTM.webp" alt="Selected work" width="1328" height="683" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/1384"><img src="work/img/wxA2x5DeeRBAqEe7C0NSSbC420.webp" alt="Selected work" width="1500" height="1384" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/859"><img src="work/img/n9ywTHuseWkgJ59uZShzEOQFofU.webp" alt="Selected work" width="1500" height="859" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1446/760"><img src="work/img/1xn0EeFWyf3vmuwNizStRuPHI.webp" alt="Selected work" width="1446" height="760" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1152/680"><img src="work/img/3uQDVweXNCG9EIGGiatz15Ropw.webp" alt="Selected work" width="1152" height="680" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:828/936"><img src="work/img/ychMnNy9mduproEg5p52CaufKU.webp" alt="Selected work" width="828" height="936" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/859"><img src="work/img/mLdV4RLYQvlpzBwWgaOviPIdRqY.webp" alt="Selected work" width="1500" height="859" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/1286"><img src="work/img/rD6S81Rv3w9U4t2qZ6DEutS0Z8.webp" alt="Selected work" width="1500" height="1286" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1500/983"><img src="work/img/EAv5ahyTFK5xwXkrembWNomXHJo.webp" alt="Selected work" width="1500" height="983" loading="lazy" /></article>
     </div>
     <button class="carousel__arrow carousel__arrow--prev" type="button" data-carousel-prev aria-label="Scroll gallery left"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5m0 0 7 7m-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <button class="carousel__arrow carousel__arrow--next" type="button" data-carousel-next aria-label="Scroll gallery right"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -1713,7 +1718,7 @@
     <div class="socials">
       <a href="https://x.com/dishashah66" target="_blank" rel="noopener" aria-label="Disha on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z"/></svg></a>
       <a href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener" aria-label="Disha on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h3.96V21H3V9.75Zm6.45 0h3.8v1.54h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V21h-3.96v-4.99c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21H9.45V9.75Z"/></svg></a>
-      <a href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener" aria-label="Disha on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://www.instagram.com/_dishashah96/" target="_blank" rel="noopener" aria-label="Disha on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
       <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="footer__bar">
@@ -1809,7 +1814,7 @@
       <div class="menu__foot menu__item" style="--i:6">
         <div class="menu__social">
           <a class="menu__sub" href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener">Linkedin</a>
-          <a class="menu__sub" href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener">Instagram</a>
+          <a class="menu__sub" href="https://www.instagram.com/_dishashah96/" target="_blank" rel="noopener">Instagram</a>
           <a class="menu__sub" href="https://x.com/dishashah66" target="_blank" rel="noopener">X (Twitter)</a>
         </div>
         <div class="menu__mail">
@@ -2820,16 +2825,20 @@
     })();
   </script>
   <script>
-    // Lenis: inertial smooth scroll on every page (off for reduced motion); paused while the menu is open
+    // Native scrolling (no smoothing library: it stacked its own inertia on the trackpad's and felt heavy).
+    // In-page links still glide to their section.
     (function () {
-      if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var lenis = new Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
-      window.lenis = lenis;
-      function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-      requestAnimationFrame(raf);
-      new MutationObserver(function () {
-        if (document.documentElement.classList.contains('menu-open')) lenis.stop(); else lenis.start();
-      }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href^="#"]');
+        if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || a.target) return;
+        var id = a.getAttribute('href').slice(1);
+        var el = id && document.getElementById(id);
+        if (!el || document.documentElement.classList.contains('menu-open')) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        history.pushState(null, '', '#' + id);
+      });
     })();
   </script>
   <script>

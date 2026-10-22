@@ -9,7 +9,6 @@
   <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
@@ -453,9 +452,13 @@
       .case:hover:active .case__frame { transform: rotateX(0deg); }
     }
     .case:focus-visible { outline: none; }
-    /* Entrance: cards un-tilt and fade up one after another (no clipping) */
-    .motion .shelf:not(.is-in) .case { opacity: 0; transform: translateY(48px); }
-    .motion .shelf .case { transition: opacity .8s ease, transform 1.4s var(--ease-out-expo); transition-delay: calc(var(--i, 0) * 0.07s + 0.15s); }
+    /* Entrance, in step with every other section ([data-reveal]): the whole shelf rises 8rem (opacity 1s, transform 2s expo).
+       The shelf is an overflow container, so lifting the cards themselves would be clipped at its edge; the shelf moves instead.
+       Cards then un-tilt and fade in one after another. */
+    .motion .shelf { transition: opacity 1s ease, transform 2s var(--ease-out-expo); }
+    .motion .shelf:not(.is-in) { opacity: 0; transform: translateY(8rem); }
+    .motion .shelf:not(.is-in) .case { opacity: 0; }
+    .motion .shelf .case { transition: opacity 1s ease; transition-delay: calc(var(--i, 0) * 0.07s); }
     .motion .shelf:not(.is-in) .case__frame { transform: rotateX(30deg); }
 
     /* Hotplate cover: Figma's composition underneath, with the full-res site
@@ -1174,6 +1177,8 @@
     .bio__text { color: var(--t-body); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .bio__text p { margin: 0 0 27px; }
     .bio__text p:last-child { margin-bottom: 0; }
+    .bio--more { padding-top: 96px; }
+    .bio--more .bio__label { margin-top: 0; }
     .bio__label { margin: 20px 0; color: var(--t-body); font-weight: 600; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .bio__inner > .bio__text + .bio__label { margin-top: 20px; }
     .logo-rows { display: flex; flex-direction: column; gap: 40px; margin-top: 99px; }
@@ -1215,6 +1220,7 @@
 
     @media (max-width: 767px) {
       .bio { padding-top: 64px; }
+      .bio--more { padding-top: 96px; }
       .bio__title { margin-top: 40px; font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
       .logo-rows { margin-top: 96px; }
       .logo-rows { gap: 28px; } .logo-rows .logos__track { gap: 50px; padding-right: 50px; } .logo-rows .logos__tile { height: 36px; }
@@ -1249,7 +1255,7 @@
 <meta name="twitter:title" content="About — Disha Shah" />
 <meta name="twitter:description" content="Seven years of designing brands and products with teams across 15+ countries, from Fortune 100 companies and family businesses to YC- and Accel-backed startups." />
 <meta name="twitter:image" content="https://disha-shah.io/img/og-image.jpg" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"AboutPage","name":"About — Disha Shah","url":"https://disha-shah.io/about/","description":"Seven years of designing brands and products with teams across 15+ countries, from Fortune 100 companies and family businesses to YC- and Accel-backed startups.","mainEntity":{"@type":"Person","@id":"https://disha-shah.io/#person","name":"Disha Shah","url":"https://disha-shah.io/","image":"https://disha-shah.io/img/me.webp","jobTitle":"Brand and product designer","sameAs":["https://www.linkedin.com/in/disha-shah-8b706814/","https://www.instagram.com/dishashah66/","https://x.com/dishashah66"],"knowsAbout":["Brand strategy","Visual identity","Product design","Design systems","Websites","Pitch decks","AI-native products","Deep-tech"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"AboutPage","name":"About — Disha Shah","url":"https://disha-shah.io/about/","description":"Seven years of designing brands and products with teams across 15+ countries, from Fortune 100 companies and family businesses to YC- and Accel-backed startups.","mainEntity":{"@type":"Person","@id":"https://disha-shah.io/#person","name":"Disha Shah","url":"https://disha-shah.io/","image":"https://disha-shah.io/img/me.webp","jobTitle":"Brand and product designer","sameAs":["https://www.linkedin.com/in/disha-shah-8b706814/","https://www.instagram.com/_dishashah96/","https://x.com/dishashah66"],"knowsAbout":["Brand strategy","Visual identity","Product design","Design systems","Websites","Pitch decks","AI-native products","Deep-tech"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://disha-shah.io/"},{"@type":"ListItem","position":2,"name":"About","item":"https://disha-shah.io/about/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do we start working together?","acceptedAnswer":{"@type":"Answer","text":"Send me a little about what you’re working on and where you need help. We’ll talk through the project, timing, and budget, and I’ll put together a scope. You don’t need to have everything figured out before reaching out."}},{"@type":"Question","name":"Who do you work best with?","acceptedAnswer":{"@type":"Answer","text":"I mostly work with founders and teams in AI, deep-tech, SaaS, and B2B, alongside established businesses and design studios. I enjoy working with people who care about what they’re building and are open to working through the details together."}},{"@type":"Question","name":"Will I work directly with you?","acceptedAnswer":{"@type":"Answer","text":"Yes. I lead every project, and you work with me throughout. When we need a specialist in copywriting, development, motion, or content marketing, I bring them in and stay closely involved. We agree on this as part of the scope."}},{"@type":"Question","name":"Can you work with our existing team?","acceptedAnswer":{"@type":"Answer","text":"Yes. I often work alongside internal designers, engineers, and marketing teams, as well as behind the scenes with studios. We work out where I can contribute, what I’ll own, and how we’ll collaborate."}},{"@type":"Question","name":"Do you handle website development?","acceptedAnswer":{"@type":"Answer","text":"Yes, I develop the frontend myself. I work with Framer, Webflow, Astro, and Next.js, including Sanity and Cloudflare where appropriate—from smaller sites to enterprise websites with hundreds of pages. If the project needs specialist development, I bring in the right people and review the work through delivery."}},{"@type":"Question","name":"What if we need help with the story and copy?","acceptedAnswer":{"@type":"Answer","text":"That’s part of the work. I help shape the narrative—who we’re speaking to, what matters to them, and what we want them to take away. I bring in a copywriting expert to develop the words and work with them through the design."}},{"@type":"Question","name":"Do you take on projects or ongoing work?","acceptedAnswer":{"@type":"Answer","text":"Both. We can work towards a defined scope or set aside time each month for ongoing design support. It depends on what you need and how your team works."}},{"@type":"Question","name":"Where do you work with clients?","acceptedAnswer":{"@type":"Answer","text":"I work remotely and have collaborated with teams across 15+ countries. We agree on meeting times and how we’ll share feedback at the start."}},{"@type":"Question","name":"Are you open to full-time roles?","acceptedAnswer":{"@type":"Answer","text":"Yes, if the team and the work feel like a good fit. I currently run Vanya Studio as a solo, independent practitioner, but I’m happy to talk about a role where I can contribute more deeply over time."}}]}</script>
 <!-- seo:end -->
@@ -1280,18 +1286,6 @@
         <p>I work closely with founders, engineers, and business and go-to-market teams. Understanding what each person is trying to achieve is part of the work. It helps me connect the broader direction with the details people will actually read, see, and use.</p>
         <p>Since 2019, I’ve worked with teams across 15+ countries—from startups and family businesses to global studios and enterprise teams. My experience includes work with YC- and Accel-backed companies and organisations including Deloitte, Tata Group, and UN Volunteers, both directly and through studio collaborations.</p>
       </div>
-      <h2 class="bio__label" data-reveal>A little more about the work</h2>
-      <div class="bio__text" data-reveal>
-        <h3 class="bio__sub">Websites, from first launches to enterprise scale</h3>
-        <p>A substantial part of my practice is designing and developing websites for businesses as they grow. I work with Framer, Webflow, and Sanity with Next.js, from landing pages and 5–8-page sites to enterprise websites with multiple CMS collections and 200–500+ pages.</p>
-        <p>I’ve also supported studios behind the scenes on this work—thinking through the narrative, page structure, design, and development, along with how the team will manage the site after launch.</p>
-        <h3 class="bio__sub">Products that take time to understand</h3>
-        <p>I’ve worked on 15+ AI and SaaS MVPs and proofs of concept across defence, cybersecurity, healthcare, life sciences, finance, Web3, and travel.</p>
-        <p>I enjoy the learning these projects ask of me. Each domain has its own language, responsibilities, and ways of working. In high-stakes industries, those details matter to the design: what someone needs during onboarding, where they need reassurance or control, and what helps them get value from the product over time. I work with the team to understand those needs and where friction may be contributing to people leaving.</p>
-        <h3 class="bio__sub">Design systems that carry the decisions forward</h3>
-        <p>I’ve built 10+ design systems, including two supporting 30–40 products for Fortune 100 firms. The work has spanned multiple brands and tenants, with shared components, patterns, and documentation.</p>
-        <p>I’m interested in how these systems work in practice—whether people can find what they need, understand the reasoning, and build on it. That also shapes how I prepare the context and guidance for teams working with AI.</p>
-      </div>
     </div>
   </section>
 
@@ -1321,6 +1315,23 @@
         <div class="logos__tile"><img src="logos/flowtrix.png" alt="Flowtrix" /></div>
       </div></div>
   </div>
+
+  <section class="bio bio--more" aria-label="More about the work">
+    <div class="bio__inner">
+      <h2 class="bio__label" data-reveal>A little more about the work</h2>
+      <div class="bio__text" data-reveal>
+        <h3 class="bio__sub">Websites, from first launches to enterprise scale</h3>
+        <p>A substantial part of my practice is designing and developing websites for businesses as they grow. I work with Framer, Webflow, and Sanity with Next.js, from landing pages and 5–8-page sites to enterprise websites with multiple CMS collections and 200–500+ pages.</p>
+        <p>I’ve also supported studios behind the scenes on this work—thinking through the narrative, page structure, design, and development, along with how the team will manage the site after launch.</p>
+        <h3 class="bio__sub">Products that take time to understand</h3>
+        <p>I’ve worked on 15+ AI and SaaS MVPs and proofs of concept across defence, cybersecurity, healthcare, life sciences, finance, Web3, and travel.</p>
+        <p>I enjoy the learning these projects ask of me. Each domain has its own language, responsibilities, and ways of working. In high-stakes industries, those details matter to the design: what someone needs during onboarding, where they need reassurance or control, and what helps them get value from the product over time. I work with the team to understand those needs and where friction may be contributing to people leaving.</p>
+        <h3 class="bio__sub">Design systems that carry the decisions forward</h3>
+        <p>I’ve built 10+ design systems, including two supporting 30–40 products for Fortune 100 firms. The work has spanned multiple brands and tenants, with shared components, patterns, and documentation.</p>
+        <p>I’m interested in how these systems work in practice—whether people can find what they need, understand the reasoning, and build on it. That also shapes how I prepare the context and guidance for teams working with AI.</p>
+      </div>
+    </div>
+  </section>
 
   <section class="vanya" data-reveal>
     <div class="vanya__inner">
@@ -1427,7 +1438,7 @@
     <div class="socials">
       <a href="https://x.com/dishashah66" target="_blank" rel="noopener" aria-label="Disha on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z"/></svg></a>
       <a href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener" aria-label="Disha on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h3.96V21H3V9.75Zm6.45 0h3.8v1.54h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V21h-3.96v-4.99c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21H9.45V9.75Z"/></svg></a>
-      <a href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener" aria-label="Disha on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://www.instagram.com/_dishashah96/" target="_blank" rel="noopener" aria-label="Disha on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
       <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="footer__bar">
@@ -1523,7 +1534,7 @@
       <div class="menu__foot menu__item" style="--i:6">
         <div class="menu__social">
           <a class="menu__sub" href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener">Linkedin</a>
-          <a class="menu__sub" href="https://www.instagram.com/dishashah66/" target="_blank" rel="noopener">Instagram</a>
+          <a class="menu__sub" href="https://www.instagram.com/_dishashah96/" target="_blank" rel="noopener">Instagram</a>
           <a class="menu__sub" href="https://x.com/dishashah66" target="_blank" rel="noopener">X (Twitter)</a>
         </div>
         <div class="menu__mail">
@@ -2359,16 +2370,20 @@
     })();
   </script>
   <script>
-    // Lenis: inertial smooth scroll on every page (off for reduced motion); paused while the menu is open
+    // Native scrolling (no smoothing library: it stacked its own inertia on the trackpad's and felt heavy).
+    // In-page links still glide to their section.
     (function () {
-      if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var lenis = new Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
-      window.lenis = lenis;
-      function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-      requestAnimationFrame(raf);
-      new MutationObserver(function () {
-        if (document.documentElement.classList.contains('menu-open')) lenis.stop(); else lenis.start();
-      }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href^="#"]');
+        if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || a.target) return;
+        var id = a.getAttribute('href').slice(1);
+        var el = id && document.getElementById(id);
+        if (!el || document.documentElement.classList.contains('menu-open')) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+        history.pushState(null, '', '#' + id);
+      });
     })();
   </script>
   <script>
