@@ -191,7 +191,7 @@
       scroll-snap-align: start;
       position: relative;
     }
-    .carousel__card--journey { width: calc(1169 * var(--u)); }
+    .carousel__card--journey { width: calc(1100 * var(--u)); }
     .carousel__card--hotplate { width: calc(596 * var(--u)); }
     .carousel__card img {
       display: block;
@@ -218,7 +218,7 @@
     /* The whole strip opens sideways as one piece, so the 20px gaps between
        images never change — full height, no vertical drift */
     .motion .carousel {
-      clip-path: inset(0 calc((1 - var(--p)) * 10%) round 20px);
+      clip-path: inset(0 calc((1 - var(--p)) * 6%));
       will-change: clip-path;
     }
     .motion .carousel__card--reveal > img,
@@ -855,7 +855,7 @@
     @media (max-width: 767px) {
       .carousel { gap: 20px; padding: 0 16px; scroll-padding: 0 16px; }
       .carousel__card { height: auto; border-radius: 16px; }
-      .carousel__card--journey { width: 86vw; aspect-ratio: 4 / 3; }
+      .carousel__card--journey { width: 78vw; aspect-ratio: 4 / 3; }
       .carousel__card--work { width: auto; height: 64vw; }
       .carousel__card--hotplate { width: 76vw; height: 64vw; }
       .logos__tile { flex-basis: 128px; height: 64px; }
