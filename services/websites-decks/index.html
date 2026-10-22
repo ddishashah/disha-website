@@ -6,6 +6,7 @@
   <base href="../../" />
   <title>Websites &amp; Decks — Disha Shah</title>
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
+  <link rel="preload" href="fonts/portrait-text-400.ttf" as="font" type="font/ttf" crossorigin />
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
@@ -13,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    @font-face { font-family: "Portrait Text Web"; src: url("fonts/portrait-text-400.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+    @font-face { font-family: "Portrait Text Web"; src: url("fonts/portrait-text-400.ttf") format("truetype"); font-weight: 400; font-display: block; }
 
     :root {
       --bg: #f8f8f7;
@@ -314,7 +315,7 @@
     html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo), background-color .7s cubic-bezier(.33, 1, .68, 1); }
     html.sheet-open, html.sheet-open body { background-color: #140700; }
     html.sheet-open [data-page] { transform: translateY(10px) scale(.95); opacity: .4; filter: saturate(.4); }
-    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: var(--top) 0 0 0; width: 100%; max-width: 100%; height: calc(100dvh - var(--top)); max-height: 100%; margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
+    .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: var(--top) 0 0 0; width: 100%; max-width: 100%; height: calc(100dvh - var(--top)); max-height: 100%; margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
     .sheet.is-open { transform: translateY(0); }
     .sheet::backdrop { opacity: 0; }
     .sheet__bar { position: sticky; top: 0; z-index: 3; height: 0; display: flex; justify-content: flex-end; padding: 24px 24px 0; }
@@ -338,7 +339,7 @@
     .sheet__handle { display: none; }
     @media (max-width: 767px) {
       /* Drawer: grab handle on top, pull down to dismiss, no round close button */
-      .sheet__handle { position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 44px; margin: 0 0 -44px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
+      .sheet__handle { touch-action: none; position: sticky; top: 0; z-index: 4; display: block; width: 100%; height: 44px; margin: 0 0 -44px; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; outline: none; }
       .sheet__handle span { display: block; width: 36px; height: 5px; margin: 10px auto 0; border-radius: 3px; background: rgba(20, 7, 0, .2); }
       .sheet__bar { display: none; }
       .sheet__content { padding-top: 56px; }
@@ -844,6 +845,10 @@
       animation: logos-scroll 56s linear infinite;
     }
     .logos--rev .logos__track { animation-direction: reverse; }
+    .logos { cursor: grab; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+    .logos.is-dragging { cursor: grabbing; }
+    .logos img { -webkit-user-drag: none; }
+    .logos__track.is-js { animation: none; }
     .logos__tile {
       flex: 0 0 164px;
       height: 80px;
@@ -1023,7 +1028,7 @@
       /* Work */
       .work { margin-top: 96px; }
       .work__head { padding: 0 28px; gap: 12px; }
-      .shelf { margin-top: 8px; padding: 24px 24px 32px; scroll-padding: 0 28px; gap: 16px; }
+      .shelf { margin-top: 8px; margin-bottom: -32px; padding: 24px 28px 32px; scroll-padding: 0 28px; gap: 16px; }   /* -32px cancels the bottom padding that only exists for the card shadows */
       .case { flex-basis: calc(100vw - 96px); gap: 16px; }
       .case__frame { padding: 6px; border-radius: 20px; }
       .case__thumb { border-radius: 15px; }
@@ -1052,12 +1057,12 @@
       .service__tags { font-size: 16px; line-height: 24px; }
 
       /* What pulls me in */
-      .pulls { padding: 96px 28px; gap: 28px; }
+      .pulls { padding: 96px 28px 0; gap: 28px; }   /* dark sections follow each other with one 96px gap, not two */
       .pulls__title { font-size: 36px; line-height: 38px; letter-spacing: -1px; }
       .pulls__body { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
 
       /* Playground */
-      .playground { padding: 96px 0; }
+      .playground { padding: 96px 0 0; }
       .cascading-slider { max-width: calc(100% - 56px); margin-top: 36px; }
       .cascading-slider__list { height: 320px; }
       .cascading-slider__nav { margin-top: 24px; }
@@ -1087,26 +1092,31 @@
     }
 
     /* ---------- Loader (same mechanism as fluidintelligence.ai): dim copy, a lit copy revealed top to bottom through a soft gradient mask, then the panel lifts away ---------- */
-    .loader { --loader-size: 32px; position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 28px; box-sizing: border-box; background: #140700; will-change: transform; animation: loaderLift .9s cubic-bezier(.76, 0, .24, 1) 2.35s forwards; }
+    .loader { --loader-size: 32px; position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 28px; box-sizing: border-box; background: #140700; will-change: transform; animation: loaderLift 1.1s cubic-bezier(.65, 0, .35, 1) 2.35s forwards; }
     .loader__text { position: relative; width: 454px; max-width: 100%; }   /* Figma 727:111206: 454px wide, centred */
     .loader__copy { margin: 0; text-align: center; font-family: var(--font-serif); font-weight: 400; font-size: var(--loader-size); line-height: 40px; letter-spacing: -0.7229px; color: rgba(208, 208, 200, .23); }
     .loader__copy span { display: block; }
     .loader__copy--lit { position: absolute; inset: 0; color: #d0d0c8; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 60%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 60%, transparent 100%); -webkit-mask-size: 100% 250%; mask-size: 100% 250%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: 0 100%; mask-position: 0 100%; animation: loaderSweep 1.6s cubic-bezier(.45, 0, .3, 1) .2s forwards; }
     @keyframes loaderSweep { from { -webkit-mask-position: 0 100%; mask-position: 0 100%; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
-    @keyframes loaderLift { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+    @keyframes loaderLift { from { transform: translateY(0); } to { transform: translateY(-102%); } }
     @media (prefers-reduced-motion: reduce) { .loader { display: none !important; } }
-    /* ---------- Phone hero: the two statements take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
+    /* ---------- Hero statements: the two lines take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
     .ln { display: block; }
-    @media (max-width: 767px) {
-      .motion .hero__stage { position: relative; }
-      .motion .tagline { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 48px; margin: 0; opacity: 1; transform: none; transition: none; }
-      .motion .hero__sub[data-intro] { opacity: 1; transform: none; transition: none; }
-      .motion .tagline .ln, .motion .hero__sub .ln { overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
-      .motion .ln__in { display: block; transform: translateY(112%); }
-      .motion .swap-in .ln__in { transform: none; transition: transform 1.1s var(--ease-out-expo); transition-delay: calc(var(--li, 0) * .08s); }
-      .motion .swap-out .ln__in { transform: translateY(-112%); transition: transform .8s cubic-bezier(.76, 0, .24, 1); transition-delay: calc(var(--li, 0) * .05s); }
+    .motion .hero__stage { position: relative; }
+    .motion .tagline { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 77px; margin: 0; opacity: 1; transform: none; transition: none; }
+    .motion .hero__sub[data-intro] { opacity: 1; transform: none; transition: none; }
+    .motion .tagline .ln, .motion .hero__sub .ln { overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
+    .motion .ln__in { display: block; transform: translateY(112%); }
+    .motion .swap-in .ln__in { transform: none; transition: transform 1.1s var(--ease-out-expo); transition-delay: calc(var(--li, 0) * .08s); }
+    .motion .swap-out .ln__in { transform: translateY(-112%); transition: transform .8s cubic-bezier(.76, 0, .24, 1); transition-delay: calc(var(--li, 0) * .05s); }
+    @media (max-width: 767px) { .motion .tagline { bottom: 48px; } }
+    /* ---------- Smoother corners: modals (the bottom sheets) use continuous, squircle curvature where the browser supports it; the radius is a touch larger because a squircle reads tighter ---------- */
+    @supports (corner-shape: squircle) {
+      .sheet { corner-shape: squircle; border-radius: 36px 36px 0 0; }
+      .sheet__fig { corner-shape: squircle; border-radius: 22px; }
+      .sheet__close { corner-shape: round; }
     }
-    html.is-loader, html.is-loader body { overflow: hidden; }
+    html.is-loader, html.is-loader body { overflow: hidden; scrollbar-gutter: stable; }
 
     /* ---------- Product Design service page (Figma 632:149144) ---------- */
     .about-nav { height: 54px; }
@@ -2112,13 +2122,54 @@
     }
 
     function initLogos() {
-      // Duplicate once so the -50% loop is seamless (every logo row on the page)
+      // Duplicate once so the loop is seamless (every logo row on the page)
       document.querySelectorAll('[data-logos]').forEach(track => {
         [...track.children].forEach(t => {
           const c = t.cloneNode(true);
           c.setAttribute('aria-hidden', 'true');
           track.appendChild(c);
         });
+      });
+      // The ticker drifts on its own and can be pulled or flicked with a mouse or a finger; it carries on from wherever you let go
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll('[data-logos]').forEach(track => {
+        const wrap = track.parentElement;
+        const cs = getComputedStyle(track);
+        const secs = parseFloat(cs.animationDuration) || 56;
+        const dir = cs.animationDirection === 'reverse' ? 1 : -1;
+        track.classList.add('is-js');
+        let dist = 1, x = dir > 0 ? -1 : 0, extra = 0, dragging = false, moved = false, startX = 0, startPos = 0, lastX = 0, lastT = 0, vel = 0, onScreen = true, last = performance.now();
+        const measure = () => { const gap = parseFloat(getComputedStyle(track).columnGap) || 0; const d = (track.scrollWidth + gap) / 2; if (d > 1) { x = (x / dist) * d || (dir > 0 ? -d : 0); dist = d; } };
+        const wrapX = () => { x = ((x % dist) - dist) % dist; };   // keep within (-dist, 0]
+        measure(); window.addEventListener('resize', measure);
+        if ('IntersectionObserver' in window) new IntersectionObserver(es => { onScreen = es[0].isIntersecting; last = performance.now(); }).observe(wrap);
+        function frame(now) {
+          const dt = Math.min(0.05, (now - last) / 1000); last = now;
+          if (onScreen && !dragging) {
+            x += (reduce ? 0 : dir * (dist / secs)) * dt + extra * dt;
+            extra *= Math.exp(-dt * 2.6);
+            if (Math.abs(extra) < 1) extra = 0;
+            wrapX();
+          }
+          track.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
+          requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+        wrap.addEventListener('pointerdown', (e) => {
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+          dragging = true; moved = false; startX = lastX = e.clientX; startPos = x; vel = 0; extra = 0; lastT = performance.now();
+        });
+        wrap.addEventListener('pointermove', (e) => {
+          if (!dragging) return;
+          if (!moved && Math.abs(e.clientX - startX) > 4) { moved = true; wrap.classList.add('is-dragging'); try { wrap.setPointerCapture(e.pointerId); } catch (err) {} }
+          if (!moved) return;
+          x = startPos + (e.clientX - startX); wrapX();
+          const n = performance.now(), dtm = Math.max(1, n - lastT);
+          vel = 0.8 * vel + 0.2 * ((e.clientX - lastX) / dtm * 1000); lastX = e.clientX; lastT = n;
+        });
+        const end = () => { if (!dragging) return; dragging = false; wrap.classList.remove('is-dragging'); if (moved) extra = Math.max(-2200, Math.min(2200, vel)); last = performance.now(); };
+        wrap.addEventListener('pointerup', end); wrap.addEventListener('pointercancel', end); wrap.addEventListener('lostpointercapture', end);
+        wrap.addEventListener('dragstart', (e) => e.preventDefault());
       });
     }
 
@@ -2451,7 +2502,7 @@
         if (fromPop !== true && history.state && history.state.sheet) { busy = false; try { history.back(); return; } catch (e) {} }
         root.classList.remove('sheet-open'); d.classList.remove('is-open');
         setTimeout(function () {
-          d.close(); active = null; busy = false;
+          d.close(); active = null; busy = false; d.style.transform = ''; d.style.transition = '';
           root.classList.remove('sheet-anim');
           if (page) { page.style.transformOrigin = ''; page.style.clipPath = ''; }
           if (window.lenis) window.lenis.start();
@@ -2469,31 +2520,70 @@
       document.querySelectorAll('dialog.sheet').forEach(function (d) {
         d.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
         d.querySelectorAll('[data-sheet-close]').forEach(function (b) { b.addEventListener('click', close); });
-        // drawer on phones: pull down to dismiss (from the grab handle at any scroll position, or from the top of the content)
-        var sy = 0, dy = 0, drag = false, pid = null, fromHandle = false;
-        function setTA() { d.style.touchAction = d.scrollTop <= 0 ? 'pan-up' : 'pan-y'; }   // downward swipes at the top reach our handler instead of the browser
-        setTA();
-        d.addEventListener('scroll', setTA, { passive: true });
-        d.addEventListener('pointerdown', function (e) {
-          if (e.pointerType === 'mouse') return;
-          sy = e.clientY; dy = 0; drag = false; pid = e.pointerId; fromHandle = !!e.target.closest('.sheet__handle'); setTA();
-        });
-        d.addEventListener('pointermove', function (e) {
-          if (e.pointerId !== pid || e.pointerType === 'mouse') return;
-          var y = e.clientY - sy;
-          if (!drag) {
-            if (y > 8 && (fromHandle || d.scrollTop <= 0)) { drag = true; try { d.setPointerCapture(pid); } catch (err) {} d.style.transition = 'none'; } else return;
-          }
-          dy = Math.max(0, y);
-          d.style.transform = 'translateY(' + dy + 'px)';
-        });
-        function endPull() {
-          if (!drag) { pid = null; return; }
-          drag = false; pid = null; d.style.transition = ''; d.style.transform = '';
-          if (dy > 110) close();               // keeps the pull position and slides the rest of the way down
+        // Drawer on phones, modelled on iOS sheets:
+        //  - follows the finger 1:1, from the grabber or from the content when it is at the top
+        //  - hands over from scrolling: scroll up to the top and keep pulling, and the same gesture carries the sheet down
+        //  - release is judged on speed and projected position, not just distance
+        //  - letting go early is a critically damped spring that keeps the finger's speed (no wobble)
+        //  - interruptible: touch it again mid-spring and it follows the finger from where it is
+        var mode = 'idle', startY = 0, lastY = 0, origin = 0, base = 0, cur = 0, raf = 0, fromHandle = false, pulled = false, samples = [];
+        function setY(v) { cur = v; d.style.transform = v > 0.01 ? 'translateY(' + v + 'px)' : ''; }
+        function velocity() {                                    // px per ms over the last ~100ms, downward positive
+          var n = samples.length; if (n < 2) return 0;
+          var a = samples[0], b = samples[n - 1], dt = b[0] - a[0];
+          return dt > 0 ? (b[1] - a[1]) / dt : 0;
         }
-        d.addEventListener('pointerup', endPull);
-        d.addEventListener('pointercancel', endPull);
+        function spring(v0) {                                    // ease back to 0 with the release velocity
+          var x = cur, v = v0 * 1000, w = 2 * Math.PI / 0.5, last = performance.now();
+          cancelAnimationFrame(raf);
+          (function step(now) {
+            var dt = Math.min(0.032, (now - last) / 1000); last = now;
+            for (var k = 0; k < 4; k++) { var h = dt / 4, a = -w * w * x - 2 * w * v; v += a * h; x += v * h; }
+            if (Math.abs(x) < 0.3 && Math.abs(v) < 8) { raf = 0; setY(0); d.style.transition = ''; return; }
+            setY(Math.max(0, x)); raf = requestAnimationFrame(step);
+          })(last);
+        }
+        d.addEventListener('touchstart', function (e) {
+          if (e.touches.length !== 1 || busy || active !== d) { mode = 'ignore'; return; }
+          var y = e.touches[0].clientY;
+          startY = lastY = y; samples = [[e.timeStamp, y]];
+          fromHandle = !!(e.target.closest && e.target.closest('.sheet__handle'));
+          if (raf) {                                             // grabbed mid-spring: carry on from where it is
+            cancelAnimationFrame(raf); raf = 0; mode = 'drag'; origin = y; base = cur; d.style.transition = 'none'; d.style.overflowY = 'hidden';
+          } else mode = 'undecided';
+        }, { passive: true });
+        d.addEventListener('touchmove', function (e) {
+          if (mode === 'idle' || mode === 'ignore' || e.touches.length !== 1) return;
+          var y = e.touches[0].clientY, now = e.timeStamp;
+          samples.push([now, y]); while (samples.length > 2 && now - samples[0][0] > 110) samples.shift();
+          if (mode === 'undecided') {
+            var dy0 = y - startY;
+            if (Math.abs(dy0) < 6) return;
+            if (dy0 > 0 && (fromHandle || d.scrollTop <= 0)) { mode = 'drag'; origin = y; base = 0; d.style.transition = 'none'; d.style.overflowY = 'hidden'; }
+            else mode = 'scroll';
+          } else if (mode === 'scroll' && d.scrollTop <= 0 && y > lastY) {   // scrolled to the top and still pulling: hand over to the sheet
+            mode = 'drag'; origin = y; base = 0; d.style.transition = 'none'; d.style.overflowY = 'hidden';
+          }
+          lastY = y;
+          if (mode !== 'drag') return;
+          setY(Math.max(0, base + (y - origin)));
+          if (e.cancelable) e.preventDefault();
+        }, { passive: false });
+        function release(cancelled) {
+          var was = mode; mode = 'idle'; d.style.overflowY = '';
+          if (was !== 'drag') return;
+          pulled = true; setTimeout(function () { pulled = false; }, 350);   // the release must not count as a tap on the grabber
+          var v = cancelled ? 0 : velocity(), H = d.offsetHeight || 600, projected = cur + v * 180;
+          var dismiss = !cancelled && (cur > H * 0.25 || (v > 0.55 && cur > 12) || projected > H * 0.4);
+          if (dismiss && active === d && !busy) {               // carry on down from where the finger left it
+            d.style.transition = ''; d.style.transform = 'translateY(100%)';
+            close();
+            setTimeout(function () { if (active === d && !busy) { d.style.transform = ''; cur = 0; } }, 1600);   // safety: never leave it stranded off-screen
+          } else spring(v);
+        }
+        d.addEventListener('touchend', function () { release(false); });
+        d.addEventListener('touchcancel', function () { release(true); });
+        d.querySelectorAll('.sheet__handle').forEach(function (h) { h.addEventListener('click', function (e) { if (pulled) { e.stopImmediatePropagation(); e.preventDefault(); } }, true); });
       });
       var q0 = new URLSearchParams(location.search).get('sheet');
       if (q0) { var t0 = document.getElementById('sheet-' + q0); if (t0) setTimeout(function () { fromUrl = true; open(t0); fromUrl = false; }, 600); }
@@ -2535,7 +2625,7 @@
     var root = document.documentElement, mq = window.matchMedia('(max-width: 767px)');
     var a = document.querySelector('.hero .tagline'), b = document.querySelector('.hero .hero__sub');
     if (!a || !b || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var items = [a, b], idx = 0, timer = null, started = false, HOLD = 3600;
+    var items = [a, b], idx = 0, timer = null, started = false, HOLDS = [3400, 4600];   // how long each statement stays, by length
     function wrap() {
       items.forEach(function (el) {
         if (el.getAttribute('data-wrapped')) return;
@@ -2551,13 +2641,13 @@
       setTimeout(function () { cur.classList.remove('swap-out'); }, 1100);
       setTimeout(function () { nxt.classList.add('swap-in'); }, 450);
       idx = 1 - idx;
-      timer = setTimeout(step, HOLD + 1100);
+      timer = setTimeout(step, HOLDS[idx] + 1100);
     }
     function start() {
-      if (started || !mq.matches) return;
+      if (started) return;
       started = true;
       items[0].classList.add('swap-in'); idx = 0;
-      timer = setTimeout(step, HOLD + 1100);
+      timer = setTimeout(step, HOLDS[0] + 1100);
     }
     function stop() {
       clearTimeout(timer); started = false;
@@ -2567,7 +2657,6 @@
     function arm() { if (root.classList.contains('is-loaded')) setTimeout(start, 500); }
     new MutationObserver(arm).observe(root, { attributes: true, attributeFilter: ['class'] });
     arm();
-    (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(function () { if (mq.matches) arm(); else stop(); });
   })();
   </script>
   <script src="arc.js?v=8"></script>
