@@ -167,7 +167,11 @@
     var spawn = function (x, y) {
       var im = document.createElement('img');
       im.src = SETS[set][idx++ % SETS[set].length]; im.alt = '';
-      im.style.left = x + 'px'; im.style.top = y + 'px'; im.style.zIndex = z++;
+      // images appear to the sides of the link column, never on top of the links
+      var mw = menu.getBoundingClientRect().width, side = (idx % 2 ? 1 : -1), off = 230 + Math.random() * 150;
+      var px = Math.max(110, Math.min(mw - 110, mw / 2 + side * off));
+      im.style.width = Math.round(150 + Math.random() * 100) + 'px';   // unequal sizes, each at its own ratio
+      im.style.left = px + 'px'; im.style.top = (y + (Math.random() * 70 - 35)) + 'px'; im.style.zIndex = z++;
       im.style.setProperty('--r', (Math.random() * 10 - 5).toFixed(1) + 'deg');
       trail.appendChild(im);
       requestAnimationFrame(function () { requestAnimationFrame(function () { im.classList.add('is-on'); }); });

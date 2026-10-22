@@ -892,7 +892,7 @@
     .lenis.lenis-smooth { scroll-behavior: auto !important; }
     .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
     .lenis.lenis-stopped { overflow: hidden; }
-    .menu__inner { position: absolute; inset: 0; box-sizing: border-box; display: flex; flex-direction: column; padding: 0 var(--gutter); overflow-y: auto; }
+    .menu__inner { position: absolute; inset: 0; box-sizing: border-box; display: flex; flex-direction: column; padding: 0 var(--gutter); overflow-y: auto; z-index: 1; }
     .menu__top { flex: none; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; height: 74px; padding: 24px 0; }
     .menu__brand { white-space: nowrap; font-size: 18px; letter-spacing: -0.16px; color: #f8f8f7; }
     .menu__close { display: inline-flex; align-items: center; gap: 18px; padding: 0; border: 0; background: none; cursor: pointer;
@@ -907,8 +907,8 @@
     .menu__body { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; padding: 24px 0; }
     .menu__row { display: flex; justify-content: center; width: 100%; }
     .menu__links { flex: none; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 26px; position: relative; z-index: 2; }
-    .menu__trail { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
-    .menu__trail img { position: absolute; width: 168px; height: 216px; object-fit: cover; border-radius: 10px; opacity: 0; transform: translate(-50%, -46%) scale(.72) rotate(var(--r, 0deg)); transition: opacity .4s ease, transform .9s var(--ease-out-expo); box-shadow: 0 18px 40px rgba(0, 0, 0, .35); }
+    .menu__trail { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .menu__trail img { position: absolute; width: 180px; height: auto; border-radius: 10px; opacity: 0; transform: translate(-50%, -46%) scale(.72) rotate(var(--r, 0deg)); transition: opacity .4s ease, transform .9s var(--ease-out-expo); box-shadow: 0 18px 40px rgba(0, 0, 0, .35); }
     .menu__trail img.is-on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(var(--r, 0deg)); }
     .menu__trail img.is-off { opacity: 0; transform: translate(-50%, -56%) scale(.94) rotate(var(--r, 0deg)); transition: opacity .55s ease, transform .55s ease; }
     .menu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
@@ -2127,6 +2127,6 @@
       window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     })();
   </script>
-  <script src="arc.js?v=2"></script>
+  <script src="arc.js?v=4"></script>
 <script>(function(){var c=document.querySelector('.wd-carousel .carousel');if(!c)return;c.addEventListener('click',function(e){if(!matchMedia('(max-width:767px)').matches||e.target.closest('.wd-explore'))return;var b=c.querySelector('.wd-explore');if(b)b.click();});})();</script></body>
 </html>
