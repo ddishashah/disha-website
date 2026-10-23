@@ -577,11 +577,12 @@
     .quote__text { margin: 0; color: var(--t-head); font-size: 17px; line-height: 28px; letter-spacing: 0.34px; }
     .quote__by { display: flex; gap: 12px; align-items: center; margin: 0; color: var(--t-eyebrow); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .quote__by img { width: 36px; height: 36px; flex: none; border-radius: 96px; object-fit: cover; }
-    /* Phones: the testimonials are a native horizontal swipe track (scroll-snap): the card frame stays put while the quotes slide, with real momentum and a clean stop */
+    /* Phones: each testimonial is its own card on a native swipe track (scroll-snap); one card on screen at a time, the gap is wide enough that its neighbours stay out of view */
     @media (max-width: 767px) {
-      .quotes .quotes__card { display: flex; padding: 0; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .quotes .quotes__card { position: relative; display: flex; gap: 48px; align-items: flex-start; width: 100vw; max-width: none; margin-inline: calc(50% - 50vw); padding: 0 28px; box-sizing: border-box; border: 0; border-radius: 0; background: none; box-shadow: none; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: 28px; overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; transition: height .8s var(--ease-out-expo); }
       .quotes .quotes__card::-webkit-scrollbar { display: none; }
-      .quotes .quotes__card .quote { flex: 0 0 100%; box-sizing: border-box; padding: 28px 24px; align-self: flex-start; scroll-snap-align: start; scroll-snap-stop: always; opacity: 1; visibility: visible; transform: none; transition: none; }
+      .quotes .quotes__card .quote { flex: 0 0 calc(100vw - 56px); box-sizing: border-box; padding: 28px 24px; border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); scroll-snap-align: start; scroll-snap-stop: always; opacity: .4; visibility: visible; transform: scale(.975); transition: opacity .8s ease, transform 1.2s var(--ease-out-expo); }
+      .quotes .quotes__card .quote.is-active { opacity: 1; transform: none; }
     }
     .dots { display: flex; gap: 6px; align-items: center; }
     .dots button {
@@ -1039,6 +1040,19 @@
     .menu__subs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; }
     .menu__sub { color: #9a9a9a; font-weight: 500; font-size: 18px; line-height: 20.8px; letter-spacing: -0.16px; white-space: nowrap; transition: color .3s ease; }
     .menu__sub:hover, .menu__sub:focus-visible { color: #f8f8f7; }
+    /* Phone menu: every row is a full-width tap target (edge to edge), not just the words */
+    @media (max-width: 767px) {
+      .menu__body { align-items: flex-start; }
+      .menu__row, .menu__links, .menu__group { width: 100%; }
+      .menu__links { align-items: stretch; gap: 22px; }
+      .menu__list, .menu__subs { width: 100%; gap: 0; align-items: stretch; }
+      .menu__list li, .menu__subs li { display: block; }
+      .menu__link { display: block; box-sizing: border-box; width: calc(100% + 2 * var(--gutter)); margin: 0 calc(var(--gutter) * -1); padding: 11px var(--gutter); text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color .25s ease, opacity .3s ease; }
+      .menu__sub { display: block; box-sizing: border-box; width: calc(100% + 2 * var(--gutter)); margin: 0 calc(var(--gutter) * -1); padding: 12px var(--gutter); text-align: center; -webkit-tap-highlight-color: transparent; }
+      .menu__link:active, .menu__sub:active { background: rgba(255, 255, 255, .07); }
+      .menu__group { align-items: stretch; gap: 8px; }
+      .menu__label { text-align: center; }
+    }
     .menu__foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 0 0 72px; }
     .menu__social { display: flex; gap: 33px; }
     .menu__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #d0d0c8; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; white-space: nowrap; transition: color .3s ease; }
@@ -1955,6 +1969,7 @@
         const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
         const hold = ready && after && card.getBoundingClientRect().bottom < window.innerHeight * 0.55;
         const startTop = hold ? after.getBoundingClientRect().top : 0;
+        if (window.matchMedia('(max-width: 767px)').matches) { card.style.height = slides[i].offsetHeight + 'px'; return; }   // phones: the track is as tall as the card in view
         card.style.height = (slides[i].offsetHeight + pad) + 'px';
         if (hold) {
           const t0 = performance.now();
@@ -1969,6 +1984,21 @@
         }
       }
       const phone = () => window.matchMedia('(max-width: 767px)').matches;
+      const cardLeft = (n) => slides[n].offsetLeft - (parseFloat(getComputedStyle(card).paddingLeft) || 0);
+      let easeRaf = 0;
+      function easeTo(x) {                     // dot taps and auto-advance glide with the site's expo-out curve; snapping is paused while it runs
+        cancelAnimationFrame(easeRaf);
+        const from = card.scrollLeft, d = x - from;
+        if (reduce || Math.abs(d) < 1) { card.scrollLeft = x; return; }
+        const dur = Math.min(1100, 650 + Math.abs(d) * 0.35), t0 = performance.now();
+        card.style.scrollSnapType = 'none';
+        (function step(now) {
+          const t = Math.min(1, (now - t0) / dur), e = t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+          card.scrollLeft = from + d * e;
+          if (t < 1) easeRaf = requestAnimationFrame(step); else card.style.scrollSnapType = '';
+        })(t0);
+      }
+      card.addEventListener('touchstart', () => { cancelAnimationFrame(easeRaf); card.style.scrollSnapType = ''; }, { passive: true });
       function setActive(n) {
         i = (n + slides.length) % slides.length;
         slides.forEach((s, k) => { s.classList.toggle('is-active', k === i); s.setAttribute('aria-hidden', String(k !== i)); });
@@ -1979,7 +2009,7 @@
       // desktop: the quotes crossfade in place. phones: the track scrolls to the quote (the scroll handler below keeps the dots and height in step)
       function go(n) {
         n = (n + slides.length) % slides.length;
-        if (phone()) { card.scrollTo({ left: n * card.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); if (n === i) setActive(n); return; }
+        if (phone()) { easeTo(cardLeft(n)); if (n === i) setActive(n); return; }
         setActive(n);
       }
       window.addEventListener('resize', fit);
@@ -2006,13 +2036,14 @@
         ticking = true;
         requestAnimationFrame(() => {
           ticking = false;
-          const idx = Math.max(0, Math.min(slides.length - 1, Math.round(card.scrollLeft / (card.clientWidth || 1))));
+          let idx = 0, best = 1e9;
+          slides.forEach((_, k) => { const d = Math.abs(cardLeft(k) - card.scrollLeft); if (d < best) { best = d; idx = k; } });
           if (idx !== i) setActive(idx);
           clearTimeout(settleT); settleT = setTimeout(sync, 400);          // auto-advance resumes once the swipe has settled
         });
       }, { passive: true });
       card.addEventListener('touchstart', () => { if (phone()) stop(); }, { passive: true });
-      window.addEventListener('resize', () => { if (phone()) card.scrollLeft = i * card.clientWidth; });
+      window.addEventListener('resize', () => { if (phone()) card.scrollLeft = cardLeft(i); });
     }
 
     // cal.com inline booking, loaded only when the footer gets close, themed
