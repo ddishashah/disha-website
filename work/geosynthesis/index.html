@@ -577,22 +577,12 @@
     .quote__text { margin: 0; color: var(--t-head); font-size: 17px; line-height: 28px; letter-spacing: 0.34px; }
     .quote__by { display: flex; gap: 12px; align-items: center; margin: 0; color: var(--t-eyebrow); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .quote__by img { width: 36px; height: 36px; flex: none; border-radius: 96px; object-fit: cover; }
-    /* Swipeable stack (Collins' case-study cards): the next cards peek out behind the current one; the card follows the finger, tilts a little, and either flies off or springs back */
-    .quotes__stack { position: relative; width: 100%; perspective: 1400px; }
-    .quotes__ghost { position: absolute; inset: 0; border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card); box-shadow: 0 16px 31px rgba(0, 0, 0, .05); transform-origin: 100% 60%; pointer-events: none; z-index: 0;
-      transition: transform .7s var(--ease-out-expo), opacity .4s ease; }
-    .quotes__ghost--1 { transform: translate(30px, 12px) scale(.965) rotate(1.4deg); }
-    .quotes__ghost--2 { transform: translate(56px, 22px) scale(.93) rotate(2.8deg); opacity: .8; }
-    .quotes__card { position: relative; z-index: 1; cursor: grab; touch-action: pan-y; -webkit-user-select: none; user-select: none; transform-origin: 50% 80%; will-change: transform; }
-    .quotes__card.is-swiping { cursor: grabbing; transition: none; }
-    .quotes__card:focus-visible { outline: none; }
-    html.kbd .quotes__card:focus-visible { outline: 2px solid var(--t-head); outline-offset: 4px; }
-    .quotes.is-swapping .quote { transition: none !important; }
+    /* Phones: the testimonials are a native horizontal swipe track (scroll-snap): the card frame stays put while the quotes slide, with real momentum and a clean stop */
     @media (max-width: 767px) {
-      .quotes__ghost--1 { transform: translate(14px, 9px) scale(.975) rotate(1deg); }
-      .quotes__ghost--2 { transform: translate(26px, 16px) scale(.95) rotate(2deg); }
+      .quotes .quotes__card { display: flex; padding: 0; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .quotes .quotes__card::-webkit-scrollbar { display: none; }
+      .quotes .quotes__card .quote { flex: 0 0 100%; box-sizing: border-box; padding: 28px 24px; align-self: flex-start; scroll-snap-align: start; scroll-snap-stop: always; opacity: 1; visibility: visible; transform: none; transition: none; }
     }
-    @media (prefers-reduced-motion: reduce) { .quotes__ghost { transition: none; } }
     .dots { display: flex; gap: 6px; align-items: center; }
     .dots button {
       width: 12px; height: 12px; padding: 0;
@@ -1978,12 +1968,19 @@
           })(t0);
         }
       }
-      function go(n) {
+      const phone = () => window.matchMedia('(max-width: 767px)').matches;
+      function setActive(n) {
         i = (n + slides.length) % slides.length;
         slides.forEach((s, k) => { s.classList.toggle('is-active', k === i); s.setAttribute('aria-hidden', String(k !== i)); });
         dots.forEach((d, k) => d.setAttribute('aria-current', String(k === i)));
         fit();
         restartBar();
+      }
+      // desktop: the quotes crossfade in place. phones: the track scrolls to the quote (the scroll handler below keeps the dots and height in step)
+      function go(n) {
+        n = (n + slides.length) % slides.length;
+        if (phone()) { card.scrollTo({ left: n * card.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); if (n === i) setActive(n); return; }
+        setActive(n);
       }
       window.addEventListener('resize', fit);
       document.fonts && document.fonts.ready.then(fit);
@@ -2002,77 +1999,20 @@
         new IntersectionObserver(es => { visible = es[0].isIntersecting; sync(); }, { rootMargin: '-15% 0px -15% 0px' }).observe(card);
       } else { visible = true; sync(); }
 
-      // ---- Swipe: drag (finger or mouse) or use the arrow keys ----
-      const ghosts = [...root.querySelectorAll('.quotes__ghost')];
-      const EXPO = 'cubic-bezier(.19, 1, .22, 1)';
-      const H = (ms) => 'height .8s ' + EXPO;
-      let drag = null, busy = false;
-      function pose(dx) {
-        const w = card.offsetWidth || 1, p = Math.min(1, Math.abs(dx) / (w * 0.6));
-        card.style.transform = 'translate3d(' + dx + 'px,0,0) rotate(' + (dx * 0.012).toFixed(2) + 'deg)';
-        // the cards behind move up to take its place as it leaves
-        if (ghosts[0]) ghosts[0].style.transform = 'translate(' + (30 * (1 - p)).toFixed(1) + 'px,' + (12 * (1 - p)).toFixed(1) + 'px) scale(' + (0.965 + 0.035 * p).toFixed(4) + ') rotate(' + (1.4 * (1 - p)).toFixed(2) + 'deg)';
-        if (ghosts[1]) ghosts[1].style.transform = 'translate(' + (56 - 26 * p).toFixed(1) + 'px,' + (22 - 10 * p).toFixed(1) + 'px) scale(' + (0.93 + 0.035 * p).toFixed(4) + ') rotate(' + (2.8 - 1.4 * p).toFixed(2) + 'deg)';
-      }
-      function clearGhosts() { ghosts.forEach((g) => { g.style.transform = ''; }); }
-      function springBack() {
-        card.style.transition = 'transform .7s ' + EXPO + ', height .8s ' + EXPO;
-        card.style.transform = '';
-        clearGhosts();
-        setTimeout(() => { card.style.transition = ''; }, 720);
-      }
-      function fling(dir) {              // dir +1: next (card leaves to the left), -1: previous
-        if (busy) return; busy = true;
-        const w = card.offsetWidth || 600;
-        card.style.transition = 'transform .45s cubic-bezier(.5, 0, .75, 0), opacity .4s ease, height .8s ' + EXPO;
-        card.style.transform = 'translate3d(' + (-dir * w * 1.15) + 'px,0,0) rotate(' + (-dir * 8) + 'deg)';
-        card.style.opacity = '0';
-        setTimeout(() => {
-          root.classList.add('is-swapping');
-          card.style.transition = 'none';
-          go(i + dir);
-          card.style.transform = 'scale(.94) translate3d(' + (dir * 22) + 'px,10px,0)';
-          clearGhosts();
-          void card.offsetWidth;
-          card.style.transition = 'transform .8s ' + EXPO + ', opacity .5s ease, height .8s ' + EXPO;
-          card.style.transform = ''; card.style.opacity = '';
-          setTimeout(() => { root.classList.remove('is-swapping'); card.style.transition = ''; busy = false; sync(); }, 820);
-        }, 430);
-      }
-      card.addEventListener('pointerdown', (e) => {
-        if (busy || (e.pointerType === 'mouse' && e.button !== 0)) return;
-        drag = { id: e.pointerId, x: e.clientX, y: e.clientY, t: e.timeStamp, lastX: e.clientX, lastT: e.timeStamp, v: 0, axis: null, dx: 0 };
-      });
-      card.addEventListener('pointermove', (e) => {
-        if (!drag || e.pointerId !== drag.id) return;
-        const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
-        if (!drag.axis) {
-          if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-          drag.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
-          if (drag.axis === 'y') { drag = null; return; }       // a vertical gesture is the page scrolling
-          stop(); card.classList.add('is-swiping'); try { card.setPointerCapture(e.pointerId); } catch (err) {}
-        }
-        const dt = Math.max(1, e.timeStamp - drag.lastT);
-        drag.v = 0.7 * drag.v + 0.3 * ((e.clientX - drag.lastX) / dt); drag.lastX = e.clientX; drag.lastT = e.timeStamp;
-        // a little resistance past the edges of the stack (first card has nothing before it, but we loop, so no hard stop)
-        drag.dx = dx; pose(dx);
-      });
-      function endDrag(e) {
-        if (!drag || (e && e.pointerId !== drag.id)) return;
-        const d = drag; drag = null;
-        if (d.axis !== 'x') return;
-        card.classList.remove('is-swiping');
-        const w = card.offsetWidth || 600, far = Math.abs(d.dx) > w * 0.2, fast = Math.abs(d.v) > 0.45 && Math.abs(d.dx) > 30;
-        if (far || fast) fling(d.dx < 0 ? 1 : -1); else { springBack(); sync(); }
-      }
-      card.addEventListener('pointerup', endDrag);
-      card.addEventListener('pointercancel', endDrag);
-      card.addEventListener('lostpointercapture', (e) => { if (e.target === card) endDrag(e); });
-      card.addEventListener('dragstart', (e) => e.preventDefault());
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') { e.preventDefault(); stop(); fling(1); }
-        else if (e.key === 'ArrowLeft') { e.preventDefault(); stop(); fling(-1); }
-      });
+      // ---- Phones: follow the native swipe (momentum, snapping) and keep the dots, height and auto-advance in step ----
+      let settleT = null, ticking = false;
+      card.addEventListener('scroll', () => {
+        if (!phone() || ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          const idx = Math.max(0, Math.min(slides.length - 1, Math.round(card.scrollLeft / (card.clientWidth || 1))));
+          if (idx !== i) setActive(idx);
+          clearTimeout(settleT); settleT = setTimeout(sync, 400);          // auto-advance resumes once the swipe has settled
+        });
+      }, { passive: true });
+      card.addEventListener('touchstart', () => { if (phone()) stop(); }, { passive: true });
+      window.addEventListener('resize', () => { if (phone()) card.scrollLeft = i * card.clientWidth; });
     }
 
     // cal.com inline booking, loaded only when the footer gets close, themed
