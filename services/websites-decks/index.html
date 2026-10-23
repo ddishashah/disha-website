@@ -303,12 +303,18 @@
     /* Collins' scroll appear for sections: same values as the hero copy */
     .motion [data-reveal] {
       opacity: 0;
-      transform: translateY(8rem);
-      /* colour/background listed too so themed elements still fade with the page */
-      transition: opacity 1s ease, transform 2s var(--ease-out-expo);
-      transition-delay: calc(var(--i, 0) * 0.07s), calc(var(--i, 0) * 0.07s), 0s, 0s;
+      translate: 0 8rem;   /* the separate `translate` property, so a card's own hover transform keeps working */
+      transition: opacity 1s ease, translate 2s var(--ease-out-expo);
+      transition-delay: calc(var(--i, 0) * 0.07s), calc(var(--i, 0) * 0.07s);
     }
-    .motion [data-reveal].is-in { opacity: 1; transform: none; }
+    .motion [data-reveal].is-in { opacity: 1; translate: none; }
+    /* items revealed automatically (see initReveal) keep their own hover/colour transitions alongside the reveal */
+    .motion [data-reveal][data-auto] {
+      transition-property: opacity, translate, transform, box-shadow, background-color, border-color, color;
+      transition-duration: 1s, 2s, .7s, .7s, .5s, .5s, .3s;
+      transition-timing-function: ease, var(--ease-out-expo), var(--ease-out-expo), var(--ease-out-expo), ease, ease, ease;
+      transition-delay: calc(var(--i, 0) * 0.07s), calc(var(--i, 0) * 0.07s), 0s, 0s, 0s, 0s, 0s;
+    }
 
     /* ---------- Problem — Figma 632:148265 (600 wide, top at y=1815) ---------- */
     .problem { display: flex; flex-direction: column; align-items: center; margin-top: 197px; padding: 0 var(--pad, 16px); text-align: center; }
@@ -503,9 +509,10 @@
       background: rgba(255, 255, 255, .92); color: #140700;
       font-size: 13px; font-weight: 500; line-height: 16px; letter-spacing: 0.13px;
     }
-    /* Coming soon: not interactive. No hover tilt, no tap or focus, and the title stays visible instead of waiting for a hover */
-    .case--soon { cursor: default; pointer-events: none; -webkit-user-select: none; user-select: none; }
-    .case--soon .case__text { opacity: 1; transform: none; }
+    /* Coming soon: not a link. On desktop the title is hidden until hover, the cursor bubble reads "Coming soon", and the card does not tilt or lift */
+    .case--soon { cursor: default; -webkit-user-select: none; user-select: none; }
+    .case--soon:hover .case__frame { transform: none; background: transparent; border-color: transparent; box-shadow: none; }
+    .case--soon:active .case__frame { transform: none; }
 
     /* View all — Collins' explore-gallery card (values from wearecollins.com) */
     .case--all { flex-basis: 345px; }
@@ -803,6 +810,25 @@
     .booking.is-loaded .booking__fallback { display: none; }
     .socials { display: flex; gap: 16px; justify-content: center; margin-top: 81px; }
     .socials a { display: grid; place-items: center; width: 32px; height: 32px; color: var(--t-head); opacity: .9; transition: opacity .3s ease, transform .4s var(--ease-out-expo); }
+    /* Tooltip on the footer icons: same pop as the fireflies tooltip (small pill, arrow, springy scale-in), light so it reads on the dark footer */
+    @media (hover: hover) and (pointer: fine) {
+      .socials a { position: relative; }
+      .socials a[data-tip]::after {
+        content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 4px); z-index: 5; pointer-events: none; white-space: nowrap; text-align: center;
+        padding: 8px 12px 15px; border-radius: 8px;
+        font: 600 12px/18px var(--font-sans); letter-spacing: 0; color: #140700; opacity: 0;
+        background:
+          linear-gradient(#f8f8f7, #f8f8f7) 0 0 / 100% calc(100% - 7px) no-repeat,
+          conic-gradient(from -45deg at 50% 100%, #f8f8f7 0 90deg, transparent 90deg) 50% 100% / 14px 7px no-repeat;
+        transform: translate(-50%, 0) scale(.6); transform-origin: 50% 100%;
+        filter: drop-shadow(0 12px 8px rgba(0, 0, 0, .12)) drop-shadow(0 4px 3px rgba(0, 0, 0, .06));
+        transition: transform .14s ease-in, opacity .14s ease-in;
+      }
+      .socials a[data-tip]:hover::after, .socials a[data-tip]:focus-visible::after {
+        opacity: 1; transform: translate(-50%, 0) scale(1);
+        transition: transform .32s cubic-bezier(.34, 1.56, .64, 1), opacity .12s ease-out;
+      }
+    }
     .socials a:hover { opacity: 1; transform: translateY(-2px); }
     .socials svg { width: 24px; height: 24px; }
     .footer__bar {
@@ -1071,6 +1097,9 @@
       .tagline { margin-top: 30px; font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
       .hero__title { font-size: 40px; line-height: 1.02; }
       .hero__sub { margin-bottom: 48px; font-size: 16px; line-height: 26px; }
+      /* the statement reads as three lines: "Care all the way through." / "Finding a place in people's heads," / "hands and habits." */
+      .hero__sub, .hero__sub .ln, .hero__sub .ln__in { text-wrap: wrap; }
+      .hero__sub .ln { max-width: 17.2em; margin-left: auto; margin-right: auto; }
       .carousel { padding: 0 28px; scroll-padding: 0 28px; }
       .logos { margin-top: 32px; }
       .logos__tile { height: 60px; padding: 0 20px; }
@@ -1511,6 +1540,7 @@
         <div class="logos__tile"><img src="logos/valley.png" alt="Valley" /></div>
         <div class="logos__tile"><img src="logos/this-is-it.png" alt="This Is It" /></div>
         <div class="logos__tile"><img src="logos/bright-studios.png" alt="Bright Studios" /></div>
+        <div class="logos__tile"><img src="logos/deloitte.svg" alt="Deloitte" /></div>
         <div class="logos__tile"><img src="logos/trupeer.png" alt="Trupeer" /></div>
         <div class="logos__tile"><img src="logos/bull-and-wolf.png" alt="Bull &amp; Wolf" /></div>
         <div class="logos__tile"><img src="logos/shweta-labs.png" alt="Shweta Labs" /></div>
@@ -1765,10 +1795,10 @@
       </div>
     </div>
     <div class="socials">
-      <a href="https://x.com/dishashah66" target="_blank" rel="noopener" aria-label="Disha on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z"/></svg></a>
-      <a href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener" aria-label="Disha on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h3.96V21H3V9.75Zm6.45 0h3.8v1.54h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V21h-3.96v-4.99c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21H9.45V9.75Z"/></svg></a>
-      <a href="https://www.instagram.com/_dishashah96/" target="_blank" rel="noopener" aria-label="Disha on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
-      <a href="mailto:disha@vanya.studio" aria-label="Email Disha"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://x.com/dishashah66" target="_blank" rel="noopener" aria-label="Disha on X" data-tip="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.75 3h3.07l-6.7 7.66L22 21h-6.17l-4.83-6.32L5.47 21H2.4l7.17-8.2L2 3h6.33l4.37 5.77L17.75 3Zm-1.08 16.18h1.7L7.4 4.73H5.58l11.09 14.45Z"/></svg></a>
+      <a href="https://www.linkedin.com/in/disha-shah-8b706814/" target="_blank" rel="noopener" aria-label="Disha on LinkedIn" data-tip="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h3.96V21H3V9.75Zm6.45 0h3.8v1.54h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V21h-3.96v-4.99c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21H9.45V9.75Z"/></svg></a>
+      <a href="https://www.instagram.com/_dishashah96/" target="_blank" rel="noopener" aria-label="Disha on Instagram" data-tip="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="mailto:disha@vanya.studio" aria-label="Email Disha" data-tip="Email me"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m2 7 8.165 5.715c.661.463.992.695 1.351.784a2 2 0 0 0 .968 0c.36-.09.69-.32 1.351-.784L22 7M6.8 20h10.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C22 17.72 22 16.88 22 15.2V8.8c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311C19.72 4 18.88 4 17.2 4H6.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C2 6.28 2 7.12 2 8.8v6.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C4.28 20 5.12 20 6.8 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
     <div class="footer__bar">
       <ul class="footer__nav" aria-label="Footer">
@@ -2070,7 +2100,31 @@
           io.unobserve(e.target);
         });
       }, { rootMargin: '0px 0px -12% 0px' });
+      // Everything else that reads as text or a card rises in too (Collins: every block appears as it arrives), site-wide.
+      // Blocks that already animate (heroes, carousels, tickers, drawers, tabs, accordions) are left alone.
+      const SKIP = '[data-reveal], [data-intro], [data-appear], [data-stagger], [data-fill], [hidden], .carousel, .carousel-stage, .shelf, .logos, .logo-rows, .sheet, dialog, .menu, .loader, .nav, .about-nav, header, .hero, .tagline, .rot, .ln, .pd-box, .pd-tabs, .pd-dots, .pd-panel, .faq__a, .cursor, .booking, .wi-gallery, .wi-bar, .wd-rail, .skip, .quotes';
+      const AUTO = 'h1, h2, h3, h4, p, li, figure, blockquote, .btn-ghost, .pill, .wcard, .pd-card, .faq__item, .pd-way, .pd-plan, .wd-info, .socials, .footer__nav, .footer__legal, .story__card';
+      const marked = new Map();
+      document.querySelectorAll('[data-page]').forEach((page) => page.querySelectorAll(AUTO).forEach((el) => {
+        if (el.closest(SKIP) || (el.parentElement && el.parentElement.closest('[data-reveal]'))) return;
+        if (el.textContent.trim() === '' && !el.querySelector('img, svg, picture, video')) return;
+        const par = el.parentElement, n = marked.get(par) || 0; marked.set(par, n + 1);
+        el.setAttribute('data-reveal', ''); el.setAttribute('data-auto', '');
+        el.style.setProperty('--i', Math.min(n, 5));
+      }));
       document.querySelectorAll('[data-reveal], [data-shelf]').forEach(el => io.observe(el));
+      // At the very bottom of a page the last blocks cannot scroll up into the trigger zone, so anything on screen is revealed there
+      let atEnd = false;
+      window.addEventListener('scroll', () => {
+        const end = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+        if (end && !atEnd) {
+          document.querySelectorAll('[data-reveal]:not(.is-in)').forEach((el) => {
+            const r = el.getBoundingClientRect();
+            if (r.top < window.innerHeight && r.bottom > 0) { el.classList.add('is-in'); io.unobserve(el); }
+          });
+        }
+        atEnd = end;
+      }, { passive: true });
       // Stagger siblings that reveal together
       document.querySelectorAll('.problem [data-reveal]').forEach((el, i) => el.style.setProperty('--i', i));
     }
@@ -2549,7 +2603,7 @@
           vel = 0.8 * vel + 0.2 * ((e.clientX - lastX) / dtm * 1000); lastX = e.clientX; lastT = n;
         });
         const end = () => { if (!dragging) return; dragging = false; wrap.classList.remove('is-dragging'); if (moved) extra = Math.max(-2200, Math.min(2200, vel)); last = performance.now(); };
-        wrap.addEventListener('pointerup', end); wrap.addEventListener('pointercancel', end); wrap.addEventListener('lostpointercapture', end);
+        wrap.addEventListener('pointerup', end); wrap.addEventListener('pointercancel', end); wrap.addEventListener('lostpointercapture', (e) => { if (e.target === wrap) end(); });   // a touch is already captured by the logo under the finger: that hand-over is not the end of the drag
         wrap.addEventListener('dragstart', (e) => e.preventDefault());
       });
     }
@@ -3087,7 +3141,9 @@
       };
     }
     function arm() { clearInterval(timer); timer = setInterval(step, HOLD + 1100); }
-    function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); else arm(); }
+    // out of view = back to the first phrase, so the headline always opens on "build devotion"
+    function reset() { if (i === 0) return; if (busy) { setTimeout(reset, 400); return; } a.textContent = PHRASES[0]; a.style.visibility = ''; b.textContent = ''; i = 0; root.style.transition = 'none'; size(); }
+    function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) { new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); new IntersectionObserver(function (es) { if (!es[0].isIntersecting) reset(); }, { threshold: 0 }).observe(title || root); } else arm(); }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(init); else init();
     window.addEventListener('resize', function () { if (!busy) { root.style.transition = 'none'; size(); } });
   })();

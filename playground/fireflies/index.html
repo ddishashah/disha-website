@@ -149,17 +149,6 @@
 <script src="swarm.js?v=8"></script>
 <script src="play.js?v=4"></script>
 <script>
-  // The hint fades away once someone has played with a firefly
-  (function () {
-    var note = document.querySelector('.ff-note'), stage = document.querySelector('.stage');
-    if (!note || !stage) return;
-    var gone = false;
-    function hide() { if (gone) return; gone = true; setTimeout(function () { note.classList.add('is-gone'); }, 2500); }
-    stage.addEventListener('pointerdown', hide);
-    stage.addEventListener('pointermove', function (e) { if (e.pointerType !== 'touch' && document.querySelector('.firefly.is-hovered')) hide(); });
-  })();
-</script>
-<script>
   // Start positions and headings are the Figma frame (light centre, frame px).
   // From there each firefly meanders around the word and keeps dropping by to visit it;
   // the two `roam` ones range a little wider.
