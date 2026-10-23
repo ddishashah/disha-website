@@ -376,9 +376,9 @@
     .sheet--bleed .sheet__fig { border-radius: 0; corner-shape: round; }
     /* Desktop: the picture is a framed image, 1200px at most and centred, with softly rounded corners, rather than running edge to edge */
     @media (min-width: 768px) {
-      .sheet--bleed .sheet__content { padding-bottom: clamp(40px, 6vw, 72px); }
+      .sheet--bleed .sheet__content { padding-top: 72px; padding-bottom: clamp(32px, 4vw, 48px); gap: 40px; }
       .sheet--bleed .sheet__gallery { margin-inline: 0; }
-      .sheet--bleed .sheet__fig { width: 100%; max-width: 1200px; margin-inline: auto; border-radius: 28px; corner-shape: squircle; }
+      .sheet--bleed .sheet__fig { width: 100%; max-width: 860px; margin-inline: auto; border-radius: 28px; corner-shape: squircle; }
     }
     /* as the sheet is pulled down the picture slides up inside its frame (parallax), and settles back with the sheet */
     .sheet--bleed .sheet__fig img { transform-origin: 50% 0; transform: translateY(calc(var(--pk, 0) * -0.15px)) scale(calc(1 + var(--pk, 0) * 0.0009)); will-change: transform; }
