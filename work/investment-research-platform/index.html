@@ -1956,7 +1956,7 @@
       document.querySelectorAll('.shelf .case').forEach(c => c.setAttribute('data-reveal', ''));
       // Everything else that reads as text or a card rises in too (Collins: every block appears as it arrives), site-wide.
       // Blocks that already animate (heroes, carousels, tickers, drawers, tabs, accordions) are left alone.
-      const SKIP = '[data-reveal], [data-intro], [data-appear], [data-stagger], [data-fill], [hidden], .carousel, .carousel-stage, .shelf, .logos, .logo-rows, .sheet, dialog, .menu, .loader, .nav, .about-nav, header, .hero, .tagline, .rot, .ln, .pd-box, .pd-tabs, .pd-dots, .pd-panel, .faq__a, .cursor, .booking, .wi-gallery, .wi-bar, .wd-rail, .skip, .quotes';
+      const SKIP = '[data-reveal], [data-intro], [data-appear], [data-stagger], [data-fill], [hidden], .carousel, .carousel-stage, .shelf, .logos, .logo-rows, .sheet, dialog, .menu, .loader, .nav, .about-nav, header, .hero, .tagline, .rot, .ln, .pd-box, .pd-tabs, .pd-dots, .pd-panel, .faq__a, .cursor, .booking, .wi-gallery, .wi-bar, .wd-rail, .skip, .quotes, .pd-gap__layer';
       const AUTO = 'h1, h2, h3, h4, p, li, figure, blockquote, .btn-ghost, .pill, .wcard, .pd-card, .faq__item, .pd-way, .pd-plan, .wd-info, .socials, .footer__nav, .footer__legal, .story__card';
       const marked = new Map();
       document.querySelectorAll('[data-page]').forEach((page) => page.querySelectorAll(AUTO).forEach((el) => {
