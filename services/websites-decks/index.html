@@ -72,6 +72,9 @@
     @property --t-card-hover { syntax: "<color>"; inherits: true; initial-value: #000; }
     @property --t-card-line-hover { syntax: "<color>"; inherits: true; initial-value: #000; }
     html.theme-ready { transition: --bg .6s cubic-bezier(.45, 0, .2, 1), --ink .6s cubic-bezier(.45, 0, .2, 1), --ink-mid .6s cubic-bezier(.45, 0, .2, 1), --t-head .6s cubic-bezier(.45, 0, .2, 1), --t-body .6s cubic-bezier(.45, 0, .2, 1), --t-eyebrow .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg-hover .6s cubic-bezier(.45, 0, .2, 1), --t-btn-fg .6s cubic-bezier(.45, 0, .2, 1), --t-track .6s cubic-bezier(.45, 0, .2, 1), --t-card .6s cubic-bezier(.45, 0, .2, 1), --t-card-line .6s cubic-bezier(.45, 0, .2, 1), --t-card-hover .6s cubic-bezier(.45, 0, .2, 1), --t-card-line-hover .6s cubic-bezier(.45, 0, .2, 1); }
+    /* No stranded last words: titles and short statements wrap evenly (balance), running text avoids a lone last word (pretty) */
+    h1, h2, h3, h4, .h-primary, .hero__title, .tagline, .hero__sub, .loader__copy, .eyebrow, .sub, [class*="__title"], [class*="-title"], [class*="__sub"], [class*="__copy"] { text-wrap: balance; }
+    p, li, dd, blockquote, figcaption { text-wrap: pretty; }
     body {
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
@@ -500,7 +503,9 @@
       background: rgba(255, 255, 255, .92); color: #140700;
       font-size: 13px; font-weight: 500; line-height: 16px; letter-spacing: 0.13px;
     }
-    .case--soon { cursor: default; }
+    /* Coming soon: not interactive. No hover tilt, no tap or focus, and the title stays visible instead of waiting for a hover */
+    .case--soon { cursor: default; pointer-events: none; -webkit-user-select: none; user-select: none; }
+    .case--soon .case__text { opacity: 1; transform: none; }
 
     /* View all — Collins' explore-gallery card (values from wearecollins.com) */
     .case--all { flex-basis: 345px; }
@@ -879,7 +884,7 @@
     }
     .logos__track {
       display: flex;
-      gap: 14px;
+      gap: 0;
       width: max-content;
       transform: translate3d(0, 0, 0);
       will-change: transform;
@@ -891,8 +896,9 @@
     .logos img { -webkit-user-drag: none; }
     .logos__track.is-js { animation: none; }
     .logos__tile {
-      flex: 0 0 164px;
+      flex: 0 0 auto;
       height: 80px;
+      padding: 0 28px;   /* equal space either side of every logo: the gap between logos is the same whatever their width */
       display: grid;
       place-items: center;
       border-radius: 14px;
@@ -902,22 +908,29 @@
     .logos__tile:hover {
       background: var(--tile);
     }
-    .logos__tile img {
-      max-width: 104px;
-      max-height: 26px;
-      object-fit: contain;
-      filter: brightness(0.35);
-    }
-    /* Lockup is wide and short — size it up to read at the same weight as the others */
-    .logos__tile img[src$="tcs-disq.svg"] { height: 24px; width: auto; }
-    .logos__tile img[src$="think-design.png"] { max-width: 78px; max-height: 18px; }
-    .logos__tile img[src$="flex.png"] { max-width: 84px; max-height: 21px; }
+    /* Optical balance: each logo is sized from its real ink shape and weight (wide thin wordmarks get more width, compact dense marks less),
+       so they read at the same strength in every logo row. Widths in px; height follows the logo's own proportions. */
+    .logos__tile img { width: auto; height: auto; max-width: none; max-height: none; object-fit: contain; filter: brightness(0.35); }
+    .logos__tile img[src$="tcs-disq.svg"] { width: 110px; }
+    .logos__tile img[src$="flex.png"] { width: 64px; }
+    .logos__tile img[src$="contra.svg"] { width: 112px; }
+    .logos__tile img[src$="deloitte.svg"] { width: 93px; }
+    .logos__tile img[src$="praan.png"] { width: 52px; }
+    .logos__tile img[src$="ltimindtree.png"] { width: 112px; }
+    .logos__tile img[src$="hotplate.png"] { width: 111px; }
+    .logos__tile img[src$="valley.png"] { width: 111px; }
+    .logos__tile img[src$="this-is-it.png"] { width: 106px; }
+    .logos__tile img[src$="bright-studios.png"] { width: 112px; }
+    .logos__tile img[src$="trupeer.png"] { width: 112px; }
+    .logos__tile img[src$="bull-and-wolf.png"] { width: 53px; }
+    .logos__tile img[src$="shweta-labs.png"] { width: 95px; }
+    .logos__tile img[src$="think-design.png"] { width: 82px; }
+    .logos__tile img[src$="geosynthesis.png"] { width: 112px; }
+    .logos__tile img[src$="kree8.png"] { width: 70px; }
+    .logos__tile img[src$="flowtrix.png"] { width: 112px; }
     /* Lighter at rest, full strength when a tile is hovered */
     .logos__tile > * { opacity: .55; transition: opacity .3s ease; }
     .logos__tile:hover > * { opacity: 1; }
-    /* Praan is a near-square mark with a small wordmark — needs more height to read */
-    .logos__tile img[src$="praan.png"] { max-height: 46px; }
-    .logos__tile img[src$="kree8.png"] { max-width: 78px; max-height: 20px; }
     /* Flighty — app icon + wordmark, as in Figma 632:148314 (icon from the Flighty iOS design system) */
     .logos__tile--flighty { display: flex; justify-content: center; align-items: center; gap: 8px; }
     .logos__tile--flighty img { width: 28px; height: 28px; max-width: none; max-height: none; border-radius: 8px; filter: none; }
@@ -936,13 +949,12 @@
       .carousel__card { height: auto; border-radius: 16px; }
       /* One height for every card. It is the largest that still lets the widest picture fit the screen (minus the side gutters),
          so nothing is cropped and nothing runs off the right edge; every other card is that same height at its own width. */
-      .carousel { --ch: min(64vw, calc((100vw - 16px) / var(--maxar, 1.7))); }
+      .carousel { --ch: min(64vw, calc(100vw / var(--maxar, 1.7))); }   /* 64vw (250px on a 390 screen), reduced only if the widest picture would not fit the screen */
       .carousel .carousel__card { scroll-snap-align: center; }   /* each card settles centred, so a full-width picture has an even 8px each side */
       .carousel__card--journey { width: calc(var(--ch) * 1.3333); height: var(--ch); }
       .carousel__card--work { width: calc(var(--ch) * var(--arn, 1.3)); height: var(--ch); aspect-ratio: auto; align-self: auto; }
       .carousel__card--hotplate { width: calc(var(--ch) * 1.1896); height: var(--ch); }
-      .logos__tile { flex-basis: 166px; height: 64px; }
-      .logos__track { gap: 20px; }
+      .logos__tile { height: 64px; padding: 0 24px; }
       .logos__track { animation-duration: 58s; }
       .logos__tile--flighty img { width: 24px; height: 24px; border-radius: 6px; } .logos__tile--flighty span { font-size: 16px; }
     }
@@ -1061,7 +1073,7 @@
       .hero__sub { margin-bottom: 48px; font-size: 16px; line-height: 26px; }
       .carousel { padding: 0 28px; scroll-padding: 0 28px; }
       .logos { margin-top: 32px; }
-      .logos__tile { flex-basis: 120px; height: 60px; }
+      .logos__tile { height: 60px; padding: 0 20px; }
 
       /* Shared type */
       .h-primary { font-size: 30px; letter-spacing: -0.6px; }
@@ -1873,6 +1885,24 @@
     // Gallery drag (desktop mouse). The card follows the pointer exactly while held; on release the strip keeps its
     // momentum and eases onto the nearest card with a critically damped spring, so there is no jump and no overshoot.
     // Scroll-snap is switched off while this runs and handed back once the strip is at rest on a card.
+    // No stranded last word: the last two words of each paragraph / list item / caption are tied together with a no-break space.
+    // (Statements animated line by line are left alone.)
+    function initOrphans() {
+      const skip = '.tagline, .hero__sub, .loader, .loader__copy, [data-rotate], .menu, nav, script, style, textarea, code, pre';
+      document.querySelectorAll('p, li, dd, blockquote, figcaption, h1, h2, h3, h4').forEach((el) => {
+        if (el.closest(skip)) return;
+        if (el.querySelector('p, li, div, ul')) return;                   // only the innermost text blocks
+        const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        let last = null, n;
+        while ((n = w.nextNode())) if (n.nodeValue.trim()) last = n;
+        if (!last) return;
+        const t = last.nodeValue.replace(/\s+$/, ''), tail = last.nodeValue.slice(t.length);
+        const i = t.lastIndexOf(' ');
+        if (i < 1 || t.split(/\s+/).length < 2 || el.textContent.trim().split(/\s+/).length < 4) return;
+        last.nodeValue = t.slice(0, i) + '\u00A0' + t.slice(i + 1) + tail;
+      });
+    }
+
     // numeric aspect ratio of each picture card (from its --ar "w/h"), used to size cards on phones
     function initCardRatios() {
       document.querySelectorAll('.carousel__card--work').forEach((c) => {
@@ -2526,6 +2556,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initCardRatios();
+      initOrphans();
       initCarouselDrag();
       initCarouselArrows();
       initLogos();
