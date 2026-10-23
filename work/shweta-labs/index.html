@@ -937,7 +937,8 @@
       .carousel__card { height: auto; border-radius: 16px; }
       /* One height for every card. It is the largest that still lets the widest picture fit the screen (minus the side gutters),
          so nothing is cropped and nothing runs off the right edge; every other card is that same height at its own width. */
-      .carousel { --ch: min(64vw, calc((100vw - 56px) / var(--maxar, 1.7))); }
+      .carousel { --ch: min(64vw, calc((100vw - 16px) / var(--maxar, 1.7))); }
+      .carousel .carousel__card { scroll-snap-align: center; }   /* each card settles centred, so a full-width picture has an even 8px each side */
       .carousel__card--journey { width: calc(var(--ch) * 1.3333); height: var(--ch); }
       .carousel__card--work { width: calc(var(--ch) * var(--arn, 1.3)); height: var(--ch); aspect-ratio: auto; align-self: auto; }
       .carousel__card--hotplate { width: calc(var(--ch) * 1.1896); height: var(--ch); }
@@ -1733,9 +1734,12 @@
       const positions = () => {
         const left = track.getBoundingClientRect().left;
         const inset = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-        return [...new Set(cards.map(card => Math.min(maxScroll(), Math.max(0,
-          card.getBoundingClientRect().left - left + track.scrollLeft - inset
-        ))))];
+        const centred = matchMedia('(max-width: 767px)').matches;   // phones: cards snap to the centre
+        return [...new Set(cards.map(card => {
+          const r = card.getBoundingClientRect();
+          const x = centred ? r.left - left + track.scrollLeft - (track.clientWidth - r.width) / 2 : r.left - left + track.scrollLeft - inset;
+          return Math.min(maxScroll(), Math.max(0, x));
+        }))];
       };
       const update = () => {
         prev.disabled = track.scrollLeft <= 2;
