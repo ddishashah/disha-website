@@ -2,14 +2,17 @@
    so the page reads at a steadier pace. Larger screens and phones are untouched. */
 @media (min-width: 1024px) and (max-width: 1536px) {
   /* Home */
-  .problem { margin-top: 128px !important; }
-  .story { margin-top: 128px !important; }
   .story__card { padding-top: 84px !important; padding-bottom: 84px !important; }
-  .work { margin-top: 128px !important; }
-  .testimonials { padding-top: 128px !important; padding-bottom: 128px !important; }
-  .services { padding-bottom: 104px !important; }
-  .pulls, .playground { padding-top: 96px !important; padding-bottom: 88px !important; }
   .cascading-slider { margin-top: 72px !important; }
+
+  /* Home: one steady rhythm between sections (--g), with the old minimum heights released */
+  :root { --g: 120px; }
+  .problem, .story, .work { margin-top: var(--g) !important; }
+  .testimonials { padding-top: calc(var(--g) - 40px) !important; padding-bottom: calc(var(--g) - 36px) !important; }
+  .services { padding-bottom: calc(var(--g) / 2 - 40px) !important; }
+  .pulls { min-height: 0 !important; padding-top: calc(var(--g) / 2) !important; padding-bottom: calc(var(--g) / 2) !important; }
+  .playground { min-height: 0 !important; padding-top: calc(var(--g) / 2) !important; padding-bottom: calc(var(--g) / 2 + 5px) !important; }
+  .footer { padding-top: calc(var(--g) / 2 - 16px) !important; }
 
   /* About */
   .bio { padding-top: 120px !important; }
@@ -39,7 +42,17 @@
   .pd-plans { padding-top: 128px !important; }
 
   /* Footer (every page) */
-  .footer { padding-top: 128px !important; }
   .footer__bar { margin-top: 110px !important; }
   .footer__markwrap { margin-top: 140px !important; }
+}
+
+/* Large screens (above 1536px): the same steady rhythm, a little looser */
+@media (min-width: 1537px) {
+  :root { --g: 160px; }
+  .problem, .story, .work { margin-top: var(--g) !important; }
+  .testimonials { padding-top: calc(var(--g) - 40px) !important; padding-bottom: calc(var(--g) - 36px) !important; }
+  .services { padding-bottom: calc(var(--g) / 2 - 40px) !important; }
+  .pulls { min-height: 0 !important; padding-top: calc(var(--g) / 2) !important; padding-bottom: calc(var(--g) / 2) !important; }
+  .playground { min-height: 0 !important; padding-top: calc(var(--g) / 2) !important; padding-bottom: calc(var(--g) / 2 + 5px) !important; }
+  .footer { padding-top: calc(var(--g) / 2 - 16px) !important; }
 }
