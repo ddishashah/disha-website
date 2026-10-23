@@ -1,0 +1,45 @@
+/* Laptop spacing (13–14 inch screens, up to ~1536px wide): the same design with the big vertical gaps eased,
+   so the page reads at a steadier pace. Larger screens and phones are untouched. */
+@media (min-width: 1024px) and (max-width: 1536px) {
+  /* Home */
+  .problem { margin-top: 128px !important; }
+  .story { margin-top: 128px !important; }
+  .story__card { padding-top: 84px !important; padding-bottom: 84px !important; }
+  .work { margin-top: 128px !important; }
+  .testimonials { padding-top: 128px !important; padding-bottom: 128px !important; }
+  .services { padding-bottom: 104px !important; }
+  .pulls, .playground { padding-top: 96px !important; padding-bottom: 88px !important; }
+  .cascading-slider { margin-top: 72px !important; }
+
+  /* About */
+  .bio { padding-top: 120px !important; }
+  .bio--more { padding-top: 72px !important; }
+  .logo-rows { margin-top: 72px !important; }
+  .vanya { margin-top: 84px !important; }
+  .testimonials--about { padding-top: 96px !important; padding-bottom: 96px !important; }
+  .faq { padding-top: 108px !important; padding-bottom: 108px !important; }
+
+  /* Work index and case studies */
+  .wi-hero { padding-top: 120px !important; }
+  .wi-list { margin-top: 72px !important; }
+  .wi-more { padding-bottom: 130px !important; }
+  .wd-head { padding-top: 120px !important; }
+  .wd-text { margin-top: 80px !important; }
+  .wd-more { margin-top: 110px !important; }
+  .wd-after { padding-bottom: 100px !important; }
+
+  /* Service pages */
+  .pd-hero { padding-top: 120px !important; }
+  .pd-carousel, .pd-selected { margin-top: 72px !important; }
+  .pd-selected .pd-carousel { margin-top: 0 !important; }
+  .pd-logos { margin-top: 56px !important; }
+  .pd-story { margin-top: 90px !important; }
+  .pd-approach { padding-top: 128px !important; }
+  .pd-why { padding-top: 118px !important; padding-bottom: 120px !important; }
+  .pd-plans { padding-top: 128px !important; }
+
+  /* Footer (every page) */
+  .footer { padding-top: 128px !important; }
+  .footer__bar { margin-top: 110px !important; }
+  .footer__markwrap { margin-top: 140px !important; }
+}
