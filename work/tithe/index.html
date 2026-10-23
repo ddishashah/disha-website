@@ -6,6 +6,7 @@
   <base href="../../" />
   <title>Making the cost of distraction tangible — Disha Shah</title>
   <meta name="description" content="Product design for a focus experience where breaking a session has a real consequence — making distraction a deliberate choice, not a default." />
+  <script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-pending')}catch(e){}</script>
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
   <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
@@ -76,6 +77,11 @@
     /* No stranded last words: titles and short statements wrap evenly (balance), running text avoids a lone last word (pretty) */
     h1, h2, h3, h4, .h-primary, .hero__title, .tagline, .hero__sub, .loader__copy, .eyebrow, .sub, [class*="__title"], [class*="-title"], [class*="__sub"], [class*="__copy"] { text-wrap: balance; }
     p, li, dd, blockquote, figcaption { text-wrap: pretty; }
+    /* Phones, left-aligned card text: lines run the full width of the card instead of being balanced into a narrow, ragged column */
+    @media (max-width: 767px) {
+      .story__card :is(h2, h3, p, div), .wcard :is(h2, h3, p, div), .quotes__card :is(h2, h3, p, blockquote, div),
+      .service :is(h3, p), .case :is(h3, p), .faq__a :is(p, div), .pd-card :is(h3, p), .pd-way :is(h3, p), .pd-plan :is(h3, p) { text-wrap: wrap; }
+    }
     body {
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
@@ -1245,6 +1251,11 @@
     .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     /* ---------- Hero statements: the two lines take turns in one slot above the carousel (Collins-style line mask roll) ---------- */
     .ln { display: block; }
+    /* The two hero statements stay hidden until the script has split them into masked lines, so the plain text never flashes on refresh */
+    .hero .tagline:not([data-wrapped]), .hero .hero__sub:not([data-wrapped]) { visibility: hidden; }
+    /* Until the motion setup has run, the page is held back so the unstyled first layout never flashes on refresh (a 1.5s failsafe reveals it regardless) */
+    html.motion-pending:not(.motion) #main { visibility: hidden; animation: mpReveal 0s 1.5s forwards; }
+    @keyframes mpReveal { to { visibility: visible; } }
     .motion .hero__stage { position: relative; }
     .motion .tagline { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 77px; margin: 0; opacity: 1; transform: none; transition: none; }
     .motion .hero__sub[data-intro] { opacity: 1; transform: none; transition: none; }
@@ -1421,6 +1432,7 @@
       .wd-more { margin-top: 96px; } .wd-after { padding-bottom: 48px; } .footer { padding-top: 48px; }   /* even rhythm: 48px each side of the light/dark edge */
     }
   </style>
+<noscript><style>.hero .tagline, .hero .hero__sub, #main { visibility: visible !important; }</style></noscript>
 <!-- seo:start -->
 <link rel="canonical" href="https://disha-shah.io/work/tithe/" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -2763,7 +2775,8 @@
   (function () {
     var root = document.documentElement, mq = window.matchMedia('(max-width: 767px)');
     var a = document.querySelector('.hero .tagline'), b = document.querySelector('.hero .hero__sub');
-    if (!a || !b || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!a || !b) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { a.setAttribute('data-wrapped', '1'); b.setAttribute('data-wrapped', '1'); return; }
     var items = [a, b], idx = 0, timer = null, started = false, HOLDS = [3400, 4600];   // how long each statement stays, by length
     function wrap() {
       items.forEach(function (el) {
