@@ -72,7 +72,7 @@
     @property --t-card-line { syntax: "<color>"; inherits: true; initial-value: #000; }
     @property --t-card-hover { syntax: "<color>"; inherits: true; initial-value: #000; }
     @property --t-card-line-hover { syntax: "<color>"; inherits: true; initial-value: #000; }
-    html { transition: --bg .6s cubic-bezier(.45, 0, .2, 1), --ink .6s cubic-bezier(.45, 0, .2, 1), --ink-mid .6s cubic-bezier(.45, 0, .2, 1), --t-head .6s cubic-bezier(.45, 0, .2, 1), --t-body .6s cubic-bezier(.45, 0, .2, 1), --t-eyebrow .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg-hover .6s cubic-bezier(.45, 0, .2, 1), --t-btn-fg .6s cubic-bezier(.45, 0, .2, 1), --t-track .6s cubic-bezier(.45, 0, .2, 1), --t-card .6s cubic-bezier(.45, 0, .2, 1), --t-card-line .6s cubic-bezier(.45, 0, .2, 1), --t-card-hover .6s cubic-bezier(.45, 0, .2, 1), --t-card-line-hover .6s cubic-bezier(.45, 0, .2, 1); }
+    html.theme-ready { transition: --bg .6s cubic-bezier(.45, 0, .2, 1), --ink .6s cubic-bezier(.45, 0, .2, 1), --ink-mid .6s cubic-bezier(.45, 0, .2, 1), --t-head .6s cubic-bezier(.45, 0, .2, 1), --t-body .6s cubic-bezier(.45, 0, .2, 1), --t-eyebrow .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg-hover .6s cubic-bezier(.45, 0, .2, 1), --t-btn-fg .6s cubic-bezier(.45, 0, .2, 1), --t-track .6s cubic-bezier(.45, 0, .2, 1), --t-card .6s cubic-bezier(.45, 0, .2, 1), --t-card-line .6s cubic-bezier(.45, 0, .2, 1), --t-card-hover .6s cubic-bezier(.45, 0, .2, 1), --t-card-line-hover .6s cubic-bezier(.45, 0, .2, 1); }
     body {
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
@@ -1307,7 +1307,7 @@
     .wd-rail__i:hover .wd-rail__tip, .wd-rail__i:focus-visible .wd-rail__tip { opacity: 1; transform: translate(0, -50%); }
     .wd-rail__tip b { display: block; color: #2b2722; font-weight: 500; font-size: 17px; line-height: 22px; letter-spacing: -0.1px; }
     .wd-rail__tip span { display: block; margin-top: 6px; color: #7a766e; font-size: 14.5px; line-height: 22px; letter-spacing: 0.1px; }
-    .wd-rail__tip em { display: block; margin-top: 12px; color: #b6b2a8; font-style: normal; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; letter-spacing: .6px; }
+    .wd-rail__tip em { display: block; margin-top: 12px; color: #8f8a80; font-style: normal; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; letter-spacing: .6px; }
     .wd-text h4 { margin: 0 0 20px; font-weight: 600; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .wd-text h3 { margin: 0 0 20px; color: #000; font-family: var(--font-serif); font-weight: 400; font-size: 28px; line-height: 33px; letter-spacing: -0.56px; }
     .wd-text p { margin: 0 0 27px; }
@@ -1892,12 +1892,28 @@
     // middle of the screen the whole page takes the dark palette, then eases back.
     function initTheme() {
       const root = document.documentElement;
+      const sections = [...document.querySelectorAll('[data-theme="dark"]')].filter(el => el !== root);
       const dark = new Set();
+      // Which side of the line is the page on right now? Used for the very first paint and after a reload, so the page opens in the
+      // right theme instead of starting light and fading to dark.
+      const midline = () => {
+        const m = window.innerHeight / 2;
+        return sections.some(el => { const r = el.getBoundingClientRect(); return r.top <= m && r.bottom >= m; });
+      };
+      const apply = (on) => { if (on) root.dataset.theme = 'dark'; else delete root.dataset.theme; };
+      apply(midline());
+      const ready = () => { requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('theme-ready'))); };
+      // scroll restoration can land a moment after load: settle again, still without a fade, then switch fades on
+      let settled = false;
+      const settle = () => { if (settled) return; settled = true; apply(midline()); ready(); };
+      if (document.readyState === 'complete') setTimeout(settle, 120); else window.addEventListener('load', () => setTimeout(settle, 120), { once: true });
+      setTimeout(settle, 1200);
+      window.addEventListener('pageshow', (e) => { if (e.persisted) { root.classList.remove('theme-ready'); apply(midline()); ready(); } });
       const io = new IntersectionObserver((entries) => {
         entries.forEach(e => e.isIntersecting ? dark.add(e.target) : dark.delete(e.target));
-        if (dark.size) root.dataset.theme = 'dark'; else delete root.dataset.theme;
+        if (settled) apply(dark.size > 0);
       }, { rootMargin: '-50% 0px -50% 0px' });
-      document.querySelectorAll('[data-theme="dark"]').forEach(el => io.observe(el));
+      sections.forEach(el => io.observe(el));
     }
 
     function initQuotes() {

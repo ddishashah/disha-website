@@ -71,7 +71,7 @@
     @property --t-card-line { syntax: "<color>"; inherits: true; initial-value: #000; }
     @property --t-card-hover { syntax: "<color>"; inherits: true; initial-value: #000; }
     @property --t-card-line-hover { syntax: "<color>"; inherits: true; initial-value: #000; }
-    html { transition: --bg .6s cubic-bezier(.45, 0, .2, 1), --ink .6s cubic-bezier(.45, 0, .2, 1), --ink-mid .6s cubic-bezier(.45, 0, .2, 1), --t-head .6s cubic-bezier(.45, 0, .2, 1), --t-body .6s cubic-bezier(.45, 0, .2, 1), --t-eyebrow .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg-hover .6s cubic-bezier(.45, 0, .2, 1), --t-btn-fg .6s cubic-bezier(.45, 0, .2, 1), --t-track .6s cubic-bezier(.45, 0, .2, 1), --t-card .6s cubic-bezier(.45, 0, .2, 1), --t-card-line .6s cubic-bezier(.45, 0, .2, 1), --t-card-hover .6s cubic-bezier(.45, 0, .2, 1), --t-card-line-hover .6s cubic-bezier(.45, 0, .2, 1); }
+    html.theme-ready { transition: --bg .6s cubic-bezier(.45, 0, .2, 1), --ink .6s cubic-bezier(.45, 0, .2, 1), --ink-mid .6s cubic-bezier(.45, 0, .2, 1), --t-head .6s cubic-bezier(.45, 0, .2, 1), --t-body .6s cubic-bezier(.45, 0, .2, 1), --t-eyebrow .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg .6s cubic-bezier(.45, 0, .2, 1), --t-btn-bg-hover .6s cubic-bezier(.45, 0, .2, 1), --t-btn-fg .6s cubic-bezier(.45, 0, .2, 1), --t-track .6s cubic-bezier(.45, 0, .2, 1), --t-card .6s cubic-bezier(.45, 0, .2, 1), --t-card-line .6s cubic-bezier(.45, 0, .2, 1), --t-card-hover .6s cubic-bezier(.45, 0, .2, 1), --t-card-line-hover .6s cubic-bezier(.45, 0, .2, 1); }
     body {
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
@@ -2022,12 +2022,28 @@
     // middle of the screen the whole page takes the dark palette, then eases back.
     function initTheme() {
       const root = document.documentElement;
+      const sections = [...document.querySelectorAll('[data-theme="dark"]')].filter(el => el !== root);
       const dark = new Set();
+      // Which side of the line is the page on right now? Used for the very first paint and after a reload, so the page opens in the
+      // right theme instead of starting light and fading to dark.
+      const midline = () => {
+        const m = window.innerHeight / 2;
+        return sections.some(el => { const r = el.getBoundingClientRect(); return r.top <= m && r.bottom >= m; });
+      };
+      const apply = (on) => { if (on) root.dataset.theme = 'dark'; else delete root.dataset.theme; };
+      apply(midline());
+      const ready = () => { requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('theme-ready'))); };
+      // scroll restoration can land a moment after load: settle again, still without a fade, then switch fades on
+      let settled = false;
+      const settle = () => { if (settled) return; settled = true; apply(midline()); ready(); };
+      if (document.readyState === 'complete') setTimeout(settle, 120); else window.addEventListener('load', () => setTimeout(settle, 120), { once: true });
+      setTimeout(settle, 1200);
+      window.addEventListener('pageshow', (e) => { if (e.persisted) { root.classList.remove('theme-ready'); apply(midline()); ready(); } });
       const io = new IntersectionObserver((entries) => {
         entries.forEach(e => e.isIntersecting ? dark.add(e.target) : dark.delete(e.target));
-        if (dark.size) root.dataset.theme = 'dark'; else delete root.dataset.theme;
+        if (settled) apply(dark.size > 0);
       }, { rootMargin: '-50% 0px -50% 0px' });
-      document.querySelectorAll('[data-theme="dark"]').forEach(el => io.observe(el));
+      sections.forEach(el => io.observe(el));
     }
 
     function initQuotes() {
