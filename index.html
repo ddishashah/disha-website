@@ -933,10 +933,12 @@
     @media (max-width: 767px) {
       .carousel { gap: 20px; padding: 0 var(--pad, 16px); scroll-padding: 0 var(--pad, 16px); }
       .carousel__card { height: auto; border-radius: 16px; }
-      .carousel__card--journey { width: 78vw; aspect-ratio: 4 / 3; }
-      /* a card is as wide as its picture wants at this height, but never wider than the screen, so nothing is cut off at the right */
-      .carousel__card--work { width: min(calc(64vw * var(--arn, 1.3)), calc(100vw - 56px)); height: auto; aspect-ratio: var(--ar); align-self: center; }   /* keeps its own shape: never stretched to the row, so nothing is cropped */
-      .carousel__card--hotplate { width: 76vw; height: 64vw; }
+      /* One height for every card. It is the largest that still lets the widest picture fit the screen (minus the side gutters),
+         so nothing is cropped and nothing runs off the right edge; every other card is that same height at its own width. */
+      .carousel { --ch: min(64vw, calc((100vw - 56px) / var(--maxar, 1.7))); }
+      .carousel__card--journey { width: calc(var(--ch) * 1.3333); height: var(--ch); }
+      .carousel__card--work { width: calc(var(--ch) * var(--arn, 1.3)); height: var(--ch); aspect-ratio: auto; align-self: auto; }
+      .carousel__card--hotplate { width: calc(var(--ch) * 1.1896); height: var(--ch); }
       .logos__tile { flex-basis: 166px; height: 64px; }
       .logos__track { gap: 20px; }
       .logos__track { animation-duration: 58s; }
@@ -1291,10 +1293,10 @@
           <image href="gallery/hotplate/site.webp" x="75.5" y="37" width="444.934" height="480" preserveAspectRatio="xMidYMin slice" clip-path="url(#hp-site)"/>
         </svg>
       </article>
-      <article class="carousel__card carousel__card--work" style="--ar:826/556"><img src="gallery/hero-complaints-intake.webp" alt="Complaint intake form from the complaints management platform" width="826" height="556" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1024/748"><img src="gallery/hero-complaints-intake.webp" alt="Complaint intake form from the complaints management platform" width="1024" height="748" loading="lazy" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:982/713"><img src="gallery/brand-mark.webp" alt="Brand mark applications" width="982" height="713" loading="lazy" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1440/859"><img src="gallery/work-05.webp" alt="Selected work, image 4" width="1440" height="859" loading="lazy" /></article>
-      <article class="carousel__card carousel__card--work" style="--ar:1800/1076"><img src="img/product-northside.webp" alt="Northside health app screens" width="1800" height="1076" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1024/662"><img src="gallery/hero-shweta-labs.webp" alt="Shweta Labs: Intelligence. Precision. Trust." width="1024" height="662" loading="lazy" /></article>
+      <article class="carousel__card carousel__card--work" style="--ar:1024/734"><img src="gallery/hero-northside-phones.webp" alt="Northside health app screens" width="1024" height="734" loading="lazy" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:1325/1000"><img src="gallery/work-01.webp" alt="Selected work, image 1" width="1325" height="1000" loading="lazy" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:1111/1000"><img src="gallery/work-03.webp" alt="Selected work, image 2" width="1111" height="1000" loading="lazy" /></article>
       <article class="carousel__card carousel__card--work" style="--ar:1373/1000"><img src="gallery/work-06.webp" alt="Selected work, image 5" width="1373" height="1000" loading="lazy" /></article>
@@ -1313,25 +1315,25 @@
     <div class="logos" aria-label="Clients" data-appear>
       <div class="logos__track" data-logos>
         <!-- Priority clients first -->
-        <div class="logos__tile"><img src="logos/deloitte.svg" alt="Deloitte" /></div>
         <div class="logos__tile"><img src="logos/tcs-disq.svg" alt="TCS Digital Impact Square" /></div>
-        <div class="logos__tile"><img src="logos/contra.svg" alt="Contra" /></div>
-        <div class="logos__tile"><img src="logos/ltimindtree.png" alt="LTIMindtree" /></div>
-        <div class="logos__tile"><img src="logos/valley.png" alt="Valley" /></div>
-        <div class="logos__tile"><img src="logos/trupeer.png" alt="Trupeer" /></div>
-        <div class="logos__tile"><img src="logos/hotplate.png" alt="Hotplate" /></div>
-        <div class="logos__tile"><img src="logos/this-is-it.png" alt="This Is It" /></div>
         <div class="logos__tile"><img src="logos/flex.png" alt="Flex" /></div>
+        <div class="logos__tile"><img src="logos/contra.svg" alt="Contra" /></div>
+        <div class="logos__tile"><img src="logos/deloitte.svg" alt="Deloitte" /></div>
+        <div class="logos__tile"><img src="logos/praan.png" alt="Praan" /></div>
+        <div class="logos__tile"><img src="logos/ltimindtree.png" alt="LTIMindtree" /></div>
+        <div class="logos__tile"><img src="logos/hotplate.png" alt="Hotplate" /></div>
+        <div class="logos__tile logos__tile--flighty"><img src="logos/flighty-icon.png" alt="" /><span>Flighty</span></div>
+        <div class="logos__tile"><img src="logos/valley.png" alt="Valley" /></div>
+        <div class="logos__tile"><img src="logos/this-is-it.png" alt="This Is It" /></div>
+        <div class="logos__tile"><img src="logos/bright-studios.png" alt="Bright Studios" /></div>
+        <div class="logos__tile"><img src="logos/trupeer.png" alt="Trupeer" /></div>
         <div class="logos__tile"><img src="logos/bull-and-wolf.png" alt="Bull &amp; Wolf" /></div>
         <div class="logos__tile"><img src="logos/shweta-labs.png" alt="Shweta Labs" /></div>
-        <div class="logos__tile"><img src="logos/bright-studios.png" alt="Bright Studios" /></div>
-        <div class="logos__tile"><img src="logos/praan.png" alt="Praan" /></div>
-        <!-- Secondary -->
-        <div class="logos__tile logos__tile--flighty"><img src="logos/flighty-icon.png" alt="" /><span>Flighty</span></div>
         <div class="logos__tile"><img src="logos/think-design.png" alt="Think Design" /></div>
         <div class="logos__tile"><img src="logos/geosynthesis.png" alt="Geosynthesis" /></div>
         <div class="logos__tile"><img src="logos/kree8.png" alt="Kree8" /></div>
         <div class="logos__tile"><img src="logos/flowtrix.png" alt="Flowtrix" /></div>
+
       </div>
     </div>
   </section>
@@ -1718,6 +1720,11 @@
       document.querySelectorAll('.carousel__card--work').forEach((c) => {
         const m = /(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/.exec(c.style.getPropertyValue('--ar'));
         if (m && +m[2]) c.style.setProperty('--arn', (m[1] / m[2]).toFixed(4));
+      });
+      // the widest picture decides the common card height on phones
+      document.querySelectorAll('[data-carousel]').forEach((t) => {
+        const widest = Math.max(1, ...[...t.querySelectorAll('.carousel__card--work')].map((c) => parseFloat(c.style.getPropertyValue('--arn')) || 0));
+        if (widest > 1) t.style.setProperty('--maxar', widest.toFixed(4));
       });
     }
 
