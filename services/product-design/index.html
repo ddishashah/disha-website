@@ -482,14 +482,9 @@
       .case:hover:active .case__frame { transform: rotateX(0deg); }
     }
     .case:focus-visible { outline: none; }
-    /* Entrance, in step with every other section ([data-reveal]): the whole shelf rises 8rem (opacity 1s, transform 2s expo).
-       The shelf is an overflow container, so lifting the cards themselves would be clipped at its edge; the shelf moves instead.
-       Cards then un-tilt and fade in one after another. */
-    .motion .shelf { transition: opacity 1s ease, transform 2s var(--ease-out-expo); }
-    .motion .shelf:not(.is-in) { opacity: 0; transform: translateY(8rem); }
-    .motion .shelf:not(.is-in) .case { opacity: 0; }
-    .motion .shelf .case { transition: opacity 1s ease; transition-delay: calc(var(--i, 0) * 0.07s); }
-    .motion .shelf:not(.is-in) .case__frame { transform: rotateX(30deg); }
+    /* Work shelf: every card rises in on its own, exactly like the text blocks ([data-reveal]: 8rem, opacity 1s, translate 2s expo), staggered as they arrive,
+       and un-tilts as it lands. Cards you swipe into view later reveal the same way. */
+    .motion .case[data-reveal]:not(.is-in) .case__frame { transform: rotateX(30deg); }
 
     /* Hotplate cover: Figma's composition underneath, with the full-res site
        screenshot laid over it at its exact Figma position (632:148463) so it stays crisp */
@@ -582,6 +577,15 @@
       .quotes .quotes__card::-webkit-scrollbar { display: none; }
       .quotes .quotes__card .quote { flex: 0 0 calc(100vw - 56px); box-sizing: border-box; padding: 28px 24px; border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); scroll-snap-align: start; scroll-snap-stop: always; opacity: .4; visibility: visible; transform: scale(.975); transition: opacity .8s ease, transform 1.2s var(--ease-out-expo); }
       .quotes .quotes__card .quote.is-active { opacity: 1; transform: none; }
+    }
+    /* Phones: the embedded booking calendar is a separate document that swallows touches, so a swipe that starts on it would not scroll the page.
+       A guard sits over it: swipes scroll the page as usual, one tap switches the calendar on, and it locks again when you touch elsewhere or scroll away. */
+    .booking__guard { display: none; }
+    @media (hover: none) and (pointer: coarse) {
+      .booking { position: relative; }
+      .booking__guard { display: block; position: absolute; inset: 0; z-index: 4; margin: 0; padding: 0; border: 0; background: transparent; touch-action: pan-y; -webkit-tap-highlight-color: transparent; cursor: pointer; }
+      .booking__guard span { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); padding: 7px 14px; border-radius: 999px; background: rgba(248, 248, 247, .92); color: #140700; font: 500 13px/16px var(--font-sans); letter-spacing: .13px; white-space: nowrap; box-shadow: 0 8px 20px rgba(0, 0, 0, .18); transition: opacity .4s ease; }
+      .booking.is-live .booking__guard { display: none; }
     }
     .dots { display: flex; gap: 6px; align-items: center; }
     .dots button {
@@ -1039,18 +1043,21 @@
     .menu__subs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; }
     .menu__sub { color: #9a9a9a; font-weight: 500; font-size: 18px; line-height: 20.8px; letter-spacing: -0.16px; white-space: nowrap; transition: color .3s ease; }
     .menu__sub:hover, .menu__sub:focus-visible { color: #f8f8f7; }
-    /* Phone menu: every row is a full-width tap target (edge to edge), not just the words */
+    /* Phone menu: everything is centred, and every row is a full-width tap target (edge to edge), not just the words */
     @media (max-width: 767px) {
-      .menu__body { align-items: flex-start; }
-      .menu__row, .menu__links, .menu__group { width: 100%; }
-      .menu__links { align-items: stretch; gap: 22px; }
-      .menu__list, .menu__subs { width: 100%; gap: 0; align-items: stretch; }
-      .menu__list li, .menu__subs li { display: block; }
-      .menu__link { display: block; box-sizing: border-box; width: calc(100% + 2 * var(--gutter)); margin: 0 calc(var(--gutter) * -1); padding: 11px var(--gutter); text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color .25s ease, opacity .3s ease; }
-      .menu__sub { display: block; box-sizing: border-box; width: calc(100% + 2 * var(--gutter)); margin: 0 calc(var(--gutter) * -1); padding: 12px var(--gutter); text-align: center; -webkit-tap-highlight-color: transparent; }
-      .menu__link:active, .menu__sub:active { background: rgba(255, 255, 255, .07); }
-      .menu__group { align-items: stretch; gap: 8px; }
-      .menu__label { text-align: center; }
+      .menu .menu__row, .menu .menu__links, .menu .menu__group { width: 100%; }
+      .menu .menu__links, .menu .menu__group { align-items: stretch; }
+      .menu .menu__list, .menu .menu__subs { width: 100%; gap: 0; align-items: stretch; }
+      .menu .menu__list li, .menu .menu__subs li { display: block; }
+      .menu .menu__link { display: block; box-sizing: border-box; width: calc(100% + 2 * var(--gutter)); margin: 0 calc(var(--gutter) * -1); padding: 11px var(--gutter); text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color .25s ease, opacity .3s ease; }
+      .menu .menu__subs .menu__sub { display: block; box-sizing: border-box; width: calc(100% + 2 * var(--gutter)); margin: 0 calc(var(--gutter) * -1); padding: 12px var(--gutter); text-align: center; -webkit-tap-highlight-color: transparent; }
+      .menu .menu__social .menu__sub { display: inline-block; padding: 14px 0; }
+      .menu .menu__link:active, .menu .menu__subs .menu__sub:active { background: rgba(255, 255, 255, .07); }
+      .menu .menu__group { gap: 8px; }
+      .menu .menu__label { text-align: center; }
+      .menu .menu__foot { flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+      .menu .menu__social { justify-content: center; width: 100%; gap: 24px; }
+      .menu .menu__mail { justify-content: center; }
     }
     .menu__foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 0 0 72px; }
     .menu__social { display: flex; gap: 33px; }
@@ -1896,6 +1903,42 @@
       });
     }
 
+    // Heavy embeds (booking calendar, fireflies preview) wait until scrolling pauses, so they never load in the middle of a swipe
+    let lastScrollAt = 0;
+    window.addEventListener('scroll', () => { lastScrollAt = performance.now(); }, { passive: true });
+    function afterScrollPause(fn) {
+      (function check() {
+        if (performance.now() - lastScrollAt < 240) { setTimeout(check, 120); return; }
+        if ('requestIdleCallback' in window) requestIdleCallback(fn, { timeout: 900 }); else fn();
+      })();
+    }
+
+    // Booking calendar guard (phones) and the fireflies preview, which only runs while it is near the screen
+    function initEmbeds() {
+      const booking = document.querySelector('.booking');
+      if (booking && window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+        const g = document.createElement('button');
+        g.type = 'button'; g.className = 'booking__guard'; g.setAttribute('aria-label', 'Tap to use the booking calendar');
+        g.innerHTML = '<span>Tap to choose a time</span>';
+        booking.appendChild(g);
+        const lock = () => booking.classList.remove('is-live');
+        g.addEventListener('click', () => booking.classList.add('is-live'));
+        document.addEventListener('pointerdown', (e) => { if (!booking.contains(e.target)) lock(); }, { passive: true });
+        if ('IntersectionObserver' in window) new IntersectionObserver((es) => { if (!es[0].isIntersecting) lock(); }, { threshold: 0 }).observe(booking);
+      }
+      const frame = document.querySelector('.cascading-slider__frame');
+      const box = frame && frame.closest('.cascading-slider');
+      if (frame && box && 'IntersectionObserver' in window) {
+        const src = frame.getAttribute('src');
+        frame.removeAttribute('src'); frame.classList.remove('is-ready');
+        new IntersectionObserver((es) => {
+          const near = es[0].isIntersecting;
+          if (near && !frame.getAttribute('src')) afterScrollPause(() => { if (!frame.getAttribute('src')) frame.setAttribute('src', src); });
+          else if (!near && frame.getAttribute('src')) { frame.removeAttribute('src'); frame.classList.remove('is-ready'); }
+        }, { rootMargin: '70% 0px' }).observe(box);
+      }
+    }
+
     // numeric aspect ratio of each picture card (from its --ar "w/h"), used to size cards on phones
     function initCardRatios() {
       document.querySelectorAll('.carousel__card--work').forEach((c) => {
@@ -2057,12 +2100,15 @@
     function initReveal() {
       if (!document.documentElement.classList.contains('motion')) return;
       const io = new IntersectionObserver((entries) => {
+        let n = 0;
         entries.forEach(e => {
           if (!e.isIntersecting) return;
+          if (e.target.classList.contains('case')) e.target.style.setProperty('--i', Math.min(n++, 5));   // cards arriving together rise one after another
           e.target.classList.add('is-in');
           io.unobserve(e.target);
         });
-      }, { rootMargin: '0px 0px -12% 0px' });
+      }, { rootMargin: '0px -4% -12% -4%' });
+      document.querySelectorAll('.shelf .case').forEach(c => c.setAttribute('data-reveal', ''));
       // Everything else that reads as text or a card rises in too (Collins: every block appears as it arrives), site-wide.
       // Blocks that already animate (heroes, carousels, tickers, drawers, tabs, accordions) are left alone.
       const SKIP = '[data-reveal], [data-intro], [data-appear], [data-stagger], [data-fill], [hidden], .carousel, .carousel-stage, .shelf, .logos, .logo-rows, .sheet, dialog, .menu, .loader, .nav, .about-nav, header, .hero, .tagline, .rot, .ln, .pd-box, .pd-tabs, .pd-dots, .pd-panel, .faq__a, .cursor, .booking, .wi-gallery, .wi-bar, .wd-rail, .skip, .quotes';
@@ -2144,7 +2190,7 @@
         const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
         const hold = ready && after && card.getBoundingClientRect().bottom < window.innerHeight * 0.55;
         const startTop = hold ? after.getBoundingClientRect().top : 0;
-        if (window.matchMedia('(max-width: 767px)').matches) { card.style.height = slides[i].offsetHeight + 'px'; return; }   // phones: the track is as tall as the card in view
+        if (window.matchMedia('(max-width: 767px)').matches) { if (swiping) return; card.style.height = slides[i].offsetHeight + 'px'; return; }   // phones: the track is as tall as the card in view, resized once a swipe has settled so nothing below moves under your finger
         card.style.height = (slides[i].offsetHeight + pad) + 'px';
         if (hold) {
           const t0 = performance.now();
@@ -2160,7 +2206,7 @@
       }
       const phone = () => window.matchMedia('(max-width: 767px)').matches;
       const cardLeft = (n) => slides[n].offsetLeft - (parseFloat(getComputedStyle(card).paddingLeft) || 0);
-      let easeRaf = 0;
+      let easeRaf = 0, swiping = false, heightT = null;
       function easeTo(x) {                     // dot taps and auto-advance glide with the site's expo-out curve; snapping is paused while it runs
         cancelAnimationFrame(easeRaf);
         const from = card.scrollLeft, d = x - from;
@@ -2214,6 +2260,7 @@
           let idx = 0, best = 1e9;
           slides.forEach((_, k) => { const d = Math.abs(cardLeft(k) - card.scrollLeft); if (d < best) { best = d; idx = k; } });
           if (idx !== i) setActive(idx);
+          swiping = true; clearTimeout(heightT); heightT = setTimeout(() => { swiping = false; fit(); }, 170);   // resize to the new card only after the swipe settles
           clearTimeout(settleT); settleT = setTimeout(sync, 400);          // auto-advance resumes once the swipe has settled
         });
       }, { passive: true });
@@ -2272,7 +2319,7 @@
           if (f) { f.addEventListener('load', done, { once: true }); mo.disconnect(); }
         }).observe(box, { childList: true, subtree: true });
       }
-      new IntersectionObserver(([e], io) => { if (e.isIntersecting) { load(); io.disconnect(); } }, { rootMargin: '600px 0px' }).observe(box);
+      new IntersectionObserver(([e], io) => { if (e.isIntersecting) { afterScrollPause(load); io.disconnect(); } }, { rootMargin: '900px 0px' }).observe(box);
     }
 
     // Playground videos (incl. the slider's clones) play only while it's on screen
@@ -2607,6 +2654,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initCardRatios();
+      initEmbeds();
       initOrphans();
       initCarouselDrag();
       initCarouselArrows();
