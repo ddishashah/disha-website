@@ -935,7 +935,8 @@
       .carousel { gap: 20px; padding: 0 var(--pad, 16px); scroll-padding: 0 var(--pad, 16px); }
       .carousel__card { height: auto; border-radius: 16px; }
       .carousel__card--journey { width: 78vw; aspect-ratio: 4 / 3; }
-      .carousel__card--work { width: auto; height: 64vw; }
+      /* a card is as wide as its picture wants at this height, but never wider than the screen, so nothing is cut off at the right */
+      .carousel__card--work { width: min(calc(64vw * var(--arn, 1.3)), calc(100vw - 56px)); height: auto; aspect-ratio: var(--ar); align-self: center; }   /* keeps its own shape: never stretched to the row, so nothing is cropped */
       .carousel__card--hotplate { width: 76vw; height: 64vw; }
       .logos__tile { flex-basis: 166px; height: 64px; }
       .logos__track { gap: 20px; }
@@ -1577,6 +1578,14 @@
     // Gallery drag (desktop mouse). The card follows the pointer exactly while held; on release the strip keeps its
     // momentum and eases onto the nearest card with a critically damped spring, so there is no jump and no overshoot.
     // Scroll-snap is switched off while this runs and handed back once the strip is at rest on a card.
+    // numeric aspect ratio of each picture card (from its --ar "w/h"), used to size cards on phones
+    function initCardRatios() {
+      document.querySelectorAll('.carousel__card--work').forEach((c) => {
+        const m = /(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/.exec(c.style.getPropertyValue('--ar'));
+        if (m && +m[2]) c.style.setProperty('--arn', (m[1] / m[2]).toFixed(4));
+      });
+    }
+
     function initCarouselDrag() {
       const track = document.querySelector('[data-carousel]');
       if (!track) return;
@@ -1663,7 +1672,9 @@
       };
       const update = () => {
         prev.disabled = track.scrollLeft <= 2;
-        next.disabled = track.scrollLeft >= maxScroll() - 2;
+        const lastCard = cards[cards.length - 1];
+        const fullyShown = lastCard && lastCard.getBoundingClientRect().right <= track.getBoundingClientRect().right + 1;
+        next.disabled = track.scrollLeft >= maxScroll() - 2 || fullyShown;
       };
       const move = direction => {
         const current = track.scrollLeft;
@@ -2039,6 +2050,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      initCardRatios();
       initCarouselDrag();
       initCarouselArrows();
       initLogos();
