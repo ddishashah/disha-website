@@ -352,6 +352,12 @@
     @media (max-width: 767px) { .sheet--bleed .sheet__body { min-height: 7lh; } }
     .sheet--bleed .sheet__fig img { width: 100%; height: 100%; object-fit: cover; }
     .sheet--bleed .sheet__fig { border-radius: 0; corner-shape: round; }
+    /* Desktop: the picture is a framed image, 1200px at most and centred, with softly rounded corners, rather than running edge to edge */
+    @media (min-width: 768px) {
+      .sheet--bleed .sheet__content { padding-bottom: clamp(40px, 6vw, 72px); }
+      .sheet--bleed .sheet__gallery { margin-inline: 0; }
+      .sheet--bleed .sheet__fig { width: 100%; max-width: 1200px; margin-inline: auto; border-radius: 28px; corner-shape: squircle; }
+    }
     /* as the sheet is pulled down the picture slides up inside its frame (parallax), and settles back with the sheet */
     .sheet--bleed .sheet__fig img { transform-origin: 50% 0; transform: translateY(calc(var(--pk, 0) * -0.15px)) scale(calc(1 + var(--pk, 0) * 0.0009)); will-change: transform; }
     .sheet__handle { display: none; }
@@ -1607,18 +1613,47 @@
   </div>
 
   <script>
+    // Gallery drag (desktop mouse). The card follows the pointer exactly while held; on release the strip keeps its
+    // momentum and eases onto the nearest card with a critically damped spring, so there is no jump and no overshoot.
+    // Scroll-snap is switched off while this runs and handed back once the strip is at rest on a card.
     function initCarouselDrag() {
       const track = document.querySelector('[data-carousel]');
       if (!track) return;
-      let startX = 0, startScroll = 0, down = false, moved = false;
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let down = false, moved = false, startX = 0, startScroll = 0;
+      let pos = 0, target = 0, vel = 0, raf = 0, glide = false;
+      let samples = [];                                   // recent pointer positions, for the release velocity
+      const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
+      const clamp = (v) => Math.min(maxScroll(), Math.max(0, v));
+      const stops = () => {
+        const left = track.getBoundingClientRect().left;
+        const inset = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+        return [...track.querySelectorAll('.carousel__card')].map(c => clamp(c.getBoundingClientRect().left - left + track.scrollLeft - inset));
+      };
+      const nearest = (x) => stops().reduce((best, v) => Math.abs(v - x) < Math.abs(best - x) ? v : best, 0);
+      let lastT = 0;
+      function frame(t) {
+        raf = 0;
+        const dt = Math.min(0.032, (t - lastT) / 1000 || 0.016); lastT = t;
+        if (down) { pos = target; track.scrollLeft = pos; return; }
+        if (!glide) return;
+        // critically damped spring toward the card it will land on, starting from the speed of the throw
+        const w = 8.5, x = pos - target;
+        const acc = -w * w * x - 2 * w * vel;
+        vel += acc * dt; pos += vel * dt;
+        track.scrollLeft = pos;
+        if (Math.abs(pos - target) < 0.4 && Math.abs(vel) < 4) { pos = target; track.scrollLeft = pos; glide = false; track.classList.remove('is-dragging'); return; }
+        raf = requestAnimationFrame(frame);
+      }
+      const kick = () => { if (!raf) { lastT = performance.now(); raf = requestAnimationFrame(frame); } };
       // A drag shouldn't count as a click on the card underneath
-      track.addEventListener('click', (e) => { if (moved) e.preventDefault(); }, true);
+      track.addEventListener('click', (e) => { if (moved) { e.preventDefault(); moved = false; } }, true);
+      track.addEventListener('dragstart', (e) => e.preventDefault());
       track.addEventListener('pointerdown', (e) => {
-        if (e.pointerType !== 'mouse') return;
-        down = true;
-        moved = false;
-        startX = e.clientX;
-        startScroll = track.scrollLeft;
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        down = true; moved = false; glide = false;
+        startX = e.clientX; startScroll = pos = target = track.scrollLeft; vel = 0;
+        samples = [{ x: e.clientX, t: e.timeStamp }];
       });
       track.addEventListener('pointermove', (e) => {
         if (!down) return;
@@ -1628,9 +1663,25 @@
           track.classList.add('is-dragging');
           try { track.setPointerCapture(e.pointerId); } catch (err) {}
         }
-        if (moved) track.scrollLeft = startScroll - (e.clientX - startX);
+        if (!moved) return;
+        target = clamp(startScroll - (e.clientX - startX));
+        samples.push({ x: e.clientX, t: e.timeStamp });
+        while (samples.length > 2 && e.timeStamp - samples[0].t > 90) samples.shift();
+        kick();
       });
-      const end = () => { down = false; track.classList.remove('is-dragging'); };
+      const end = () => {
+        if (!down) return;
+        down = false;
+        if (!moved) { track.classList.remove('is-dragging'); return; }
+        // release velocity (px/s) from the last ~90ms, then project where the throw would carry the strip
+        const a = samples[0], b = samples[samples.length - 1];
+        const v = b.t > a.t ? -(b.x - a.x) / ((b.t - a.t) / 1000) : 0;
+        vel = Math.max(-4500, Math.min(4500, v));
+        pos = track.scrollLeft;
+        target = nearest(clamp(pos + vel * 0.28));
+        if (reduce) { track.scrollLeft = target; track.classList.remove('is-dragging'); return; }
+        glide = true; kick();
+      };
       track.addEventListener('pointerup', end);
       track.addEventListener('pointercancel', end);
     }
