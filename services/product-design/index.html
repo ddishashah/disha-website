@@ -1279,6 +1279,7 @@
     .pd-story .story__right { justify-content: space-between; gap: 33px; }
     .pd-story__copy p { margin: 0 0 16px; font-size: 16px; line-height: 25px; }
     .pd-story__copy p:last-child { margin-bottom: 0; }
+    .pd-story__copy .pd-sm { display: none; }
     .pd-head { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 0 auto 56px; text-align: center; }
     .pd-head h2 { margin: 0; font-size: 44px; line-height: 48px; letter-spacing: -1.32px; max-width: 700px; }
     .pd-head p.sub { margin: 6px 0 0; max-width: 620px; color: var(--t-body); font-size: 18px; line-height: 28px; letter-spacing: 0.36px; }
@@ -1396,8 +1397,8 @@
       .pd-story .story__card { padding: 56px 24px 32px; }
       .pd-story .story__right { gap: 24px; }
       .pd-story__copy p { margin: 0; font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
-      .pd-story__copy .pd-s2, .pd-story__copy .pd-s3 { display: none; }
-      .pd-story__copy .pd-s1 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+      .pd-story__copy .pd-s1, .pd-story__copy .pd-s2, .pd-story__copy .pd-s3 { display: none; }
+      .pd-story__copy .pd-sm { display: block; }
       /* Phones: the statement pins on its own, then the pains flow normally and arrive card by card */
       .pd-gap__track { height: auto; margin-top: 72px; }
       .pd-gap__sticky { position: static; height: auto; overflow: visible; }
@@ -1572,6 +1573,7 @@
         </div>
         <div class="story__right">
           <div class="story__body pd-story__copy">
+            <p class="pd-sm">This complaints management platform for a life sciences company gives investigators a structured workflow for every stage, with AI assistance alongside built-in evidence and traceability. Investigators can move faster while keeping the reasoning behind every decision visible.</p>
             <p class="pd-s1">Investigators at a life sciences company were piecing together cases across disconnected systems under strict regulatory rules. The challenge was preserving context: what they found, how it connected, and why decisions were made.</p>
             <p class="pd-s2">I designed around how they work, with structured flows and AI alongside the evidence to support—not make—decisions. Traceability kept the reasoning behind each step visible and reviewable, helping stakeholders move forward faster.</p>
             <p class="pd-s3">In high-stakes products, people trust AI when they can still see their own judgment in the work.</p>
