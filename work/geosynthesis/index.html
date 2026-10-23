@@ -580,7 +580,7 @@
     .quote__by img { width: 36px; height: 36px; flex: none; border-radius: 96px; object-fit: cover; }
     /* Phones: each testimonial is its own card on a native swipe track (scroll-snap); one card on screen at a time, the gap is wide enough that its neighbours stay out of view */
     @media (max-width: 767px) {
-      .quotes .quotes__card { position: relative; display: flex; gap: 48px; align-items: flex-start; width: 100vw; max-width: none; margin-inline: calc(50% - 50vw); padding: 0 28px; box-sizing: border-box; border: 0; border-radius: 0; background: none; box-shadow: none; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: 28px; overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; transition: height .8s var(--ease-out-expo); }
+      .quotes .quotes__card { position: relative; display: flex; gap: 48px; align-items: flex-start; width: 100vw; max-width: none; margin-inline: calc(50% - 50vw); padding: 0 28px; box-sizing: border-box; border: 0; border-radius: 0; background: none; box-shadow: none; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: 28px; overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; transition: height .8s var(--ease-out-expo); padding-bottom: 56px; margin-bottom: -40px; }   /* room under the cards so their shadows are not clipped */
       .quotes .quotes__card::-webkit-scrollbar { display: none; }
       .quotes .quotes__card .quote { flex: 0 0 calc(100vw - 56px); box-sizing: border-box; padding: 28px 24px; border: 1px solid var(--t-card-line); border-radius: 16px; background: var(--t-card); box-shadow: 0 16px 31px rgba(0, 0, 0, .06); scroll-snap-align: start; scroll-snap-stop: always; opacity: .4; visibility: visible; transform: scale(.975); transition: opacity .8s ease, transform 1.2s var(--ease-out-expo); }
       .quotes .quotes__card .quote.is-active { opacity: 1; transform: none; }
@@ -2028,7 +2028,7 @@
         const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
         const hold = ready && after && card.getBoundingClientRect().bottom < window.innerHeight * 0.55;
         const startTop = hold ? after.getBoundingClientRect().top : 0;
-        if (window.matchMedia('(max-width: 767px)').matches) { if (swiping) return; card.style.height = slides[i].offsetHeight + 'px'; return; }   // phones: the track is as tall as the card in view, resized once a swipe has settled so nothing below moves under your finger
+        if (window.matchMedia('(max-width: 767px)').matches) { if (swiping) return; card.style.height = (slides[i].offsetHeight + 56) + 'px'; return; }   // phones: the track is as tall as the card in view, resized once a swipe has settled so nothing below moves under your finger
         card.style.height = (slides[i].offsetHeight + pad) + 'px';
         if (hold) {
           const t0 = performance.now();
