@@ -1406,7 +1406,7 @@
     .pd-gap__layer--b { opacity: 0; pointer-events: none; }
     .pd-gap__a-in { display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; }
     .pd-gap__title { margin: 0; max-width: 820px; font-size: 52px; line-height: 56px; letter-spacing: -1.56px; }
-    .pd-gap__sub { margin: 0; max-width: 560px; font-size: 18px; line-height: 28px; letter-spacing: 0.36px; color: var(--t-head); }
+    .pd-gap__sub { margin: 0; max-width: 560px; font-size: 18px; line-height: 28px; letter-spacing: 0.36px; color: var(--t-body); }
     [data-fill] .w { display: inline-block; opacity: calc(.18 + .82 * var(--on, 0)); white-space: pre; }
     .pd-gap .pd-lose { padding: 0; width: 100%; }
     .pd-gap .pd-head { margin-bottom: 44px; }
@@ -1456,9 +1456,10 @@
       .pd-gap__sticky { position: static; height: auto; overflow: visible; }
       .pd-gap__layer { position: static; display: block; padding: 0; }
       /* the statement pins in the exact middle of the screen while its words light up */
-      .pd-gap__layer--a { height: 200vh; height: 200svh; }
-      .pd-gap__a-in { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 var(--pad, 16px); box-sizing: border-box; }
-      .pd-gap__layer--b { opacity: 1; pointer-events: auto; padding: 0 var(--pad, 16px); margin-top: 80px; }
+      .pd-gap__layer--a { height: auto; }   /* phones: no pin and no scroll reveal; the statement is simply there */
+      [data-fill] .w { opacity: 1; }
+      .pd-gap__a-in { position: static; height: auto; display: flex; flex-direction: column; align-items: center; padding: 0 var(--pad, 16px); box-sizing: border-box; }
+      .pd-gap__layer--b { opacity: 1; pointer-events: auto; padding: 0 var(--pad, 16px); margin-top: 96px; }
       .pd-gap .pd-head { margin-bottom: 36px; }
       .motion .pd-card[data-stagger] { opacity: 0; transform: translateY(48px); transition: opacity .9s ease, transform 1.4s var(--ease-out-expo), box-shadow .7s ease, background-color .7s, border-color .7s; }
       .pd-gap__title { font-size: 34px; line-height: 38px; letter-spacing: -0.9px; }
@@ -2639,11 +2640,16 @@
       if (!track) return;
       const words = [];
       track.querySelectorAll('[data-fill]').forEach((el) => {
-        const parts = el.textContent.trim().split(/(\s+)/);
+        const segs = el.innerHTML.split(/(?:<br\s*\/?>\s*)+/i);      // keep the paragraph break between sentences
         el.textContent = '';
-        parts.forEach((part) => {
-          if (/^\s+$/.test(part)) { el.appendChild(document.createTextNode(' ')); return; }
-          const w = document.createElement('span'); w.className = 'w'; w.textContent = part; el.appendChild(w); words.push(w);
+        segs.forEach((seg, si) => {
+          if (si) { el.appendChild(document.createElement('br')); el.appendChild(document.createElement('br')); }
+          const tmp = document.createElement('div'); tmp.innerHTML = seg;
+          tmp.textContent.trim().split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { el.appendChild(document.createTextNode(' ')); return; }
+            const w = document.createElement('span'); w.className = 'w'; w.textContent = part; el.appendChild(w); words.push(w);
+          });
         });
       });
       const layerA = track.querySelector('[data-layer-a]');
@@ -2676,11 +2682,9 @@
             c.style.transform = 'translateY(' + (44 * (1 - k)).toFixed(1) + 'px)';
           });
         } else {
-          const a = layerA.getBoundingClientRect();
-          const inn = layerA.querySelector('.pd-gap__a-in');
-          const stick = 0;
-          const span = Math.max(1, a.height - inn.offsetHeight);
-          fill(reduce ? 1 : clamp((stick - a.top) / (span * 0.8)));
+          const inn = layerA.querySelector('.pd-gap__a-in').getBoundingClientRect();     // words light up as the statement crosses the screen: from 85% down to the middle
+          const vh = window.innerHeight;
+          fill(reduce ? 1 : clamp((vh * 0.85 - inn.top) / (vh * 0.35 + inn.height)));
           layerA.style.opacity = layerA.style.transform = layerB.style.opacity = layerB.style.transform = layerB.style.pointerEvents = '';
           cards.forEach((c) => { c.style.opacity = c.style.transform = ''; });
           if (!shown && group) {
