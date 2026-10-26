@@ -8,7 +8,10 @@
   <script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-pending')}catch(e){}</script>
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
   <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
-  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
+  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}
+    .faq__a-in p { font-weight: 400; }
+    @media (max-width: 767px) { .faq__q span { text-wrap: wrap; } .faq__a-in p { overflow-wrap: break-word; } }
+</style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1331,7 +1334,7 @@
     .faq__item { box-sizing: border-box; border: 1.086px solid var(--t-card-line); border-radius: 8px; background: var(--t-card); transition: background-color .5s ease, box-shadow .5s ease, border-color .5s ease; }
     .faq__item.is-open { background: var(--t-card); border-color: var(--t-card-line);
       box-shadow: 0 -4px 24px rgba(0, 0, 0, .03), 0 4px 15.4px rgba(188, 160, 136, .05), 0 4px 11.3px rgba(188, 167, 136, .09), 0 3.1px 6.2px rgba(166, 152, 124, .1); }
-    .faq__q { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; box-sizing: border-box; padding: 24px 28px; border: 0; background: none; cursor: pointer; text-align: left; color: var(--t-head); font: inherit; font-weight: 500; font-size: 20px; line-height: 1; letter-spacing: -0.2px; }
+    .faq__q { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; box-sizing: border-box; padding: 24px 28px; border: 0; background: none; cursor: pointer; text-align: left; color: var(--t-head); font: inherit; font-weight: 500; font-size: 20px; line-height: 1.3; letter-spacing: -0.2px; }
     .faq__item[data-pending] .faq__q { cursor: default; }
     .faq__icon { position: relative; flex: none; width: 24px; height: 24px; }
     .faq__icon::before, .faq__icon::after { content: ""; position: absolute; left: 6px; top: 11px; width: 12px; height: 2px; border-radius: 2px; background: var(--t-head); }
@@ -1342,6 +1345,8 @@
     .faq__a-in { overflow: hidden; }
     .faq__item.is-open .faq__q { padding-bottom: 12px; }
     .faq__a-in p { margin: 0; padding: 0 28px 24px; color: var(--t-body); font-weight: 500; font-size: 18px; line-height: 25px; }
+.faq__a-in .faq__link { color: var(--t-head); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; transition: opacity .3s ease; }
+    .faq__a-in .faq__link:hover { opacity: .65; }
 
     @media (max-width: 767px) {
       .bio { padding-top: 64px; }
@@ -1355,7 +1360,7 @@
       .footer { padding-top: 48px; }   /* even rhythm: 96px between content; at a light/dark edge 48px each side */
       .faq__inner { flex-direction: column; gap: 32px; }
       .faq__head { flex: none; }
-      .faq__q { font-size: 17px; padding: 20px 20px; }
+      .faq__q { font-size: 17px; line-height: 1.35; padding: 20px 20px; }
       .faq__a-in p { padding: 0 20px 20px; font-size: 16px; line-height: 24px; }
     }
   </style>
@@ -1383,7 +1388,7 @@
 <meta name="twitter:image" content="https://disha-shah.io/img/og-image.jpg" />
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"AboutPage","name":"About — Disha Shah","url":"https://disha-shah.io/about/","description":"Seven years of designing brands and products with teams across 15+ countries, from Fortune 100 companies and family businesses to YC-, Accel- and IIT-backed startups.","mainEntity":{"@type":"Person","@id":"https://disha-shah.io/#person","name":"Disha Shah","url":"https://disha-shah.io/","image":"https://disha-shah.io/img/me.webp","jobTitle":"Brand and product designer","sameAs":["https://www.linkedin.com/in/disha-shah-8b706814/","https://www.instagram.com/_dishashah96/","https://x.com/dishashah66"],"knowsAbout":["Brand strategy","Visual identity","Product design","Design systems","Websites","Pitch decks","AI-native products","Deep-tech"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://disha-shah.io/"},{"@type":"ListItem","position":2,"name":"About","item":"https://disha-shah.io/about/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What if we’re not sure what we need yet?","acceptedAnswer":{"@type":"Answer","text":"Tell me what you’re noticing⁠—people aren’t understanding the offer, a product feels difficult to use, or the team keeps working around the same problems. We can look at what’s happening and decide whether to start with research, an audit, or a defined project. You don’t need to arrive with the solution already scoped."}},{"@type":"Question","name":"How do we start working together?","acceptedAnswer":{"@type":"Answer","text":"Send me a little about what you’re working on and where you need help. We’ll talk through the project, timing, and budget, and I’ll put together a scope. You don’t need to have everything figured out before reaching out."}},{"@type":"Question","name":"Can you work with our existing team or studio?","acceptedAnswer":{"@type":"Answer","text":"Yes. I work alongside internal designers, engineers, and marketing teams, and support studios behind the scenes."}},{"@type":"Question","name":"Do you take on projects or ongoing work?","acceptedAnswer":{"@type":"Answer","text":"Both. A defined project works well when there’s a clear outcome to work towards. Ongoing support makes sense when you have a changing roadmap or regular design needs."}},{"@type":"Question","name":"Do you work internationally?","acceptedAnswer":{"@type":"Answer","text":"Yes. I’ve worked with teams across 15+ countries since 2019. I generally arrange my working hours around US Eastern and Central European time, with flexibility to find overlap that works for your team."}},{"@type":"Question","name":"Are you open to full-time roles?","acceptedAnswer":{"@type":"Answer","text":"Yes, if the team, responsibilities, and work feel like a good fit. I currently run Vanya Studio as a solo, independent practice, but I’m open to a role where I can take deeper ownership and contribute over time."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What if we’re not entirely sure what we need yet?","acceptedAnswer":{"@type":"Answer","text":"That’s completely fine. You don’t need to come with a perfectly written brief or a solution already figured out. We can start with what’s happening, what’s not working, and what you’re trying to achieve. Sometimes that leads to a defined project, sometimes an audit or a shorter strategy engagement."}},{"@type":"Question","name":"What kinds of projects do you take on?","acceptedAnswer":{"@type":"Answer","text":"I work across product design, branding, websites, and design systems, particularly for B2B businesses, startups, and enterprise teams. That could mean designing a new product, improving an existing experience, building a design system, or helping a business communicate what it’s building through its brand, website, or presentations."}},{"@type":"Question","name":"Will we work directly with you?","acceptedAnswer":{"@type":"Answer","text":"Yes! Vanya Studio is my independent, one-person practice. I lead the work myself, from the first conversation through design and delivery. Depending on the project, I may collaborate with other specialists, but you’ll always be working directly with me."}},{"@type":"Question","name":"Can you work with our existing team or studio?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. I’ve worked alongside founders, product managers, designers, engineers, marketing teams, and external studios. I’m comfortable joining an existing team, working within established systems, or helping figure things out from scratch."}},{"@type":"Question","name":"Do you take on one-off projects or ongoing engagements?","acceptedAnswer":{"@type":"Answer","text":"Both. Some projects have a clear beginning and end, like a website, brand identity, or product MVP. Others need ongoing support as the product or business evolves. We can figure out what makes the most sense based on the scope, timeline, and how your team works."}},{"@type":"Question","name":"How do we get started?","acceptedAnswer":{"@type":"Answer","text":"You can book a call or drop me an email with a little about what you’re working on. I’m happy to hear what you’re building, what you’re trying to figure out, or where you’re feeling stuck. We can talk through the problem, bounce around ideas, and see what might make sense. Even if we don’t end up working together, I’d love for you to leave the conversation with a little more clarity on what to do next."}}]}</script>
 <link rel="stylesheet" href="/compact.css?v=3" media="(min-width: 1024px)" />
 <!-- seo:end -->
 </head>
@@ -1395,7 +1400,7 @@
     <nav class="nav" aria-label="Primary">
         <a href="./index.html" class="nav__brand">Disha Shah</a>
         <div class="nav__right">
-          <a href="about/#contact" class="nav__cta">Book a Discovery Call</a>
+          <a href="about/#contact" class="nav__cta">Book a discovery call</a>
           <button class="nav__menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-open><span></span></button>
         </div>
       </nav>
@@ -1406,11 +1411,10 @@
     <div class="bio__inner">
       <img class="bio__photo" data-intro src="img/me.webp" alt="Disha Shah" width="137" height="137" />
       <p class="eyebrow bio__eyebrow" data-intro>About me</p>
-      <h1 id="bio-title" class="bio__title h-primary" data-intro>I’m Disha Shah.</h1>
+      <h1 id="bio-title" class="bio__title h-primary" data-intro>Hi, I’m Disha Shah.</h1>
       <div class="bio__text" data-intro>
-        <p>I help companies close the gap between what they offer and what people understand, trust, and come back for.</p>
-        <p>My work spans branding, product design, design systems, websites, and decks. I get into the business and its industry⁠—what people need, how decisions get made, and what the team wants to achieve. That understanding shapes the story people encounter and the experience they go on to use.</p>
-        <p>Since 2019, I’ve worked with teams across 15+ countries, including founders, family businesses, global studios, and enterprise teams. My experience includes YC-, Accel- and IIT-backed startups, Deloitte, Tata Group, and UN Volunteers, both directly and through studio collaborations.</p>
+        <p>I’m a Brand &amp; Customer Experience Designer with a background in design strategy and management. I founded Vanya Studio, my independent design practice.</p>
+        <p>I’ve been working since 2019 with founders and enterprise teams across 15+ countries — from YC-, Accel-, and IIT-backed startups and family-run businesses to global institutions and companies like Deloitte, the United Nations, Tata Group, and Fortune Global 500 companies.</p>
       </div>
     </div>
   </section>
@@ -1443,41 +1447,48 @@
       </div></div>
   </div>
 
-  <section class="bio bio--more" aria-labelledby="bg-title">
-    <div class="bio__inner">
-      <p class="eyebrow bio__eyebrow" data-reveal>A little background</p>
-      <h2 id="bg-title" class="bio__h2 h-primary" data-reveal>The work has taken me into very different worlds.</h2>
-      <div class="bio__text" data-reveal>
-        <p>I’ve worked across AI, deep-tech, healthcare, life sciences, defence, cybersecurity, finance, Web3, education, and travel. Each has its own language, expectations, and ways of working. Understanding those differences shapes the decisions I make.</p>
-        <h3 class="bio__sub">Branding</h3>
-        <p>I help founders and teams define what they want to be known for and express it through positioning, messaging, and a distinctive visual identity. I care about whether the brand feels true to the business, gives people a reason to choose it, and stays recognisable wherever they encounter it.</p>
-        <h3 class="bio__sub">Product design</h3>
-        <p>I’ve worked on 15+ AI and SaaS MVPs and proofs of concept, from startups to products within Fortune 100 companies. Products I’ve worked on are used by teams at Deloitte, Salesforce, Pfizer, Adobe, and Figma.</p>
-        <p>I look at the experience across the people involved⁠—who chooses the product, who uses it, and who manages it. I work through their different needs with founders, business teams, and engineers, shaping everything from core workflows to the details of the UI.</p>
-        <p>I care about how people get started, find value, and make the product part of how they work⁠—and what needs to change when they don’t.</p>
-        <h3 class="bio__sub">Design systems</h3>
-        <p>I’ve built 10+ design systems, including two supporting 30–40 products for Fortune 100 firms, across multiple brands and tenants.</p>
-        <p>I build for the people and AI tools using the system: what they need to know, which patterns to use, and where things can go wrong. Too little structure leaves everyone figuring things out again. Too much makes the system another thing to work around. It needs to fit the team’s workflow and the scale they’re working towards.</p>
-        <h3 class="bio__sub">Websites &amp; decks</h3>
-        <p>Clients often hire me to not only take care of the visual design, look, and feel of the website, but also shape the story and strategy. I also develop websites⁠—from first launches to enterprise sites with hundreds of pages⁠—and create reusable master decks that teams can adapt while maintaining the visual quality.</p>
-        <p>I’ve built decks as a GTM strategist, during my time in consulting at Deloitte, and as a freelancer⁠—for deep-tech startups seeking grants, B2B consultancies, and a legacy brand earning $60M+ annually and seeking funding for a new venture.</p>
-      </div>
-      <a class="link-arrow bio__more" href="work/" data-reveal>Explore my work <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    </div>
-  </section>
 
-  <section class="bio bio--more" aria-labelledby="how-title">
+
+  <section class="bio bio--more" aria-labelledby="drawn-title">
     <div class="bio__inner">
-      <p class="eyebrow bio__eyebrow" data-reveal>How I work</p>
-      <h2 id="how-title" class="bio__h2 h-primary" data-reveal>I want to understand what you’re trying to achieve.</h2>
+      <h2 id="drawn-title" class="bio__h2 h-primary" data-reveal>I’m drawn to the problems that sit underneath the interface.</h2>
       <div class="bio__text" data-reveal>
-        <p>I ask questions, get familiar with the domain, and work closely with founders, designers, engineers, and business and go-to-market teams. I want to understand what each person knows, what they need, and where the decisions affect one another.</p>
-        <p>I’ll explain my thinking and speak up when something deserves another look. I also want to understand the constraints behind a decision before suggesting we change it.</p>
-        <p>AI is part of how I design, prototype, and build. I bring the product rules, industry context, and user needs into that process. It helps me move faster while keeping the quality of the experience and your business and engineering goals central to what gets built.</p>
+        <p>I’ve always been curious about how things work. How businesses make decisions, why industries operate the way they do, what people actually need, and why something that makes perfect sense on paper doesn’t always work in practice.</p>
+        <p>I love pulling apart complicated problems, finding connections between seemingly unrelated things, and figuring out what needs to change. There’s something oddly satisfying about untangling chaos. It’s probably why I’ve ended up spending so much time in industries where the problems are difficult, the stakes are high, and there’s rarely a playbook to follow.</p>
+        <p>And while I love the craft of design, I find the business, marketing, engineering, and industry-specific nuances that shape those design decisions just as fascinating.</p>
       </div>
     </div>
   </section>
-
+  <section class="bio bio--more" aria-labelledby="work-title">
+    <div class="bio__inner">
+      <h2 id="work-title" class="bio__h2 h-primary" data-reveal>A little bit about my work.</h2>
+      <div class="bio__text" data-reveal>
+        <p>In the last four years, I’ve worked on 20+ MVPs and proofs of concept, including 15+ AI products across healthcare, life sciences, finance, defence, cybersecurity, supply chain, and enterprise technology.</p>
+        <p>I’ve also built 10+ design systems across React, Angular, Vue, Svelte, Salesforce, Veeva, and iOS. Two of those were enterprise-wide systems supporting 40–50 products each, across multiple brands, tenants, teams, and platforms.</p>
+        <p>Beyond products, I also work on brands, websites, and presentations for B2B businesses and startups. I help founders tell their stories, whether they’re raising funding, securing grants, winning customers, or building partnerships.</p>
+        <p>I care about what a founder wants to build, why it matters, and how design can help other people see it too.</p>
+      </div>
+    </div>
+  </section>
+  <section class="bio bio--more" aria-labelledby="more-title">
+    <div class="bio__inner">
+      <h2 id="more-title" class="bio__h2 h-primary" data-reveal>What I’d love to do more of.</h2>
+      <div class="bio__text" data-reveal>
+        <p>I’d love to work with people building things that matter to them, and hopefully to a lot of other people too.</p>
+        <p>That could mean changing how an industry works from first principles, solving a problem that’s been around for decades, or simply making something that brings a little more joy into people’s lives.</p>
+        <p>I’m interested in all of it.</p>
+      </div>
+    </div>
+  </section>
+  <section class="bio bio--more" aria-labelledby="outside-title">
+    <div class="bio__inner">
+      <h2 id="outside-title" class="bio__h2 h-primary" data-reveal>Outside of work.</h2>
+      <div class="bio__text" data-reveal>
+        <p>I’m usually reading, learning something completely unrelated to design, or going down another rabbit hole. I’ve been fascinated by Dr. Joe Dispenza’s work for over five years now, and rain or shine, I’m either putting it into practice or learning more about it.</p>
+        <p>I’ve also been volunteering since I was 13. It’s a big part of how I grew up and something that continues to mean a lot to me.</p>
+      </div>
+    </div>
+  </section>
   <section class="vanya" aria-labelledby="vanya-title">
     <div class="vanya__inner">
       <p class="eyebrow bio__eyebrow" data-reveal>About Vanya Studio</p>
@@ -1485,7 +1496,7 @@
       <div class="bio__text" data-reveal>
         <p>I founded Vanya Studio in December 2025 as a solo, independent practice. I lead projects from the first conversations through design and delivery, and develop website frontends myself.</p>
         <p>I care about doing right by the companies I work with. If I know the work would be better with a specialist in copywriting, development, motion, or content, I bring them in. Your business deserves that thought and care.</p>
-        <p>I stay close to the decisions and delivery, making sure everyone involved understands what we’re trying to achieve for you and that the work comes together.</p>
+        <p>You still work directly with me. I coordinate the people involved and stay responsible for the design through delivery.</p>
       </div>
     </div>
   </section>
@@ -1554,15 +1565,15 @@
     <div class="faq__inner">
       <div class="faq__head" data-reveal>
         <h2 id="faq-title" class="h-primary" style="margin:0;line-height:37.8px">Frequently asked questions</h2>
-        <p class="faq__sub">The things people actually ask, answered plainly.</p>
+        <p class="faq__sub">A few things you might want to know before we work together.</p>
       </div>
       <div class="faq__list" data-faq data-reveal>
-        <div class="faq__item is-open"><button class="faq__q" id="faq-q-1" aria-controls="faq-a-1" type="button" aria-expanded="true"><span>What if we’re not sure what we need yet?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-1" role="region" aria-labelledby="faq-q-1"><div class="faq__a-in"><p>Tell me what you’re noticing⁠—people aren’t understanding the offer, a product feels difficult to use, or the team keeps working around the same problems. We can look at what’s happening and decide whether to start with research, an audit, or a defined project. You don’t need to arrive with the solution already scoped.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>How do we start working together?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>Send me a little about what you’re working on and where you need help. We’ll talk through the project, timing, and budget, and I’ll put together a scope. You don’t need to have everything figured out before reaching out.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>Can you work with our existing team or studio?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>Yes. I work alongside internal designers, engineers, and marketing teams, and support studios behind the scenes.</p><p>We establish what I’ll own, who needs to be involved in decisions, and how the work fits your tools and processes. I can lead a defined project or contribute within your team.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Do you take on projects or ongoing work?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>Both. A defined project works well when there’s a clear outcome to work towards. Ongoing support makes sense when you have a changing roadmap or regular design needs.</p><p>For ongoing work, we agree on capacity, priorities, and how requests will be planned. The arrangement should fit the work and your team.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>Do you work internationally?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>Yes. I’ve worked with teams across 15+ countries since 2019. I generally arrange my working hours around US Eastern and Central European time, with flexibility to find overlap that works for your team.</p><p>We agree on meeting times, feedback, and communication at the start, with progress shared between calls.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>Are you open to full-time roles?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>Yes, if the team, responsibilities, and work feel like a good fit. I currently run Vanya Studio as a solo, independent practice, but I’m open to a role where I can take deeper ownership and contribute over time.</p></div></div></div>
+        <div class="faq__item is-open"><button class="faq__q" id="faq-q-1" aria-controls="faq-a-1" type="button" aria-expanded="true"><span>What if we’re not entirely sure what we need yet?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-1" role="region" aria-labelledby="faq-q-1"><div class="faq__a-in"><p>That’s completely fine. You don’t need to come with a perfectly written brief or a solution already figured out.</p><p>We can start with what’s happening, what’s not working, and what you’re trying to achieve. Sometimes that leads to a defined project, sometimes an audit or a shorter strategy engagement.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>What kinds of projects do you take on?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>I work across product design, branding, websites, and design systems, particularly for B2B businesses, startups, and enterprise teams.</p><p>That could mean designing a new product, improving an existing experience, building a design system, or helping a business communicate what it’s building through its brand, website, or presentations.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>Will we work directly with you?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>Yes! Vanya Studio is my independent, one-person practice. I lead the work myself, from the first conversation through design and delivery.</p><p>Depending on the project, I may collaborate with other specialists, but you’ll always be working directly with me.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Can you work with our existing team or studio?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>Absolutely. I’ve worked alongside founders, product managers, designers, engineers, marketing teams, and external studios.</p><p>I’m comfortable joining an existing team, working within established systems, or helping figure things out from scratch.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>Do you take on one-off projects or ongoing engagements?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>Both. Some projects have a clear beginning and end, like a website, brand identity, or product MVP. Others need ongoing support as the product or business evolves.</p><p>We can figure out what makes the most sense based on the scope, timeline, and how your team works.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>How do we get started?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>You can <a class="faq__link" href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">book a call</a> or <a class="faq__link" href="mailto:disha@vanya.studio">drop me an email</a> with a little about what you’re working on.</p><p>I’m happy to hear what you’re building, what you’re trying to figure out, or where you’re feeling stuck. We can talk through the problem, bounce around ideas, and see what might make sense. Even if we don’t end up working together, I’d love for you to leave the conversation with a little more clarity on what to do next.</p></div></div></div>
       </div>
     </div>
   </section>
@@ -1579,7 +1590,7 @@
         <div class="booking__cal" data-lenis-prevent id="cal-introduction-meeting"></div>
         <div class="booking__fallback">
           <p style="margin:0">Loading the calendar…</p>
-          <a class="btn-ghost" href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">Book an introduction call</a>
+          <a class="btn-ghost" href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">Book a discovery call</a>
         </div>
       </div>
     </div>

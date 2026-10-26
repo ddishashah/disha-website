@@ -360,6 +360,11 @@
     .sheet__eyebrow { margin: 0; color: #757575; font-size: 16px; line-height: 20.8px; letter-spacing: -0.16px; }
     .sheet__title { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; }
     .sheet__body { margin: 0; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .sheet__prose { display: flex; flex-direction: column; gap: 20px; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
+    .sheet__prose p { margin: 0; }
+    /* the three gap texts reserve the same height, so the picture starts at the same place in every pop-up */
+    .sheet--bleed .sheet__prose { min-height: 276px; }
+    @media (max-width: 767px) { .sheet--bleed .sheet__prose { min-height: 492px; } }
     .sheet__lead { margin: 0; color: #5e5855; font-size: 18px; line-height: 28px; letter-spacing: 0.36px; }
     .sheet__text { display: grid; grid-template-columns: 1fr; gap: 20px 24px; max-width: 740px; width: 100%; margin: 0 auto; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .sheet__text h3 { margin: 24px 0 0; color: #140700; font-weight: 500; font-size: 16px; line-height: 27px; }
@@ -375,9 +380,6 @@
     /* All three pictures share one shape (the city picture's): the same height in every gap pop-up */
     .sheet--bleed .sheet__fig { aspect-ratio: 1659 / 948; }
     /* the three paragraphs reserve the same number of lines, so the three pop-ups come out the same height */
-    .sheet--bleed .sheet__body { min-height: 5lh; }
-    @media (max-width: 1023px) { .sheet--bleed .sheet__body { min-height: 6lh; } }
-    @media (max-width: 767px) { .sheet--bleed .sheet__body { min-height: 7lh; } }
     .sheet--bleed .sheet__fig img { width: 100%; height: 100%; object-fit: cover; }
     .sheet--bleed .sheet__fig { border-radius: 0; corner-shape: round; }
     /* Desktop: the picture is a framed image, 1200px at most and centred, with softly rounded corners, rather than running edge to edge */
@@ -1727,7 +1729,7 @@
   <div class="sheet__content">
     <header class="sheet__head">
       <h2 id="sheet-complexity-t" class="sheet__title">The Complexity Gap</h2>
-      <p class="sheet__body">You know the product and industry inside out. The people buying or using it bring different levels of knowledge and experience. The work is in making that complexity manageable throughout the product—helping beginners get started, supporting people as their needs grow, and giving experts the depth and control they need.</p>
+      <div class="sheet__prose"><p>You know your product and industry inside out. Your customers don’t necessarily have the same context. What feels obvious to your team might not be obvious to someone encountering it for the first time.</p><p>And simplifying everything isn’t always the answer. Especially in enterprise products, where complexity often exists for good reason.</p><p>It’s about making the business and its products easier to understand, trust, and use. Helping people see the value, get things done, and have the depth and control they need without making everything harder than it should be.</p></div>
     </header>
     <div class="sheet__gallery">
         <figure class="sheet__fig is-wide"><img src="gallery/gap-complexity.webp" alt="" width="1774" height="887" loading="lazy" /></figure>
@@ -1741,7 +1743,7 @@
   <div class="sheet__content">
     <header class="sheet__head">
       <h2 id="sheet-retention-t" class="sheet__title">The Retention Gap</h2>
-      <p class="sheet__body">Getting someone to try a product is one thing. Becoming part of their day-to-day workflow is another. That comes down to how well it helps them do their job—how naturally it fits into their work, how much easier it makes important tasks, and whether it gives them a reason to keep using it.</p>
+      <div class="sheet__prose"><p>Getting someone to try a product is one thing. Giving them a reason to keep coming back is another.</p><p>You might have identified the right problem and built a genuinely good product. But that doesn’t always mean people will use it, love it, or stick around.</p><p>Sometimes it’s too much effort to get started. Sometimes it doesn’t fit into how people already work. And sometimes the value is there, but the experience makes it harder to get to.</p><p>That’s how good products end up losing users, even when the problem they’re solving is worth solving.</p></div>
     </header>
     <div class="sheet__gallery">
         <figure class="sheet__fig is-wide"><img src="gallery/gap-retention.webp" alt="" width="1675" height="939" loading="lazy" /></figure>
@@ -1755,7 +1757,7 @@
   <div class="sheet__content">
     <header class="sheet__head">
       <h2 id="sheet-growth-t" class="sheet__title">The Growth Gap</h2>
-      <p class="sheet__body">The business moves forward, but the experience doesn’t always keep up. The story reflects an earlier stage, the website struggles with new content, and the product feels different depending on where you are. Growth, engineering, business, and design teams spend more time explaining, fixing, and working around the gaps. It gets frustrating for everyone.</p>
+      <div class="sheet__prose"><p>As businesses grow, the experience doesn’t always keep up.</p><p>Your brand says one thing, your website communicates another, and your product feels like something else entirely. Customers don’t see these as separate touchpoints. They see one business, and they notice when things don’t add up.</p><p>Your teams feel it too. Marketing ends up making its own landing pages and workarounds to ship faster. Product and engineering keep rebuilding things that should already exist.</p><p>And somewhere along the way, the experience starts slowing down the very business it’s supposed to help grow.</p></div>
     </header>
     <div class="sheet__gallery">
         <figure class="sheet__fig is-wide"><img src="gallery/gap-growth.webp" alt="" width="1659" height="948" loading="lazy" /></figure>

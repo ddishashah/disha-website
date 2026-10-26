@@ -8,7 +8,10 @@
   <script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-pending')}catch(e){}</script>
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
   <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
-  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
+  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}
+    .faq__a-in p { font-weight: 400; }
+    @media (max-width: 767px) { .faq__q span { text-wrap: wrap; } .faq__a-in p { overflow-wrap: break-word; } }
+</style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1380,7 +1383,7 @@
     .faq__item { box-sizing: border-box; border: 1.086px solid var(--t-card-line); border-radius: 8px; background: var(--t-card); transition: background-color .5s ease, box-shadow .5s ease, border-color .5s ease; }
     .faq__item.is-open { background: var(--t-card); border-color: var(--t-card-line);
       box-shadow: 0 -4px 24px rgba(0, 0, 0, .03), 0 4px 15.4px rgba(188, 160, 136, .05), 0 4px 11.3px rgba(188, 167, 136, .09), 0 3.1px 6.2px rgba(166, 152, 124, .1); }
-    .faq__q { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; box-sizing: border-box; padding: 24px 28px; border: 0; background: none; cursor: pointer; text-align: left; color: var(--t-head); font: inherit; font-weight: 500; font-size: 20px; line-height: 1; letter-spacing: -0.2px; }
+    .faq__q { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; box-sizing: border-box; padding: 24px 28px; border: 0; background: none; cursor: pointer; text-align: left; color: var(--t-head); font: inherit; font-weight: 500; font-size: 20px; line-height: 1.3; letter-spacing: -0.2px; }
     .faq__item[data-pending] .faq__q { cursor: default; }
     .faq__icon { position: relative; flex: none; width: 24px; height: 24px; }
     .faq__icon::before, .faq__icon::after { content: ""; position: absolute; left: 6px; top: 11px; width: 12px; height: 2px; border-radius: 2px; background: var(--t-head); }
@@ -1391,6 +1394,8 @@
     .faq__a-in { overflow: hidden; }
     .faq__item.is-open .faq__q { padding-bottom: 12px; }
     .faq__a-in p { margin: 0; padding: 0 28px 24px; color: var(--t-body); font-weight: 500; font-size: 18px; line-height: 25px; }
+    .faq__a-in .faq__link { color: var(--t-head); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; transition: opacity .3s ease; }
+    .faq__a-in .faq__link:hover { opacity: .65; }
 
     @media (min-width: 768px) { .testimonials--about .testimonials__inner { gap: 63px; } }
 
@@ -1448,7 +1453,7 @@
       .pd-approach { padding-top: 96px; } .pd-panel { grid-template-columns: 1fr; } .pd-tab { padding: 16px var(--pad, 16px); font-size: 14px; }
       .pd-why { padding: 96px var(--pad, 16px) 96px; } .pd-why__list { gap: 16px; } .pd-why__row { padding: 18px 8px; }
       .pd-plans { padding-top: 96px; } .pd-plans__head { flex-direction: column; align-items: flex-start; } .pd-plans__grid { grid-template-columns: 1fr; grid-template-rows: none; } .pd-plan { grid-row: auto; grid-template-rows: auto auto; } .pd-plan { border-left: 0; border-top: 1px solid var(--t-card-line); } .pd-plan:first-child { border-top: 0; }
-      .faq { padding: 96px 28px; } .faq__inner { flex-direction: column; gap: 32px; } .faq__head { flex: none; } .faq__q { font-size: 17px; padding: 20px 20px; } .faq__a-in p { padding: 0 20px 20px; font-size: 16px; line-height: 24px; }
+      .faq { padding: 96px 28px; } .faq__inner { flex-direction: column; gap: 32px; } .faq__head { flex: none; } .faq__q { font-size: 17px; line-height: 1.35; padding: 20px 20px; } .faq__a-in p { padding: 0 20px 20px; font-size: 16px; line-height: 24px; }
     }
 
     /* Phones: 28px page gutters; the 24px padding lives inside the cards (declared last so it wins) */
@@ -1517,7 +1522,7 @@
 <meta name="twitter:image" content="https://disha-shah.io/img/og-image.jpg" />
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Product Design","serviceType":"Product Design","description":"Product design for AI, deep-tech and enterprise teams, built around how your users and your industry actually work.","url":"https://disha-shah.io/services/product-design/","areaServed":"Worldwide","provider":{"@id":"https://disha-shah.io/#person"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://disha-shah.io/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://disha-shah.io/#services"},{"@type":"ListItem","position":3,"name":"Product Design","item":"https://disha-shah.io/services/product-design/"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do we start working together?","acceptedAnswer":{"@type":"Answer","text":"Book a call with me or send over an email. We will set up a call, and you tell me what is not working. If I can help, I will say what we would do and what it costs. If we cannot, we will say that too."}},{"@type":"Question","name":"How is this priced?","acceptedAnswer":{"@type":"Answer","text":"Per project. I look at the scope and what you’re trying to achieve, then recommend the structure that suits it best. One-time project fees generally work well. I also take on monthly retainers for 2–3 months, with each month scoped to a set goal."}},{"@type":"Question","name":"What if it’s not the right fit?","acceptedAnswer":{"@type":"Answer","text":"Most people start with a short audit or sprint. If it isn’t working, you can stop, and I’ll refund any time I haven’t worked yet."}},{"@type":"Question","name":"Where are you based?","acceptedAnswer":{"@type":"Answer","text":"In India, working between IST and EST, with plenty of overlap with US teams."}},{"@type":"Question","name":"Do you work with AI tools and engineers?","acceptedAnswer":{"@type":"Answer","text":"Yes. I design with Claude, Cursor and VS Code in mind, and can ship front end myself."}},{"@type":"Question","name":"NDAs?","acceptedAnswer":{"@type":"Answer","text":"Always happy to sign one."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What kinds of products do you work on?","acceptedAnswer":{"@type":"Answer","text":"I mostly work on AI, deep-tech, and enterprise products, often in industries where there’s a lot to understand before you can design anything useful. That could be a new idea you’re testing, an MVP, or an existing product that needs rethinking."}},{"@type":"Question","name":"Can you help with an existing product?","acceptedAnswer":{"@type":"Answer","text":"Yes. We can look at where people are getting stuck, what’s become harder to use, or where the product no longer fits how they work. Sometimes that leads to a focused improvement; sometimes it means rethinking the structure or a larger part of the experience."}},{"@type":"Question","name":"Can you work alongside our product and engineering team?","acceptedAnswer":{"@type":"Answer","text":"Yes. I work directly with founders, product managers, designers, and engineers. I take time to understand the decisions already made and the constraints your team is working within. We agree on what I’ll own and stay in touch as the work takes shape."}},{"@type":"Question","name":"Do you support development and AI-assisted builds?","acceptedAnswer":{"@type":"Answer","text":"Yes. I work through the flows, component behaviour, permissions, and edge cases so your engineers have the context they need to build. That includes documentation for AI-assisted development and reviewing the implementation as it takes shape. I can also develop frontends myself, with that work scoped separately."}},{"@type":"Question","name":"Do you take on focused projects or ongoing work?","acceptedAnswer":{"@type":"Answer","text":"Both. We can work on something specific, like an MVP, a new feature, or a redesign. If you need someone to stay close to the product as it evolves, I also offer ongoing support. We agree on the scope or monthly capacity around what your team needs."}},{"@type":"Question","name":"How do we get started?","acceptedAnswer":{"@type":"Answer","text":"You can book a call or drop me an email with a little about your product and where you need help. You might be figuring out a new idea, working through a difficult workflow, or noticing that people aren’t using the product the way you expected. We can talk through it, bounce around ideas, and see what might make sense. You don’t need to have the solution figured out before we speak."}}]}</script>
 <link rel="stylesheet" href="/compact.css?v=3" media="(min-width: 1024px)" />
 <!-- seo:end -->
 </head>
@@ -1529,7 +1534,7 @@
     <nav class="nav" aria-label="Primary">
         <a href="./index.html" class="nav__brand">Disha Shah</a>
         <div class="nav__right">
-          <a href="services/product-design/#contact" class="nav__cta">Book a Discovery Call</a>
+          <a href="services/product-design/#contact" class="nav__cta">Book a discovery call</a>
           <button class="nav__menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-open><span></span></button>
         </div>
       </nav>
@@ -1539,7 +1544,7 @@
   <section class="pd-hero" aria-labelledby="pd-title">
     <p class="eyebrow" data-intro>Product Design</p>
     <h1 id="pd-title" class="pd-hero__title h-primary" data-intro>Your product does a lot. Let’s make it easier to use.</h1>
-    <p class="pd-hero__sub" data-intro>Product design for AI, deep-tech and enterprise teams, built around how your users and your industry actually work. I work with founders and teams to make sense of complex products and make them easier to use—from how things fit together to the details people interact with.</p>
+    <p class="pd-hero__sub" data-intro>I work with founders and teams on AI, deep-tech, and enterprise products. I get into how your users and industry work, then design the flows, screens, and details that help people get things done.</p>
     <a class="btn-ghost" href="services/product-design/#contact" data-intro>Start a conversation</a>
   </section>
 
@@ -1625,7 +1630,7 @@
         <div class="pd-gap__layer pd-gap__layer--b" data-layer-b>
           <div class="pd-lose">
             <div class="pd-head">
-              <p class="eyebrow">Where I come in</p>
+              <p class="eyebrow">What I look for</p>
               <h2 class="h-primary">Where products usually lose people.</h2>
             </div>
             <ul class="pd-cards" data-stagger-group>
@@ -1651,7 +1656,7 @@
       <div class="pd-tabs" role="tablist" aria-label="How I work"><button class="pd-tab is-active" id="pd-tab-0-0" aria-controls="pd-panel-0-0" type="button" role="tab" aria-selected="true" data-pd-tab="0"><i>01</i><span class="pd-tab__t"><span>Product audit</span></span></button><button class="pd-tab" id="pd-tab-0-1" aria-controls="pd-panel-0-1" type="button" role="tab" aria-selected="false" data-pd-tab="1"><i>02</i><span class="pd-tab__t"><span>User flows + IA</span></span></button><button class="pd-tab" id="pd-tab-0-2" aria-controls="pd-panel-0-2" type="button" role="tab" aria-selected="false" data-pd-tab="2"><i>03</i><span class="pd-tab__t"><span>Wireframes + UX</span></span></button><button class="pd-tab" id="pd-tab-0-3" aria-controls="pd-panel-0-3" type="button" role="tab" aria-selected="false" data-pd-tab="3"><i>04</i><span class="pd-tab__t"><span>Product UI</span></span></button><button class="pd-tab" id="pd-tab-0-4" aria-controls="pd-panel-0-4" type="button" role="tab" aria-selected="false" data-pd-tab="4"><i>05</i><span class="pd-tab__t"><span>Handoff + QA</span></span></button></div>
         <div class="pd-panel is-active" id="pd-panel-0-0" aria-labelledby="pd-tab-0-0" role="tabpanel" data-pd-panel="0">
           <div class="pd-panel__main"><p class="pd-label">01 / Product audit</p><h3>First, understand what’s there.</h3><p>I look at your product, who uses it, and the work they’re trying to get done. Together, we find where things get difficult and what’s worth addressing first.</p></div>
-          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Product and UX review</b></li><li><i>02</i><b>Review of relevant competitors</b></li><li><i>03</i><b>Friction points across key journeys</b></li><li><i>04</i><b>Priorities + Strategy on how to approach the design work</b></li></ul></div>
+          <div class="pd-panel__out"><p class="pd-label">Typical outputs:</p><ul><li><i>01</i><b>Product and UX review</b></li><li><i>02</i><b>Review of relevant competitors</b></li><li><i>03</i><b>Friction points across key journeys</b></li><li><i>04</i><b>Priorities and a plan for the design work</b></li></ul></div>
         </div>
         <div class="pd-panel" id="pd-panel-0-1" aria-labelledby="pd-tab-0-1" role="tabpanel" data-pd-panel="1" hidden>
           <div class="pd-panel__main"><p class="pd-label">02 / User flows + IA</p><h3>Make the structure make sense.</h3><p>I map how people move through the product—what they need to find, decide, and do. This includes the different roles, permissions, and handoffs along the way.</p></div>
@@ -1675,16 +1680,14 @@
 
   <section class="pd-why" data-theme="dark" aria-labelledby="pd-why-title">
     <div class="pd-head" data-reveal>
-      <p class="eyebrow">Why Disha</p>
+      <p class="eyebrow">How I think about the work</p>
       <h2 id="pd-why-title" class="h-primary">I design products with business and users in mind.</h2>
       <p class="sub">Your users have a job to do. Your team has goals to meet and constraints to work within. I keep both in view as I work through the product.</p>
     </div>
     <ol class="pd-why__list">
-      <li class="pd-why__row" data-reveal><i>01</i><h3>Get into the complexity</h3><p>I take time to understand your industry and domain—how people work, the decisions they make, and the constraints they work within. Those details shape how an AI-native tool, mobile app, or SaaS product should work.</p></li>
-      <li class="pd-why__row" data-reveal><i>02</i><h3>Keep UX and UI connected</h3><p>I think about flows, words, and visual details together. What a screen says, how it looks, and what happens next should all make sense as one experience.</p></li>
-      <li class="pd-why__row" data-reveal><i>03</i><h3>Think through the build</h3><p>I consider edge cases, components, user permissions, accessibility and responsive behaviour as I design. And I work through technical constraints with your engineers along the way.</p></li>
-      <li class="pd-why__row" data-reveal><i>04</i><h3>Use AI with intention</h3><p>I work with AI throughout design and prototyping, grounded in your product’s rules, user needs, and industry. It helps me move faster while keeping UX, UI, and your business and engineering goals central to what gets built.</p></li>
-      <li class="pd-why__row" data-reveal><i>05</i><h3>Work closely with your team</h3><p>I work directly with founders, product managers, and engineers. We talk through decisions as they come up, so the reasoning stays clear as the product takes shape.</p></li>
+<li class="pd-why__row" data-reveal><i>01</i><h3>Get into the complexity</h3><p>I take time to understand your industry and domain—how people work, the decisions they make, and the constraints they work within. Those details shape how an AI-native tool, mobile app, or SaaS product should work.</p></li>
+<li class="pd-why__row" data-reveal><i>02</i><h3>Think through the build</h3><p>I consider edge cases, components, user permissions, accessibility and responsive behaviour as I design. And I work through technical constraints with your engineers along the way.</p></li>
+<li class="pd-why__row" data-reveal><i>03</i><h3>Work closely with your team</h3><p>I work directly with founders, product managers, and engineers. We talk through decisions as they come up, so the reasoning stays clear as the product takes shape.</p></li>
     </ol>
   </section>
 
@@ -1693,12 +1696,12 @@
       <div class="pd-head">
         <p class="eyebrow">Ways to work together</p>
         <h2 id="pd-plans-title" class="h-primary">A fresh look, a focused project, or someone to keep building with.</h2>
-        <p class="sub">From PoCs + MVPs, to product redesigns and ongoing product support, I work with you at the stage or the level you need.</p>
+        <p class="sub">We can start with an audit, design a proof of concept or MVP, or work together as your product evolves.</p>
       </div>
       <a class="btn-ghost" href="services/product-design/#contact">Speak to Disha</a>
     </div>
     <div class="pd-box" data-reveal><div class="pd-grid-box"><div class="pd-plans__grid">
-        <div class="pd-plan"><div class="pd-plan__top"><p class="pd-label">3-5 days</p><h3>Product Clarity Audit</h3><p>For teams with a live product that feels harder to use than it should. I help you understand where people get stuck and what needs attention first.</p></div><div class="pd-plan__inc"><p class="pd-label">What is included:</p><ul><li><i>01</i><b>Review of key user journeys &amp; friction points</b></li><li><i>02</i><b>User Interface consistency, visual design and accessibility review</b></li><li><i>03</i><b>Findings prioritised by impact, effort and priority</b></li><li><i>04</i><b>Clear recommendations that your team can act upon</b></li></ul></div></div>
+        <div class="pd-plan"><div class="pd-plan__top"><p class="pd-label">3-5 days</p><h3>Product Clarity Audit</h3><p>For teams with a live product that feels harder to use than it should. I help you understand where people get stuck and what needs attention first.</p></div><div class="pd-plan__inc"><p class="pd-label">What is included:</p><ul><li><i>01</i><b>Review of key user journeys &amp; friction points</b></li><li><i>02</i><b>User Interface consistency, visual design and accessibility review</b></li><li><i>03</i><b>Findings prioritised by impact and effort</b></li><li><i>04</i><b>Clear recommendations that your team can act upon</b></li></ul></div></div>
         <div class="pd-plan"><div class="pd-plan__top"><p class="pd-label">2-8 weeks</p><h3>One-time Design Project</h3><p>For founders and teams with something specific to build or rethink—a PoC, an MVP, a new feature, or an existing product. We agree on the scope and work through it together.</p></div><div class="pd-plan__inc"><p class="pd-label">What is included:</p><ul><li><i>01</i><b>Agreed goals, scope, deliverables, and timeline</b></li><li><i>02</i><b>User flows, wireframes, and key edge cases</b></li><li><i>03</i><b>Detailed UI, reusable components, and prototypes</b></li><li><i>04</i><b>Design context and documentation for AI-assisted builds</b></li><li><i>05</i><b>Developer handoff and design reviews during the build</b></li></ul></div></div>
         <div class="pd-plan"><div class="pd-plan__top"><p class="pd-label">Monthly retainer</p><h3>Design Retainers</h3><p>For teams that need design support as their product evolves. I stay close to the product and the people building it, with time set aside each month.</p></div><div class="pd-plan__inc"><p class="pd-label">What is included:</p><ul><li><i>01</i><b>Dedicated design time around monthly priorities</b></li><li><i>02</i><b>Design for new features and existing product improvements</b></li><li><i>03</i><b>Components and patterns that evolve with your product</b></li><li><i>04</i><b>Regular team reviews and ongoing developer support</b></li></ul></div></div>
     </div></div></div>
@@ -1769,15 +1772,15 @@
     <div class="faq__inner">
       <div class="faq__head" data-reveal>
         <h2 id="faq-title" class="h-primary" style="margin:0;line-height:37.8px">Frequently asked questions</h2>
-        <p class="faq__sub">The things people actually ask, answered plainly.</p>
+        <p class="faq__sub">A few things you might want to know before we work together.</p>
       </div>
       <div class="faq__list" data-faq data-reveal>
-        <div class="faq__item is-open"><button class="faq__q" id="faq-q-1" aria-controls="faq-a-1" type="button" aria-expanded="true"><span>How do we start working together?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-1" role="region" aria-labelledby="faq-q-1"><div class="faq__a-in"><p>Book a call with me or send over an email. We will set up a call, and you tell me what is not working. If I can help, I will say what we would do and what it costs. If we cannot, we will say that too.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>How is this priced?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>Per project. I look at the scope and what you’re trying to achieve, then recommend the structure that suits it best. One-time project fees generally work well. I also take on monthly retainers for 2–3 months, with each month scoped to a set goal.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>What if it’s not the right fit?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>Most people start with a short audit or sprint. If it isn’t working, you can stop, and I’ll refund any time I haven’t worked yet.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Where are you based?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>In India, working between IST and EST, with plenty of overlap with US teams.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>Do you work with AI tools and engineers?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>Yes. I design with Claude, Cursor and VS Code in mind, and can ship front end myself.</p></div></div></div>
-        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>NDAs?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>Always happy to sign one.</p></div></div></div>
+        <div class="faq__item is-open"><button class="faq__q" id="faq-q-1" aria-controls="faq-a-1" type="button" aria-expanded="true"><span>What kinds of products do you work on?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-1" role="region" aria-labelledby="faq-q-1"><div class="faq__a-in"><p>I mostly work on AI, deep-tech, and enterprise products, often in industries where there’s a lot to understand before you can design anything useful. That could be a new idea you’re testing, an MVP, or an existing product that needs rethinking.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-2" aria-controls="faq-a-2" type="button" aria-expanded="false"><span>Can you help with an existing product?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-2" role="region" aria-labelledby="faq-q-2"><div class="faq__a-in"><p>Yes. We can look at where people are getting stuck, what’s become harder to use, or where the product no longer fits how they work. Sometimes that leads to a focused improvement; sometimes it means rethinking the structure or a larger part of the experience.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-3" aria-controls="faq-a-3" type="button" aria-expanded="false"><span>Can you work alongside our product and engineering team?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-3" role="region" aria-labelledby="faq-q-3"><div class="faq__a-in"><p>Yes. I work directly with founders, product managers, designers, and engineers. I take time to understand the decisions already made and the constraints your team is working within. We agree on what I’ll own and stay in touch as the work takes shape.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-4" aria-controls="faq-a-4" type="button" aria-expanded="false"><span>Do you support development and AI-assisted builds?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-4" role="region" aria-labelledby="faq-q-4"><div class="faq__a-in"><p>Yes. I work through the flows, component behaviour, permissions, and edge cases so your engineers have the context they need to build. That includes documentation for AI-assisted development and reviewing the implementation as it takes shape. I can also develop frontends myself, with that work scoped separately.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-5" aria-controls="faq-a-5" type="button" aria-expanded="false"><span>Do you take on focused projects or ongoing work?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-5" role="region" aria-labelledby="faq-q-5"><div class="faq__a-in"><p>Both. We can work on something specific, like an MVP, a new feature, or a redesign. If you need someone to stay close to the product as it evolves, I also offer ongoing support. We agree on the scope or monthly capacity around what your team needs.</p></div></div></div>
+        <div class="faq__item"><button class="faq__q" id="faq-q-6" aria-controls="faq-a-6" type="button" aria-expanded="false"><span>How do we get started?</span><i class="faq__icon" aria-hidden="true"></i></button><div class="faq__a" id="faq-a-6" role="region" aria-labelledby="faq-q-6"><div class="faq__a-in"><p>You can <a class="faq__link" href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">book a call</a> or <a class="faq__link" href="mailto:disha@vanya.studio">drop me an email</a> with a little about your product and where you need help.</p><p>You might be figuring out a new idea, working through a difficult workflow, or noticing that people aren’t using the product the way you expected. We can talk through it, bounce around ideas, and see what might make sense. You don’t need to have the solution figured out before we speak.</p></div></div></div>
       </div>
     </div>
   </section>
@@ -1795,7 +1798,7 @@
         <div class="booking__cal" data-lenis-prevent id="cal-introduction-meeting"></div>
         <div class="booking__fallback">
           <p style="margin:0">Loading the calendar…</p>
-          <a class="btn-ghost" href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">Book an introduction call</a>
+          <a class="btn-ghost" href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">Book a discovery call</a>
         </div>
       </div>
     </div>
