@@ -364,7 +364,7 @@
     .sheet__prose p { margin: 0; }
     /* the three gap texts reserve the same height, so the picture starts at the same place in every pop-up */
     .sheet--bleed .sheet__prose { min-height: 276px; }
-    @media (max-width: 767px) { .sheet--bleed .sheet__prose { min-height: 492px; } }
+    @media (max-width: 767px) { .sheet--bleed .sheet__prose { min-height: 0; } }   /* phones: the picture follows the text closely */
     .sheet__lead { margin: 0; color: #5e5855; font-size: 18px; line-height: 28px; letter-spacing: 0.36px; }
     .sheet__text { display: grid; grid-template-columns: 1fr; gap: 20px 24px; max-width: 740px; width: 100%; margin: 0 auto; color: #5e5855; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
     .sheet__text h3 { margin: 24px 0 0; color: #140700; font-weight: 500; font-size: 16px; line-height: 27px; }
@@ -376,6 +376,7 @@
     .sheet__fig img { display: block; width: 100%; height: auto; }
     /* Gap pop-ups: the image runs the full width of the sheet, square-cornered, right down to the bottom edge */
     .sheet--bleed .sheet__content { --sx: max(24px, calc((100vw - 1268px) / 2)); padding-bottom: 0; gap: clamp(56px, 10vw, 144px); }   /* more air between the text and the image */
+    @media (max-width: 767px) { .sheet--bleed .sheet__content { gap: 40px; } }   /* phones: the picture follows the text closely */
     .sheet--bleed .sheet__gallery { margin-inline: calc(var(--sx) * -1); }
     /* All three pictures share one shape (the city picture's): the same height in every gap pop-up */
     .sheet--bleed .sheet__fig { aspect-ratio: 1659 / 948; }
