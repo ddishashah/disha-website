@@ -389,6 +389,7 @@
       .sheet--bleed .sheet__gallery { margin-inline: 0; }
       .sheet--bleed .sheet__fig { width: 100%; max-width: 860px; margin-inline: auto; border-radius: 28px; corner-shape: squircle; }
     }
+    @media (min-width: 1024px) { .sheet--bleed .sheet__content { gap: 56px; } }   /* desktop: 56px between the text and the picture */
     /* as the sheet is pulled down the picture slides up inside its frame (parallax), and settles back with the sheet */
     .sheet--bleed .sheet__fig img { transform-origin: 50% 0; transform: translateY(calc(var(--pk, 0) * -0.15px)) scale(calc(1 + var(--pk, 0) * 0.0009)); will-change: transform; }
     .sheet--quote .sheet__content { padding-top: clamp(64px, 36px + 6vw, 104px); gap: 28px; }
