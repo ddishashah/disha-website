@@ -17,7 +17,7 @@ const arrow = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="
       <p class="wi-hero__sub">Thinking out loud about brand, product and design systems for AI-native and deep-tech companies: what I’m learning, testing and changing my mind about.</p>
     </div>
   </section>
-  <section class="wi-list" id="posts" aria-label="Blog posts">
+  <section class="wi-list blog-nocovers" id="posts" aria-label="Blog posts">
     {posts.length === 0 && <p class="blog-empty">The first posts are on their way.</p>}
     {posts.map((p, i) => (
       <a class="wcard" href={`blog/${p.slug}/`}>

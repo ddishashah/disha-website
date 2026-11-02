@@ -56,3 +56,9 @@
 .post-toc a:hover { text-decoration: underline !important; text-underline-offset: 3px; }
 .post-toc li.is-sub a { color: #5e5855; }
 .wd-text h3[id], .wd-text h4[id] { scroll-margin-top: 110px; }
+
+/* Covers hidden on the index for now: remove the blog-nocovers class in blog/index.astro to bring them back. */
+.blog-nocovers .wcard__img { display: none; }
+.blog-nocovers .wcard { padding: 44px 56px; }
+.blog-nocovers .wcard__txt { gap: 22px; }
+@media (max-width: 767px) { .blog-nocovers .wcard { padding: 24px 22px; } }
