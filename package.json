@@ -1,0 +1,10 @@
+{
+  "name": "disha-website",
+  "private": true,
+  "description": "Static site + blog. The editor's sign-in function (functions/) needs @keystatic/core.",
+  "dependencies": {
+    "@keystatic/core": "^0.6.9",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}

@@ -1,0 +1,49 @@
+---
+// Page shell for the blog: the same head, nav, footer, menu and scripts as the rest of the site
+// (cut from a case-study page by scripts/extract-layout.py), with the blog's own title, SEO tags and content in the middle.
+import head from './chunks/head.html?raw';
+import top from './chunks/top.html?raw';
+import bottom from './chunks/bottom.html?raw';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;            // e.g. /blog/my-post/
+  image?: string;          // share image (site-relative or absolute)
+  type?: 'website' | 'article';
+  published?: string;      // ISO date, for articles
+  jsonLd?: object[];
+}
+const { title, description, path, image, type = 'website', published, jsonLd = [] } = Astro.props;
+const SITE = 'https://disha-shah.io';
+const url = SITE + path;
+const img = image ? (image.startsWith('http') ? image : SITE + image) : SITE + '/img/og-image.jpg';
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="/" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={url} />
+  <meta property="og:site_name" content="Disha Shah" />
+  <meta property="og:type" content={type} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={url} />
+  <meta property="og:image" content={img} />
+  {published && <meta property="article:published_time" content={published} />}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={img} />
+  {jsonLd.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+  <Fragment set:html={head} />
+  <link rel="stylesheet" href="/blog-extras.css" />
+</head>
+<body>
+  <Fragment set:html={top} />
+  <slot />
+  <Fragment set:html={bottom} />
+</body>
+</html>

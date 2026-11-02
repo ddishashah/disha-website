@@ -1,0 +1,19 @@
+node_modules
+dist
+.astro
+.wrangler
+# local-preview links to the main site (scripts/link-site.sh)
+public/fonts
+public/img
+public/gallery
+public/logos
+public/icons
+public/video
+public/work
+public/arc.js
+public/compact.css
+public/favicon.ico
+public/favicon-32.png
+public/apple-touch-icon.png
+public/icon-192.png
+public/icon-512.png

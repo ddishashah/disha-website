@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getPosts, formatDate } from '../../lib/posts';
+const posts = await getPosts();
+const arrow = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+---
+<Layout
+  title="Blog — Disha Shah"
+  description="Notes on brand, product and design systems for AI-native and deep-tech companies, by Disha Shah."
+  path="/blog/"
+  jsonLd={[{ '@context': 'https://schema.org', '@type': 'Blog', name: 'Disha Shah — Blog', url: 'https://disha-shah.io/blog/' }]}
+>
+  <section class="wi-hero" aria-labelledby="wi-title">
+    <p class="wi-hero__eyebrow" data-intro>Notes</p>
+    <div class="wi-hero__copy" data-intro>
+      <h1 id="wi-title" class="wi-hero__title h-primary">Blog</h1>
+      <p class="wi-hero__sub">Thinking out loud about brand, product and design systems for AI-native and deep-tech companies: what I’m learning, testing and changing my mind about.</p>
+    </div>
+  </section>
+  <section class="wi-list" id="posts" aria-label="Blog posts">
+    {posts.length === 0 && <p class="blog-empty">The first posts are on their way.</p>}
+    {posts.map((p, i) => (
+      <a class="wcard" href={`blog/${p.slug}/`}>
+        <div class="wcard__in">
+          <div class="wcard__img">{p.cover ? <img src={p.cover} alt={p.coverAlt} loading={i < 2 ? 'eager' : 'lazy'} /> : <span class="blog-nocover" aria-hidden="true"></span>}</div>
+          <div class="wcard__txt">
+            <h2 class="wcard__title">{p.title}{import.meta.env.DEV && p.draft ? ' (draft)' : ''}</h2>
+            <p class="wcard__sub">{p.summary}</p>
+            <p class="blog-meta">{formatDate(p.date)}{p.tags.length ? ' · ' + p.tags.slice(0, 2).join(' · ') : ''}</p>
+            <span class="wcard__cta">Read post <Fragment set:html={arrow} /></span>
+          </div>
+        </div>
+      </a>
+    ))}
+  </section>
+</Layout>

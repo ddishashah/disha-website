@@ -1,0 +1,36 @@
+/* Blog-only additions on top of the site's case-study styles */
+.blog-meta { margin: 0 0 14px; color: #757575; font-size: 14px; line-height: 20px; letter-spacing: .14px; }
+.blog-empty { width: 633px; max-width: calc(100% - 32px); margin: 40px auto; color: #5e5855; font-size: 16px; line-height: 27px; }
+.blog-nocover { display: block; width: 100%; aspect-ratio: 550 / 444; background: linear-gradient(135deg, #eceae6, #dcd8d2); border-radius: 16px; }
+.case__thumb .blog-nocover { height: 100%; aspect-ratio: auto; }
+
+/* inside a post */
+.wd-text ul, .wd-text ol { margin: 0 0 27px; padding-left: 22px; }
+.wd-text li { margin: 0 0 8px; }
+.wd-text a { color: #000; text-decoration: underline; text-underline-offset: 3px; }
+.wd-text code { padding: 1px 6px; border-radius: 6px; background: #eeece8; font-size: .92em; }
+.wd-text pre { margin: 0 0 27px; padding: 18px 20px; border-radius: 12px; background: #140700; color: #f8f8f7; overflow-x: auto; font-size: 14px; line-height: 22px; }
+.wd-text pre code { background: none; padding: 0; }
+.wd-text table { width: 100%; margin: 0 0 27px; border-collapse: collapse; font-size: 15px; }
+.wd-text th, .wd-text td { padding: 10px 12px; border-bottom: 1px solid #e6e3de; text-align: left; vertical-align: top; }
+.post-quote { margin: 0 0 27px; padding-left: 20px; border-left: 2px solid #d6d4cf; color: #000; }
+.post-rule { margin: 40px 0; border: 0; border-top: 1px solid #e6e3de; }
+.post-pull { margin: 12px 0 33px; }
+.post-pull blockquote { margin: 0; color: #000; font-family: var(--font-serif); font-size: 32px; line-height: 37px; letter-spacing: -0.64px; }
+.post-pull figcaption { margin-top: 14px; color: #757575; font-size: 15px; }
+.post-callout { margin: 0 0 27px; padding: 20px 22px; border: 1px solid #e6e3de; border-radius: 14px; background: #fff; }
+.post-callout b { display: block; margin-bottom: 6px; color: #000; font-weight: 600; }
+.post-callout p { margin: 0; }
+.wd-strip figcaption, .post-gallery figcaption, .post-video figcaption { margin-top: 10px; color: #757575; font-size: 14px; line-height: 20px; }
+.post-gallery { display: grid; gap: 16px; }
+.post-gallery--2 { grid-template-columns: 1fr 1fr; }
+.post-gallery--3 { grid-template-columns: 1fr 1fr 1fr; }
+.post-gallery figure { margin: 0; }
+.post-gallery img { display: block; width: 100%; height: auto; border-radius: 12px; }
+.post-video { margin: 0; }
+.post-video > div { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #140700; }
+.post-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+@media (max-width: 767px) {
+  .post-gallery--2, .post-gallery--3 { grid-template-columns: 1fr; }
+  .post-pull blockquote { font-size: 26px; line-height: 31px; }
+}

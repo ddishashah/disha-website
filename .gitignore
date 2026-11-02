@@ -7,3 +7,8 @@ index.backup.html
 !.dev.vars.example
 .env*
 !.env.example
+
+# build output and dependencies
+node_modules
+dist
+blog-app/.astro

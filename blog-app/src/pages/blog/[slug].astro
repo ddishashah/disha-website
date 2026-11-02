@@ -1,0 +1,70 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PostBody from '../../components/PostBody.tsx';
+import { reader, getPosts, formatDate } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+const { slug } = Astro.params;
+const entry = await reader.collections.posts.read(slug!);
+if (!entry) return Astro.redirect('/blog/');
+const body = await entry.body();
+const posts = await getPosts();
+const more = posts.filter((p) => p.slug !== slug).slice(0, 6);
+const path = `/blog/${slug}/`;
+const published = entry.date ?? '';
+const cover = entry.cover ? '/blog-img/' + entry.cover : null;
+const words = JSON.stringify(body).split(/\s+/).length;
+---
+<Layout
+  title={`${entry.title} — Disha Shah`}
+  description={entry.summary}
+  path={path}
+  image={cover ?? undefined}
+  type="article"
+  published={published}
+  jsonLd={[
+    { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: entry.title, description: entry.summary, datePublished: published, author: { '@type': 'Person', name: 'Disha Shah', url: 'https://disha-shah.io/about/' }, mainEntityOfPage: 'https://disha-shah.io' + path, image: cover ? 'https://disha-shah.io' + cover : undefined },
+    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://disha-shah.io/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://disha-shah.io/blog/' },
+      { '@type': 'ListItem', position: 3, name: entry.title, item: 'https://disha-shah.io' + path },
+    ] },
+  ]}
+>
+  <article>
+    <header class="wd-head">
+      <p class="wd-eyebrow" data-intro>{formatDate(published)}{entry.tags.length ? ' · ' + entry.tags[0] : ''}</p>
+      <h1 class="wd-title h-primary" data-intro>{entry.title}</h1>
+      <p class="wd-sub" data-intro>{entry.summary}</p>
+      {entry.tags.length > 0 && (
+        <div class="wd-cap" data-intro><span class="wd-cap__label">Topics</span><div class="wd-cap__chips">{entry.tags.map((t) => <span class="chip">{t}</span>)}</div></div>
+      )}
+    </header>
+    {cover && (
+      <div class="wd-media" data-reveal><img src={cover} alt={entry.coverAlt || entry.title} width="1356" height="763" fetchpriority="high" /></div>
+    )}
+    <PostBody document={body as any} />
+  </article>
+  {more.length > 0 && (
+    <section class="work wd-more" aria-labelledby="more-title">
+      <div class="work__head" data-reveal>
+        <p class="eyebrow">Blog</p>
+        <h2 id="more-title" class="work__title h-primary">More posts</h2>
+      </div>
+      <div class="shelf" data-shelf>
+        {more.map((p, i) => (
+          <a class="case" href={`blog/${p.slug}/`} style={`--i:${i}`}>
+            <div class="case__frame"><div class="case__thumb">{p.cover ? <img src={p.cover} alt={p.coverAlt} loading="lazy" /> : <span class="blog-nocover" aria-hidden="true"></span>}</div></div>
+            <div class="case__text">
+              <h3 class="case__title">{p.title}</h3>
+              <p class="case__tags">{formatDate(p.date)}{p.tags.length ? '  ·  ' + p.tags[0] : ''}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</Layout>
