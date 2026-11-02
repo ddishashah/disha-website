@@ -178,3 +178,5 @@
 .post-further__list { border-top: 0; }
 .post-further__list li:first-child { border-top: 1px solid #dedad3; }
 @media (max-width: 767px) { .post-further__list li:first-child { border-top: 0; } }
+/* iPhone Safari: never auto-inflate text (the sideways-scrolling pill row can trigger it) */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
