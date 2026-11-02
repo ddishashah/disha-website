@@ -138,3 +138,15 @@
 .post-further__back { display: inline-flex; align-items: center; justify-content: center; gap: 0; margin-top: 48px; padding: 14px 24px; border: 0; border-bottom: 0; line-height: 20px; height: auto; font-size: 16px; font-weight: 400; }
 /* Phone: no row numbers in Read further */
 @media (max-width: 767px) { .post-further__num { display: none; } .post-further__list a { grid-template-columns: 1fr; } .post-further__list a:hover { padding-left: 0; } }
+/* Buttons: the site's white pill (same as .btn-ghost: white, 45px, no border, soft shadow on hover) */
+.post-ai, .post-share { background: transparent; }
+.post-ai a, .post-share a, .post-share button {
+  display: inline-flex; align-items: center; gap: 10px; height: 45px; padding: 0 24px 1px; border: 0; border-radius: 96px;
+  background: #fff; color: #140700; font: inherit; font-size: 15px; line-height: 14.56px; letter-spacing: .15px; white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .04); transition: box-shadow .5s cubic-bezier(.19, 1, .22, 1);
+}
+.post-ai a:hover, .post-share a:hover, .post-share button:hover, .post-ai a:focus-visible, .post-share a:focus-visible, .post-share button:focus-visible {
+  background: #fff; border: 0; box-shadow: 0 21px 13px 0 rgba(0, 0, 0, .04), 0 9px 9px 0 rgba(0, 0, 0, .04), 0 2px 5px 0 rgba(0, 0, 0, .05);
+}
+.post-ai > div, .post-share > div { gap: 10px; }
+.post-ai svg, .post-share svg { width: 17px; height: 17px; color: #140700; }
