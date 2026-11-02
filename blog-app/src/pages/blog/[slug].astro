@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import PostBody from '../../components/PostBody.tsx';
 import { reader, getPosts, formatDate } from '../../lib/posts';
 import { AUTHOR, SITE } from '../../lib/site';
+import { icons, linkIcon } from '../../lib/icons';
 import { withHeadingIds } from '../../lib/doc';
 
 export async function getStaticPaths() {
@@ -54,16 +55,17 @@ const cover = entry.cover ? '/blog-img/' + entry.cover : null;
         <span class="post-label">Summarize with AI</span>
         <div>
           {[['ChatGPT', 'https://chatgpt.com/?q='], ['Claude', 'https://claude.ai/new?q='], ['Perplexity', 'https://www.perplexity.ai/search?q='], ['Google AI', 'https://www.google.com/search?udm=50&q=']].map(([n, u]) => (
-            <a href={u + encodeURIComponent(`Summarize this article by ${AUTHOR.name} and list the key takeaways: ${SITE}${path}`)} target="_blank" rel="noopener noreferrer">{n}</a>
+            <a href={u + encodeURIComponent(`Summarize this article by ${AUTHOR.name} and list the key takeaways: ${SITE}${path}`)} target="_blank" rel="noopener noreferrer"><Fragment set:html={icons[n]} /><span>{n}</span></a>
           ))}
         </div>
       </div>
       <div class="post-share" role="group" aria-label="Share this article">
         <span class="post-label">Share</span>
         <div>
-          <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(SITE + path)}&text=${encodeURIComponent(entry.title)}`} target="_blank" rel="noopener noreferrer">X</a>
-          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SITE + path)}`} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <button type="button" data-copy-link={SITE + path}>Copy link</button>
+          <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(SITE + path)}&text=${encodeURIComponent(entry.title)}`} target="_blank" rel="noopener noreferrer"><Fragment set:html={icons.X} /><span>X</span></a>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SITE + path)}`} target="_blank" rel="noopener noreferrer"><Fragment set:html={icons.LinkedIn} /><span>LinkedIn</span></a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" data-copy-link={SITE + path} data-copied="Link copied, paste it in Instagram"><Fragment set:html={icons.Instagram} /><span>Instagram</span></a>
+          <button type="button" data-copy-link={SITE + path}><Fragment set:html={linkIcon} /><span>Copy link</span></button>
         </div>
       </div>
       {toc.length > 1 && (
@@ -81,28 +83,21 @@ const cover = entry.cover ? '/blog-img/' + entry.cover : null;
   <script is:inline>
     document.querySelectorAll('[data-copy-link]').forEach(function (b) {
       b.addEventListener('click', function () {
-        var t = b.getAttribute('data-copy-link'), d = function () { var o = b.textContent; b.textContent = 'Copied'; setTimeout(function () { b.textContent = o; }, 1600); };
+        var t = b.getAttribute('data-copy-link'), l = b.querySelector('span'), m = b.getAttribute('data-copied') || 'Copied';
+        var d = function () { var o = l.textContent; l.textContent = m; setTimeout(function () { l.textContent = o; }, 2200); };
         if (navigator.clipboard) navigator.clipboard.writeText(t).then(d, d); else d();
       });
     });
   </script>
   {more.length > 0 && (
-    <section class="work wd-more" aria-labelledby="more-title">
-      <div class="work__head" data-reveal>
-        <p class="eyebrow">Blog</p>
-        <h2 id="more-title" class="work__title h-primary">More posts</h2>
-      </div>
-      <div class="shelf" data-shelf>
-        {more.map((p, i) => (
-          <a class="case" href={`blog/${p.slug}/`} style={`--i:${i}`}>
-            <div class="case__frame"><div class="case__thumb">{p.cover ? <img src={p.cover} alt={p.coverAlt} loading="lazy" /> : <span class="blog-nocover" aria-hidden="true"></span>}</div></div>
-            <div class="case__text">
-              <h3 class="case__title">{p.title}</h3>
-              <p class="case__tags">{formatDate(p.date)}{p.tags.length ? '  ·  ' + p.tags[0] : ''}</p>
-            </div>
-          </a>
+    <section class="post-further" aria-labelledby="further-title">
+      <h2 id="further-title" class="post-further__title">Read further</h2>
+      <ul class="post-further__list">
+        {more.map((p) => (
+          <li><a href={`blog/${p.slug}/`}><span class="post-further__name">{p.title}</span><span class="post-further__date">{formatDate(p.date)}</span></a></li>
         ))}
-      </div>
+      </ul>
+      <a class="btn-ghost post-further__back" href="blog/">Back to all posts</a>
     </section>
   )}
 </Layout>
