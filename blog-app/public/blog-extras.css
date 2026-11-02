@@ -163,3 +163,10 @@
   .blog-chips { margin-top: 30px; }
   .blog-nocovers .wcard__cta { margin-top: 34px; }
 }
+/* Phone: Read further has no line above the first row or below the last, and no padding at either end */
+@media (max-width: 767px) {
+  .post-further__list { border-top: 0; }
+  .post-further__list li:first-child a { padding-top: 0; }
+  .post-further__list li:last-child { border-bottom: 0; }
+  .post-further__list li:last-child a { padding-bottom: 0; }
+}
