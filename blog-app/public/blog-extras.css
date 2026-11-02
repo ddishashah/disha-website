@@ -152,3 +152,14 @@
 .post-ai svg, .post-share svg { width: 17px; height: 17px; color: #140700; }
 /* Phone index card title: 28px */
 @media (max-width: 767px) { .blog-nocovers .wcard__title { font-size: 28px; line-height: 34px; letter-spacing: -.5px; } }
+/* Index card spacing, copied from the Figma frame: date 38 above title / title 12 above summary / pills 46 below summary / link 50 below pills */
+.blog-nocovers .blog-meta { margin: 0 0 38px; }
+.blog-nocovers .wcard__sub { margin: 12px 0 0; }
+.blog-chips { margin-top: 46px; }
+.blog-nocovers .wcard__cta { margin-top: 50px; }
+@media (max-width: 767px) {
+  .blog-nocovers .blog-meta { margin: 0 0 28px; }
+  .blog-nocovers .wcard__sub { margin: 12px 0 0; }
+  .blog-chips { margin-top: 30px; }
+  .blog-nocovers .wcard__cta { margin-top: 34px; }
+}
