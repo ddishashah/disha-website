@@ -97,3 +97,7 @@
 .blog-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
 .blog-nocovers .wcard__cta { margin-top: 26px; }
 @media (max-width: 767px) { .blog-chips { margin-top: 18px; } .blog-nocovers .wcard__cta { margin-top: 22px; } }
+/* Pills stay on one line and scroll sideways, fading out at the right edge */
+.blog-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; max-width: 100%; padding-right: 28px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
+.blog-chips::-webkit-scrollbar { display: none; }
+.blog-chips .chip { flex: none; }
