@@ -170,3 +170,6 @@
   .post-further__list li:last-child { border-bottom: 0; }
   .post-further__list li:last-child a { padding-bottom: 0; }
 }
+/* Index cards: 4px more space above the date */
+.blog-nocovers .wcard { padding-top: 48px; }
+@media (max-width: 767px) { .blog-nocovers .wcard { padding-top: 30px; } }
