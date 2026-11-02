@@ -1976,7 +1976,8 @@
         el.setAttribute('data-reveal', ''); el.setAttribute('data-auto', '');
         el.style.setProperty('--i', Math.min(n, 5));
       }));
-      document.querySelectorAll('[data-reveal], [data-shelf]').forEach(el => io.observe(el));
+      void document.body.offsetHeight;   // commit the hidden state first, so blocks already on screen at load still animate in
+      requestAnimationFrame(() => requestAnimationFrame(() => document.querySelectorAll('[data-reveal], [data-shelf]').forEach(el => io.observe(el))));
       // At the very bottom of a page the last blocks cannot scroll up into the trigger zone, so anything on screen is revealed there
       let atEnd = false;
       window.addEventListener('scroll', () => {
