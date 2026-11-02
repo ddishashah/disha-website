@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import PostBody from '../../components/PostBody.tsx';
 import { reader, getPosts, formatDate } from '../../lib/posts';
 import { AUTHOR, SITE } from '../../lib/site';
-import { withHeadingIds, readingMinutes } from '../../lib/doc';
+import { withHeadingIds } from '../../lib/doc';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -14,7 +14,6 @@ const entry = await reader.collections.posts.read(slug!);
 if (!entry) return Astro.redirect('/blog/');
 const raw = await entry.body();
 const { doc: body, toc } = withHeadingIds(raw as any);
-const minutes = readingMinutes(body as any);
 const posts = await getPosts();
 const more = posts.filter((p) => p.slug !== slug).slice(0, 6);
 const path = `/blog/${slug}/`;
@@ -29,7 +28,7 @@ const cover = entry.cover ? '/blog-img/' + entry.cover : null;
   type="article"
   published={published}
   jsonLd={[
-    { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: entry.title, description: entry.summary, datePublished: published, author: { '@type': 'Person', name: AUTHOR.name, jobTitle: AUTHOR.role, url: AUTHOR.url }, timeRequired: `PT${minutes}M`, mainEntityOfPage: 'https://disha-shah.io' + path, image: cover ? 'https://disha-shah.io' + cover : undefined },
+    { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: entry.title, description: entry.summary, datePublished: published, author: { '@type': 'Person', name: AUTHOR.name, jobTitle: AUTHOR.role, url: AUTHOR.url }, mainEntityOfPage: 'https://disha-shah.io' + path, image: cover ? 'https://disha-shah.io' + cover : undefined },
     { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://disha-shah.io/' },
       { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://disha-shah.io/blog/' },
@@ -39,16 +38,16 @@ const cover = entry.cover ? '/blog-img/' + entry.cover : null;
 >
   <article>
     <header class="wd-head">
-      <p class="wd-eyebrow post-meta" data-intro><span>Published: <b>{formatDate(published)}</b></span><i aria-hidden="true"></i><span>Reading time: <b>{minutes} min read</b></span></p>
+      <p class="wd-eyebrow post-meta" data-intro><span>Published: <b>{formatDate(published)}</b></span></p>
+      <div class="post-author" data-intro>
+        <img src={AUTHOR.photo} alt="" width="44" height="44" />
+        <p><b>{AUTHOR.name}</b><span>{AUTHOR.role}</span></p>
+      </div>
       <h1 class="wd-title h-primary" data-intro>{entry.title}</h1>
       <p class="wd-sub" data-intro>{entry.summary}</p>
       {entry.tags.length > 0 && (
         <div class="wd-cap" data-intro><span class="wd-cap__label">Topics</span><div class="wd-cap__chips">{entry.tags.map((t) => <span class="chip">{t}</span>)}</div></div>
       )}
-      <div class="post-author" data-intro>
-        <img src={AUTHOR.photo} alt="" width="44" height="44" />
-        <p><b>{AUTHOR.name}</b><span>{AUTHOR.role}</span></p>
-      </div>
     </header>
     <div class="post-tools wd-text" data-reveal>
       <div class="post-ai" role="group" aria-label="Summarize with AI">
