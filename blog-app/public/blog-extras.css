@@ -82,3 +82,5 @@
 .blog-nocovers .wcard__title { font-size: 48px; line-height: 52px; letter-spacing: -1px; -webkit-line-clamp: 3; }
 @media (max-width: 767px) { .blog-nocovers .wcard__title { font-size: 32px; line-height: 37px; letter-spacing: -.6px; } }
 .post-further__back { display: inline-flex; align-items: center; justify-content: center; padding: 14px 24px; line-height: 20px; height: auto; }
+/* Author block hidden for now: delete this rule to show it again. */
+.post-author { display: none; }
