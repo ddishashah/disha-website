@@ -90,3 +90,10 @@
 .blog-nocovers .blog-meta { margin: 20px 0 0; }
 .blog-nocovers .wcard__cta { margin-top: 28px; }
 @media (max-width: 767px) { .blog-nocovers .wcard__sub { margin-top: 14px; } .blog-nocovers .blog-meta { margin-top: 16px; } .blog-nocovers .wcard__cta { margin-top: 22px; } }
+/* Date line sits above the title */
+.blog-nocovers .blog-meta { margin: 0 0 14px; }
+.blog-nocovers .wcard__sub { margin-top: 18px; }
+@media (max-width: 767px) { .blog-nocovers .blog-meta { margin: 0 0 12px; } .blog-nocovers .wcard__sub { margin-top: 14px; } }
+.blog-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.blog-nocovers .wcard__cta { margin-top: 26px; }
+@media (max-width: 767px) { .blog-chips { margin-top: 18px; } .blog-nocovers .wcard__cta { margin-top: 22px; } }
