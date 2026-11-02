@@ -20,9 +20,4 @@
 /gallery-product                        /work/   301
 /gallery-brand                          /work/   301
 
-# Blog: back at /blog/. The four old Framer posts are not re-published yet, so their old URLs go to the blog index.
-# Delete a line here once that post is published again at the same URL ending.
-/blog/designing-ai-components-around-the-work-not-the-model   /blog/   302
-/blog/the-experience-is-the-argument                          /blog/   302
-/blog/the-hard-problem-was-never-the-screen                   /blog/   302
-/blog/people-rarely-behave-the-way-we-expect-them-to          /blog/   302
+# Blog: lives at /blog/ (posts are managed in the editor at /keystatic/).

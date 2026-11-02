@@ -19,8 +19,8 @@ function videoSrc(url: string): string | null {
 const renderers = {
   block: {
     // H2 = section title (serif), H3 = small label, same as the case studies
-    heading: ({ level, children }: { level: number; children: ReactNode }) =>
-      level <= 2 ? <h3>{children}</h3> : <h4>{children}</h4>,
+    heading: ({ level, children, id }: { level: number; children: ReactNode; id?: string }) =>
+      level <= 2 ? <h3 id={id}>{children}</h3> : <h4 id={id}>{children}</h4>,
     blockquote: ({ children }: { children: ReactNode }) => <blockquote className="post-quote">{children}</blockquote>,
     divider: () => <hr className="post-rule" />,
   },

@@ -34,3 +34,25 @@
   .post-gallery--2, .post-gallery--3 { grid-template-columns: 1fr; }
   .post-pull blockquote { font-size: 26px; line-height: 31px; }
 }
+
+/* post header: meta row, author, tools */
+.post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.post-meta b { color: #000; font-weight: 500; }
+.post-meta i { width: 1px; height: 14px; background: #bdb9b2; }
+.post-author { display: flex; align-items: center; gap: 14px; margin-top: 36px; }
+.post-author img { width: 44px; height: 44px; border-radius: 96px; object-fit: cover; }
+.post-author p { display: flex; flex-direction: column; margin: 0; color: #000; font-size: 15px; line-height: 21px; }
+.post-author span { color: #757575; }
+.post-tools { margin-top: 56px !important; display: grid; gap: 20px; }
+.post-label { display: block; margin-bottom: 10px; color: #757575; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+.post-ai, .post-share, .post-toc { padding: 18px 20px; border: 1px solid #e6e3de; border-radius: 14px; background: #fff; }
+.post-ai > div, .post-share > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.post-ai a, .post-share a, .post-share button { padding: 8px 14px; border: 1px solid #e6e3de; border-radius: 96px; background: #f8f8f7; color: #000; font: inherit; font-size: 14px; line-height: 20px; text-decoration: none !important; cursor: pointer; transition: background .3s ease, border-color .3s ease; }
+.post-ai a:hover, .post-share a:hover, .post-share button:hover { background: #fff; border-color: #bdb9b2; }
+.post-toc ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; counter-reset: toc; }
+.post-toc li { counter-increment: toc; font-size: 15px; line-height: 22px; }
+.post-toc li.is-sub { padding-left: 18px; color: #757575; }
+.post-toc a { color: #000; text-decoration: none !important; }
+.post-toc a:hover { text-decoration: underline !important; text-underline-offset: 3px; }
+.post-toc li.is-sub a { color: #5e5855; }
+.wd-text h3[id], .wd-text h4[id] { scroll-margin-top: 110px; }
