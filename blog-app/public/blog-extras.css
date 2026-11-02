@@ -134,3 +134,7 @@
 .blog-chips { margin-top: 24px; }
 .blog-nocovers .wcard__cta { margin-top: 32px; height: auto; line-height: 20px; }
 @media (max-width: 767px) { .blog-nocovers .blog-meta { margin-bottom: 12px; } .blog-nocovers .wcard__sub { margin-top: 16px; } .blog-chips { margin-top: 20px; } .blog-nocovers .wcard__cta { margin-top: 24px; } }
+/* "Back to all posts" uses the site's white pill button */
+.post-further__back { display: inline-flex; align-items: center; justify-content: center; gap: 0; margin-top: 48px; padding: 14px 24px; border: 0; border-bottom: 0; line-height: 20px; height: auto; font-size: 16px; font-weight: 400; }
+/* Phone: no row numbers in Read further */
+@media (max-width: 767px) { .post-further__num { display: none; } .post-further__list a { grid-template-columns: 1fr; } .post-further__list a:hover { padding-left: 0; } }
