@@ -1,4 +1,5 @@
 ---
+const BUILD = Date.now().toString(36); // busts the 4h CSS cache on every deploy
 // Page shell for the blog: the same head, nav, footer, menu and scripts as the rest of the site
 // (cut from a case-study page by scripts/extract-layout.py), with the blog's own title, SEO tags and content in the middle.
 import head from './chunks/head.html?raw';
@@ -39,7 +40,7 @@ const img = image ? (image.startsWith('http') ? image : SITE + image) : SITE + '
   <meta name="twitter:image" content={img} />
   {jsonLd.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
   <Fragment set:html={head} />
-  <link rel="stylesheet" href="/blog-extras.css" />
+  <link rel="stylesheet" href={`/blog-extras.css?v=${BUILD}`} />
 </head>
 <body>
   <Fragment set:html={top} />
