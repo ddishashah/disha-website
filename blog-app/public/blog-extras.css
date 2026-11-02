@@ -127,3 +127,10 @@
   .post-further__go { display: none; }
   .post-further__name { font-size: 24px; line-height: 30px; }
 }
+/* Index card rhythm, final: date 16 / title 20 / body 24 / pills 32 / link */
+.blog-nocovers .blog-meta { margin: 0 0 16px; }
+.blog-nocovers .wcard__title { margin: 0; }
+.blog-nocovers .wcard__sub { margin: 20px 0 0; }
+.blog-chips { margin-top: 24px; }
+.blog-nocovers .wcard__cta { margin-top: 32px; height: auto; line-height: 20px; }
+@media (max-width: 767px) { .blog-nocovers .blog-meta { margin-bottom: 12px; } .blog-nocovers .wcard__sub { margin-top: 16px; } .blog-chips { margin-top: 20px; } .blog-nocovers .wcard__cta { margin-top: 24px; } }
