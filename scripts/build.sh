@@ -8,10 +8,10 @@ cd "$(dirname "$0")/.."
 find blog-app/public -maxdepth 1 -type l -delete 2>/dev/null || true
 rm -rf dist && mkdir dist
 # 1. the static site, exactly as it is in the repo
-rsync -a \
-  --exclude '.git' --exclude 'blog-app' --exclude 'functions' --exclude 'scripts' \
-  --exclude 'node_modules' --exclude 'dist' --exclude 'package.json' --exclude 'package-lock.json' --exclude 'wrangler.jsonc' --exclude '.github' \
-  ./ dist/
+tar -cf - \
+  --exclude='./.git' --exclude='./blog-app' --exclude='./functions' --exclude='./scripts' \
+  --exclude='./node_modules' --exclude='./dist' --exclude='./wrangler.jsonc' --exclude='./.github' \
+  --exclude='./package.json' --exclude='./package-lock.json' . | tar -xf - -C dist
 
 # 2. the blog (Astro) on top
 ( cd blog-app && npm ci && npm run build )
