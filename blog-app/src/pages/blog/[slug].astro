@@ -16,6 +16,7 @@ if (!entry) return Astro.redirect('/blog/');
 const raw = await entry.body();
 const { doc: body, toc } = withHeadingIds(raw as any);
 const posts = await getPosts();
+const arrow = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const more = posts.filter((p) => p.slug !== slug).slice(0, 6);
 const path = `/blog/${slug}/`;
 const published = entry.date ?? '';
@@ -91,13 +92,23 @@ const cover = entry.cover ? '/blog-img/' + entry.cover : null;
   </script>
   {more.length > 0 && (
     <section class="post-further" aria-labelledby="further-title">
+      <p class="post-further__eyebrow">Keep reading</p>
       <h2 id="further-title" class="post-further__title">Read further</h2>
       <ul class="post-further__list">
-        {more.map((p) => (
-          <li><a href={`blog/${p.slug}/`}><span class="post-further__name">{p.title}</span><span class="post-further__date">{formatDate(p.date)}</span></a></li>
+        {more.slice(0, 4).map((p, i) => (
+          <li>
+            <a href={`blog/${p.slug}/`}>
+              <span class="post-further__num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="post-further__main">
+                <span class="post-further__name">{p.title}</span>
+                <span class="post-further__date">{formatDate(p.date)}{p.tags.length ? '  ·  ' + p.tags[0] : ''}</span>
+              </span>
+              <span class="post-further__go" aria-hidden="true"><Fragment set:html={arrow} /></span>
+            </a>
+          </li>
         ))}
       </ul>
-      <a class="btn-ghost post-further__back" href="blog/">Back to all posts</a>
+      <a class="post-further__back" href="blog/"><span>All posts</span><Fragment set:html={arrow} /></a>
     </section>
   )}
 </Layout>

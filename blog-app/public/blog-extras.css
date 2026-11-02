@@ -101,3 +101,29 @@
 .blog-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; max-width: 100%; padding-right: 28px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
 .blog-chips::-webkit-scrollbar { display: none; }
 .blog-chips .chip { flex: none; }
+
+/* Read further, refined */
+.post-further { max-width: 804px; margin: 120px auto 0; padding: 0 24px 140px; }
+.post-further__eyebrow { margin: 0 0 14px; color: #757575; font-size: 14px; line-height: 20px; letter-spacing: .14px; }
+.post-further__title { margin: 0 0 44px; font-family: var(--font-serif); font-weight: 400; font-size: 52px; line-height: 56px; letter-spacing: -1.2px; color: #000; }
+.post-further__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid #dedad3; }
+.post-further__list li { border-bottom: 1px solid #dedad3; }
+.post-further__list a { display: grid; grid-template-columns: 44px 1fr 28px; align-items: center; gap: 12px; padding: 34px 0; color: #000; text-decoration: none !important; transition: padding .5s cubic-bezier(.16,1,.3,1); }
+.post-further__list a:hover { padding-left: 14px; }
+.post-further__num { align-self: start; padding-top: 8px; color: #9a958e; font-size: 14px; line-height: 20px; font-variant-numeric: tabular-nums; letter-spacing: .14px; }
+.post-further__main { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.post-further__name { font-family: var(--font-serif); font-size: 32px; line-height: 38px; letter-spacing: -.6px; }
+.post-further__date { color: #757575; font-size: 14px; line-height: 20px; letter-spacing: .14px; }
+.post-further__go { display: flex; justify-content: flex-end; opacity: 0; transform: translateX(-8px); transition: opacity .4s ease, transform .6s cubic-bezier(.16,1,.3,1); }
+.post-further__go svg { width: 22px; height: 22px; }
+.post-further__list a:hover .post-further__go { opacity: 1; transform: none; }
+.post-further__back { display: inline-flex; align-items: center; gap: 10px; margin-top: 44px; padding: 0 0 4px; border-bottom: 1px solid #000; color: #000; font-size: 16px; line-height: 22px; font-weight: 500; text-decoration: none !important; }
+.post-further__back svg { width: 18px; height: 18px; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.post-further__back:hover svg { transform: translateX(4px); }
+@media (max-width: 767px) {
+  .post-further { margin-top: 80px; padding-bottom: 96px; }
+  .post-further__title { font-size: 38px; line-height: 42px; margin-bottom: 32px; }
+  .post-further__list a { grid-template-columns: 30px 1fr; padding: 26px 0; }
+  .post-further__go { display: none; }
+  .post-further__name { font-size: 24px; line-height: 30px; }
+}
