@@ -46,5 +46,29 @@ const img = image ? (image.startsWith('http') ? image : SITE + image) : SITE + '
   <Fragment set:html={top} />
   <slot />
   <Fragment set:html={bottom} />
+  <script is:inline>
+    // Scroll-reveal safety net: whatever the main reveal script misses (blocks sitting in the bottom strip of the screen, anchor jumps,
+    // tab switches, slow devices) is revealed once scrolling pauses, after load, and on resize. Content can never stay hidden.
+    (function () {
+      var root = document.documentElement, t;
+      function show(everythingAbove) {
+        document.querySelectorAll('[data-reveal]:not(.is-in), [data-appear]:not(.is-in)').forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight && (everythingAbove || r.bottom > 0)) el.classList.add('is-in');
+        });
+      }
+      window.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(function () { show(true); }, 450); }, { passive: true });
+      window.addEventListener('resize', function () { show(true); });
+      window.addEventListener('hashchange', function () { setTimeout(function () { show(true); }, 700); });
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) show(true); });
+      window.addEventListener('load', function () {
+        setTimeout(function () { show(false); }, 1800);
+        setTimeout(function () {
+          if (root.classList.contains('motion') && !root.classList.contains('is-loaded')) root.classList.add('is-loaded');
+          show(true);
+        }, 6000);
+      });
+    })();
+  </script>
 </body>
 </html>

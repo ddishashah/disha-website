@@ -174,3 +174,7 @@
 .blog-nocovers .wcard { padding-top: 48px; }
 @media (max-width: 767px) { .blog-nocovers .wcard { padding-top: 30px; } }
 @media (max-width: 767px) { .blog-nocovers .wcard { padding-top: 28px; } }
+/* Read further: the top line belongs to the first row, so every line reveals together with its row */
+.post-further__list { border-top: 0; }
+.post-further__list li:first-child { border-top: 1px solid #dedad3; }
+@media (max-width: 767px) { .post-further__list li:first-child { border-top: 0; } }
