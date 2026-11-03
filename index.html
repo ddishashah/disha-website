@@ -1229,7 +1229,7 @@
       .services__row { margin-top: 4px; padding: 24px 28px 40px; scroll-padding: 0 28px; gap: 16px; }
       .services__row { flex-direction: column; overflow: visible; scroll-snap-type: none; }   /* the four services stack and scroll with the page */
       .service { flex: none; width: 100%; height: auto; gap: 44px; padding: 28px 24px 32px; }
-      .service__title { font-size: 20px; line-height: 28px; }
+      .service .service__title { font-size: 20px; line-height: 28px; text-wrap: balance; }   /* even lines, so a short stub never drops onto its own row */
       .service__tags { font-size: 16px; line-height: 24px; }
 
       /* What pulls me in */
@@ -1381,16 +1381,13 @@
         </div>
       </nav>
 
-      <p class="tagline" data-intro>Brand and product systems for<br />B2B, AI-native, and deep-tech companies.</p>
+      <p class="tagline" data-intro>Brand and product systems for<br />B2B, AI-native and deep-tech companies.</p>
 
       <h1 class="hero__title" data-intro>Experience is the argument.</h1>
 
-      <p class="hero__sub hero__sub--help" data-intro>Helping you win customers and keep them, with experiences that scale as your team and business grow.</p>
+      <p class="hero__sub hero__sub--help" data-intro>Helping you win customers<br />and keep them.</p>
 
-      <p class="hero__sub" data-intro>
-        Care all the way through.<br />
-        Finding a place in people’s heads, hands and habits.
-      </p>
+      <p class="hero__sub" data-intro>Built to adapt as your team,<br />product and business needs evolve.</p>
     </div>
 
     <div class="carousel-stage">
@@ -1650,7 +1647,7 @@
       <h2 id="pulls-title" class="pulls__title">I want to know why a business<br class="br-desk" /> works the way it does.</h2>
       <div class="pulls__body">
         <p>Why people hesitate – users, customers, investors and partners. How a technical decision in a product becomes a human one and how it shapes someone’s day. What changes when I look at things beyond design, but also from the perspectives of business, engineering, marketing and the industry a company operates in.</p>
-        <p>That curiosity takes me across brand, product, website and systems because the questions I care about keep taking me across them.</p>
+        <p>That curiosity takes me across brand, product, website and systems because your customers and stakeholders are going to perceive those touchpoints as a single, interconnected experience layer.</p>
       </div>
     </div>
     <a class="btn-ghost" href="#contact" data-reveal>Speak with Disha</a>
@@ -2961,7 +2958,7 @@
     })();
   </script>
   <script>
-  // Hero: "Brand and product systems…", "Helping you win customers…" and "Care all the way through…" take turns (line mask roll)
+  // Hero: the three statements ("Brand and product systems…", "Helping you win customers…", "Built to adapt as your team…") take turns (line mask roll)
   (function () {
     var root = document.documentElement, mq = window.matchMedia('(max-width: 767px)');
     var a = document.querySelector('.hero .tagline'), c = document.querySelector('.hero .hero__sub--help'), b = document.querySelector('.hero .hero__sub:not(.hero__sub--help)');
