@@ -119,7 +119,7 @@
       letter-spacing: -0.16px;
     }
     .logo-mark { display: block; height: 1.45em; width: auto; }
-    @media (max-width: 767px) { .nav__brand .logo-mark, .menu__brand .logo-mark { height: 22px; } .socials__brand .logo-mark { height: 20px; } }
+    @media (max-width: 767px) { .nav__brand .logo-mark, .menu__brand .logo-mark { height: 22px; } .socials__brand .logo-mark { height: 22px; } }
     .nav__right { display: flex; align-items: center; gap: 16px; }
     /* Button, light mode — Figma 677:103971 (default) / 677:103973 (hover): 36px pill, 19px sides,
        Geist Medium 14.6px, hover adds a soft lifted shadow (no colour change) */
@@ -671,7 +671,6 @@
     .pulls__body { width: 692px; max-width: 100%; color: var(--t-body);  font-size: 18px; line-height: 29px; letter-spacing: 0.18px; }
     .pulls__body p { margin: 0 0 16px; }
     .pulls__body p:last-child { margin: 0; }
-    .pulls__btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
     .btn-ghost {
       display: inline-flex; align-items: center; height: 45px; padding: 0 24px 1px;
       border-radius: 96px; background: var(--t-btn-bg);
@@ -1252,7 +1251,7 @@
         mask-image: linear-gradient(to bottom, #000 calc(100% - 44px), transparent);
       }
       .booking__fallback { inset: 6px; }
-      .socials { margin-top: 40px; flex-direction: column; gap: 10px; padding-top: 22px; max-width: calc(100% - 56px); }
+      .socials { margin-top: 40px; flex-direction: column; gap: 16px; padding-top: 28px; max-width: calc(100% - 56px); }
       .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 40px; font-size: 16px; line-height: 26px; }
       /* roomy, thumb-sized links like the Fluid Intelligence footer: one per row, 44px tall */
       .footer__nav { flex-direction: column; align-items: center; gap: 0; }
@@ -1643,10 +1642,7 @@
         <p>That curiosity takes me across brand, product, website and systems because the questions I care about keep taking me across them.</p>
       </div>
     </div>
-    <div class="pulls__btns">
-      <a class="btn-ghost" href="#contact" data-reveal>Speak with Disha</a>
-      <a class="btn-ghost" href="mailto:disha@vanya.studio" data-reveal>Write to Disha</a>
-    </div>
+    <a class="btn-ghost" href="#contact" data-reveal>Speak with Disha</a>
   </section>
 
   <section class="playground" id="playground" data-theme="dark" aria-labelledby="playground-title">
