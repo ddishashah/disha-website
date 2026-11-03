@@ -869,6 +869,15 @@
     }
     .footer__legal { margin: 0; color: var(--t-eyebrow); white-space: pre-wrap;  }
     .footer__legal a:hover, .footer__nav a:hover { color: var(--t-head); }
+    /* tablet widths: links centred on their own row, the copyright line below them */
+    @media (min-width: 768px) and (max-width: 1100px) {
+      .footer__bar { flex-direction: column; justify-content: center; gap: 28px; text-align: center; }
+      .footer__nav { flex-wrap: wrap; justify-content: center; gap: 12px 28px; }
+      .footer__legal { text-align: center; }
+      .footer__c, .footer__links { display: block; }
+      .footer__dot { display: none; }
+      .footer__links { margin-top: 4px; }
+    }
     .footer__nav { display: flex; gap: 34px; margin: 0; padding: 0; list-style: none; }
     .footer__nav a { color: var(--t-body); transition: color .3s ease; }
     /* Wordmark: full-bleed 1440×188, cropped by the section edge as in Figma */
