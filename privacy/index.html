@@ -10,10 +10,8 @@
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
   <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="/vendor/gsap.min.js"></script>
+  <link rel="stylesheet" href="/fonts/geist.css" />
   <style>
     /* Portrait Text Web: licensed webfont, property of Commercial Type (Copyright (C) 2026 Schwartzco Inc., license 2610-WDXIWN). Not to be modified or used on another website. https://commercialtype.com/eula */
     @font-face { font-family: "Portrait Text Web"; src: url("fonts/PortraitText-Regular-Web.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
@@ -1350,34 +1348,39 @@
   <article class="legal">
     <p class="eyebrow">Legal</p>
     <h1 class="h-primary">Privacy Policy</h1>
-    <p class="legal__lede">How this site handles information, in plain language. In short: no accounts, no analytics and no tracking, just what you choose to send me.</p>
-    <p class="legal__lede" style="font-size:14px;line-height:22px">Last updated 22 October 2026</p>
+    <p class="legal__lede">How this site handles information, in plain language. In short: no accounts, no analytics, no advertising and no tracking, just what you choose to send me. It follows the EU General Data Protection Regulation (GDPR) and the ePrivacy rules on cookies.</p>
+    <p class="legal__lede" style="font-size:14px;line-height:22px">Last updated 3 November 2026</p>
     <h2>Who I am</h2>
     <p>This website is run by Disha Shah, working as Vanya Studio, an independent brand and product design practice based in India. In this policy, “I”, “me” and “my” mean Disha Shah / Vanya Studio, and “this site” means this website.</p>
-    <p>Questions about your data can go to <a href="mailto:accounts@vanya.studio">accounts@vanya.studio</a>.</p>
+    <p>I am the “controller” of the personal data described here under the GDPR. Questions about your data can go to <a href="mailto:accounts@vanya.studio">accounts@vanya.studio</a>.</p>
     <h2>What this site collects</h2>
     <p>I keep this as little as possible. This site has no user accounts, no advertising, and no analytics or tracking scripts, and I don’t set cookies myself.</p>
     <p>The information I do receive comes from you or from your browser:</p>
     <ul><li><strong>What you choose to send me.</strong> If you book a call, email me or message me on social media, I receive what you share: typically your name, email address, company, role and the details of your project or question.</li><li><strong>Technical information.</strong> Like any website, the hosting provider processes your IP address, browser type and the pages you request in order to deliver the site and keep it secure.</li></ul>
     <h2>Services this site relies on</h2>
-    <p>To work, this site loads a few things from other providers. They receive technical information such as your IP address when your browser requests them, and their own privacy policies apply:</p>
-    <ul><li><strong>Cloudflare</strong> hosts and secures the site.</li><li><strong>Google Fonts</strong> serves the Geist typeface.</li><li><strong>jsDelivr</strong> delivers an open-source animation library (GSAP).</li><li><strong>Cal.com</strong> provides the booking calendar. It loads when you scroll near the bottom of a page. Cal.com collects what you enter when booking and may set its own cookies. See <a href="https://cal.com/privacy" target="_blank" rel="noopener">cal.com/privacy</a>.</li><li><strong>LinkedIn, Instagram and X</strong> are linked from the site. Nothing is shared with them unless you click through, and then their policies apply.</li></ul>
-    <h2>Browser storage</h2>
-    <p>The site uses your browser’s session storage for two small things: remembering that you have already seen the opening animation, and smoothing the transition between pages. This contains no personal information and is cleared when you close the tab.</p>
+    <p>The fonts and animation code are hosted on this site itself, so loading a page does not send your IP address to Google, jsDelivr or any other third party. The services involved are:</p>
+    <ul><li><strong>Cloudflare</strong> hosts and secures the site and acts as my processor. It handles your IP address and request details to deliver pages and block abuse, and keeps short-lived server logs.</li><li><strong>Cal.com</strong> provides the booking calendar. It loads when you scroll near the bottom of a page, so you can book a call. Your browser then connects to Cal.com, which receives your IP address, may set its own cookies, and collects what you enter when booking. See <a href="https://cal.com/privacy" target="_blank" rel="noopener">cal.com/privacy</a>.</li><li><strong>LinkedIn, Instagram and X</strong> are only linked from the site. Nothing is shared with them unless you click through, and then their policies apply.</li></ul>
+    <h2 id="cookies">Cookies and browser storage</h2>
+    <p>This site sets no cookies of its own and uses no analytics, advertising or tracking technologies, so there is no cookie banner. Only what is necessary to run the site is used:</p>
+    <ul><li><strong>Booking calendar (Cal.com).</strong> Needed so you can book a call. Cal.com may set its own cookies for the booking to work. You can remove them in your browser settings, or skip the embed and book through <a href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">cal.com/dishashah/introduction-meeting</a> directly.</li><li><strong>Session storage.</strong> Remembers that you have seen the opening animation and smooths page transitions. No personal data; cleared when you close the tab.</li></ul>
+    <p>If I ever add anything optional, such as analytics, I will ask for your consent first and update this page.</p>
+    <h2>Why I may process your data (legal bases)</h2>
+    <ul><li>Delivering and securing the site: legitimate interests (GDPR Art. 6(1)(f)).</li><li>Replying to your messages, arranging and running calls, and preparing or delivering work: steps before a contract and performance of a contract (Art. 6(1)(b)).</li><li>Providing the booking calendar you use to schedule a call: legitimate interests and steps before a contract (Art. 6(1)(f) and (b)). Anything optional that I add later: your consent (Art. 6(1)(a)).</li><li>Keeping records the law requires, such as tax and accounting: legal obligation (Art. 6(1)(c)).</li></ul>
     <h2>How I use your information</h2>
     <p>I use what you send me to reply to your message, schedule and run calls, prepare proposals and, if we work together, deliver the work and manage the relationship. I don’t sell your information, and I don’t use it for marketing unless you ask me to.</p>
     <h2>Who I share it with</h2>
     <p>Only with the tools and providers I need to do the above, for example my email, calendar and file-sharing tools, and Cal.com for bookings. I may also disclose information if the law requires it.</p>
     <h2>How long I keep it</h2>
-    <p>I keep enquiries and project correspondence for as long as it’s useful for our relationship or needed for legal, tax or accounting reasons. After that I delete it. You can ask me to delete it sooner.</p>
+    <p>I keep enquiries and project correspondence for as long as it’s useful for our relationship or needed for legal, tax or accounting reasons. After that I delete it. As a guide: unanswered enquiries are deleted within 12 months, and invoices and tax records are kept for the period the law requires. Cloudflare’s server logs are short-lived. You can ask me to delete your data sooner.</p>
     <h2>Your rights</h2>
-    <p>You can ask me what information I hold about you, ask me to correct it, ask me to delete it, or withdraw consent you’ve given. Depending on where you live, laws such as India’s Digital Personal Data Protection Act, 2023, the EU and UK GDPR or US state privacy laws may give you further rights. Email <a href="mailto:accounts@vanya.studio">accounts@vanya.studio</a> and I’ll respond as soon as I can.</p>
+    <p>Under the GDPR you have the right to access your data, have it corrected or erased, restrict or object to its processing, receive it in a portable format, and withdraw consent at any time (withdrawal does not affect what was done before). Where other laws apply, such as India’s Digital Personal Data Protection Act, 2023, the UK GDPR or US state privacy laws, they may give you similar rights. Email <a href="mailto:accounts@vanya.studio">accounts@vanya.studio</a> and I will respond within one month.</p>
+    <p>You also have the right to complain to a data protection authority, for example in the EU country where you live or work. A list is at <a href="https://edpb.europa.eu/about-edpb/about-edpb/members_en" target="_blank" rel="noopener">edpb.europa.eu</a>.</p>
     <h2>Security</h2>
     <p>I take reasonable steps to protect the information I hold, such as using reputable providers and restricting access. No method of transmission or storage is completely secure, so I can’t guarantee absolute security.</p>
     <h2>Children</h2>
     <p>This site is for businesses and professionals and isn’t aimed at anyone under 18. I don’t knowingly collect information from children.</p>
     <h2>Where information is processed</h2>
-    <p>The providers above may process information in countries other than your own, including India and the United States.</p>
+    <p>The providers above may process information in countries other than your own, including India and the United States. Where personal data from the EU or UK is transferred outside it, I rely on safeguards such as the European Commission’s Standard Contractual Clauses or an adequacy decision, as put in place by the relevant provider.</p>
     <h2>Changes to this policy</h2>
     <p>If I change how the site handles information, I’ll update this page and the date at the top.</p>
     <h2>Contact</h2>
