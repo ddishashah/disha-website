@@ -123,7 +123,7 @@
       letter-spacing: -0.16px;
     }
     .logo-mark { display: block; height: 1.45em; width: auto; }
-    @media (max-width: 767px) { .nav__brand .logo-mark, .menu__brand .logo-mark { height: 17px; } }
+    @media (max-width: 767px) { .nav__brand .logo-mark, .menu__brand .logo-mark { height: 22px; } .socials__brand .logo-mark { height: 20px; } }
     .nav__right { display: flex; align-items: center; gap: 16px; }
     /* Button, light mode — Figma 677:103971 (default) / 677:103973 (hover): 36px pill, 19px sides,
        Geist Medium 14.6px, hover adds a soft lifted shadow (no colour change) */
@@ -587,7 +587,7 @@
     .quote__more { display: none; align-items: center; gap: 8px; align-self: flex-start; margin: 0; padding: 0; border: 0; background: none; color: var(--t-head); font: inherit; font-size: 15px; font-weight: 500; line-height: 22px; letter-spacing: 0.15px; cursor: pointer; }
     .quote__more svg { width: 18px; height: 18px; }
     .quote__by { display: flex; gap: 12px; align-items: center; margin: 0; color: var(--t-eyebrow); font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
-    .quote__by img { width: 36px; height: 36px; flex: none; border-radius: 96px; object-fit: cover; }
+    .quote__by img { width: 32px; height: 32px; flex: none; border-radius: 96px; object-fit: cover; }
     /* Phones: each testimonial is its own card on a native swipe track (scroll-snap); one card on screen at a time, the gap is wide enough that its neighbours stay out of view */
     @media (max-width: 767px) {
       .quotes .quotes__card { position: relative; display: flex; gap: 48px; align-items: stretch; width: 100vw; max-width: none; margin-inline: calc(50% - 50vw); padding: 0 28px; box-sizing: border-box; border: 0; border-radius: 0; background: none; box-shadow: none; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: 28px; overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 56px; margin-bottom: -40px; }   /* every card is as tall as the tallest, so the track never changes height; the padding leaves room for the shadows */
@@ -851,12 +851,9 @@
     @media (max-width: 820px) { .terms { grid-template-columns: 1fr; gap: 28px; margin-top: 0; padding: 32px 24px; } .terms > div { border-left: 0; padding: 0; } }
     .socials { box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 72px auto 0; padding-top: 24px; border-top: 1px solid color-mix(in srgb, var(--t-head) 14%, transparent); }
     .socials__brand { color: var(--t-head); font-size: 18px; letter-spacing: -0.16px; white-space: nowrap; }
-    .socials__links { display: flex; align-items: center; gap: 2px; }
-    .socials__links a.is-sub { opacity: .55; }
-    .socials__links a.is-lead { opacity: 1; }
-    .socials__links a.is-lead + a.is-sub { margin-left: 10px; }
+    .socials__links { display: flex; align-items: center; gap: 12px; }
     .socials__links a:hover { opacity: 1; }
-    .socials__links a { display: grid; place-items: center; width: 36px; height: 36px; color: var(--t-head); opacity: .9; transition: opacity .3s ease, transform .4s var(--ease-out-expo); }
+    .socials__links a { display: grid; place-items: center; width: 32px; height: 32px; color: var(--t-head); opacity: .9; transition: opacity .3s ease, transform .4s var(--ease-out-expo); }
     /* Tooltip on the footer icons: same pop as the fireflies tooltip (small pill, arrow, springy scale-in), light so it reads on the dark footer */
     @media (hover: hover) and (pointer: fine) {
       .socials__links a { position: relative; }
@@ -877,7 +874,7 @@
       }
     }
     .socials__links a:hover { opacity: 1; transform: translateY(-2px); }
-    .socials__links svg { width: 22px; height: 22px; }
+    .socials__links svg { width: 24px; height: 24px; }
     .footer__bar {
       display: flex; justify-content: space-between; align-items: center; gap: 24px;
       width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 48px auto 0;
@@ -1254,7 +1251,7 @@
         mask-image: linear-gradient(to bottom, #000 calc(100% - 44px), transparent);
       }
       .booking__fallback { inset: 6px; }
-      .socials { margin-top: 40px; flex-direction: column; gap: 10px; padding-top: 22px; }
+      .socials { margin-top: 40px; flex-direction: column; gap: 10px; padding-top: 22px; max-width: calc(100% - 56px); }
       .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 40px; font-size: 16px; line-height: 26px; }
       /* roomy, thumb-sized links like the Fluid Intelligence footer: one per row, 44px tall */
       .footer__nav { flex-direction: column; align-items: center; gap: 0; }
@@ -1431,11 +1428,11 @@
     .ct-write__mail:hover, .ct-write__mail:focus-visible { text-decoration-color: var(--t-head); }
     .ct-write + .footer { padding-top: 120px; }
     @media (max-width: 767px) {
-      .ct-hero { padding-top: 64px; gap: 16px; }
+      .ct-hero { padding: 64px 28px 0; gap: 16px; }
       .ct-hero__title { font-size: 38px; line-height: 42px; letter-spacing: -1px; }
       .ct-hero__lede, .ct-write p { font-size: 16px; line-height: 26px; }
-      .ct-cal { margin-top: 40px; max-width: calc(100% - 32px); }
-      .ct-work { margin-top: 56px; max-width: calc(100% - 32px); }
+      .ct-cal { margin-top: 40px; max-width: calc(100% - 56px); }
+      .ct-work { margin-top: 56px; max-width: calc(100% - 56px); }
       .ct-write { padding: 96px 28px 0; gap: 16px; }
       .ct-write__title { font-size: 36px; line-height: 40px; letter-spacing: -1px; }
       .ct-write__mail { font-size: 26px; line-height: 32px; overflow-wrap: anywhere; }
