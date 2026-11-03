@@ -1312,6 +1312,7 @@
     /* ================= About page ================= */
     .about-nav { height: 54px; }
     @media (max-width: 767px) { .about-nav { height: 52px; } }
+    #vanya-title { text-wrap: wrap; }   /* natural wrapping: "A close working" on the first line, "partnership." on the second */
     .bio { display: flex; flex-direction: column; align-items: center; padding: 160px var(--pad, 16px) 0; }
     .bio__inner { width: 653px; max-width: 100%; box-sizing: border-box; padding: 0 10px; }
     .bio__photo { display: block; width: 137px; height: 137px; border-radius: 8px; object-fit: cover; background: #d9d9d9; }
@@ -1807,7 +1808,7 @@
     // No stranded last word: the last two words of each paragraph / list item / caption are tied together with a no-break space.
     // (Statements animated line by line are left alone.)
     function initOrphans() {
-      const skip = '.tagline, .hero__sub, .loader, .loader__copy, [data-rotate], .menu, nav, script, style, textarea, code, pre';
+      const skip = '.tagline, .hero__sub, .loader, .loader__copy, [data-rotate], .menu, nav, script, style, textarea, code, pre, #vanya-title';   // #vanya-title: left to wrap naturally ("A close working / partnership.")
       document.querySelectorAll('p, li, dd, blockquote, figcaption, h1, h2, h3, h4').forEach((el) => {
         if (el.closest(skip)) return;
         if (el.querySelector('p, li, div, ul')) return;                   // only the innermost text blocks
