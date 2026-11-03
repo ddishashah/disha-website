@@ -1417,12 +1417,36 @@
     .ct-hero__lede { margin: 0; max-width: 560px; color: var(--t-body); font-size: 18px; line-height: 29px; letter-spacing: 0.18px; }
     .ct-cal { box-sizing: border-box; width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 72px auto 0; }
     /* the booking frame stays dark on the light page, like the calendar itself */
+    /* Calendar loading: the card rises in on load like the headline, a skeleton of the calendar shimmers while Cal.com loads, then the real calendar fades in */
+    .ct-cal .booking[data-intro] { transition-delay: .45s; }
+    .ct-cal .booking__fallback { inset: 24px 28px 18px; z-index: 0; justify-content: space-between; align-items: stretch; gap: 14px; transition: opacity .5s ease; }
+    .ct-cal .booking.is-loaded .booking__fallback { display: flex; opacity: 0; pointer-events: none; }
+    .ct-cal .booking__cal { opacity: 0; transition: opacity .7s ease .1s; animation: calShow 0s 9s forwards; }
+    .ct-cal .booking.is-loaded .booking__cal { opacity: 1; }
+    @keyframes calShow { to { opacity: 1; } }
+    .cal-skel { flex: 1; display: grid; grid-template-columns: 240px 1fr 220px; gap: 0; border: 1px solid var(--t-card-line); border-radius: 12px; overflow: hidden; text-align: left; }
+    .cal-skel > div { display: flex; flex-direction: column; gap: 12px; padding: 24px; }
+    .cal-skel__mid { border-left: 1px solid var(--t-card-line); border-right: 1px solid var(--t-card-line); gap: 20px !important; }
+    .cal-skel__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+    .cal-skel__grid i { aspect-ratio: 1 / .85; border-radius: 10px; background: var(--t-card-hover); opacity: .7; }
+    .sk, .cal-skel__grid i { background-image: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, .55) 50%, transparent 70%); background-size: 220% 100%; background-repeat: no-repeat; background-color: var(--t-card-hover); animation: skShimmer 1.6s ease-in-out infinite; }
+    .cal-skel__grid i:nth-child(3n) { animation-delay: .15s; } .cal-skel__grid i:nth-child(4n) { animation-delay: .3s; } .cal-skel__grid i:nth-child(5n) { animation-delay: .45s; }
+    @keyframes skShimmer { from { background-position: 160% 0; } to { background-position: -60% 0; } }
+    .sk { display: block; height: 12px; border-radius: 6px; }
+    .sk--dot { width: 28px; height: 28px; border-radius: 50%; } .sk--s { width: 40%; } .sk--m { width: 65%; } .sk--l { width: 92%; } .sk--meta { width: 50%; margin-top: 6px; } .sk--head { width: 34%; height: 16px; }
+    .sk--slot { height: 38px; border-radius: 10px; }
+    .cal-skel__note { margin: 0; color: var(--t-body); font-size: 14px; line-height: 20px; text-align: center; }
+    .cal-skel__note a { color: var(--t-head); text-decoration: underline; text-underline-offset: 3px; }
+    @media (max-width: 1023px) { .cal-skel { grid-template-columns: 1fr; } .cal-skel__side, .cal-skel__right { display: none !important; } .cal-skel__mid { border: 0; } }
+    @media (max-width: 767px) { .ct-cal .booking__fallback { inset: 12px 12px 12px; } .cal-skel > div { padding: 18px; } }
+    @media (prefers-reduced-motion: reduce) { .sk, .cal-skel__grid i { animation: none; } }
     .ct-work { box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 96px auto 0; }
     .ct-work__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 48px; margin: 0; }
     .ct-work__cols > div { display: flex; flex-direction: column; gap: 10px; padding-top: 24px; border-top: 1px solid var(--t-card-line); }
     .ct-work__cols dt { margin: 0; color: var(--t-head); font-weight: 500; font-size: 18px; line-height: 28px; letter-spacing: 0.2px; }
     .ct-work__cols dd { margin: 0; color: var(--t-body); font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
-    @media (max-width: 767px) { .ct-work__cols { grid-template-columns: 1fr; gap: 28px; } .ct-work__cols > div { padding-top: 20px; } }
+    @media (max-width: 767px) { .ct-work__cols { grid-template-columns: 1fr; gap: 28px; text-align: center; } .ct-work__cols > div { padding-top: 20px; align-items: center; } .ct-work { margin-bottom: 48px; } }
+    @media (min-width: 768px) { .ct-work { margin-bottom: 96px; } }   /* section rhythm: same gap before the testimonials as between the other sections */
     .ct-write { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 189px var(--pad, 16px) 0; text-align: center; }
     .ct-write__title { margin: 0; color: var(--t-head); font-family: var(--font-serif); font-weight: 400; font-size: 56px; line-height: 60px; letter-spacing: -1.4px; }
     .ct-write p { margin: 0; max-width: 520px; color: var(--t-body); font-size: 18px; line-height: 29px; letter-spacing: 0.18px; }
@@ -1464,11 +1488,15 @@
     <p class="ct-hero__lede" data-intro>What your business does. What you’re trying to change. Where things aren’t working quite the way you’d like them to.</p>
   </section>
   <div class="ct-cal" id="calendar">
-    <div class="booking" data-booking data-reveal>
+    <div class="booking" data-booking data-intro>
       <div class="booking__cal" data-lenis-prevent id="cal-introduction-meeting"></div>
       <div class="booking__fallback">
-        <p style="margin:0">Loading the calendar…</p>
-        <a class="btn-ghost" href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">Book a discovery call</a>
+        <div class="cal-skel" aria-hidden="true">
+          <div class="cal-skel__side"><i class="sk sk--dot"></i><i class="sk sk--s"></i><i class="sk sk--m"></i><i class="sk sk--l"></i><i class="sk sk--l"></i><i class="sk sk--m"></i><i class="sk sk--meta"></i><i class="sk sk--meta"></i><i class="sk sk--meta"></i></div>
+          <div class="cal-skel__mid"><i class="sk sk--head"></i><div class="cal-skel__grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="cal-skel__right"><i class="sk sk--s"></i><i class="sk sk--slot"></i><i class="sk sk--slot"></i><i class="sk sk--slot"></i></div>
+        </div>
+        <p class="cal-skel__note">Loading the calendar… <a href="https://cal.com/dishashah/introduction-meeting" target="_blank" rel="noopener">Book on cal.com instead</a></p>
       </div>
     </div>
   </div>
