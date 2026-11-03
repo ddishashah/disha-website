@@ -840,12 +840,18 @@
     .terms dt { margin: 0; color: var(--t-head); font-weight: 500; font-size: 18px; line-height: 28px; letter-spacing: 0.2px; }
     .terms dd { margin: 0; max-width: 340px; color: var(--t-body); font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
     @media (max-width: 820px) { .terms { grid-template-columns: 1fr; gap: 28px; margin-top: 0; padding: 32px 24px; } .terms > div { border-left: 0; padding: 0; } }
-    .socials { display: flex; gap: 16px; justify-content: center; margin-top: 81px; }
-    .socials a { display: grid; place-items: center; width: 32px; height: 32px; color: var(--t-head); opacity: .9; transition: opacity .3s ease, transform .4s var(--ease-out-expo); }
+    .socials { box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 72px auto 0; padding-top: 24px; border-top: 1px solid color-mix(in srgb, var(--t-head) 14%, transparent); }
+    .socials__brand { color: var(--t-head); font-size: 18px; letter-spacing: -0.16px; white-space: nowrap; }
+    .socials__links { display: flex; align-items: center; gap: 2px; }
+    .socials__links a.is-sub { opacity: .55; }
+    .socials__links a.is-lead { opacity: 1; }
+    .socials__links a.is-lead + a.is-sub { margin-left: 10px; }
+    .socials__links a:hover { opacity: 1; }
+    .socials__links a { display: grid; place-items: center; width: 36px; height: 36px; color: var(--t-head); opacity: .9; transition: opacity .3s ease, transform .4s var(--ease-out-expo); }
     /* Tooltip on the footer icons: same pop as the fireflies tooltip (small pill, arrow, springy scale-in), light so it reads on the dark footer */
     @media (hover: hover) and (pointer: fine) {
-      .socials a { position: relative; }
-      .socials a[data-tip]::after {
+      .socials__links a { position: relative; }
+      .socials__links a[data-tip]::after {
         content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 4px); z-index: 5; pointer-events: none; white-space: nowrap; text-align: center;
         padding: 8px 12px 15px; border-radius: 8px;
         font: 600 12px/18px var(--font-sans); letter-spacing: 0; color: #140700; opacity: 0;
@@ -856,16 +862,16 @@
         filter: drop-shadow(0 12px 8px rgba(0, 0, 0, .12)) drop-shadow(0 4px 3px rgba(0, 0, 0, .06));
         transition: transform .14s ease-in, opacity .14s ease-in;
       }
-      .socials a[data-tip]:hover::after, .socials a[data-tip]:focus-visible::after {
+      .socials__links a[data-tip]:hover::after, .socials__links a[data-tip]:focus-visible::after {
         opacity: 1; transform: translate(-50%, 0) scale(1);
         transition: transform .32s cubic-bezier(.34, 1.56, .64, 1), opacity .12s ease-out;
       }
     }
-    .socials a:hover { opacity: 1; transform: translateY(-2px); }
-    .socials svg { width: 24px; height: 24px; }
+    .socials__links a:hover { opacity: 1; transform: translateY(-2px); }
+    .socials__links svg { width: 22px; height: 22px; }
     .footer__bar {
       display: flex; justify-content: space-between; align-items: center; gap: 24px;
-      width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 171px auto 0;
+      width: 1264px; max-width: calc(100% - 2 * var(--pad, 16px)); margin: 48px auto 0;
       font-weight: 500; font-size: 18px; line-height: 27px; letter-spacing: 0.36px;
     }
     .footer__legal { margin: 0; color: var(--t-eyebrow); white-space: pre-wrap;  }
@@ -1239,7 +1245,7 @@
         mask-image: linear-gradient(to bottom, #000 calc(100% - 44px), transparent);
       }
       .booking__fallback { inset: 6px; }
-      .socials { margin-top: 40px; }
+      .socials { margin-top: 40px; flex-direction: column; gap: 10px; padding-top: 22px; }
       .footer__bar { max-width: calc(100% - 56px); margin-top: 56px; gap: 40px; font-size: 16px; line-height: 26px; }
       /* roomy, thumb-sized links like the Fluid Intelligence footer: one per row, 44px tall */
       .footer__nav { flex-direction: column; align-items: center; gap: 0; }
