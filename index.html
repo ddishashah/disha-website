@@ -193,6 +193,10 @@
       text-align: center;
     }
 
+    /* the longer statement runs as one block that wraps into two balanced lines on desktop (three on phones, see the phone rules) */
+    .hero__sub--help .ln { max-width: 27em; margin-left: auto; margin-right: auto; }
+    .hero__sub--help .ln, .hero__sub--help .ln__in { text-wrap: balance; }
+
     /* ---------- Carousel peek ---------- */
     /* Figma frame is 1440 wide: cards 1169×501 and 596×501, 21px gap, 88px inset */
     .carousel {
@@ -343,7 +347,9 @@
     .gaps > li { display: contents; }
     /* the page is a card of its own, so it can fade and desaturate as one piece against the dark behind it */
     [data-page] { background-color: var(--bg, #f8f8f7); }
-    html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo); }
+    html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo), background-color 1.2s var(--ease-out-expo); }
+    /* on a dark part of the page the card that steps back would vanish into the dark behind it: lift it so the sheet effect reads the same as on light */
+    html[data-theme="dark"].sheet-open [data-page] { background-color: #3a2f2a; }
     html.sheet-open, html.sheet-open body { background-color: #140700; }
     html.sheet-open [data-page] { transform: translateY(10px) scale(.95); opacity: .4; filter: saturate(.4); }
     .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; height: auto; max-height: calc(100dvh - var(--top)); margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
@@ -1104,7 +1110,7 @@
     .menu__foot { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 0 0 72px; }
     .menu__social { display: flex; gap: 33px; }
     .menu__cta { display: inline-flex; align-items: center; gap: 8px; height: 31px; color: #d0d0c8; font-weight: 500; font-size: 18px; line-height: 14.56px; letter-spacing: 0.18px; white-space: nowrap; transition: color .3s ease; }
-    /* ---------- Footer headline: the last words roll through build trust / create loyalty / build devotion / create adoption (line-mask roll, as in the hero) ---------- */
+    /* ---------- Footer headline: the last words roll through build trust / create adoption / build devotion / create loyalty (line-mask roll, as in the hero) ---------- */
     .rot { position: relative; display: inline-block; vertical-align: top; height: 1.1em; padding-bottom: .16em; margin-bottom: -.16em; overflow: hidden; }
     .rot__w { position: absolute; left: 0; top: 0; white-space: nowrap; will-change: transform; }
     .rot__w:empty { visibility: hidden; }
@@ -1169,6 +1175,8 @@
       /* the statement reads as three lines: "Care all the way through." / "Finding a place in people's heads," / "hands and habits." */
       .hero__sub, .hero__sub .ln, .hero__sub .ln__in { text-wrap: wrap; }
       .hero__sub .ln { max-width: 17.2em; margin-left: auto; margin-right: auto; }
+      .hero__sub--help .ln { max-width: 19em; }   /* the longer statement: three balanced lines on phones */
+      .hero__sub--help .ln, .hero__sub--help .ln__in { text-wrap: balance; }
       .carousel { padding: 0 28px; scroll-padding: 0 28px; }
       .logos { margin-top: 32px; }
       .logos__tile { height: 60px; padding: 0 20px; }
@@ -1295,11 +1303,12 @@
     .motion .hero__stage { position: relative; }
     .motion .tagline { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 77px; margin: 0; opacity: 1; transform: none; transition: none; }
     .motion .hero__sub[data-intro] { opacity: 1; transform: none; transition: none; }
+    .motion .hero__sub--help { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 77px; margin: 0; }
     .motion .tagline .ln, .motion .hero__sub .ln { overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
     .motion .ln__in { display: block; transform: translateY(112%); }
     .motion .swap-in .ln__in { transform: none; transition: transform 1.1s var(--ease-out-expo); transition-delay: calc(var(--li, 0) * .08s); }
     .motion .swap-out .ln__in { transform: translateY(-112%); transition: transform .8s cubic-bezier(.76, 0, .24, 1); transition-delay: calc(var(--li, 0) * .05s); }
-    @media (max-width: 767px) { .motion .tagline { bottom: 48px; } }
+    @media (max-width: 767px) { .motion .tagline, .motion .hero__sub--help { bottom: 48px; } }
     /* ---------- Smoother corners: modals (the bottom sheets) use continuous, squircle curvature where the browser supports it; the radius is a touch larger because a squircle reads tighter ---------- */
     @supports (corner-shape: squircle) {
       .sheet { corner-shape: squircle; border-radius: 36px 36px 0 0; }
@@ -1372,9 +1381,11 @@
         </div>
       </nav>
 
-      <p class="tagline" data-intro>Brand and Product Systems for<br />B2B, AI-native and deep-tech companies.</p>
+      <p class="tagline" data-intro>Brand and product systems for<br />B2B, AI-native, and deep-tech companies.</p>
 
       <h1 class="hero__title" data-intro>Experience is the argument.</h1>
+
+      <p class="hero__sub hero__sub--help" data-intro>Helping you win customers and keep them, with experiences that scale as your team and business grow.</p>
 
       <p class="hero__sub" data-intro>
         Care all the way through.<br />
@@ -1708,7 +1719,7 @@
       <div class="footer__head" data-reveal>
         <p class="eyebrow--dark">Speak with Disha</p>
         <div class="footer__copy">
-          <h2 id="footer-title" class="footer__title">Building experiences that <span class="rot" data-rotate aria-hidden="true"><span class="rot__w">build devotion</span><span class="rot__w"></span></span>.</h2>
+          <h2 id="footer-title" class="footer__title">Building experiences that <span class="rot" data-rotate aria-hidden="true"><span class="rot__w">build trust</span><span class="rot__w"></span></span>.</h2>
           <p class="footer__sub">A promise that draws the right people &amp; companies in.<br />An experience they can’t wait to get back to.<br />A narrative they love sharing with others.</p>
         </div>
       </div>
@@ -2950,13 +2961,13 @@
     })();
   </script>
   <script>
-  // Phone hero: "Brand and Product Systems…" and "Care all the way through…" take turns (line mask roll)
+  // Hero: "Brand and product systems…", "Helping you win customers…" and "Care all the way through…" take turns (line mask roll)
   (function () {
     var root = document.documentElement, mq = window.matchMedia('(max-width: 767px)');
-    var a = document.querySelector('.hero .tagline'), b = document.querySelector('.hero .hero__sub');
-    if (!a || !b) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { a.setAttribute('data-wrapped', '1'); b.setAttribute('data-wrapped', '1'); return; }
-    var items = [a, b], idx = 0, timer = null, started = false, HOLDS = [3400, 4600];   // how long each statement stays, by length
+    var a = document.querySelector('.hero .tagline'), c = document.querySelector('.hero .hero__sub--help'), b = document.querySelector('.hero .hero__sub:not(.hero__sub--help)');
+    if (!a || !b || !c) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { a.setAttribute('data-wrapped', '1'); b.setAttribute('data-wrapped', '1'); c.setAttribute('data-wrapped', '1'); return; }
+    var items = [a, c, b], idx = 0, timer = null, started = false, HOLDS = [3400, 4600, 4600];   // how long each statement stays, by length
     function wrap() {
       items.forEach(function (el) {
         if (el.getAttribute('data-wrapped')) return;
@@ -2967,11 +2978,11 @@
       });
     }
     function step() {
-      var cur = items[idx], nxt = items[1 - idx];
+      var cur = items[idx], nxt = items[(idx + 1) % items.length];
       cur.classList.remove('swap-in'); cur.classList.add('swap-out');
       setTimeout(function () { cur.classList.remove('swap-out'); }, 1100);
       setTimeout(function () { nxt.classList.add('swap-in'); }, 450);
-      idx = 1 - idx;
+      idx = (idx + 1) % items.length;
       timer = setTimeout(step, HOLDS[idx] + 1100);
     }
     function start() {
@@ -3014,9 +3025,9 @@
   (function () {
     var root = document.querySelector('[data-rotate]'); if (!root) return;
     var title = root.closest('.footer__title'), words = [].slice.call(root.querySelectorAll('.rot__w'));
-    var PHRASES = ['build devotion', 'create adoption', 'build trust', 'create loyalty'], HOLD = 2800, i = 0, a = words[0], b = words[1], timer = null, busy = false;
+    var PHRASES = ['build trust', 'create adoption', 'build devotion', 'create loyalty'], HOLD = 2800, i = 0, a = words[0], b = words[1], timer = null, busy = false;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (title) title.setAttribute('aria-label', 'Building experiences that build trust, loyalty, devotion and adoption.');
+    if (title) title.setAttribute('aria-label', 'Building experiences that build trust, adoption, devotion and loyalty.');
     function width(text, el) { var prev = el.textContent; el.textContent = text; el.style.visibility = 'hidden'; var w = el.getBoundingClientRect().width; el.textContent = prev; el.style.visibility = ''; return Math.ceil(w) + 1; }
     function size() { root.style.width = width(PHRASES[i], a) + 'px'; }
     function step() {
@@ -3031,7 +3042,7 @@
       };
     }
     function arm() { clearInterval(timer); timer = setInterval(step, HOLD + 1100); }
-    // out of view = back to the first phrase, so the headline always opens on "build devotion"
+    // out of view = back to the first phrase, so the headline always opens on "build trust"
     function reset() { if (i === 0) return; if (busy) { setTimeout(reset, 400); return; } a.textContent = PHRASES[0]; a.style.visibility = ''; b.textContent = ''; i = 0; root.style.transition = 'none'; size(); }
     function init() { size(); if (reduce) return; if ('IntersectionObserver' in window) { new IntersectionObserver(function (es) { if (es[0].isIntersecting) arm(); else clearInterval(timer); }, { threshold: 0.4 }).observe(title || root); new IntersectionObserver(function (es) { if (!es[0].isIntersecting) reset(); }, { threshold: 0 }).observe(title || root); } else arm(); }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(init); else init();

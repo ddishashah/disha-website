@@ -345,7 +345,9 @@
     .gaps > li { display: contents; }
     /* the page is a card of its own, so it can fade and desaturate as one piece against the dark behind it */
     [data-page] { background-color: var(--bg, #f8f8f7); }
-    html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo); }
+    html.sheet-anim [data-page] { transition: transform 1.2s var(--ease-out-expo), opacity 1.2s var(--ease-out-expo), filter 1.2s var(--ease-out-expo), background-color 1.2s var(--ease-out-expo); }
+    /* on a dark part of the page the card that steps back would vanish into the dark behind it: lift it so the sheet effect reads the same as on light */
+    html[data-theme="dark"].sheet-open [data-page] { background-color: #3a2f2a; }
     html.sheet-open, html.sheet-open body { background-color: #140700; }
     html.sheet-open [data-page] { transform: translateY(10px) scale(.95); opacity: .4; filter: saturate(.4); }
     .sheet { --top: max(20px, env(safe-area-inset-top)); box-sizing: border-box; position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; height: auto; max-height: calc(100dvh - var(--top)); margin: 0; padding: 0; border: 0; border-radius: 24px 24px 0 0; outline: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: none; background: #fff; color: #140700; transform: translateY(100vh); transition: transform 1.2s var(--ease-out-expo); }
