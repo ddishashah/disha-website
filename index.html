@@ -831,6 +831,7 @@
     .footer__copy { display: flex; flex-direction: column; align-items: center; gap: 8px; }
     .footer__title { width: 608px; max-width: 100%; margin: 0; color: var(--t-head); font-family: var(--font-serif); font-weight: 400; font-size: 64px; line-height: 70px; letter-spacing: -1.44px;  }
     .footer__sub { margin: 0; color: var(--t-body); font-size: 18px; line-height: 28.4px; letter-spacing: 0.36px;  }
+    .footer__sub .sub-l { display: block; }
     /* Booking box: Figma's 1264×573 card, holding the cal.com inline calendar */
     .booking {
       box-sizing: border-box; width: 100%; min-height: 573px;
@@ -1249,6 +1250,8 @@
       .footer__head { gap: 16px; }
       .footer__title { font-size: 40px; line-height: 44px; letter-spacing: -1px; }
       .footer__sub { font-size: 16px; line-height: 26px; letter-spacing: 0.2px; }
+      .footer__sub { text-wrap: pretty; }
+      .footer__sub .sub-l { display: inline; }   /* on phones the three sentences flow as one paragraph, with no forced breaks between them */
       .booking { padding: 6px; min-height: 0; }
       /* cal.com stacks month + time slots on phones, which makes a very long page.
          Cap the box so people scroll inside it to find a slot (as on desktop). */
@@ -1485,7 +1488,7 @@
           <div class="story__img"><img src="img/city.webp" alt="Illustrated city street overgrown with greenery" loading="lazy" /></div>
         </div>
         <div class="story__right">
-          <p class="story__body">And I keep coming back to what makes an experience work. How people see the value. How naturally it fits into their work or life. And what makes it something they want to keep using.<br /><br />I’ve seen this play out up close, through the teams and products I’ve worked on—<b>from Fortune 100 companies</b> and <b>family businesses</b> to <b>YC-, Accel- and IIT-backed startups</b>.</p>
+          <p class="story__body">And I keep coming back to what makes an experience work. How people see the value. How naturally it fits into their work or life. And what makes it something they want to keep using.<br /><br />I’ve seen this play out up close, through the teams and products I’ve worked on—<b>from Fortune Global 500 companies</b> and <b>family businesses</b> to <b>YC-, Accel- and IIT-backed startups</b>.</p>
           <a class="link-arrow" href="about/">About Me <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
@@ -1717,7 +1720,7 @@
         <p class="eyebrow--dark">Speak with Disha</p>
         <div class="footer__copy">
           <h2 id="footer-title" class="footer__title">Building experiences that <span class="rot" data-rotate aria-hidden="true"><span class="rot__w">build trust</span><span class="rot__w"></span></span>.</h2>
-          <p class="footer__sub">A promise that draws the right people &amp; companies in.<br />An experience they can’t wait to get back to.<br />A narrative they love sharing with others.</p>
+          <p class="footer__sub"><span class="sub-l">A promise that draws the right people &amp; companies in.</span> <span class="sub-l">An experience they can’t wait to get back to.</span> <span class="sub-l">A narrative they love sharing with others.</span></p>
         </div>
       </div>
       <div class="booking" data-booking data-reveal>
