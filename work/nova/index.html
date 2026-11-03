@@ -1421,10 +1421,14 @@
     .wd-rail__i:hover::before, .wd-rail__i:focus-visible::before { width: 14px; background: rgba(20, 7, 0, .7); }
     .wd-rail__i.is-active::before { width: 16px; height: 1.5px; background: #140700; }
     .wd-rail__i:focus-visible { outline: none; }
+    /* the section name sits beside the active dash, in the case-study label style one size smaller */
+    .wd-rail__lbl { position: absolute; left: 24px; top: 50%; width: clamp(150px, 16vw, 232px); text-align: left; white-space: normal; text-wrap: balance; transform: translate(-4px, -50%); opacity: 0; pointer-events: none; color: #5e5855; font-weight: 500; font-size: 14px; line-height: 18px; letter-spacing: 0.14px; transition: opacity .35s ease, transform .5s var(--ease-out-expo); }
+    .wd-rail__i.is-active .wd-rail__lbl { opacity: 1; transform: translate(0, -50%); }
+    .wd-rail__i:hover .wd-rail__lbl, .wd-rail__i:focus-visible .wd-rail__lbl { opacity: 0; }
     .wd-rail__tip { position: absolute; left: calc(100% + 4px); top: 50%; width: 252px; box-sizing: border-box; padding: 12px 14px 13px; border-radius: 12px; background: #fff; border: 1px solid rgba(20, 7, 0, .08); box-shadow: 0 10px 28px rgba(40, 32, 20, .08), 0 1px 3px rgba(40, 32, 20, .05); opacity: 0; transform: translate(-6px, -50%) scale(.98); transform-origin: 0 50%; pointer-events: none; transition: opacity .18s ease, transform .4s var(--ease-out-expo); text-align: left; display: grid; grid-template-columns: 1fr auto; column-gap: 12px; row-gap: 4px; }
     @supports (corner-shape: squircle) { .wd-rail__tip { corner-shape: squircle; border-radius: 16px; } }
     .wd-rail__i:hover .wd-rail__tip, .wd-rail__i:focus-visible .wd-rail__tip { opacity: 1; transform: translate(0, -50%) scale(1); }
-    .wd-rail__tip b { grid-column: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #140700; font-weight: 500; font-size: 14px; line-height: 20px; letter-spacing: 0.1px; }
+    .wd-rail__tip b { grid-column: 1; min-width: 0; white-space: normal; text-wrap: balance; color: #140700; font-weight: 500; font-size: 14px; line-height: 20px; letter-spacing: 0.1px; }
     .wd-rail__tip em { grid-column: 2; grid-row: 1; align-self: center; color: #6f6b63; font-style: normal; font-size: 11px; line-height: 20px; letter-spacing: .3px; font-variant-numeric: tabular-nums; }
     .wd-rail__tip span { grid-column: 1 / -1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; color: #6b675f; font-size: 13px; line-height: 19px; letter-spacing: 0; }
     .wd-text h4 { margin: 0 0 20px; font-weight: 600; font-size: 16px; line-height: 27px; letter-spacing: 0.32px; }
@@ -2933,7 +2937,7 @@
   var n = items.length, pad = function (v) { return (v < 10 ? '0' : '') + v; };
   var rail = document.createElement('nav'); rail.className = 'wd-rail'; rail.setAttribute('aria-label', 'Sections');
   rail.innerHTML = items.map(function (it, i) {
-    return '<button type="button" class="wd-rail__i" aria-label="' + it.title.replace(/"/g, '&quot;') + '"><span class="wd-rail__tip"><b>' + it.title + '</b>' + (it.desc ? '<span>' + it.desc + '</span>' : '') + '<em>' + pad(i + 1) + ' / ' + pad(n) + '</em></span></button>';
+    return '<button type="button" class="wd-rail__i" aria-label="' + it.title.replace(/"/g, '&quot;') + '"><span class="wd-rail__lbl" aria-hidden="true">' + it.title + '</span><span class="wd-rail__tip"><b>' + it.title + '</b>' + (it.desc ? '<span>' + it.desc + '</span>' : '') + '<em>' + pad(i + 1) + ' / ' + pad(n) + '</em></span></button>';
   }).join('');
   document.body.appendChild(rail);
   var btns = [].slice.call(rail.querySelectorAll('.wd-rail__i')), cur = -1;
