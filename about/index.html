@@ -11,7 +11,9 @@
   <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}
     .faq__a-in p { font-weight: 400; }
     @media (max-width: 767px) { .faq__q span { text-wrap: wrap; } .faq__a-in p { overflow-wrap: break-word; } }
-</style>
+    img { color: transparent; }
+    img[data-failed] { visibility: hidden; }
+  </style>
   <script src="/vendor/gsap.min.js"></script>
   <link rel="stylesheet" href="/fonts/geist.css" />
   <style>
@@ -2963,5 +2965,21 @@
   })();
   </script>
   <script src="arc.js?v=8"></script>
+<script>
+/* If an image fails to load (flaky connection), quietly retry instead of showing a broken icon + alt text. */
+(function () {
+  function retry(img) {
+    var n = +(img.dataset.retry || 0);
+    if (n >= 3) { img.setAttribute('data-failed', ''); return; }
+    img.dataset.retry = n + 1;
+    var src = img.getAttribute('src').replace(/[?&]_r=\d+$/, '');
+    setTimeout(function () { img.src = src + (src.indexOf('?') < 0 ? '?' : '&') + '_r=' + (n + 1); }, 600 * (n + 1));
+  }
+  document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'IMG') retry(e.target); }, true);
+  window.addEventListener('load', function () {
+    document.querySelectorAll('img').forEach(function (i) { if (i.complete && i.naturalWidth === 0 && i.getAttribute('src')) retry(i); });
+  });
+})();
+</script>
 </body>
 </html>

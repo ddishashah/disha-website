@@ -1277,3 +1277,19 @@
   window.addEventListener('scroll', update, { passive: true }); window.addEventListener('resize', update); update();
 })();
 </script>
+<script>
+/* If an image fails to load (flaky connection), quietly retry instead of showing a broken icon + alt text. */
+(function () {
+  function retry(img) {
+    var n = +(img.dataset.retry || 0);
+    if (n >= 3) { img.setAttribute('data-failed', ''); return; }
+    img.dataset.retry = n + 1;
+    var src = img.getAttribute('src').replace(/[?&]_r=\d+$/, '');
+    setTimeout(function () { img.src = src + (src.indexOf('?') < 0 ? '?' : '&') + '_r=' + (n + 1); }, 600 * (n + 1));
+  }
+  document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'IMG') retry(e.target); }, true);
+  window.addEventListener('load', function () {
+    document.querySelectorAll('img').forEach(function (i) { if (i.complete && i.naturalWidth === 0 && i.getAttribute('src')) retry(i); });
+  });
+})();
+</script>

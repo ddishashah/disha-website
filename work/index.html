@@ -9,7 +9,9 @@
   <script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-pending')}catch(e){}</script>
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
   <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
-  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
+  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}    img { color: transparent; }
+    img[data-failed] { visibility: hidden; }
+  </style>
   <script src="/vendor/gsap.min.js"></script>
   <link rel="stylesheet" href="/fonts/geist.css" />
   <style>
@@ -3429,6 +3431,22 @@ document.addEventListener('DOMContentLoaded', () => {
   Object.keys(views).forEach(k => { if (views[k] && k !== (location.hash === '#gallery' ? 'gallery' : 'case-studies')) views[k].hidden = true; });
   show(location.hash === '#gallery' ? 'gallery' : 'case-studies', true);
 });
+</script>
+<script>
+/* If an image fails to load (flaky connection), quietly retry instead of showing a broken icon + alt text. */
+(function () {
+  function retry(img) {
+    var n = +(img.dataset.retry || 0);
+    if (n >= 3) { img.setAttribute('data-failed', ''); return; }
+    img.dataset.retry = n + 1;
+    var src = img.getAttribute('src').replace(/[?&]_r=\d+$/, '');
+    setTimeout(function () { img.src = src + (src.indexOf('?') < 0 ? '?' : '&') + '_r=' + (n + 1); }, 600 * (n + 1));
+  }
+  document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'IMG') retry(e.target); }, true);
+  window.addEventListener('load', function () {
+    document.querySelectorAll('img').forEach(function (i) { if (i.complete && i.naturalWidth === 0 && i.getAttribute('src')) retry(i); });
+  });
+})();
 </script>
 </body>
 </html>

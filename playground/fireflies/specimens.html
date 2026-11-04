@@ -18,7 +18,9 @@
   figcaption { padding: 10px 14px; font-size: 12px; opacity: .75; }
   .still .ff-hover, .still .ff-jitter, .still .ff-wing, .still .ff-light, .still .ff-lantern-hot, .still .ff-halo { animation: none !important; }
   .still .ff-lantern-hot { opacity: 0; }
-</style>
+    img { color: transparent; }
+    img[data-failed] { visibility: hidden; }
+  </style>
 </head>
 <body>
 <main>
@@ -48,6 +50,22 @@
     svg.append(createFirefly({ type: s.type, x: dx, y: 0, scale, flap: s.type === 'small' ? 0.09 : 0.11 }));
     grid.append(fig);
   }
+</script>
+<script>
+/* If an image fails to load (flaky connection), quietly retry instead of showing a broken icon + alt text. */
+(function () {
+  function retry(img) {
+    var n = +(img.dataset.retry || 0);
+    if (n >= 3) { img.setAttribute('data-failed', ''); return; }
+    img.dataset.retry = n + 1;
+    var src = img.getAttribute('src').replace(/[?&]_r=\d+$/, '');
+    setTimeout(function () { img.src = src + (src.indexOf('?') < 0 ? '?' : '&') + '_r=' + (n + 1); }, 600 * (n + 1));
+  }
+  document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'IMG') retry(e.target); }, true);
+  window.addEventListener('load', function () {
+    document.querySelectorAll('img').forEach(function (i) { if (i.complete && i.naturalWidth === 0 && i.getAttribute('src')) retry(i); });
+  });
+})();
 </script>
 </body>
 </html>

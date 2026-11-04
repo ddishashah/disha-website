@@ -7,7 +7,9 @@
   <script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion-pending')}catch(e){}</script>
   <script>try{if(sessionStorage.getItem('arc')){sessionStorage.removeItem('arc');document.documentElement.classList.add('arc-pending');setTimeout(function(){document.documentElement.classList.remove('arc-pending')},3000)}}catch(e){}</script>
   <link rel="preload" href="fonts/PortraitText-Regular-Web.woff2" as="font" type="font/woff2" crossorigin />
-  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}</style>
+  <style>html.arc-pending{background:#140700}html.arc-pending body{visibility:hidden}    img { color: transparent; }
+    img[data-failed] { visibility: hidden; }
+  </style>
   <script src="/vendor/gsap.min.js"></script>
   <link rel="stylesheet" href="/fonts/geist.css" />
   <style>
@@ -1488,7 +1490,7 @@
           <div class="story__img"><img src="img/city.webp" alt="Illustrated city street overgrown with greenery" loading="lazy" /></div>
         </div>
         <div class="story__right">
-          <p class="story__body">And I keep coming back to what makes an experience work. How people see the value. How naturally it fits into their work or life. And what makes it something they want to keep using.<br /><br />I’ve seen this play out up close, through the teams and products I’ve worked on—<b>from Fortune Global 500 companies</b> and <b>family businesses</b> to <b>YC-, Accel- and IIT-backed startups</b>.</p>
+          <p class="story__body">And I keep coming back to what makes a good customer experience work.<br /><br />How people see the brand and product value. How naturally it fits into their work or life. And what makes it something they want to keep using.<br /><br />I’ve seen this play out up close, through the teams and products I’ve worked on—from <b>Fortune Global 500 companies and family businesses to YC-, Accel- and IIT-backed startups.</b></p>
           <a class="link-arrow" href="about/">About Me <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
@@ -3062,5 +3064,21 @@
   })();
   </script>
   <script src="arc.js?v=8"></script>
+<script>
+/* If an image fails to load (flaky connection), quietly retry instead of showing a broken icon + alt text. */
+(function () {
+  function retry(img) {
+    var n = +(img.dataset.retry || 0);
+    if (n >= 3) { img.setAttribute('data-failed', ''); return; }
+    img.dataset.retry = n + 1;
+    var src = img.getAttribute('src').replace(/[?&]_r=\d+$/, '');
+    setTimeout(function () { img.src = src + (src.indexOf('?') < 0 ? '?' : '&') + '_r=' + (n + 1); }, 600 * (n + 1));
+  }
+  document.addEventListener('error', function (e) { if (e.target && e.target.tagName === 'IMG') retry(e.target); }, true);
+  window.addEventListener('load', function () {
+    document.querySelectorAll('img').forEach(function (i) { if (i.complete && i.naturalWidth === 0 && i.getAttribute('src')) retry(i); });
+  });
+})();
+</script>
 </body>
 </html>
