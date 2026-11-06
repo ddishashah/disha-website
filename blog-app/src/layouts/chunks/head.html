@@ -120,7 +120,8 @@
     }
     .logo-mark { display: block; height: 1.45em; width: auto; }
     @media (max-width: 767px) { .nav__brand .logo-mark, .menu__brand .logo-mark { height: 22px; } .socials__brand .logo-mark { height: 22px; } }
-    @media (max-width: 767px) { .nav__brand .logo-mark { width: calc(22px * 63 / 26); } }   /* phones: the mark shows just "DISHA", same height */
+    .logo-mark--phone { display: none; }
+    @media (max-width: 767px) { .nav__brand .logo-mark { display: none; } .nav__brand .logo-mark--phone { display: block; } }   /* phones: short mark, same height */
     .nav__right { display: flex; align-items: center; gap: 16px; }
     /* Button, light mode — Figma 677:103971 (default) / 677:103973 (hover): 36px pill, 19px sides,
        Geist Medium 14.6px, hover adds a soft lifted shadow (no colour change) */
