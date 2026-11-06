@@ -148,11 +148,12 @@
 
   // Hover picture: one image per link, beside the link column (never on top of the text), at its own ratio
   var trail = menu.querySelector('[data-menu-trail]');
-  var PIC = { home: 'img/menu-northside.webp', about: 'img/me.webp', work: 'img/cover-hotplate.png', contact: 'img/menu-coin.webp' };
-  var SIDE = { home: 1, about: -1, work: 1, contact: -1 };
+  var PIC = { home: 'img/menu-coin.webp', about: 'img/me.webp', work: 'img/cover-hotplate.png', blog: 'img/fluid-intelligence-site.webp', contact: 'img/menu-notebook.webp' };
+  var SIDE = { home: 1, about: -1, work: 1, blog: 1, contact: -1 };
   if (trail && !reduce && window.matchMedia('(hover: hover) and (min-width: 768px)').matches) {
     var cur = null;
-    Object.keys(PIC).forEach(function (k) { var im = new Image(); im.src = PIC[k]; });
+    var PRE = {};
+    Object.keys(PIC).forEach(function (k) { var im = new Image(); im.src = PIC[k]; PRE[k] = im; });
     var hidePic = function () {
       if (!cur) return;
       var im = cur; cur = null;
@@ -165,8 +166,9 @@
       var mr = menu.getBoundingClientRect(), lr = a.getBoundingClientRect();
       var im = document.createElement('img');
       im.src = PIC[key]; im.alt = '';
-      im.style.width = '230px';
-      im.style.left = Math.round(mr.width / 2 + SIDE[key] * 300) + 'px';
+      im.style.height = '200px'; im.style.width = 'auto';   // same height for every picture, width follows the image
+      var pre = PRE[key], w = pre && pre.naturalHeight ? 200 * pre.naturalWidth / pre.naturalHeight : 240;
+      im.style.left = Math.round(mr.width / 2 + SIDE[key] * (185 + w / 2)) + 'px';
       im.style.top = Math.round(lr.top - mr.top + lr.height / 2) + 'px';
       im.style.setProperty('--r', (SIDE[key] * -3) + 'deg');
       trail.appendChild(im); cur = im;
