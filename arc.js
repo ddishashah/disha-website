@@ -149,7 +149,7 @@
   // Hover picture: one image per link, beside the link column (never on top of the text), at its own ratio
   var trail = menu.querySelector('[data-menu-trail]');
   var PIC = { home: 'img/menu-coin.webp', about: 'img/me.webp', work: 'img/cover-hotplate.png', blog: 'img/fluid-intelligence-site.webp', contact: 'img/menu-notebook.webp' };
-  var SIDE = { home: 1, about: -1, work: 1, blog: 1, contact: -1 };
+  var SIDE = { home: 1, about: -1, work: 1, blog: -1, contact: 1 };
   if (trail && !reduce && window.matchMedia('(hover: hover) and (min-width: 768px)').matches) {
     var cur = null;
     var PRE = {};

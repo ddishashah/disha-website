@@ -25,7 +25,7 @@ page_close=rest[:rest.index('<!-- /.page -->')+len('<!-- /.page -->')]
 menu=between(rest,'<!-- Menu','</nav>',incl_a=True,incl_b=True)
 cursor=between(rest,'<!-- Osmo Supply','</div>\n  </div>',incl_a=True,incl_b=True) if '<!-- Osmo Supply' in rest else ''
 scripts=rest[rest.index('<script>',rest.index('</dialog>') if '</dialog>' in rest else 0):rest.rindex('</body>')]
-bottom='\n'.join([foot,page_close,menu,cursor,scripts]).replace('src="arc.js?v=9"','src="/arc.js?v=9"')
+bottom='\n'.join([foot,page_close,menu,cursor,scripts]).replace('src="arc.js?v=10"','src="/arc.js?v=10"')
 open('src/layouts/chunks/head.html','w').write(head)
 open('src/layouts/chunks/top.html','w').write(top)
 open('src/layouts/chunks/bottom.html','w').write(bottom)
