@@ -18,7 +18,7 @@ interface Props {
 const { title, description, path, image, type = 'website', published, jsonLd = [] } = Astro.props;
 const SITE = 'https://disha-shah.io';
 const url = SITE + path;
-const img = image ? (image.startsWith('http') ? image : SITE + image) : SITE + '/img/og-image.jpg';
+const img = image ? (image.startsWith('http') ? image : SITE + image) : SITE + '/img/og-image-v2.jpg';
 ---
 <!doctype html>
 <html lang="en">
