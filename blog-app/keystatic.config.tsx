@@ -62,6 +62,9 @@ export default config({
           description: 'One or two sentences. Shown on the blog page and in Google results.',
           multiline: true,
         }),
+        metaTitle: fields.text({ label: 'SEO: Meta title (optional)', description: 'Shown in Google and browser tabs. Leave empty to use the post title.' }),
+        metaDescription: fields.text({ label: 'SEO: Meta description (optional)', description: 'Shown in Google results. Leave empty to use the summary.', multiline: true }),
+        aiSummary: fields.text({ label: 'AEO: AI summary (optional)', description: 'A factual summary for AI search engines. Not shown on the page.', multiline: true }),
         date: fields.date({ label: 'Publish date', defaultValue: { kind: 'today' } }),
         cover: fields.image({
           label: 'Cover image',
